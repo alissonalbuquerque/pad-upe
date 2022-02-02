@@ -26,7 +26,7 @@ class CreateCursoInUsersTable extends Migration
     public function down()
     {   
         if(Schema::hasColumn('users', 'curso_id')) {
-            Schema::dropColumns('curso_id');
+            Schema::dropColumns('users', ['curso_id']);
         }
     }
 }
