@@ -5,23 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Curso extends Model
+class Campus extends Model
 {
     use HasFactory;
 
     /**
-     * References table curso
+     * References table campus
      * 
      * @var string
      */
-    protected $table = 'curso';
+    protected $table = "campus";
 
     /**
      * The attributes that are mass assignable.
      * 
      * @var array
      */
-    protected $fillable = ['name', 'campus_id'];
-
+    protected $fillable = ['name', 'unidade'];
+    
 }
-
