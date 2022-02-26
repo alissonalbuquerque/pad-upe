@@ -12,8 +12,9 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    const TYPE_MENAGER = 1;
-    const TYPE_TEACHER = 2;
+    const TYPE_ADMIN = 1;
+    const TYPE_MENAGER = 2;
+    const TYPE_TEACHER = 3;
 
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE = 2;
@@ -26,7 +27,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'email', 'password', 'document', 'type', 'status', 'unidade', 'curso_id'];
+    protected $fillable = ['name', 'email', 'password', 'document', 'type', 'status', 'unidade_id', 'curso_id'];
 
     /**
      * The attributes that should be hidden for serialization.

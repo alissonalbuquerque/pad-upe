@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\CampusController;
+use App\Http\Controllers\CursoController;
+use App\Http\Controllers\UnidadeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,12 +16,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+require __DIR__.'/auth.php';
+
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+Route::get('/campus/index', [CampusController::class, 'index'])->name('campus_index');
+Route::get('/campus/create', [CampusController::class, 'create'])->name('campus_create');
+Route::post('/campus/store', [CampusController::class, 'store'])->name('campus_store');
+
+Route::get('/unidade/index', [UnidadeController::class, 'index'])->name('unidade_index');
+Route::get('/unidade/create', [UnidadeController::class, 'create'])->name('unidade_create');
+Route::post('/unidade/store', [UnidadeController::class, 'store'])->name('unidade_store');
+Route::get('/unidade/edit/{id}', [UnidadeController::class, 'edit'])->name('unidade_edit');
+Route::post('/unidade/update/{id}', [UnidadeController::class, 'update'])->name('unidade_update');
+Route::delete('/unidade/delete/{id}', [UnidadeController::class, 'destroy'])->name('unidade_delete');
+
+
+Route::get('/curso/index', [CursoController::class, 'index'])->name('curso_index');
+Route::get('/curso/create', [CursoController::class, 'create'])->name('curso_create');
+Route::post('/curso/store', [CursoController::class, 'store'])->name('curso_store');
