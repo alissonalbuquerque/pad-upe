@@ -1,0 +1,219 @@
+/* Formatando Texto Corpo pagina */
+body {
+    font-family: "Lato", Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.8;
+    font-weight: normal;
+    background: #f8f9fd;
+    color: #000;
+}
+
+/* Formatação Texto Hs */
+h1,
+h4,
+h5,
+.h1,
+.h4,
+.h5 {
+    line-height: 1.5;
+    font-weight: 400;
+    font-family: "Lato", Arial, sans-serif;
+    color: #000;
+}
+
+/* Container INFORMAÇÕES */
+.bg-primary {
+    background: #cad2d6 !important;
+}
+
+.ftco-section {
+    padding: 7em 0;
+}
+
+/* Container LOGIN */
+.login-wrap {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: #fff;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24);
+    -moz-box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24);
+    box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24);
+}
+
+/* Formatando Container INFORMAÇÕES */
+.half {
+    width: 100%;
+}
+@media (min-width: 992px) {
+    .half {
+        width: 50%;
+    }
+}
+
+/* Formatando Container LOGIN */
+.form-group {
+    position: relative;
+    z-index: 0;
+    margin-bottom: 20px !important;
+}
+.form-group a {
+    color: #fff;
+}
+
+/* Formatando campus do Formulario */
+.form-control {
+    height: 48px;
+    background: #fff;
+    color: #000;
+    font-size: 16px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-radius: 0;
+    border: none;
+    padding: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.form-control::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    color: rgba(0, 0, 0, 0.2) !important;
+}
+.form-control::-moz-placeholder {
+    /* Firefox 19+ */
+    color: rgba(0, 0, 0, 0.2) !important;
+}
+.form-control:-ms-input-placeholder {
+    /* IE 10+ */
+    color: rgba(0, 0, 0, 0.2) !important;
+}
+.form-control:-moz-placeholder {
+    /* Firefox 18- */
+    color: rgba(0, 0, 0, 0.2) !important;
+}
+.form-control:focus,
+.form-control:active {
+    outline: none !important;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-color: #17223b;
+}
+
+/* Formatando Botao Visualizar Senha */
+.field-icon {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    color: rgba(0, 0, 0, 0.3);
+    margin-top: 20px;
+}
+
+/* Criando o checkbox customizado */
+.checkbox-wrap {
+    display: block;
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 400;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Esconde a caixa de seleção padrão do navegador */
+.checkbox-wrap input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Criando o checkbox customizado */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Criando CheckBox LEMBRAR-ME (hidden when not checked) */
+.checkmark:after {
+    content: "\f0c8";
+    font-family: "FontAwesome";
+    position: absolute;
+    color: #17223b;
+    font-size: 20px;
+    margin-top: -4px;
+    -webkit-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+}
+
+/* Mostrar CheckBox LEMBRAR-ME checado */
+.checkbox-wrap input:checked ~ .checkmark:after {
+    display: block;
+    content: "\f14a";
+    font-family: "FontAwesome";
+    color: #17223b;
+}
+
+/* Stylo CheckBox LEMBRAR-ME */
+.checkbox-primary {
+    color: gray;
+}
+.checkbox-primary input:checked ~ .checkmark:after {
+    color: #17223b;
+}
+
+/* Botao ENTRAR */
+.btn {
+    cursor: pointer;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    font-size: 15px;
+    padding: 10px 20px;
+}
+.btn:hover,
+.btn:active,
+.btn:focus {
+    outline: none;
+}
+.btn.btn-secondary {
+    background: #17223b !important;
+    border: 1px solid #17223b !important;
+    color: #fff !important;
+}
+
+/* formatando texto da div de stylos */
+h2 {
+    margin-top: -10px;
+    font-size: 16px;
+    color: #ffffff;
+    font-family: Arial;
+    font-weight: bold;
+    text-align: left;
+  }
+  
+  h3 {
+    margin-top: -10px;
+    margin-bottom: -10px;
+    font-size: 22px;
+    color: #ffffff;
+    font-family: Arial;
+    font-weight: bold;
+    text-align: left;
+  }
+
+/* Stylo de formatação das barras divs sub e infe. */
+.stylo {
+    margin-top: 0px;
+    background: -webkit-gradient(linear, left top, right top, from(#ed1c24), to(#1b3e70)) no-repeat;
+    background: -moz-linear-gradient(left, #ed1c24, #1b3e70);
+    filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='#ED1C24', EndColorStr='#1B3E70');
+  }

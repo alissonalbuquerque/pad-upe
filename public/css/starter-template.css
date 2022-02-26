@@ -1,0 +1,211 @@
+/*
+.logo-upe{
+  position: relative;
+  top: 0px;
+  width: 88%; 
+  padding: 18px 6% 60px 6%;
+  margin: 100px 420px 100px 100px;
+}
+
+/* formatando texto da div de stylos */
+h2 {
+  margin-top: -10px;
+  font-size: 16px;
+  color: #ffffff;
+  font-family: Arial;
+  font-weight: bold;
+  text-align: left;
+}
+
+h3 {
+  margin-top: -10px;
+  margin-bottom: -10px;
+  font-size: 22px;
+  color: #ffffff;
+  font-family: Arial;
+  font-weight: bold;
+  text-align: left;
+}
+
+/* content que contem o formulário e o quadro de avisos */
+.content {
+  position: relative;
+  top: 0px;
+  width: 68%;
+  padding: 18px 6% 60px 6%;
+  margin: 0 0 35px 0;
+  background: #e6e7e8;
+
+  border-radius: 5px;
+}
+
+/* formatando o cabeçalho dos formulários */
+h1 {
+  font-size: 22px;
+  color: #000000;
+  padding: 10px 0;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  text-align: center;
+  padding-bottom: 30px;
+}
+h1:after {
+  content: " ";
+  display: block;
+  width: 100%;
+  height: 2px;
+  margin-top: 10px;
+  background: -webkit-linear-gradient(left, rgba(147, 184, 189, 0) 0%, rgba(147, 184, 189, 0.8) 20%, rgba(147, 184, 189, 1) 53%, rgba(147, 184, 189, 0.8) 79%, rgba(147, 184, 189, 0) 100%);
+  background: linear-gradient(left, rgba(147, 184, 189, 0) 0%, rgba(147, 184, 189, 0.8) 20%, rgba(147, 184, 189, 1) 53%, rgba(147, 184, 189, 0.8) 79%, rgba(147, 184, 189, 0) 100%);
+}
+
+p {
+  margin-bottom: 15px;
+}
+p:first-child {
+  margin: 0px;
+}
+label {
+  color: #405c60;
+  position: relative;
+}
+
+/* Icons e sua formatação */
+.icon-list {
+  padding-left: 0;
+  list-style: none;
+}
+.icon-list li {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.25rem;
+}
+.icon-list li::before {
+  display: block;
+  flex-shrink: 0;
+  width: 1.5em;
+  height: 1.5em;
+  margin-right: 0.5rem;
+  content: "";
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23212529' viewBox='0 0 16 16'%3E%3Cpath d='M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z'/%3E%3C/svg%3E")
+      no-repeat center center / 100% auto;
+}
+
+/* formatando o login */
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}
+
+.form-signin .checkbox {
+  font-weight: 400;
+}
+
+.form-signin .form-floating:focus-within {
+  z-index: 2;
+}
+
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* Stylo de formatação das barras divs sub e infe. */
+.stylo {
+  margin-top: 0px;
+  background: -webkit-gradient(linear, left top, right top, from(#ed1c24), to(#1b3e70)) no-repeat;
+  background: -moz-linear-gradient(left, #ed1c24, #1b3e70);
+  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='#ED1C24', EndColorStr='#1B3E70');
+}
+
+
+
+
+.container {
+  background-color: #24141c;
+  color: #cccccc;
+  font-family: "Nunito", sans-serif;
+  width: 70%;
+  border-radius: 7px;
+  padding: 5%;
+  margin: 5% auto;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-around;
+
+  &2 {
+    border-right: 0.1px solid rgba(178, 170, 171, 0.185);
+  }
+
+  &_content {
+    padding: 5% 10%;
+    flex: 1;
+
+    h2 {
+      font-weight: 600;
+    }
+
+    h4 {
+      font-weight: 400;
+    }
+
+    span {
+      font-weight: 200;
+    }
+
+    h4 {
+      margin: 0;
+    }
+
+    ul {
+      padding-inline-start: 7%;
+      margin: 20% 0;
+
+      li {
+        font-weight: 200;
+      }
+    }
+
+    button {
+      outline: none;
+      border: none;
+      background: #aa2b33;
+      color: #ffffff;
+      width: 100%;
+      height: 50px;
+      border-radius: 5px;
+      font-family: "Nunito", sans-serif;
+      cursor: pointer;
+    }
+
+    &:nth-of-type(1) {
+      button {
+        background: transparent;
+        border: 1px solid #aa2b33;
+        color: #aa2b33;
+      }
+    }
+  }
+}
+
+
+@media screen and (max-width: 540px) {
+  .flex {
+    flex-direction: column;
+
+    &2{
+      border: none;
+    }
+  }
+}
