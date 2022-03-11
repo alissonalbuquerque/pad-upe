@@ -13,9 +13,9 @@ class CreateUnidadeInUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        // Schema::create('users', function (Blueprint $table) {
             // $table->foreignId('unidade_id')->nullable();
-        });
+        // });
     }
 
     /**
