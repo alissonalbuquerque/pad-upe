@@ -14,7 +14,7 @@ class CreateCursoInUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('curso_id');
+            $table->foreignId('curso_id')->nullable();
         });
     }
 
