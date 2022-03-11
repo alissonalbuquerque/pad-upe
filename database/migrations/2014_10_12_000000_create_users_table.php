@@ -22,6 +22,8 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('document');
             $table->tinyInteger('status');
+            $table->foreignId('curso_id')->nullable();
+            $table->foreignId('unidade_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
