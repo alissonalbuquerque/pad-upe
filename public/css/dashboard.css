@@ -1,0 +1,25 @@
+/* content que contem o preview do perfil */
+.content {
+    position: relative;
+    top: 0px;
+    width: 100%;
+    padding: 18px 6% 10px 6%;
+    margin: 0 0 30px 0;
+    background: #e6e7e8;
+  
+    border-radius: 5px;
+  }
+
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+@media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+    }
+}
