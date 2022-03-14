@@ -16,7 +16,7 @@ class CreateCampusTable extends Migration
         Schema::create('campus', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->tinyInteger('unidade');
+            $table->foreignId('unidade_id');
             $table->timestamps();
         });
     }

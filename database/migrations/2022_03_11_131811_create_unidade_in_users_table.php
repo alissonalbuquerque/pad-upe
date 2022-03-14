@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCursoInUsersTable extends Migration
+class CreateUnidadeInUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class CreateCursoInUsersTable extends Migration
      */
     public function up()
     {
-        // Schema::table('users', function (Blueprint $table) {
-        //     $table->foreignId('curso_id')->nullable();
+        // Schema::create('users', function (Blueprint $table) {
+            // $table->foreignId('unidade_id')->nullable();
         // });
     }
 
@@ -24,9 +24,9 @@ class CreateCursoInUsersTable extends Migration
      * @return void
      */
     public function down()
-    {   
-        // if(Schema::hasColumn('users', 'curso_id')) {
-        //     Schema::dropColumns('users', ['curso_id']);
+    {
+        // if(Schema::hasColumn('users', 'unidade_id')) {
+        //     Schema::dropColumns('users', ['unidade_id']);
         // }
     }
 }

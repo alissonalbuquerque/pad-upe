@@ -6,6 +6,32 @@ use Illuminate\Database\Eloquent\Model;
 
 class Unidade extends Model
 {
+
+    /**
+     * References table unidade
+     * 
+     * @var string
+     */
+    protected $table = "unidade";
+
+
+    /**
+     * The attributes that are mass assignable.
+     * 
+     * @var array
+     */
+    protected $fillable = ['name'];
+
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->name;
+    }
+
+
     const ARCOVERDE = 1;
     const CARUARU = 2;
     const GARANHUNS = 3;
@@ -33,9 +59,9 @@ class Unidade extends Model
             self::RECIFE => 'Recife',
             self::REGIAO_METROPOLITANA => 'Região Metropolitana',
             self::SALGUEIRO => 'Salgueiro',
-            self::SERRA_TALHADA => 'Serra Talhada',        
+            self::SERRA_TALHADA => 'Serra Talhada',
         ];
 
-        return $value != null? $values[$value] : $values;
+        return $value != null ? $values[$value] : $values;
     }
 }
