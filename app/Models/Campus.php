@@ -21,6 +21,23 @@ class Campus extends Model
      * 
      * @var array
      */
-    protected $fillable = ['name', 'unidade'];
+    protected $fillable = ['name', 'unidade_id'];
     
+    /**
+     * Get Unidade with unidade.id = campus.unidade_id
+     * 
+     * @return Unidade
+     */
+    public function unidade()
+    {
+        return $this->belongsTo(Unidade::class);
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->name;
+    }
 }
