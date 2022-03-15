@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 
 class UserFactory extends Factory
-{
+{   
     /**
      * Define the model's default state.
      *
@@ -15,10 +15,9 @@ class UserFactory extends Factory
      */
     public function definition()
     {   
-        $i = 1;
         return [
             'name' => $this->faker->name(),
-            'email' => "email{$i}@upe.br",
+            'email' => $this->faker->email(),
             'email_verified_at' => now(),
             'password' => Hash::make('12345678'),
             'remember_token' => Str::random(10),
