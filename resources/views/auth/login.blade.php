@@ -10,7 +10,7 @@
                         <x-auth-session-status class="mb-4" :status="session('status')" />
 
                         <!-- Validation Errors -->
-                        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+                        <x-auth-validation-errors class="alert alert-danger mb-2" :errors="$errors" />
 
                         <form action="{{ route('login') }}" method="POST" class="signin-form d-md-flex">
                             @csrf
