@@ -66,6 +66,35 @@ class User extends Authenticatable
         return $this->belongsTo(Unidade::class);
     }
 
+
+    /**
+     * @return bool
+     */
+    public function isTypeAdmin() {
+        return $this->type === self::TYPE_ADMIN;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTypeTeacher() {
+        return $this->type === self::TYPE_TEACHER;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTypeMenager() {
+        return $this->type === self::TYPE_MANAGER;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTypeCoordinator() {
+        return $this->type === self::TYPE_COORDINATOR;
+    }
+
     /**
      * @return string
      */

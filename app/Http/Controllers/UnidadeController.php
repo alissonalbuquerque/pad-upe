@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Unidade;
+use App\Queries\UnidadeQuery;
 use Illuminate\Http\Request;
 
 class UnidadeController extends Controller
@@ -90,5 +91,13 @@ class UnidadeController extends Controller
 
         
         return redirect('/unidade/index');
+    }
+
+    /**
+     * @return array
+     */
+    public function getAll()
+    {
+        return UnidadeQuery::all();
     }
 }

@@ -41,3 +41,7 @@ Route::delete('/unidade/delete/{id}', [UnidadeController::class, 'destroy'])->na
 Route::get('/curso/index', [CursoController::class, 'index'])->name('curso_index');
 Route::get('/curso/create', [CursoController::class, 'create'])->name('curso_create');
 Route::post('/curso/store', [CursoController::class, 'store'])->name('curso_store');
+
+// return json
+Route::get('/listar/unidade', [UnidadeController::class, 'getAll'])->name('listar_unidades');
+Route::get('/list/campus/{unidade_id}', [CampusController::class, 'findByUnidade'])->name('list_campus_by_unidade');
