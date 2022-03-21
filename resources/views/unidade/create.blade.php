@@ -1,9 +1,8 @@
 
-@extends('layouts.main')
+@extends('dashboard')
 
-@section('title', 'Unidade - Create')
-
-@section('body')
+@section('form-unidade-create')
+<div class="mt-4">
     <form action="{{ route('unidade_store') }}" method="post">
         @method('POST')
         @csrf
@@ -14,4 +13,5 @@
 
         <button type="submit" class="btn btn-primary"> Create </button>
     </form>
+</div>
 @endsection

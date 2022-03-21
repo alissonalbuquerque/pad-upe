@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CampusController;
 use App\Http\Controllers\CursoController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UnidadeController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,9 +23,7 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard');
 
 Route::get('/campus/index', [CampusController::class, 'index'])->name('campus_index');
 Route::get('/campus/create', [CampusController::class, 'create'])->name('campus_create');

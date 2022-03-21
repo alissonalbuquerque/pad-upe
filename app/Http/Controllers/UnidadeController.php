@@ -36,7 +36,9 @@ class UnidadeController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         
+        return redirect('/dashboard');
     }
 
     /**
