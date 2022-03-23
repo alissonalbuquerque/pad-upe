@@ -1,8 +1,6 @@
 <x-app-layout>
     <x-slot name="main">
-
         <div class="tab-content">
-            
             @if(Auth::check())
                 @include('layouts.user-dashboard.update_perfil', ['user' => Auth::user()])
             @endif
@@ -12,7 +10,7 @@
             @endif
 
             @if(Auth::user()->isTypeTeacher())
-                @include('layouts.user-dashboard.dashboard_teacher')
+                @include('layouts.user-dashboard.dashboard_teacher', ['user' => Auth::user()])
             @endif
 
             @if(Auth::user()->isTypeMenager())

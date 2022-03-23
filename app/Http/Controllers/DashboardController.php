@@ -17,6 +17,11 @@ class DashboardController extends Controller
         {   
             return view('dashboard', ['unidades' => UnidadeQuery::all(), 'unidade_index' => 1]);
         }
+
+        if($user->isTypeTeacher())
+        {   
+            return view('dashboard');
+        }
     }
 
 }
