@@ -6,7 +6,7 @@ use App\Queries\PlanejamentoQuery;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class EnsinoCoordenacao extends Model
+class EnsinoOrientacao extends Model
 {
     use HasFactory;
 
@@ -17,25 +17,28 @@ class EnsinoCoordenacao extends Model
     const MODALIDADE_EAD = 1;
     const MODALIDADE_PRESENCIAL = 2;
 
+    const ORIENTACAO_GRUPO = 1;
+    const ORIENTACAO_INDIVIDUAL = 2;
+
     /**
-     * References table ensino_coordenacao
+     * References table ensino_orientacoes
      * 
      * @var string
      */
-    protected $table = 'ensino_coordenacao';
+    protected $table = 'ensino_orientacoes';
 
     /**
      * The attributes that are mass assignable.
      * 
      * @var array
      */
-    protected $fillable = ['cod_atividade', 'componente_curricular', 'curso_id', 'nivel', 'modalidade', 'ch_semanal', 'pad_id'];
+    protected $fillable = ['cod_atividade', 'atividade', 'curso_id', 'nivel', 'type_orientacao', 'numero_orientandos', 'ch_semanal', 'pad_id'];
 
     /**
      * cod_dimensao from planejamento table
      * @var array
      */
-    private $codesDimensao = ['E-14'];
+    private $codesDimensao = ['E-5', 'E-6', 'E-7', 'E-8', 'E-9'];
 
     /**
      * @return array|string
@@ -51,7 +54,6 @@ class EnsinoCoordenacao extends Model
         return $value !== null? $values[$value] : $values;
     }
 
-
     /**
      * @return array|string
      */
@@ -66,20 +68,32 @@ class EnsinoCoordenacao extends Model
     }
 
     /**
+     * @return array|string
+     */
+    public function listTypeOrientacao($value = null) {
+        $values = [
+            self::ORIENTACAO_GRUPO => 'Individual',
+            self::ORIENTACAO_INDIVIDUAL => 'Grupo',
+        ];
+    
+        return $value !== null? $values[$value] : $values;
+    }
+
+    /**
      * @return array
      */
     public function orientacaoPreenchimento() {
         return [
-            'descricao' =>              ['item' => '2.', 'ENSINO (COORDENAÇÃO/ REGÊNCIA COMPONENTES CURRICULARES)'],
-            'componente_curricular' =>  ['item' => 'Nome do Componente:', 'descricao' => 'Nome do componente curricular como descrito no PPC do curso'],
-            'curso' =>                  ['item' => 'Curso:', 'descricao' => 'Nome do curso ao qual o componente curricular pertence'],
-            'nivel' =>                  ['item' => 'Nível:', 'descricao' => 'Preencher o nível do curso ao qual o componente curricular pertence, sendo as opções: Graduação, Pós-graduação Stricto Sensu, Pós-Graduação Lato Sensu'],
+            'descricao' =>              ['item' => '3.', 'ENSINO (ORIENTAÇÕES: ORIENTAÇÃO DE ESTÁGIO, ORIENTAÇÃO DE TCC, ORIENTAÇÃO DE RESIDÊNCIA, ORIENTAÇÃO DE MESTRADO E/OU ORIENTAÇÃO DE DOUTORADO. COORIENTAÇÕES: TCC, MESTRADO E/OU DOUTORADO)'],
+            'atividade' =>              ['item' => 'Atividade de Orientação e Coorientação:', 'descricao' => 'Nome do componente curricular como descrito no PPC do curso'],
+            'curso' =>                  ['item' => 'Curso:', 'descricao' => 'Nome do curso ao qual o(s) discente(s) orientado(s) pertence'],
+            'nivel' =>                  ['item' => 'Nível:', 'descricao' => 'Preencher o nível do curso que a orientação é realizada, sendo as opções: Graduação, Pós-graduação Stricto Sensu, Pós-Graduação Lato Sensu'],
+            'type_orientacao' =>        ['item' => 'Individual ou Grupo:', 'descricao' => 'Preencher se a orientação é individual ou em grupo. Caso seja em grupo, informar o número de participantes'],
             'modalidade' =>             ['item' => 'Modalidade:', 'descricao' => 'Preencher a modalidade que o componente curricular é ofertado, sendo as opções: Presencial e EAD'],
             'ch_semanal' =>             ['item' => 'Carga Horária Semanal:', 'descricao' => 'Carga horária semanal efetivamente exercida na atividade (preencher de acordo com quadro de referência)'],
         ];
     }
 
-    
     /**
      * Get PAD with pad.id = ensino_coordenacao.pad_id
      * 
@@ -106,5 +120,6 @@ class EnsinoCoordenacao extends Model
         $query = new PlanejamentoQuery();
         return $query->whereInCodDimensao($this->codesDimensao)->get();
     }
+
 
 }
