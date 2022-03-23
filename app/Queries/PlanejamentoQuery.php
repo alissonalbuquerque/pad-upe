@@ -16,7 +16,7 @@ class PlanejamentoQuery extends Query {
      * @return Builder
      */
     public function whereDimensao(int $dimensao, string $expression = '=') {
-        return $this->query->where('dimensao', $expression, $dimensao);
+        $this->query = $this->query->where('dimensao', $expression, $dimensao);
     }
 
     /**
@@ -25,7 +25,7 @@ class PlanejamentoQuery extends Query {
      * @return Builder
      */
     public function whereCodDimensao(string $cod_dimensao, string $expression = '=') {
-        return $this->query->where('cod_dimensao', $expression, $cod_dimensao);
+        $this->query = $this->query->where('cod_dimensao', $expression, $cod_dimensao);
     }
 
     /**
@@ -34,7 +34,7 @@ class PlanejamentoQuery extends Query {
      * @return Builder
      */
     public function whereInCodDimensao($codes_dimensao) {
-        return $this->query->whereIn('cod_dimensao', $codes_dimensao);
+        $this->query = $this->query->whereIn('cod_dimensao', $codes_dimensao);
     }
 
 }
