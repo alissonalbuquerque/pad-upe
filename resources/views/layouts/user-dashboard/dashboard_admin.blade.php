@@ -93,32 +93,7 @@
 
     @section('form-unidade-create')
     @show
-
-    <div class="mt-4">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th scope="col"> # </th>
-                    <th scope="col"> Nome </th>
-                    <th scope="col"> Opções </th>
-                </tr>
-            </thead>
-            <tbody>
-            @foreach($unidades as $unidade)
-                <tr>
-                    <td scope="row"> {{ $unidade_index++ }} </td>
-                    <td> {{ $unidade->name }} </td>
-                    <td>
-                        @include('components.buttons.btn-edit', ['route' => route('unidade_edit', ['id' => $unidade->id])])
-                        @include('components.buttons.btn-delete', ['route' => route('unidade_delete', ['id' => $unidade->id])])
-                        
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
-    </div>
-
+    
 </div>
 <div class="tab-pane" id="diretoria" role="tabpanel" aria-labelledby="diretoria-tab">
     <div
@@ -154,12 +129,7 @@
 
     <a class="btn btn-secondary btn-lg" onclick="redirecionamentoCadastroCoordenador()"
         data-toggle="tooltip" data-placement="bottom" title="Click para Cadastrar Novo Coordenador">
-        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor"
-            class="bi bi-person-plus-fill" viewBox="0 0 16 16">
-            <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-            <path fill-rule="evenodd"
-                d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
-        </svg>
+        <i class="bi bi-xbox"></i>
         Cadastrar Novo Coordenador
     </a>
     <a class="btn btn-secondary btn-lg" onclick="redirecionamentoListaCoordenador()" data-toggle="tooltip"
