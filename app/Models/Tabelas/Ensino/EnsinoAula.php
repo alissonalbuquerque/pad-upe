@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Tabelas\Ensino;
 
+use App\Queries\PlanejamentoQuery;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -97,10 +98,11 @@ class EnsinoAula extends Model
     }
 
     /**
-     * @return PlanejamentoQuery|Builder
+     * @return array
      */
     public function getPlanejamentos() {
-        return PlanejamentoQuery::whereInCodDimensao($this->codesDimensao);
+        $query = new PlanejamentoQuery();
+        return $query->whereInCodDimensao($this->codesDimensao)->get();
     }
 
 }
