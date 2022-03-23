@@ -17,7 +17,7 @@ class Planejamento extends Model
     /**
      * @return string
      */
-    public function listDimensao(int $value) {
+    public function listDimensao($value = null) {
         $values = [
             self::ENSINO => 'Ensino',
             self::PESQUISA => 'Pesquisa',
