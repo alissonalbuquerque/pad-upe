@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Campus;
 use App\Models\Unidade;
+use App\Queries\CampusQuery;
 use Illuminate\Http\Request;
 
 class CampusController extends Controller
@@ -86,4 +87,11 @@ class CampusController extends Controller
     {
         //
     }
+
+
+    public function findByUnidade(int $unidade_id)
+    {   
+        return CampusQuery::whereUnidadeId($unidade_id)->orderBy('name')->get();
+    }
+
 }
