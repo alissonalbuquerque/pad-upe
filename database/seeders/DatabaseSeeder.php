@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             CursoSeeder::class,
             UserSeeder::class,
             PlanejamentoSeeder::class,
+            DisciplinaSeeder::class,
         ]);
     }
 }
