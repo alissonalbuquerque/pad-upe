@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Models\Tabelas\Ensino;
+namespace App\Models;
 
 use App\Queries\PlanejamentoQuery;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class EnsinoAula extends Model
+class EnsinoCoordenacao extends Model
 {
     use HasFactory;
 
@@ -18,26 +18,24 @@ class EnsinoAula extends Model
     const MODALIDADE_PRESENCIAL = 2;
 
     /**
-     * References table ensino_aulas
+     * References table ensino_coordenacao
      * 
      * @var string
      */
-    protected $table = 'ensino_aulas';
+    protected $table = 'ensino_coordenacao';
 
     /**
      * The attributes that are mass assignable.
      * 
      * @var array
      */
-    protected $fillable = ['cod_atividade', 'componente_curricular', 'curso_id', 'nivel', 'modalidade', 'ch_semanal', 'ch_total', 'pad_id'];
-    
-    
+    protected $fillable = ['cod_atividade', 'componente_curricular', 'curso_id', 'nivel', 'modalidade', 'ch_semanal', 'pad_id'];
+
     /**
      * cod_dimensao from planejamento table
      * @var array
      */
-    private $codesDimensao = ['E-1', 'E-2', 'E-3'];
-
+    private $codesDimensao = ['E-14'];
 
     /**
      * @return array|string
@@ -52,6 +50,7 @@ class EnsinoAula extends Model
     
         return $value !== null? $values[$value] : $values;
     }
+
 
     /**
      * @return array|string
@@ -71,26 +70,25 @@ class EnsinoAula extends Model
      */
     public function orientacaoPreenchimento() {
         return [
-            'descricao' =>              ['item' => '1.', 'descricao' => 'Ensino (Aulas em componentes curriculares)'],
+            'descricao' =>              ['item' => '2.', 'ENSINO (COORDENAÇÃO/ REGÊNCIA COMPONENTES CURRICULARES)'],
             'componente_curricular' =>  ['item' => 'Nome do Componente:', 'descricao' => 'Nome do componente curricular como descrito no PPC do curso'],
             'curso' =>                  ['item' => 'Curso:', 'descricao' => 'Nome do curso ao qual o componente curricular pertence'],
             'nivel' =>                  ['item' => 'Nível:', 'descricao' => 'Preencher o nível do curso ao qual o componente curricular pertence, sendo as opções: Graduação, Pós-graduação Stricto Sensu, Pós-Graduação Lato Sensu'],
             'modalidade' =>             ['item' => 'Modalidade:', 'descricao' => 'Preencher a modalidade que o componente curricular é ofertado, sendo as opções: Presencial e EAD'],
-            'ch_semanal' =>             ['item' => 'Carga Horária Semanal:', 'descricao' => 'Carga horária total efetiva exercida pelo docente dentro do componente curricular dividida pelo número de semanas que o mesmo ocorre'],
-            'ch_total' =>               ['item' => 'Carga Horária Total:', 'descricao' => 'Carga horária total efetiva exercida pelo docente dentro do(s) componente(s) curricular (es)'],
-            
+            'ch_semanal' =>             ['item' => 'Carga Horária Semanal:', 'descricao' => 'Carga horária semanal efetivamente exercida na atividade (preencher de acordo com quadro de referência)'],
         ];
     }
 
+    
     /**
-     * Get PAD with pad.id = ensino_aulas.pad_id
+     * Get PAD with pad.id = ensino_coordenacao.pad_id
      * 
      * @return PAD
      */
     public function pad() {
         return $this->belongsTo(PAD::class);
     }
-    
+
     /**
      * Get Curso with curso.id = ensino_aulas.curso_id
      * 
