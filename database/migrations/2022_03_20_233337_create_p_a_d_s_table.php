@@ -13,7 +13,7 @@ class CreatePADSTable extends Migration
      */
     public function up()
     {
-        Schema::create('p_a_d_s', function (Blueprint $table) {
+        Schema::create('PADs', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->integer('ano');
@@ -26,6 +26,12 @@ class CreatePADSTable extends Migration
             $table->boolean('exerce_funcao_sindical')->default(false);
             $table->string('licenca_de_acor_legais', 50)->default(null);
             $table->string('outras_observacoes', 200)->nullable(true);
+
+            $table->unsignedBigInteger('professor_id');
+            $table->foreign('professor_id')->references('id')->on('users');
+
+            $table->unsignedBigInteger('curso_id');
+            $table->foreign('curso_id')->references('id')->on('cursos');
         });
     }
 
@@ -36,6 +42,6 @@ class CreatePADSTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('p_a_d_s');
+        Schema::dropIfExists('PADs');
     }
 }

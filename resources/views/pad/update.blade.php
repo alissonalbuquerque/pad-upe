@@ -1,7 +1,7 @@
 
 @extends('layouts.main')
 
-@section('title', 'Unidade - Update')
+@section('title', 'PAD - Edição')
 
 @section('body')
     <form action="{{ route('unidade_update', ['id' => $unidade->id]) }}" method="post">

@@ -4,6 +4,7 @@ use App\Http\Controllers\CampusController;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UnidadeController;
+use App\Http\Controllers\PADController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,26 +44,13 @@ Route::get('/ensino/edit/{id}', [EnsinoController::class, 'edit'])->name('ensino
 Route::post('/ensino/update/{id}', [EnsinoController::class, 'update'])->name('ensino_update');
 Route::delete('/ensino/delete/{id}', [EnsinoController::class, 'destroy'])->name('ensino_delete');
 
-Route::get('/extensao/index', [ExtensaoController::class, 'index'])->name('extensao_index');
-Route::get('/extensao/create', [ExtensaoController::class, 'create'])->name('extensao_create');
-Route::post('/extensao/store', [ExtensaoController::class, 'store'])->name('extensao_store');
-Route::get('/extensao/edit/{id}', [ExtensaoController::class, 'edit'])->name('extensao_edit');
-Route::post('/extensao/update/{id}', [ExtensaoController::class, 'update'])->name('extensao_update');
-Route::delete('/extensao/delete/{id}', [ExtensaoController::class, 'destroy'])->name('extensao_delete');
+Route::get('/pad/index', [PADController::class, 'index'])->name('pad_index');
+Route::get('/pad/create', [PADController::class, 'create'])->name('pad_create');
+Route::post('/pad/store', [PADController::class, 'store'])->name('pad_store');
+Route::get('/pad/edit/{id}', [PADController::class, 'edit'])->name('pad_edit');
+Route::post('/pad/update/{id}', [PADController::class, 'update'])->name('pad_update');
+Route::delete('/pad/delete/{id}', [PADController::class, 'destroy'])->name('pad_delete');
 
-Route::get('/gestao/index', [GestaoController::class, 'index'])->name('gestao_index');
-Route::get('/gestao/create', [GestaoController::class, 'create'])->name('gestao_create');
-Route::post('/gestao/store', [GestaoController::class, 'store'])->name('gestao_store');
-Route::get('/gestao/edit/{id}', [GestaoController::class, 'edit'])->name('gestao_edit');
-Route::post('/gestao/update/{id}', [GestaoController::class, 'update'])->name('gestao_update');
-Route::delete('/gestao/delete/{id}', [GestaoController::class, 'destroy'])->name('gestao_delete');
-
-Route::get('/pesquisa/index', [PesquisaController::class, 'index'])->name('pesquisa_index');
-Route::get('/pesquisa/create', [PesquisaController::class, 'create'])->name('pesquisa_create');
-Route::post('/pesquisa/store', [PesquisaController::class, 'store'])->name('pesquisa_store');
-Route::get('/pesquisa/edit/{id}', [PesquisaController::class, 'edit'])->name('pesquisa_edit');
-Route::post('/pesquisa/update/{id}', [PesquisaController::class, 'update'])->name('pesquisa_update');
-Route::delete('/pesquisa/delete/{id}', [PesquisaController::class, 'destroy'])->name('pesquisa_delete');
 
 Route::get('/curso/index', [CursoController::class, 'index'])->name('curso_index');
 Route::get('/curso/create', [CursoController::class, 'create'])->name('curso_create');

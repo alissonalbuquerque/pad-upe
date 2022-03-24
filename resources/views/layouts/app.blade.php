@@ -20,6 +20,7 @@
  
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/forms.css') }}">
 </head>
 
 <body>
@@ -32,7 +33,7 @@
             <div class="main-container">
                 <!-- Page Header -->
                 @include('layouts.navigation')
-
+              
                 <main class="">
                     {{ $main }}
                 </main>
@@ -69,6 +70,8 @@
     @if(Auth::user()->isTypeCoordinator())
         @include('layouts.user-jquery.jquery_coordinator')
     @endif
+
+    <script src="{{ asset('js/forms.js') }}"></script>
 </body>
 
 </html>

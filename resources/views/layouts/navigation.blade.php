@@ -24,7 +24,9 @@
 
     <!-- SidebarMenu : Professor -->
     @if (Auth::user()->isTypeTeacher())
-        @include('layouts.user-navigation.navigation_teacher')
+        @include('layouts.user-navigation.navigation_teacher', [
+            'index_menu' => (!empty($index_menu) ? $index_menu : 0),
+        ])
     @endif
 
     <!-- SidebarMenu : Diretor -->

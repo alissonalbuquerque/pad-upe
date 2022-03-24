@@ -19,7 +19,7 @@ class CreateRefPlanejamentoChesTable extends Migration
             $table->string("descricao_atividade", 50);
             $table->float("ch_semanal", 5, 2);
             $table->float("ch_maxima", 5, 2);
-            $table->foreignId('p_a_d_s_id')
+            $table->foreignId('PAD_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PAD;
 use App\Queries\UnidadeQuery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +21,7 @@ class DashboardController extends Controller
 
         if($user->isTypeTeacher())
         {   
-            return view('dashboard');
+            return view('dashboard', ['PADs' => PAD::all(), 'menu_index'=> 0]);
         }
     }
 

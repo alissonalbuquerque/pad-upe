@@ -1,0 +1,52 @@
+/* content que contem o corpo da pagina */
+.content {
+  position: relative;
+  top: 0px;
+  width: 100%;
+}
+
+.titulo {
+  font-size: 32px;
+  color: #000000;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  text-align: center;
+}
+
+#bordcab {
+  
+  margin: 0 0 0 0;
+  background: #e6e7e8;
+
+  width: 100%;
+  height: 100%;
+  border-radius: 0px 0px 20px 20px;
+}
+
+hr {
+  margin-top: 0px;
+  background-color: rgb(105, 105, 105);
+  border-top: 1px solid;
+}
+
+#bord {
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(105, 105, 105);
+  background-color: #e6e7e8;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  padding: 1em;
+  margin: 20px;
+}
+
+#compbord {
+  padding: 20px;
+  margin: 0px;
+}
+
+#addrow {
+  padding: 20px;
+  margin: 0px;
+}
