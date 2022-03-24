@@ -19,15 +19,15 @@ class UserSeeder extends Seeder
     public function run()
     {   
         // UsersTeacher
-        $ids = range(1, 5);
+        $ids = [1, 2, 3, 4, 5];
         foreach($ids as $id)
         {
             User::create([
                 'type' => User::TYPE_TEACHER,
-                'name' => "User {$id}",
-                'email' => "user{$id}@upe.br",
+                'name' => "Professor {$id}",
+                'email' => "professor{$id}@upe.br",
                 'email_verified_at' => null,
-                'password' => Hash::make('12345678'),
+                'password' => Hash::make('@professor'),
                 'document' => "00000000{$id}",
                 'status' => User::STATUS_ACTIVE,
                 'unidade_id' => 3,
