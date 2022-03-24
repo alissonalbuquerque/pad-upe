@@ -12,7 +12,7 @@
     ])
 @endsection
 @section('body')
-    <div class="content mx-auto">
+    <div class="content">
         <div class="header" id="bordcab">
             <h1 class="titulo pt-4 pb-4 mb-3 border-bottom">PLANO DE ATIVIDADES DOCENTES (PAD)</h1>
             <p class="pb-4 mb-3 text-center text-muted align-items-center">ANEXO B</p>
