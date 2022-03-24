@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\Campus;
 use App\Models\Curso;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+
 
 class CursoSeeder extends Seeder
 {
@@ -29,6 +29,5 @@ class CursoSeeder extends Seeder
                 ]);
             }
         }
-
     }
 }

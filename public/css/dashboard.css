@@ -5,9 +5,10 @@
     width: 100%;
     padding: 18px 6% 10px 6%;
     margin: 0 0 30px 0;
-    background: #e6e7e8;
-  
+    /*background: #e6e7e8;
     border-radius: 5px;
+    */
+    border-bottom: 1px solid #dee2e6!important;
   }
 
 .bd-placeholder-img {
@@ -16,6 +17,57 @@
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;
+}
+header{
+    background-color: #DFDFDF;
+    margin-bottom: 30px;
+}
+
+header .header-left-side{
+    width: 60vw;
+    font-family: 'Electrolize', sans-serif;
+    background: linear-gradient(110deg, #F7F7F7 60%, #DFDFDF 60%);
+    padding-left: 15vh;
+}
+
+header .header-right-side{
+    padding-right: 15vh;
+}
+
+.main-container{
+    display: flex;
+    flex-direction: row;
+}
+
+main{
+    min-height: 70vh;
+}
+
+nav{
+    margin-left: 13vh;
+    margin-right: 1em;
+    border-radius: .5em;
+    border: 1px solid #dee2e6!important;
+}
+
+nav ul li{
+   
+}
+
+nav ul li a{
+    color: #17223b;
+  
+    font-size: large;
+}
+
+nav ul .active{
+    background-color: #DFDFDF!important;
+    color: #17223b!important;
+    font-weight: bold;
+}
+
+nav .content-user-info{
+    font-weight: bold;
 }
 
 @media (min-width: 768px) {
