@@ -22,7 +22,7 @@ class CreateEnsinoAulasTable extends Migration
             $table->tinyInteger('modalidade')->notNull();
             $table->integer('ch_semanal')->notNull();
             $table->integer('ch_total')->notNull();
-            $table->foreignId('pad_id');
+            $table->foreignId('pad_id')->notNull();
             $table->timestamps();
         });
     }

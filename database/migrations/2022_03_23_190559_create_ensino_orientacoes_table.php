@@ -22,7 +22,7 @@ class CreateEnsinoOrientacoesTable extends Migration
             $table->tinyInteger('type_orientacao')->notNull();
             $table->tinyInteger('numero_orientandos')->nullable();
             $table->integer('ch_semanal')->notNull();
-            $table->foreignId('pad_id');
+            $table->foreignId('pad_id')->notNull();
             $table->timestamps();
         });
     }

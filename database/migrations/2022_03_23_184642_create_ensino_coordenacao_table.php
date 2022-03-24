@@ -21,7 +21,7 @@ class CreateEnsinoCoordenacaoTable extends Migration
             $table->tinyInteger('nivel')->notNull();
             $table->tinyInteger('modalidade')->notNull();
             $table->integer('ch_semanal')->notNull();
-            $table->foreignId('pad_id');
+            $table->foreignId('pad_id')->notNull();
             $table->timestamps();
         });
     }
