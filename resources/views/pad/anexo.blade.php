@@ -60,7 +60,7 @@
                         <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="opcao1"
                             checked>
                         <label class="form-check-label" for="exampleRadios1">
-                            1º SEMESTRE - janeiro a julho
+                            1º SEMESTRE
                         </label>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
                         <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2"
                             value="opcao2">
                         <label class="form-check-label" for="exampleRadios2">
-                            2º SEMESTRE - agosto a dezembro
+                            2º SEMESTRE
                         </label>
                     </div>
                 </div>
