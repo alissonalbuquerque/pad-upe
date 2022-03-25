@@ -7,9 +7,11 @@ use App\Http\Controllers\Dimensao\EnsinoController;
 use App\Http\Controllers\Dimensao\PesquisaController;
 use App\Http\Controllers\Dimensao\ExtensaoController;
 use App\Http\Controllers\Dimensao\GestaoController;
+use App\Http\Controllers\DisciplinaController;
 use App\Http\Controllers\UnidadeController;
 use App\Http\Controllers\PADController;
 use App\Http\Controllers\Tabelas\Ensino\EnsinoAulaController;
+use App\Models\Disciplina;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -71,3 +73,7 @@ Route::get('/pad/dimensao/pesquisa', [PesquisaController::class, 'index'])->name
 Route::get('/pad/dimensao/extensao', [ExtensaoController::class, 'index'])->name('dimensao_extensao');
 
 Route::get('/pad/dimensao/ensino/aula/create', [EnsinoAulaController::class, 'create'])->name('ensino_aula_create');
+
+
+/** json */
+Route::get('/disciplina/{curso_id}', [DisciplinaController::class, 'getDisciplinaByCurso'])->name('get_disciplina_by_curso');
