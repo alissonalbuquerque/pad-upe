@@ -98,8 +98,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="selectCurso">CURSO</label>
-                        <select name="curso_id" class="custom-select mr-sm-2" id="curso_id" onchange="getComponentesCurriculares()"
-                            aria-label="Default select example">
+                        <select name="curso_id" class="custom-select mr-sm-2" id="curso_id" aria-label="Default select example">
                             <option selected>Selecionar Curso</option>
                             @foreach ($cursos as $curso)
                                 <option value="{{ $curso->id }}"> {{ $curso->name }}</option>
@@ -155,5 +154,7 @@
 @endsection
 
 @section('scripts-jquery')
+
     @include('layouts.pad-ensino-jquery.ensino-aula')
+
 @endsection

@@ -1,11 +1,13 @@
-<script>
+<script type="text/javascript">
 
-    $( document ).ready(() => {
-        console.log('Ready')
-    })
+    $('#curso_id').change(() => {
 
-    $('curso_id').change(() => {
-        console.log('OK');
+        const curso_id = $('#curso_id').val()
+
+        const endpoint = "{{ route('get_disciplina_by_curso', 'curso_id') }}"
+
+        const url = endpoint.replace('curso_id', curso_id)
+    
     })
 
 </script>
