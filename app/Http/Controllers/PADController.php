@@ -34,6 +34,11 @@ class PADController extends Controller
         return view('pad.create', ['index_menu' => 1 ]);
     }
 
+    public function anexo()
+    {
+        return view('pad.anexo', ['index_menu' => 1 ]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
