@@ -3,6 +3,7 @@
 use App\Http\Controllers\CampusController;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Dimensao\EnsinoController;
 use App\Http\Controllers\UnidadeController;
 use App\Http\Controllers\PADController;
 use Illuminate\Support\Facades\Route;
@@ -59,3 +60,8 @@ Route::post('/curso/store', [CursoController::class, 'store'])->name('curso_stor
 // return json
 Route::get('/listar/unidade', [UnidadeController::class, 'getAll'])->name('listar_unidades');
 Route::get('/list/campus/{unidade_id}', [CampusController::class, 'findByUnidade'])->name('list_campus_by_unidade');
+
+Route::get('/dimensao/gestao', [GestaoController::class, 'index'])->name('dimensao_gestao');
+Route::get('/dimensao/ensino', [EnsinoController::class, 'index'])->name('dimensao_ensino');
+Route::get('/dimensao/pesquisa', [PesquisaController::class, 'index'])->name('dimensao_pesquisa');
+Route::get('/dimensao/extensao', [ExtensaoController::class, 'index'])->name('dimensao_extensao');
