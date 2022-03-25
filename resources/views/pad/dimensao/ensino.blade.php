@@ -97,7 +97,7 @@
 
                     <div class="form-group col-md-6">
                         <label for="selectCurso">CURSO</label>
-                        <select name="curso_id" class="custom-select mr-sm-2" id="curso_id"
+                        <select name="curso_id" class="custom-select mr-sm-2" id="curso_id" required
                             aria-label="Default select example">
 
                             <option selected>Selecionar Curso</option>
@@ -110,15 +110,14 @@
                     <div class="form-group col-md-6">
                         <label for="selectCurso">COMPONENTE CURRICULAR</label>
                         <select name="componente_curricular" class="custom-select mr-sm-2" id="componente_curricular"
-                            aria-label="Default select example">
-
+                            aria-label="Default select example" required>
+                            <option></option>
                         </select>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="selectCurso">NÍVEL</label>
-                        <select class="custom-select mr-sm-2" name="nivel" id="nivel" aria-label="Default select example">
-
-                            <option value="0" selected>Selecionar Nível</option>
+                        <select class="custom-select mr-sm-2" name="nivel" id="nivel" aria-label="Default select example" required>
+                            <option disabled selected value> Selecionar </option>
                             @foreach ($niveis as $key => $nivel)
                                 <option value="{{ $key }}"> {{ $nivel }}</option>
                             @endforeach
@@ -127,10 +126,9 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label for="selectCurso">Modalidade</label>
-                        <select class="custom-select mr-sm-2" name="modalidade" id="modalidade"
+                        <select class="custom-select mr-sm-2" name="modalidade" id="modalidade" required
                             aria-label="Default select example">
-
-                            <option value="0" selected>Selecionar Modalidade</option>
+                            <option disabled selected value> Selecionar</option>
                             @foreach ($modalidades as $key => $modalidade)
                                 <option value="{{ $key }}"> {{ $modalidade }}</option>
                             @endforeach
@@ -139,13 +137,12 @@
                     </div>
                     <div class="form-group col-md-3">
                         <label for="selectCurso">CARGA HORÁRIA SEMANAL</label>
-                        <input type="number" name="ch_semanal" id="ch_semanal">
+                        <input type="number" name="ch_semanal" id="ch_semanal" required>
                     </div>
                     <div class="form-group col-md-2">
                         <label for="selectCurso">CARGA HORÁRIA TOTAL</label>
-                        <input type="number" name="ch_total" id="ch_semanal">
+                        <input type="number" name="ch_total" id="ch_semanal" required>
                     </div>
-
                     <input type="hidden" value="{{ $pad_id }}" name="pad_id" id="pad_id">
                 </div>
                 <button type="submit" class="btn btn-success"> Salvar</button>
