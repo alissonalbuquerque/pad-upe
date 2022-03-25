@@ -90,7 +90,9 @@
                     </table>
                 </div>
             </div>
-            <form method="POST" action="{{ route('ensino_aula_store') }}" class="form-add-new-dimencao">
+            <form method="POST" action="{{ route('ensino_aula_create') }}" class="form-add-new-dimencao">
+                @csrf
+                @method('POST')
                 <div class="form-group" style="width: 200px;">
                     <label for="inputNameProfessor">CÓDIGO ATIVIDADE</label>
                     <input type="text" name="cod_atividade" class="form-control" disable id="cod_atividade" placeholder="Automomático  " disabled>
@@ -148,7 +150,7 @@
                         <input type="number" name="ch_total" id="ch_semanal">
                     </div>
 
-                    <input type="hidden" value="{{ $pad_id }}">
+                    <input type="hidden" value="{{ $pad_id }}" name="pad_id" id="pad_id">
                 </div>
                 <button type="submit"  class="btn btn-success"> Salvar</button>
        
