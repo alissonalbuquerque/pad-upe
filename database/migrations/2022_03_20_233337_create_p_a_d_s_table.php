@@ -13,25 +13,21 @@ class CreatePADSTable extends Migration
      */
     public function up()
     {
-        Schema::create('PADs', function (Blueprint $table) {
+        Schema::create('pads', function (Blueprint $table) {
             $table->id();
+            // $table->integer('ano')->default(false);
+            // $table->integer('semestre')->default(false);
+            // $table->integer('carga_horaria')->default(false);
+            // $table->string('categoria', 20)->default(false);
+            // $table->boolean('afastamento_total')->default(false);
+            // $table->boolean('afastamento_parcial')->default(false);
+            // $table->boolean('exerce_funcao_admin')->default(false);
+            // $table->boolean('exerce_funcao_sindical')->default(false);
+            // $table->string('licenca_de_acor_legais', 50)->default(null);
+            // $table->string('outras_observacoes', 200)->nullable(true);
+            
+            $table->foreignId('user_id');
             $table->timestamps();
-            $table->integer('ano');
-            $table->integer('semestre');
-            $table->integer('carga_horaria');
-            $table->string('categoria', 20);
-            $table->boolean('afastamento_total')->default(false);
-            $table->boolean('afastamento_parcial')->default(false);
-            $table->boolean('exerce_funcao_admin')->default(false);
-            $table->boolean('exerce_funcao_sindical')->default(false);
-            $table->string('licenca_de_acor_legais', 50)->default(null);
-            $table->string('outras_observacoes', 200)->nullable(true);
-
-            $table->unsignedBigInteger('professor_id');
-            $table->foreign('professor_id')->references('id')->on('users');
-
-            $table->unsignedBigInteger('curso_id');
-            $table->foreign('curso_id')->references('id')->on('cursos');
         });
     }
 
@@ -42,6 +38,6 @@ class CreatePADSTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('PADs');
+        Schema::dropIfExists('pads');
     }
 }

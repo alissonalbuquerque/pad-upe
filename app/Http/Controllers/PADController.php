@@ -20,7 +20,7 @@ class PADController extends Controller
      */
     public function index()
     {
-        $PADs = PAD::where('professor_id', '=', Auth::user()->id);
+        $PADs = PAD::where('user_id', '=', Auth::user()->id);
         return view('pad.index', ["PADs" => $PADs, 'index_menu' => 1 ]);
     }
 

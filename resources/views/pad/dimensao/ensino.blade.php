@@ -56,19 +56,18 @@
                                     <tr id='addr0' data-id="0" class="hidden">
                                         <td data-name="codigoAtividade">
                                             <input type="text" name='codigoAtividade0' placeholder='CÓDIGO ATIVIDADE'
-                                                class="form-control" />
+                                                class="form-control"/>
                                         </td>
                                         <td data-name="componentecurricular">
                                             <input type="text" name='componentecurricular0'
                                                 placeholder='COMPONENTE CURRICULAR' class="form-control" />
                                         </td>
                                         <td data-name="selcurso">
-                                            <select class="custom-select mr-sm-2" id="inlineCursoSelect"
-                                                aria-label="Default select example">
+                                            <select class="custom-select mr-sm-2" name="curso_id" id="curso_id" aria-label="Default select example">
                                                 <option selected>Selecionar Curso</option>
-                                                <option value="1">Um</option>
-                                                <option value="2">Dois</option>
-                                                <option value="3">Três</option>
+                                                @foreach($cursos as $curso)
+                                                    <option value="{{ $curso->id }}"> {{ $curso->name }}</option>
+                                                @endforeach
                                             </select>
                                         </td>
                                         <td data-name="selnivel">

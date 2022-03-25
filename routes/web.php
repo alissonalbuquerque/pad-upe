@@ -64,7 +64,7 @@ Route::post('/curso/store', [CursoController::class, 'store'])->name('curso_stor
 Route::get('/listar/unidade', [UnidadeController::class, 'getAll'])->name('listar_unidades');
 Route::get('/list/campus/{unidade_id}', [CampusController::class, 'findByUnidade'])->name('list_campus_by_unidade');
 
-Route::get('/dimensao/gestao', [GestaoController::class, 'index'])->name('dimensao_gestao');
-Route::get('/dimensao/ensino', [EnsinoController::class, 'index'])->name('dimensao_ensino');
-Route::get('/dimensao/pesquisa', [PesquisaController::class, 'index'])->name('dimensao_pesquisa');
-Route::get('/dimensao/extensao', [ExtensaoController::class, 'index'])->name('dimensao_extensao');
+Route::get('/pad/dimensao/gestao', [GestaoController::class, 'index'])->name('dimensao_gestao');
+Route::get('/pad/dimensao/ensino', [EnsinoController::class, 'index'])->name('dimensao_ensino');
+Route::get('/pad/dimensao/pesquisa', [PesquisaController::class, 'index'])->name('dimensao_pesquisa');
+Route::get('/pad/dimensao/extensao', [ExtensaoController::class, 'index'])->name('dimensao_extensao');

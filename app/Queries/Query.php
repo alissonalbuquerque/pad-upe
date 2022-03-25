@@ -8,6 +8,6 @@ class Query {
     public function getQuery(){
         return $this->query;
     }
-
+    
 }
 
