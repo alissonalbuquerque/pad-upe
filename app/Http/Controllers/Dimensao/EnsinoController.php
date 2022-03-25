@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dimensao;
 
 use App\Http\Controllers\Controller;
 use App\Models\Curso;
+use App\Models\Tabelas\Ensino\EnsinoAula;
 use App\Queries\CursoQuery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,10 +24,15 @@ class EnsinoController extends Controller
         $user = Auth::user();
     
         $cursos = (new CursoQuery())->getQuery()->get();
+        $niveis = EnsinoAula::listNivel();
+        $modalidades = EnsinoAula::listModalidade();
+
         return view('pad.dimensao.ensino', [
-            'index_menu' => self::MENU_PAD,
+            'pad_id' => 1,
             'cursos' => $cursos,
-            'pad_id' => 1
+            'niveis' => $niveis,
+            'modalidades' => $modalidades,
+            'index_menu' => self::MENU_PAD,
         ]);
     }
 }

@@ -42,7 +42,7 @@ class EnsinoAula extends Model
     /**
      * @return array|string
      */
-    public function listNivel($value = null) {
+    public static function listNivel($value = null) {
         $values = [
             self::NIVEL_GRADUACAO => 'Graduação',
             self::NIVEL_POS_GRADUACAO_LATO_SENSU => 'Pós-graduação Stricto Sensu',
@@ -56,7 +56,7 @@ class EnsinoAula extends Model
     /**
      * @return array|string
      */
-    public function listModalidade($value = null) {
+    public static function listModalidade($value = null) {
         $values = [
             self::MODALIDADE_EAD => 'EAD',
             self::MODALIDADE_PRESENCIAL => 'Presencial',

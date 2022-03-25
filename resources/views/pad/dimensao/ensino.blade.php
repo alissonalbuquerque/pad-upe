@@ -93,30 +93,33 @@
             <form class="form-add-new-dimencao">
                 <div class="form-group">
                     <label for="inputNameProfessor">CÓDIGO ATIVIDADE</label>
-                    <input type="text" name="cod_atividade" class="form-control" disable id="cod_atividade" placeholder="Nome">
+                    <input type="text" name="cod_atividade" class="form-control" disable id="cod_atividade" placeholder="Nome" disabled>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="selectCurso">CURSO</label>
                         <select name="curso_id" class="custom-select mr-sm-2" id="curso_id" aria-label="Default select example">
-                            <option selected>Selecionar Curso</option>
+                            <option value="0" selected>Selecionar Curso</option>
                             @foreach ($cursos as $curso)
                                 <option value="{{ $curso->id }}"> {{ $curso->name }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="selectCurso">COMPONENTE CURRICULAR (NOME DO COMPONENTE)</label>
-                        <select class="custom-select mr-sm-2" name="componente_curricular" id="componente_curricular"
-                            aria-label="Default select example">
-                            <option selected>Selecionar</option>
+                        <label for="selectCurso">COMPONENTE CURRICULAR</label>
+                        <select name="componente_curricular" class="custom-select mr-sm-2" id="componente_curricular" aria-label="Default select example">
+
                         </select>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="selectCurso">NÍVEL</label>
                         <select class="custom-select mr-sm-2" name="nivel" id="nivel"
                             aria-label="Default select example">
-                            <option selected>Selecionar</option>
+
+                            <option value="0" selected>Selecionar Nível</option>
+                            @foreach ($niveis as $key => $nivel)
+                                <option value="{{ $key }}"> {{ $nivel }}</option>
+                            @endforeach
                        
                         </select>
                     </div>
@@ -124,25 +127,21 @@
                         <label for="selectCurso">Modalidade</label>
                         <select class="custom-select mr-sm-2" name="modalidade" id="modalidade"
                             aria-label="Default select example">
-                            <option selected>Selecionar</option>
+
+                            <option value="0" selected>Selecionar Modalidade</option>
+                            @foreach ($modalidades as $key => $modalidade)
+                                <option value="{{ $key }}"> {{ $modalidade }}</option>
+                            @endforeach
                             
                         </select>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="selectCurso">CARGA HORÁRIA SEMANAL</label>
-                        <select class="custom-select mr-sm-2" name="ch_semanal" id="ch_semanal"
-                            aria-label="Default select example">
-                            <option selected>Selecionar</option>
-                            
-                        </select>
+                        <input type="number" name="ch_semanal" id="ch_semanal">
                     </div>
                     <div class="form-group col-md-4">
                         <label for="selectCurso">CARGA HORÁRIA TOTAL</label>
-                        <select class="custom-select mr-sm-2" name="ch_total" id="ch_total"
-                            aria-label="Default select example">
-                            <option selected>Selecionar</option>
-                            
-                        </select>
+                        <input type="number" name="ch_total" id="ch_semanal">
                     </div>
 
                     <input type="hidden" value="{{ $pad_id }}">
