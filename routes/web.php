@@ -9,6 +9,7 @@ use App\Http\Controllers\Dimensao\ExtensaoController;
 use App\Http\Controllers\Dimensao\GestaoController;
 use App\Http\Controllers\UnidadeController;
 use App\Http\Controllers\PADController;
+use App\Http\Controllers\Tabelas\Ensino\EnsinoAulaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -68,3 +69,5 @@ Route::get('/pad/dimensao/gestao', [GestaoController::class, 'index'])->name('di
 Route::get('/pad/dimensao/ensino', [EnsinoController::class, 'index'])->name('dimensao_ensino');
 Route::get('/pad/dimensao/pesquisa', [PesquisaController::class, 'index'])->name('dimensao_pesquisa');
 Route::get('/pad/dimensao/extensao', [ExtensaoController::class, 'index'])->name('dimensao_extensao');
+
+Route::get('/pad/dimensao/ensino/aula/create', [EnsinoAulaController::class, 'create'])->name('ensino_aula_create');

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEnsinoAulasTable extends Migration
+class CreateEnsinoOrientacoesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateEnsinoAulasTable extends Migration
      */
     public function up()
     {
-        Schema::create('ensino_aulas', function (Blueprint $table) {
+        Schema::create('ensino_orientacoes', function (Blueprint $table) {
             $table->id();
             $table->string('cod_atividade')->notNull();
-            $table->string('componente_curricular')->notNull();
+            $table->string('atividade')->notNull();
             $table->foreignId('curso_id')->notNull();
             $table->tinyInteger('nivel')->notNull();
-            $table->tinyInteger('modalidade')->notNull();
+            $table->tinyInteger('type_orientacao')->notNull();
+            $table->tinyInteger('numero_orientandos')->nullable();
             $table->integer('ch_semanal')->notNull();
-            $table->integer('ch_total')->notNull();
             $table->foreignId('pad_id')->notNull();
             $table->timestamps();
         });
@@ -34,6 +34,6 @@ class CreateEnsinoAulasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ensino_aulas');
+        Schema::dropIfExists('ensino_orientacoes');
     }
 }
