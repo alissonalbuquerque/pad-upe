@@ -24,8 +24,8 @@
             success: (disciplinas) => {
                 console.log(disciplinas);
                 $('#componente_curricular').append(
-                    `<option value='0' selected> Selecionar Disciplina </option>`)
-
+                    `<option disabled selected value> Selecionar Disciplina </option>`)
+                    
                 disciplinas.forEach((disciplina) => {
                     $('#componente_curricular').append(
                         `<option value=${disciplina.id}> ${disciplina.name} </option>`)
