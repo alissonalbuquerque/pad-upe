@@ -21,7 +21,9 @@ class EnsinoAulaController extends Controller
         return redirect()->route('dimensao_ensino');
     }
 
-    public function store(){
-
+    public function delete($id){
+        $model = EnsinoAula::find($id);
+        $model->delete();
+        return redirect()->route('dimensao_ensino');
     }
 }

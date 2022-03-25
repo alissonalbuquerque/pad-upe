@@ -73,6 +73,7 @@ Route::get('/pad/dimensao/pesquisa', [PesquisaController::class, 'index'])->name
 Route::get('/pad/dimensao/extensao', [ExtensaoController::class, 'index'])->name('dimensao_extensao');
 
 Route::post('/pad/dimensao/ensino/aula/create', [EnsinoAulaController::class, 'create'])->name('ensino_aula_create');
+Route::delete('/pad/dimensao/ensino/aula/delete/{id}', [EnsinoAulaController::class, 'delete'])->name('ensino_aula_delete');
 
 /** json */
 Route::get('/disciplina/{curso_id}', [DisciplinaController::class, 'getDisciplinaByCurso'])->name('get_disciplina_by_curso');

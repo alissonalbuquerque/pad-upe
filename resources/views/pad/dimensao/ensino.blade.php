@@ -52,40 +52,33 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($ensinoAula as $ensino)
+                            @foreach ($ensinoAulas as $ensinoAula)
                                 <tr>
-                                    <th class="text-center">
-                                        {{ $ensino->cod_atividade }}
-                                    </th>
-                                    <th class="text-center">
-                                        {{ $ensino->componente_curricular }}
-                                    </th>
-                                    <th class="text-center">
-                                        {{ $ensino->nivel }}
-                                    </th>
-                                    <th class="text-center">
-                                        {{ $ensino->modalidade }}
-                                    </th>
-                                    <th class="text-center">
-                                        {{ $ensino->ch_semanal }}
-                                    </th>
-                                    <th class="text-center">
-                                        {{ $ensino->ch_total }}
-                                    </th>
-                                    <th class="text-center">
-                                        {{ $ensino->pad_id }}
-                                    </th>
-                                    <th class="text-center">
-                                        <button name="del0" class='btn btn-danger glyphicon glyphicon-remove row-remove'>
-                                            <span aria-hidden="true">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                                                </svg>
-                                            </span>
-                                        </button>
-                                    </th>
+                                    <td class="text-center">
+                                        {{ $ensinoAula->cod_atividade }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ $ensinoAula->disciplina->name }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ $ensinoAula->curso->name }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ $ensinoAula::listNivel($ensinoAula->nivel) }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ $ensinoAula::listModalidade($ensinoAula->modalidade) }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ $ensinoAula->ch_semanal }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ $ensinoAula->ch_total }}
+                                    </td>
+
+                                    <td class="text-center">
+                                        @include('components.buttons.btn-delete', ['route' => route('ensino_aula_delete', ['id' => $ensinoAula->id])]);
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

@@ -2,6 +2,8 @@
 
 namespace App\Models\Tabelas\Ensino;
 
+use App\Models\Curso;
+use App\Models\Disciplina;
 use App\Queries\PlanejamentoQuery;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -99,6 +101,26 @@ class EnsinoAula extends Model
     public function curso()
     {
         return $this->belongsTo(Curso::class);
+    }
+
+    // /**
+    //  * Get Disciplina with diciplina.id = ensino_aulas.displina_id
+    //  * 
+    //  * @return Disciplina
+    //  */
+    // public function disciplina()
+    // {
+    //     return $this->belongsTo(Disciplina::class);
+    // }
+
+    /**
+     * Get Disciplina with diciplina.id = ensino_aulas.displina_id
+     * 
+     * @return Disciplina
+     */
+    public function disciplina()
+    {
+        return $this->belongsTo(Disciplina::class, 'componente_curricular');
     }
 
     /**

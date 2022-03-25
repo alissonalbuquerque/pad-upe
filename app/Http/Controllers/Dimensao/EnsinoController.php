@@ -22,19 +22,19 @@ class EnsinoController extends Controller
      */
     public function index() {
         $user = Auth::user();
-    
+
         $cursos = (new CursoQuery())->getQuery()->get();
         $niveis = EnsinoAula::listNivel();
         $modalidades = EnsinoAula::listModalidade();
-        $ensinoAula = EnsinoAula::all();
+        $ensinoAulas = EnsinoAula::all();
 
         return view('pad.dimensao.ensino', [
             'pad_id' => 1,
             'cursos' => $cursos,
             'niveis' => $niveis,
+            'ensinoAulas' => $ensinoAulas,
             'modalidades' => $modalidades,
             'index_menu' => self::MENU_PAD,
-            'ensinoAula' => $ensinoAula,
         ]);
     }
 }
