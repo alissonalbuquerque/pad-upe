@@ -26,6 +26,7 @@ class EnsinoController extends Controller
         $cursos = (new CursoQuery())->getQuery()->get();
         $niveis = EnsinoAula::listNivel();
         $modalidades = EnsinoAula::listModalidade();
+        $ensinoAula = EnsinoAula::all();
 
         return view('pad.dimensao.ensino', [
             'pad_id' => 1,
@@ -33,6 +34,7 @@ class EnsinoController extends Controller
             'niveis' => $niveis,
             'modalidades' => $modalidades,
             'index_menu' => self::MENU_PAD,
+            'ensinoAula' => $ensinoAula,
         ]);
     }
 }
