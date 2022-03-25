@@ -98,12 +98,15 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="selectCurso">CURSO</label>
+                        <input type="hidden" id="urlGetDisciplinaByCurso" value="{{ route('get_disciplina_by_curso', ['curso_id', '#']) }}">
                         <select name="curso_id" class="custom-select mr-sm-2" id="curso_id" onchange="getComponentesCurriculares()"
                             aria-label="Default select example">
+                            
                             <option selected>Selecionar Curso</option>
                             @foreach ($cursos as $curso)
                                 <option value="{{ $curso->id }}"> {{ $curso->name }}</option>
                             @endforeach
+                            
                         </select>
                     </div>
                     <div class="form-group col-md-6">
