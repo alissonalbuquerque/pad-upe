@@ -72,7 +72,8 @@ Route::get('/pad/dimensao/ensino', [EnsinoController::class, 'index'])->name('di
 Route::get('/pad/dimensao/pesquisa', [PesquisaController::class, 'index'])->name('dimensao_pesquisa');
 Route::get('/pad/dimensao/extensao', [ExtensaoController::class, 'index'])->name('dimensao_extensao');
 
-Route::get('/pad/dimensao/ensino/aula/create', [EnsinoAulaController::class, 'create'])->name('ensino_aula_create');
+Route::post('/pad/dimensao/ensino/aula/create', [EnsinoAulaController::class, 'create'])->name('ensino_aula_create');
+//Route::post('/pad/dimensao/ensino/aula/store', [EnsinoAulaController::class, 'store'])->name('ensino_aula_store');
 
 
 /** json */

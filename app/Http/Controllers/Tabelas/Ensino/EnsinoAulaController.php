@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class EnsinoAulaController extends Controller
 {
-
     /**
      * Show the form for creating a new resource.
      *
@@ -15,5 +14,9 @@ class EnsinoAulaController extends Controller
      */
     public function create(Request $request) {
         
+    }
+
+    public function store(){
+
     }
 }
