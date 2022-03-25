@@ -98,8 +98,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="selectCurso">CURSO</label>
-                        <input type="hidden" id="urlGetDisciplinaByCurso" value="{{ route('get_disciplina_by_curso', ['curso_id', '#']) }}">
-                        <select name="curso_id" class="custom-select mr-sm-2" id="curso_id" onchange="getComponentesCurriculares()"
+                        <select name="curso_id" class="custom-select mr-sm-2" id="curso_id""
                             aria-label="Default select example">
                             
                             <option selected>Selecionar Curso</option>
@@ -158,5 +157,7 @@
 @endsection
 
 @section('scripts-jquery')
+
     @include('layouts.pad-ensino-jquery.ensino-aula')
+
 @endsection
