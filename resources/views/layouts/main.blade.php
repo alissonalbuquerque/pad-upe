@@ -45,6 +45,8 @@
         </div>
     </div>
 
+
+
     <footer class="pt-3 my-3 text-center text-muted align-items-center border-top">
         Copyright &copy;2022. Universidade de Pernambuco - Todos os direitos reservados
     </footer>
@@ -76,5 +78,8 @@
     @endif
 
     <script src="{{ asset('js/forms.js') }}"></script>
+
+    @section('scripts-jquery')
+    @show
 </body>
 </html>

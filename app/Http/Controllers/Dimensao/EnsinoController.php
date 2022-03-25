@@ -21,12 +21,12 @@ class EnsinoController extends Controller
      */
     public function index() {
         $user = Auth::user();
-         
+    
         $cursos = (new CursoQuery())->getQuery()->get();
         return view('pad.dimensao.ensino', [
             'index_menu' => self::MENU_PAD,
             'cursos' => $cursos,
+            'pad_id' => 1
         ]);
     }
-
 }
