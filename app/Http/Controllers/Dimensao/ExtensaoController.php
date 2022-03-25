@@ -13,6 +13,6 @@ class ExtensaoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        return view();
+        return view('pad.dimensao.extensao');
     }
 }

@@ -13,7 +13,7 @@ class EnsinoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        return view();
+        return view('pad.dimensao.ensino');
     }
-    
+
 }
