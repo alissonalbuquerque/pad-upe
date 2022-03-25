@@ -54,7 +54,7 @@ Route::post('/pad/store', [PADController::class, 'store'])->name('pad_store');
 Route::get('/pad/edit/{id}', [PADController::class, 'edit'])->name('pad_edit');
 Route::post('/pad/update/{id}', [PADController::class, 'update'])->name('pad_update');
 Route::delete('/pad/delete/{id}', [PADController::class, 'destroy'])->name('pad_delete');
-
+Route::get('/pad/anexo', [PADController::class, 'anexo'])->name('pad_anexo');
 
 Route::get('/curso/index', [CursoController::class, 'index'])->name('curso_index');
 Route::get('/curso/create', [CursoController::class, 'create'])->name('curso_create');
