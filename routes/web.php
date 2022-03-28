@@ -11,6 +11,7 @@ use App\Http\Controllers\DisciplinaController;
 use App\Http\Controllers\UnidadeController;
 use App\Http\Controllers\PADController;
 use App\Http\Controllers\Tabelas\Ensino\EnsinoAulaController;
+use App\Http\Controllers\UserController;
 use App\Models\Disciplina;
 use Illuminate\Support\Facades\Route;
 
@@ -74,6 +75,9 @@ Route::get('/pad/dimensao/extensao', [ExtensaoController::class, 'index'])->name
 
 Route::post('/pad/dimensao/ensino/aula/create', [EnsinoAulaController::class, 'create'])->name('ensino_aula_create');
 Route::delete('/pad/dimensao/ensino/aula/delete/{id}', [EnsinoAulaController::class, 'delete'])->name('ensino_aula_delete');
+
+Route::get('/user/edit/perfil', [UserController::class, 'editPerfil'])->name('edit_perfil');
+Route::post('/user/update/perfil', [UserController::class, 'updatePerfil'])->name('update_perfil');
 
 /** json */
 Route::get('/disciplina/{curso_id}', [DisciplinaController::class, 'getDisciplinaByCurso'])->name('get_disciplina_by_curso');

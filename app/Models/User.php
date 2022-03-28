@@ -6,6 +6,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -45,6 +47,30 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime'
     ];
+
+    /** 
+     * Validar os campos de acordo com as regras implementadas
+     * 
+     */
+    public static function validator($attributes) {
+
+        $rules = [
+            'email' => ['required', 'email', ],
+            'name' => ['required', ]
+        ];
+
+        $messages = [
+            // 'unique' => "O :attribute já está registrado no sistema",
+            'required' => "O :attribute precisa ser preenchido",
+        ];
+
+        try {
+            return Validator::make($attributes, $rules, $messages);
+        } catch(ValidationException $exception) {
+
+        }
+
+    }
 
     /**
      * Get Curso with curso.id = user.curso_id
@@ -102,5 +128,4 @@ class User extends Authenticatable
     {
         return $this->name;
     }
-
 }
