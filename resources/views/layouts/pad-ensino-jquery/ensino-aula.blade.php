@@ -34,8 +34,4 @@
         })
     })
 
-    function saveNew(){
-        alert("sdsdsa");
-    }
-
 </script>
