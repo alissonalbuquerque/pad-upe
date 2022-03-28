@@ -30,4 +30,20 @@ class UserController extends Controller
         return redirect()->route('edit_perfil')->with('success', 'Salvo com sucesso!');
 
     }
+
+    public function updatePassword(Request $request) {
+
+        $validator = User::validator($request->all(), true);
+
+        // if($validator->fails()) {
+        //     return redirect()->back()->withErrors($validator->errors());
+        // }
+
+        // $user = User::find(Auth::user()->id);
+        // $user->fill($request->all());
+        // $user->save();
+        
+        // return redirect()->route('edit_perfil')->with('success', 'Salvo com sucesso!');
+
+    }
 }

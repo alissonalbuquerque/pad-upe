@@ -78,6 +78,7 @@ Route::delete('/pad/dimensao/ensino/aula/delete/{id}', [EnsinoAulaController::cl
 
 Route::get('/user/edit/perfil', [UserController::class, 'editPerfil'])->name('edit_perfil');
 Route::post('/user/update/perfil', [UserController::class, 'updatePerfil'])->name('update_perfil');
+Route::post('/user/update/password', [UserController::class, 'updatePassword'])->name('update_password');
 
 /** json */
 Route::get('/disciplina/{curso_id}', [DisciplinaController::class, 'getDisciplinaByCurso'])->name('get_disciplina_by_curso');

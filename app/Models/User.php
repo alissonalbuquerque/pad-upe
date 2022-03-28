@@ -52,12 +52,19 @@ class User extends Authenticatable
      * Validar os campos de acordo com as regras implementadas
      * 
      */
-    public static function validator($attributes) {
+    public static function validator($attributes, $rule_password = false) {
 
         $rules = [
             'email' => ['required', 'email', ],
             'name' => ['required', ]
         ];
+
+        if($rule_password) {
+            $rules = [
+                'password' => ['required', 'min:6'],
+                'password_confirmation' => [],
+            ];
+        }
 
         $messages = [
             // 'unique' => "O :attribute já está registrado no sistema",
