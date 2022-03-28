@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Campus;
 use App\Models\Curso;
+use App\Models\Unidade;
+use App\Models\Util\MenuItemsAdmin;
 use Illuminate\Http\Request;
 
 class CursoController extends Controller
@@ -14,7 +17,17 @@ class CursoController extends Controller
      */
     public function index()
     {
-        return view('curso.index', ['cursos' => Curso::all()]);
+        $campusWithCursos = [];
+        $allCampus = Campus::all();
+        foreach($allCampus as $campus){
+            $campus->cursos = Curso::where('campus_id', '=', $campus->id)->get();
+            array_push($campusWithCursos, $campus);
+        }
+
+        return view('curso.index', [
+            'campusWithCursos' => $campusWithCursos,
+            'index_menu' => MenuItemsAdmin::CURSOS
+        ]);
     }
 
     /**

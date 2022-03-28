@@ -6,6 +6,7 @@ use App\Models\Campus;
 use App\Models\Unidade;
 use App\Queries\CampusQuery;
 use Illuminate\Http\Request;
+use App\Models\Util\MenuItemsAdmin;
 
 class CampusController extends Controller
 {
@@ -15,8 +16,8 @@ class CampusController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
-        return view('campus.index');
+    {
+        return view('campus.index', ['index_menu' => MenuItemsAdmin::CAMPUS]);
     }
 
     /**
@@ -25,7 +26,7 @@ class CampusController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {   
+    {
         return view('campus.create', ['unidades' => Unidade::all()]);
     }
 
@@ -36,7 +37,7 @@ class CampusController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
+    {
         $model = new Campus();
         $model->name = $request->name;
         $model->unidade_id = $request->unidade_id;
@@ -90,8 +91,7 @@ class CampusController extends Controller
 
 
     public function findByUnidade(int $unidade_id)
-    {   
+    {
         return CampusQuery::whereUnidadeId($unidade_id)->orderBy('name')->get();
     }
-
 }

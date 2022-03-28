@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Unidade;
+use App\Models\Util\MenuItemsAdmin;
 use App\Queries\UnidadeQuery;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,10 @@ class UnidadeController extends Controller
      */
     public function index()
     {
-        return view('unidade.index', ['unidades' => Unidade::all()]);
+        return view('unidade.index', [
+            'unidades' => Unidade::all(),
+            'index_menu' => MenuItemsAdmin::UNIDADES
+        ]);
     }
 
     /**
@@ -37,7 +41,7 @@ class UnidadeController extends Controller
     public function store(Request $request)
     {
         // dd($request);
-        
+
         return redirect('/dashboard');
     }
 
@@ -59,7 +63,7 @@ class UnidadeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {   
+    {
         $model = Unidade::find($id);
         return view('unidade.update', ['unidade' => $model]);
     }
@@ -72,7 +76,7 @@ class UnidadeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {   
+    {
         $model = Unidade::find($id);
         $model->name = $request->name;
         $model->save();
@@ -91,7 +95,7 @@ class UnidadeController extends Controller
         $model = Unidade::find($id);
         $model->delete();
 
-        
+
         return redirect('/unidade/index');
     }
 
