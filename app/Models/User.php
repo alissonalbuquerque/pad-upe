@@ -124,6 +124,13 @@ class User extends Authenticatable
     /**
      * @return string
      */
+    public function attributeName(string $attribute) {
+        return $this->getTable() . '-' . $attribute;
+    }
+
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->name;
