@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class Campus extends Model
 {
@@ -39,5 +41,23 @@ class Campus extends Model
     public function __toString()
     {
         return $this->name;
+    }
+
+    public static function validator($attributes, $rule_password = false) {
+
+        $rules = [
+            'name' => ['required', ]
+        ];
+
+        $messages = [
+            // 'unique' => "O :attribute já está registrado no sistema",
+            'required' => "O :attribute precisa ser preenchido",
+        ];
+
+        try {
+            return Validator::make($attributes, $rules, $messages);
+        } catch(ValidationException $exception) {
+
+        }
     }
 }

@@ -198,9 +198,9 @@ h2 {
     font-family: Arial;
     font-weight: bold;
     text-align: left;
-  }
-  
-  h3 {
+}
+
+h3 {
     margin-top: -10px;
     margin-bottom: -10px;
     font-size: 22px;
@@ -208,7 +208,7 @@ h2 {
     font-family: Arial;
     font-weight: bold;
     text-align: left;
-  }
+}
 
 /* Stylo de formatação das barras divs sub e infe. */
 .stylo {
@@ -216,4 +216,4 @@ h2 {
     background: -webkit-gradient(linear, left top, right top, from(#ed1c24), to(#1b3e70)) no-repeat;
     background: -moz-linear-gradient(left, #ed1c24, #1b3e70);
     filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='#ED1C24', EndColorStr='#1B3E70');
-  }
+}

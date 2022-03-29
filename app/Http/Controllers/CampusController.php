@@ -17,7 +17,11 @@ class CampusController extends Controller
      */
     public function index()
     {
-        return view('campus.index', ['index_menu' => MenuItemsAdmin::CAMPUS]);
+        $campus = Campus::all();
+        return view('campus.index', [
+            'index_menu' => MenuItemsAdmin::CAMPUS,
+            'campus' =>  $campus
+        ]);
     }
 
     /**
@@ -27,7 +31,10 @@ class CampusController extends Controller
      */
     public function create()
     {
-        return view('campus.create', ['unidades' => Unidade::all()]);
+        return view('campus.create', [
+            'unidades' => Unidade::all(),
+            'index_menu' => MenuItemsAdmin::CAMPUS,
+        ]);
     }
 
     /**
