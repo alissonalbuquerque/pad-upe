@@ -70,7 +70,7 @@ class Unidade extends Model
     public static function validator($attributes, $rule_password = false) {
 
         $rules = [
-            'name' => ['min:8', 'max:255'],
+            'name' => ['min:3', 'max:255'],
         ];
 
         $messages = [
