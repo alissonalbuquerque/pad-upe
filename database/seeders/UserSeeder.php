@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('@professor'),
                 'document' => "00000000{$id}",
                 'status' => User::STATUS_ACTIVE,
-                'unidade_id' => 3,
+                'campus_id' => 3,
                 'curso_id' => 1,
             ]);
         }
@@ -44,7 +44,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('12345678'),
             'document' => "100000000",
             'status' => User::STATUS_ACTIVE,
-            'unidade_id' => NULL,
+            'campus_id' => NULL,
             'curso_id' => NULL,
         ]);
     }
