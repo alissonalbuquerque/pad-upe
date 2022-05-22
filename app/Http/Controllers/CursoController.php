@@ -37,7 +37,12 @@ class CursoController extends Controller
      */
     public function create()
     {
-        return view('curso.create');
+        $allCampus = Campus::all();
+
+        return view('curso.create', [
+            'allCampus' => $allCampus,
+            'index_menu' => MenuItemsAdmin::CURSOS
+        ]);
     }
 
     /**
@@ -48,7 +53,16 @@ class CursoController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        $model = new Curso();
+        $validator = Curso::validator($request->all());
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->errors())->withInput();
+        }
+
+        $model->fill($request->all());
+        $model->save();
+        return redirect()->route('curso_index')->with('success', 'Salvo com sucesso!');
     }
 
     /**
@@ -70,7 +84,12 @@ class CursoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $curso = Curso::findOrFail($id);
+        return view('curso.update', [
+            'allCampus' => Campus::all(),
+            'index_menu' => MenuItemsAdmin::CAMPUS,
+            'curso' => $curso,
+        ]);
     }
 
     /**
@@ -82,7 +101,16 @@ class CursoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $model = Curso::findOrFail($id);
+        $validator = Curso::validator($request->all());
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->errors());
+        }
+
+        $model->fill($request->all());
+        $model->save();
+        return redirect()->route('curso_index')->with('success', 'Atualizado com sucesso!');
     }
 
     /**
@@ -93,6 +121,8 @@ class CursoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $model = Curso::find($id);
+        $model->delete();
+        return redirect()->route('curso_index')->with('success', 'Excluído com sucesso!');
     }
 }

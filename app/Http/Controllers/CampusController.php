@@ -7,6 +7,8 @@ use App\Models\Unidade;
 use App\Queries\CampusQuery;
 use Illuminate\Http\Request;
 use App\Models\Util\MenuItemsAdmin;
+use Illuminate\Log\Logger;
+
 
 class CampusController extends Controller
 {
@@ -46,9 +48,15 @@ class CampusController extends Controller
     public function store(Request $request)
     {
         $model = new Campus();
-        $model->name = $request->name;
-        $model->unidade_id = $request->unidade_id;
+        $validator = Campus::validator($request->all());
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->errors())->withInput();
+        }
+
+        $model->fill($request->all());
         $model->save();
+        return redirect()->route('campus_index')->with('success', 'Salvo com sucesso!');
     }
 
     /**
@@ -70,7 +78,12 @@ class CampusController extends Controller
      */
     public function edit($id)
     {
-        //
+        $campus = Campus::findOrFail($id);
+        return view('campus.update', [
+            'unidades' => Unidade::all(),
+            'index_menu' => MenuItemsAdmin::CAMPUS,
+            'campus' => $campus,
+        ]);
     }
 
     /**
@@ -82,7 +95,16 @@ class CampusController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $model = Campus::findOrFail($id);
+        $validator = Campus::validator($request->all());
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->errors());
+        }
+
+        $model->fill($request->all());
+        $model->save();
+        return redirect()->route('campus_index')->with('success', 'Atualizado com sucesso!');
     }
 
     /**
@@ -93,9 +115,10 @@ class CampusController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $model = Campus::find($id);
+        $model->delete();
+        return redirect()->route('campus_index')->with('success', 'Excluído com sucesso!');
     }
-
 
     public function findByUnidade(int $unidade_id)
     {

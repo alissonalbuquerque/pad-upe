@@ -29,7 +29,10 @@ class UnidadeController extends Controller
      */
     public function create()
     {
-        return view('unidade.create');
+        return view('unidade.create', [
+            'unidades' => Unidade::all(),
+            'index_menu' => MenuItemsAdmin::UNIDADES
+        ]);
     }
 
     /**
@@ -40,9 +43,16 @@ class UnidadeController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
+        $model = new Unidade();
+        $validator = Unidade::validator($request->all());
 
-        return redirect('/dashboard');
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->errors())->withInput();
+        }
+
+        $model->fill($request->all());
+        $model->save();
+        return redirect()->route('unidade_index')->with('success', 'Salvo com sucesso!');
     }
 
     /**
@@ -65,7 +75,10 @@ class UnidadeController extends Controller
     public function edit($id)
     {
         $model = Unidade::find($id);
-        return view('unidade.update', ['unidade' => $model]);
+        return view('unidade.update', [
+            'unidade' => $model,
+            'index_menu' => MenuItemsAdmin::UNIDADES
+        ]);
     }
 
     /**
@@ -77,11 +90,16 @@ class UnidadeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $model = Unidade::find($id);
-        $model->name = $request->name;
-        $model->save();
+        $model = Unidade::findOrFail($id);
+        $validator = Unidade::validator($request->all());
 
-        return redirect('/unidade/index');
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->errors());
+        }
+
+        $model->fill($request->all());
+        $model->save();
+        return redirect()->route('unidade_index')->with('success', 'Atualizado com sucesso!');
     }
 
     /**
@@ -94,9 +112,7 @@ class UnidadeController extends Controller
     {
         $model = Unidade::find($id);
         $model->delete();
-
-
-        return redirect('/unidade/index');
+        return redirect()->route('unidade_index')->with('success', 'Excluído com sucesso!');
     }
 
     /**

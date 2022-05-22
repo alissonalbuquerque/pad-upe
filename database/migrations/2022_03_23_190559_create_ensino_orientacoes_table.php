@@ -24,6 +24,7 @@ class CreateEnsinoOrientacoesTable extends Migration
             $table->integer('ch_semanal')->notNull();
             $table->foreignId('pad_id')->notNull();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

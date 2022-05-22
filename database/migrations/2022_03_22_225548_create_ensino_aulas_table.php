@@ -24,6 +24,7 @@ class CreateEnsinoAulasTable extends Migration
             $table->integer('ch_total')->notNull();
             $table->foreignId('pad_id')->notNull();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

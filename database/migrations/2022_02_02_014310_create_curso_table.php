@@ -18,6 +18,7 @@ class CreateCursoTable extends Migration
             $table->string('name');
             $table->foreignId('campus_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

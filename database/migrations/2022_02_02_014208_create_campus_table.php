@@ -18,6 +18,7 @@ class CreateCampusTable extends Migration
             $table->string('name');
             $table->foreignId('unidade_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

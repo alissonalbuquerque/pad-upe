@@ -25,13 +25,13 @@
         </a>
     </li>
     <li class="nav-item">
-        <a href="{{ route('dashboard') }}" class="nav-link {{ ((($index_menu ?? 0) == 0 ? 0: $index_menu ) == 4? "active": "") }}">
+        <a href="{{ route('diretor_index') }}" class="nav-link {{ ((($index_menu ?? 0) == 0 ? 0: $index_menu ) == 4? "active": "") }}">
             <i class="bi bi-people-fill"></i>
-            Diretorias
+            Diretores
         </a>
     </li>
     <li class="nav-item">
-        <a href="{{ route('dashboard') }}" class="nav-link {{ ((($index_menu ?? 0) == 0 ? 0: $index_menu ) == 5? "active": "") }}">
+        <a href="{{ route('coordenador_index') }}" class="nav-link {{ ((($index_menu ?? 0) == 0 ? 0: $index_menu ) == 5? "active": "") }}">
             <i class="bi bi-person-video3"></i>
             Coordenadores
         </a>

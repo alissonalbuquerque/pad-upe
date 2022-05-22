@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->foreignId('unidade_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

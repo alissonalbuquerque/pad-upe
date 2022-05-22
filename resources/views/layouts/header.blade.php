@@ -1,4 +1,4 @@
-<header class="navbar p-0 shadow">
+<header class="navbar p-0">
     <div class="header-left-side">
         <a class="navbar-brand p-3" href="#">
             <img src="http://www.avaliacaodocente.upe.br/assets/img/logo-upe.png" class="img-fluid mr-3" width="128"

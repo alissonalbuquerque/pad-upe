@@ -18,6 +18,7 @@ class CreateDisciplinasTable extends Migration
             $table->string('name');
             $table->foreignId('curso_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

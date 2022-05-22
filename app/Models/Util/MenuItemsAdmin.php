@@ -10,5 +10,5 @@ class MenuItemsAdmin
     const CURSOS = 2;
     const UNIDADES = 3;
     const DIRETORES = 4;
-    const CORDENADORES = 5;
+    const COORDENADORES = 5;
 }

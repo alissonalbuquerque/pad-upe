@@ -12,8 +12,18 @@
     ])
 @endsection
 @section('body')
-    <table class="table">
-        <thead>
+    @include('components.alerts')
+    <div class="d-flex justify-content-between align-items-center border-bottom">
+        <h2 class="">TODAS AS UNIDADES</h2>
+        @include('components.buttons.btn-create', [
+            'route' => route('unidade_create'),
+            'css' => '',
+            'text' => 'Nova Unidade',
+            'id' => '',
+        ])
+    </div>
+    <table class="table mt-5">
+        <thead class="thead-dark">
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
@@ -29,8 +39,9 @@
                         @include('components.buttons.btn-edit', [
                             'route' => route('unidade_edit', ['id' => $unidade->id]),
                         ])
-                        @include('components.buttons.btn-delete', [
+                        @include('components.buttons.btn-soft-delete', [
                             'route' => route('unidade_delete', ['id' => $unidade->id]),
+                            'modal_id' => $unidade->id,
                         ])
                     </td>
                 </tr>

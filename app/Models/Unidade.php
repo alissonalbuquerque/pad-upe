@@ -3,17 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class Unidade extends Model
 {
-
+    use SoftDeletes;
     /**
      * References table unidade
      * 
      * @var string
      */
     protected $table = "unidade";
-
 
     /**
      * The attributes that are mass assignable.
@@ -63,5 +65,25 @@ class Unidade extends Model
         ];
 
         return $value != null ? $values[$value] : $values;
+    }
+
+    public static function validator($attributes, $rule_password = false) {
+
+        $rules = [
+            'name' => ['min:8', 'max:255'],
+        ];
+
+        $messages = [
+            // 'unique' => "O :attribute já está registrado no sistema",
+            'name.min' => "O campo não tem o mínimo de caracteres permitido",
+            'name.max' => "O campo atingiu o máximo de caracteres permitido",
+        ];
+
+        try {
+            //return  $request->validate()
+            return Validator::make($attributes, $rules, $messages);
+        } catch(ValidationException $exception) {
+
+        }
     }
 }

@@ -12,10 +12,43 @@
     ])
 @endsection
 @section('body')
-    @include('components.buttons.btn-create', [
-        'route' => route('campus_create'),
-        'css' => '',
-        'text' => 'Novo Campus',
-        'id' => ''
-    ])
+    @include('components.alerts')
+    <div class="d-flex justify-content-between align-items-center border-bottom">
+        <h2 class="">TODOS OS CAMPUS</h2>
+        @include('components.buttons.btn-create', [
+            'route' => route('campus_create'),
+            'css' => '',
+            'text' => 'Novo Campus',
+            'id' => '',
+        ])
+    </div>
+
+    <!-- Tabela -->
+    <div class="table-responsive mt-5">
+        <table class="table table-hover table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Unidade</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($campus as $camp)
+                    <tr>
+                        <td>{{ $camp->name }}</td>
+                        <td>{{ $camp->unidade }}</td>
+                        <td>
+                            @include('components.buttons.btn-edit', [
+                                'route' => route('campus_edit', ['id' => $camp->id]),
+                            ])
+                            @include('components.buttons.btn-soft-delete', [
+                                'modal_id' => $camp->id, 'route' => route('campus_delete', ['id' => $camp->id])
+                            ])
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 @endsection

@@ -1,3 +1,11 @@
+:root{
+    --main-bg-color: pink;
+}
+
+*{
+    font-family: "Electrolize", sans-serif;
+}
+
 /* content que contem o preview do perfil */
 .content {
     position: relative;
@@ -5,53 +13,62 @@
     width: 100%;
     padding: 18px 6% 10px 6%;
     margin: 0 0 30px 0;
-    border-bottom: 1px solid #dee2e6!important;
+    border-bottom: 1px solid #dee2e6 !important;
+}
+body{
+    position: relative;
 }
 
-header{
-    background-color: #DFDFDF;
+header {
+    background-color: #dfdfdf;
     margin-bottom: 30px;
+    -webkit-box-shadow: 0px 1px 6px 0px rgba(50, 50, 50, 0.5);
+    -moz-box-shadow: 0px 1px 6px 0px rgba(50, 50, 50, 0.5);
+    box-shadow: 0px 1px 6px 0px rgba(50, 50, 50, 0.5);
+    position: sticky!important;
 }
 
-header .header-left-side{
+header .header-left-side {
     width: 60vw;
-    font-family: 'Electrolize', sans-serif;
-    background: linear-gradient(110deg, #F7F7F7 60%, #DFDFDF 60%);
+    background: linear-gradient(110deg, #f7f7f7 60%, #dfdfdf 60%);
     padding-left: 15vh;
 }
 
-header .header-right-side{
+header .header-right-side {
     padding-right: 15vh;
 }
 
-.main-container{
+.main-container {
     display: flex;
     flex-direction: row;
 }
 
-main{
+main {
     min-height: 70vh;
+    margin-right: 15vh!important;
+    /* max-height: 70vh; */
 }
 
-nav{
+nav {
     margin-left: 13vh;
     margin-right: 1em;
-    border-radius: .5em;
-    border: 1px solid #dee2e6!important;
+    border-radius: 0.5em;
+    border: 1px solid #dee2e6 !important;
 }
 
-nav ul li a{
+nav ul li a {
     color: #17223b;
     font-size: large;
 }
 
-nav ul .active{
-    background-color: #DFDFDF!important;
-    color: #17223b!important;
+nav ul .active {
+    background-color: #dfdfdf !important;
+    color: #17223b !important;
     font-weight: bold;
+    /* border: 1px solid #007bff; */
 }
 
-nav .content-user-info{
+nav .content-user-info {
     font-weight: bold;
 }
 

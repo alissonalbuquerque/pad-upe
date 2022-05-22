@@ -4,12 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 class Campus extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     /**
      * References table campus
@@ -46,15 +48,19 @@ class Campus extends Model
     public static function validator($attributes, $rule_password = false) {
 
         $rules = [
-            'name' => ['required', ]
+            'name' => ['min:8', 'max:255'],
+            'unidade_id' => ['required']
         ];
 
         $messages = [
             // 'unique' => "O :attribute já está registrado no sistema",
-            'required' => "O :attribute precisa ser preenchido",
+            'name.min' => "O campo não tem o mínimo de caracteres permitido",
+            'name.max' => "O campo atingiu o máximo de caracteres permitido",
+            'required' => "O campo precisa ser preenchido",
         ];
 
         try {
+            //return  $request->validate()
             return Validator::make($attributes, $rules, $messages);
         } catch(ValidationException $exception) {
 

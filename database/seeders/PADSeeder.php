@@ -19,6 +19,7 @@ class PADSeeder extends Seeder
         foreach($users as $user) {
             PAD::create([
                 'user_id' => $user->id,
+                'licenca_de_acor_legais' => null
             ]);
         }
         

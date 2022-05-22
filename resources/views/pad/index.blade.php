@@ -37,7 +37,7 @@
         </div>
         <div class="btn-group mr-2" role="group" aria-label="Second group">
             <a href="{{ route('dimensao_extensao') }}" class="btn-pad-dimensao">
-                <i class="bi bi-person-plus-fill"></i>
+                <i class="bi bi-clipboard-data-fill"></i>
                 <h2>EXTENSÃO</h2>
             </a>
         </div>

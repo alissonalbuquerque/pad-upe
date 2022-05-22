@@ -21,6 +21,7 @@ class CreatePlanejamentosTable extends Migration
             $table->integer('ch_semanal')->nullable();
             $table->integer('ch_maxima')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
