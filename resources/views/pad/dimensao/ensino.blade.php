@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Unidade')
+@section('title', 'Ensino')
 @section('header')
     @include('layouts.header', [
         'user' => Auth::user(),
@@ -13,147 +13,109 @@
 @endsection
 @section('body')
 
-    <div class="px-4 md:px-10 py-4 md:py-7 bg-gray-100 rounded-tl-lg rounded-tr-lg">
-        <h5 class="border-bottom">1 - ENSINO (AULAS EM COMPONENTES CURRICULARES)</h5>
-    </div>
-    <hr>
     <div class="container">
-        <div class="comp" id="compbord">
-            <div class="row clearfix">
-                <div class="col-md-12 table-responsive">
-                    <table class="table table-borderless table-hover table-sortable" id="tab_logic">
-                        <thead>
-                            <tr>
-                                <th class="text-center">
-                                    CÓDIGO ATIVIDADE
-                                </th>
-                                <th class="text-center">
-                                    COMPONENTE CURRICULAR
-                                    (NOME DO COMPONENTE)
-                                </th>
-                                <th class="text-center">
-                                    CURSO
-                                </th>
-                                <th class="text-center">
-                                    NÍVEL
-                                </th>
-                                <th class="text-center">
-                                    MODALIDADE
-                                </th>
-                                <th class="text-center">
-                                    CH TOTAL
-                                </th>
-                                <th class="text-center">
-                                    CH SEMANAL
-                                </th>
-                                <th class="text-center"
-                                    style="border-top: 1px solid #ffffff; border-right: 1px solid #ffffff;">
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($ensinoAulas as $ensinoAula)
-                                <tr>
-                                    <td class="text-center">
-                                        {{ $ensinoAula->cod_atividade }}
-                                    </td>
-                                    <td class="text-center">
-                                        {{ $ensinoAula->disciplina->name }}
-                                    </td>
-                                    <td class="text-center">
-                                        {{ $ensinoAula->curso->name }}
-                                    </td>
-                                    <td class="text-center">
-                                        {{ $ensinoAula::listNivel($ensinoAula->nivel) }}
-                                    </td>
-                                    <td class="text-center">
-                                        {{ $ensinoAula::listModalidade($ensinoAula->modalidade) }}
-                                    </td>
-                                    <td class="text-center">
-                                        {{ $ensinoAula->ch_semanal }}
-                                    </td>
-                                    <td class="text-center">
-                                        {{ $ensinoAula->ch_total }}
-                                    </td>
 
-                                    <td class="text-center">
-                                        @include('components.buttons.btn-delete', ['route' => route('ensino_aula_delete', ['id' => $ensinoAula->id])]);
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+        @include('components.pad.dropdown-eixo', ['divs' => $divs])
+
+        <div id="ensino_aulas" class="">
+            <div>
+                <div class="mb-3">
+                    <h3 class="h3"> Ensino - Aulas </h3 class="h3">
                 </div>
+                <form action="" method="post" id="ensino_aulas-form" class="">
+
+                    <div class="row">
+                        
+                        <input type="hidden" name="pad_id" value={{1}}>
+
+                        <div class="mb-3 col-sm-2">
+                            <label class="form-label" for="ensino_aulas-cod_atividade">Cód. Atividade</label>
+                            <input class="form-control" type="text" name="ensino_aulas-cod_atividade" id="ensino_aulas-cod_atividade" disabled readonly>
+                        </div>
+
+                        <div class="mb-3 col-sm-5">
+                            <label class="form-label" for="ensino_aulas-componente_curricular">Componente Curricular</label>
+                            <input class="form-control" type="text" name="ensino_aulas-componente_curricular" id="ensino_aulas-componente_curricular">
+                        </div>
+
+                        <div class="mb-3 col-sm-5">
+                            <label class="form-label" for="ensino_aulas-curso">Curso</label>
+                            <input class="form-control" type="text" name="ensino_aulas-curso" id="ensino_aulas-curso">
+                        </div>
+
+                        <div class="mb-3 col-sm-3">
+                            <label class="form-label" for="ensino_aulas-nivel">Nível</label>
+                            <select class="form-select" name="ensino_aulas-nivel" id="ensino_aulas-nivel">
+                                <option selected value="0">Selecione um Nível</option>
+                                <option value="1">Graduação</option>
+                                <option value="2">Pós-Graduação</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3 col-sm-3">
+                            <label class="form-label" for="ensino_aulas-modalidade">Modalidade</label>
+                            <select class="form-select" name="ensino_aulas-modalidade" id="ensino_aulas-modalidade">
+                                <option selected value="0">Selecione uma Modalidade</option>
+                                <option value="1">Presencial</option>
+                                <option value="2">Remoto</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3 col-sm-2">
+                            <label class="form-label" for="ensino_aulas-ch_total">CH. Total</label>
+                            <input class="form-control" type="number" name="ensino_aulas-ch_total" id="ensino_aulas-ch_total">
+                        </div>
+
+                        <div class="mb-3 col-sm-2">
+                            <label class="form-label" for="ensino_aulas-ch_semanal">CH. Semanal</label>
+                            <input class="form-control" type="number" name="ensino_aulas-ch_semanal" id="ensino_aulas-ch_semanal">
+                        </div>
+                    </div>
+
+                    <div class="mt-1 text-end">
+                        <button type="submit" class="btn btn-success rounded">Cadastrar</button>
+                    </div>
+                    
+                </form>
             </div>
-            <form method="POST" action="{{ route('ensino_aula_create') }}" class="form-add-new-dimencao">
-                @csrf
-                @method('POST')
-                <div class="form-group" style="width: 200px;">
-                    <label for="inputNameProfessor">CÓDIGO ATIVIDADE</label>
-                    <input type="text" name="cod_atividade" class="form-control" disable id="cod_atividade"
-                        placeholder="Automomático  " disabled>
-                </div><br>
-                <div class="form-row">
 
-                    <div class="form-group col-md-6">
-                        <label for="selectCurso">CURSO</label>
-                        <select name="curso_id" class="custom-select mr-sm-2" id="curso_id" required
-                            aria-label="Default select example">
-
-                            <option selected>Selecionar Curso</option>
-                            @foreach ($cursos as $curso)
-                                <option value="{{ $curso->id }}"> {{ $curso->name }}</option>
-                            @endforeach
-
-                        </select>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="selectCurso">COMPONENTE CURRICULAR</label>
-                        <select name="componente_curricular" class="custom-select mr-sm-2" id="componente_curricular"
-                            aria-label="Default select example" required>
-                            <option></option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="selectCurso">NÍVEL</label>
-                        <select class="custom-select mr-sm-2" name="nivel" id="nivel" aria-label="Default select example" required>
-                            <option disabled selected value> Selecionar </option>
-                            @foreach ($niveis as $key => $nivel)
-                                <option value="{{ $key }}"> {{ $nivel }}</option>
-                            @endforeach
-
-                        </select>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="selectCurso">Modalidade</label>
-                        <select class="custom-select mr-sm-2" name="modalidade" id="modalidade" required
-                            aria-label="Default select example">
-                            <option disabled selected value> Selecionar</option>
-                            @foreach ($modalidades as $key => $modalidade)
-                                <option value="{{ $key }}"> {{ $modalidade }}</option>
-                            @endforeach
-
-                        </select>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label for="selectCurso">CARGA HORÁRIA SEMANAL</label>
-                        <input type="number" name="ch_semanal" id="ch_semanal" required>
-                    </div>
-                    <div class="form-group col-md-2">
-                        <label for="selectCurso">CARGA HORÁRIA TOTAL</label>
-                        <input type="number" name="ch_total" id="ch_semanal" required>
-                    </div>
-                    <input type="hidden" value="{{ $pad_id }}" name="pad_id" id="pad_id">
-                </div>
-                <button type="submit" class="btn btn-success"> Salvar</button>
-
-            </form>
+            <div>
+                LISTA
+            </div>
         </div>
+
+        <div id="ensino_coordenacao_disciplina" class="">
+            <h1> ensino_coordenacao_disciplina <h1>
+        </div>
+
+        <div id="ensino_orientacao" class="">
+            <h1>ensino_orientacao</h1>
+        </div>
+
+        <div id="ensino_supervisao" class="">
+            <h1>ensino_supervisao</h1>
+        </div>
+
+        <div id="ensino_atendimento_discente" class="">
+            <h1>ensino_atendimento_discente</h1>
+        </div>
+
+        <div id="ensino_projeto" class="">
+            <h1>ensino_projeto</h1>
+        </div>
+
+        <div id="ensino_participacao" class="">
+            <h1>ensino_participacao</h1>
+        </div>
+
+        <div id="ensino_coordenacao_docente" class="">
+            <h1>ensino_coordenacao_docente</h1>
+        </div>
+        
     </div>
 @endsection
 
 @section('scripts-jquery')
-
     @include('layouts.pad-ensino-jquery.ensino-aula')
-
+    @include('components.pad.dropdown-eixo-script', ['divs' => $divs])
 @endsection
