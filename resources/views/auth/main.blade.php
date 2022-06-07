@@ -1,20 +1,18 @@
 <!doctype html>
-<html lang="pt">
-
+<html lang="pt-br">
 <head>
-
-    <title>Avaliação de Desempanho Docente - PAD</title>
+    <title>PAD - Plano de Avaliação Docente </title>
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     @include('components.frontend-libs')
 
-    <!-- Estilos customizados para esse template -->
     <link rel="stylesheet" href="{{ asset('css/auth.css') }}" />
 </head>
 
 <body>
+
     <header>
         <div class="navbar shadow-sm" alt="Max-width 100%">
             <div class="container d-flex justify-content-between">
@@ -35,9 +33,10 @@
         <h3>Plano de Atividades Docentes - PAD</h3>
     </div>
 
-    <section class="ftco-section">
-        {{ $content }}
-    </section>
+    <div class="container">
+        @section('body')
+        @show
+    </div>
 
     <div class="stylo p-2"> </div>
 
