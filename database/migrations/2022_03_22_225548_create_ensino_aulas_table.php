@@ -15,14 +15,14 @@ class CreateEnsinoAulasTable extends Migration
     {
         Schema::create('ensino_aulas', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('pad_id')->notNull();
             $table->string('cod_atividade')->notNull();
             $table->string('componente_curricular')->notNull();
-            $table->foreignId('curso_id')->notNull();
+            $table->string('curso')->notNull();
             $table->tinyInteger('nivel')->notNull();
             $table->tinyInteger('modalidade')->notNull();
             $table->integer('ch_semanal')->notNull();
             $table->integer('ch_total')->notNull();
-            $table->foreignId('pad_id')->notNull();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -54,7 +54,7 @@
         @include('layouts.user-jquery.jquery_coordinator')
     @endif
 
-    @section('scripts-jquery')
+    @section('scripts')
     @show
 </body>
 

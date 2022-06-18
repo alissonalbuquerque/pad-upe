@@ -12,13 +12,6 @@ class EnsinoAula extends Model
 {
     use HasFactory;
 
-    const NIVEL_GRADUACAO = 1;
-    const NIVEL_POS_GRADUACAO_LATO_SENSU = 2;
-    const NIVEL_POS_GRADUACAO_STRICTO_SENSU = 3;
-
-    const MODALIDADE_EAD = 1;
-    const MODALIDADE_PRESENCIAL = 2;
-
     /**
      * References table ensino_aulas
      * 
@@ -31,7 +24,7 @@ class EnsinoAula extends Model
      * 
      * @var array
      */
-    protected $fillable = ['cod_atividade', 'componente_curricular', 'curso_id', 'nivel', 'modalidade', 'ch_semanal', 'ch_total', 'pad_id'];
+    protected $fillable = ['pad_id', 'cod_atividade', 'componente_curricular', 'curso', 'nivel', 'modalidade', 'ch_semanal', 'ch_total'];
     
     
     /**
@@ -39,34 +32,6 @@ class EnsinoAula extends Model
      * @var array
      */
     private $codesDimensao = ['E-1', 'E-2', 'E-3'];
-
-
-    /**
-     * @return array|string
-     */
-    public static function listNivel($value = null) {
-        $values = [
-            self::NIVEL_GRADUACAO => 'Graduação',
-            self::NIVEL_POS_GRADUACAO_LATO_SENSU => 'Pós-graduação Stricto Sensu',
-            self::NIVEL_POS_GRADUACAO_STRICTO_SENSU => 'Pós-Graduação Lato Sensu',
-            
-        ];
-    
-        return $value !== null? $values[$value] : $values;
-    }
-
-    /**
-     * @return array|string
-     */
-    public static function listModalidade($value = null) {
-        $values = [
-            self::MODALIDADE_EAD => 'EAD',
-            self::MODALIDADE_PRESENCIAL => 'Presencial',
-            
-        ];
-    
-        return $value !== null? $values[$value] : $values;
-    }
 
     /**
      * @return array
@@ -93,15 +58,15 @@ class EnsinoAula extends Model
         return $this->belongsTo(PAD::class);
     }
     
-    /**
-     * Get Curso with curso.id = ensino_aulas.curso_id
-     * 
-     * @return Curso
-     */
-    public function curso()
-    {
-        return $this->belongsTo(Curso::class);
-    }
+    // /**
+    //  * Get Curso with curso.id = ensino_aulas.curso_id
+    //  * 
+    //  * @return Curso
+    //  */
+    // public function curso()
+    // {
+    //     return $this->belongsTo(Curso::class);
+    // }
 
     // /**
     //  * Get Disciplina with diciplina.id = ensino_aulas.displina_id

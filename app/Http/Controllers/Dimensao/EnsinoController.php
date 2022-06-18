@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Dimensao;
 
 use App\Http\Controllers\Controller;
-use App\Models\Curso;
-use App\Models\Tabelas\Ensino\EnsinoAula;
+use App\Models\Tabelas\Constants;
 use App\Models\Util\PadTables;
-use App\Queries\CursoQuery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,19 +22,24 @@ class EnsinoController extends Controller
     public function index() {
 
         $user = Auth::user();
+        $niveis = Constants::listNivel();
+        $modalidades = Constants::listModalidade();
+        $orientacoes = Constants::listOrientacao();
+        $funcoes_projeto = Constants::listFuncao();
+        $funcoes_ensino = Constants::listFuncao();
+        $naturezas = Constants::listNatureza();
+        
 
-        $cursos = (new CursoQuery())->getQuery()->get();
-        $niveis = EnsinoAula::listNivel();
-        $modalidades = EnsinoAula::listModalidade();
-        $ensinoAulas = EnsinoAula::all();
         $divs = PadTables::tablesEnsino();
 
         return view('pad.dimensao.ensino', [
             'pad_id' => 1,
-            'cursos' => $cursos,
             'niveis' => $niveis,
-            'ensinoAulas' => $ensinoAulas,
             'modalidades' => $modalidades,
+            'categorias' => $orientacoes,
+            'funcoes_ensino' =>  array_diff($funcoes_ensino, [Constants::listFuncao(Constants::FUNCAO_COLABORADOR)]),
+            'funcoes_projeto' => array_diff($funcoes_projeto, [Constants::listFuncao(Constants::FUNCAO_MEMBRO)]),
+            'naturezas' => $naturezas,
             'divs' => $divs,
             'index_menu' => self::MENU_PAD,
         ]);
