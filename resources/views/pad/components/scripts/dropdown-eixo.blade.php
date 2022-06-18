@@ -25,12 +25,10 @@
         
         if(self.val() !== '0') {
             div = $('#'+self.val());
-            console.log(self.val());
             div.show();
         }
 
         
     }).change();
-
-    $('#ensino_aulas').show();
+    
 </script>

@@ -10,7 +10,7 @@ use App\Http\Controllers\Dimensao\GestaoController;
 use App\Http\Controllers\DisciplinaController;
 use App\Http\Controllers\UnidadeController;
 use App\Http\Controllers\PADController;
-use App\Http\Controllers\Tabelas\Ensino\EnsinoAulaController;
+use App\Http\Controllers\Dimensao\Tabelas\Ensino\EnsinoAulaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CoordenadorController;
 use App\Http\Controllers\DiretorController;
@@ -111,8 +111,12 @@ Route::prefix('/pad/dimensao/')->group(function () {
     Route::get('/extensao', [ExtensaoController::class, 'index'])->name('dimensao_extensao');
 });
 
-Route::post('/pad/dimensao/ensino/aula/create', [EnsinoAulaController::class, 'create'])->name('ensino_aula_create');
-Route::delete('/pad/dimensao/ensino/aula/delete/{id}', [EnsinoAulaController::class, 'delete'])->name('ensino_aula_delete');
+Route::prefix('/pad/dimensao/ensino')->group(function () {
+    Route::post('/aulas/create', [EnsinoAulaController::class, 'create'])->name('ensino_aula_create');
+    // Route::get('/ensino/aulas/update', [EnsinoAulaController::class, 'update'])->name('ensino_aula_update');
+    // Route::get('/ensino/aulas/delete', [EnsinoAulaController::class, 'update'])->name('ensino_aula_delete');
+    Route::get('/aulas/{pad_id}', [EnsinoAulaController::class, 'getAll'])->name('ensino_aula_all');
+});
 
 Route::prefix('/user')->group(function () {
     Route::get('/edit/perfil', [UserController::class, 'editPerfil'])->name('edit_perfil');
