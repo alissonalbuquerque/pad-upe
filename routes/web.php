@@ -9,7 +9,7 @@ use App\Http\Controllers\Dimensao\ExtensaoController;
 use App\Http\Controllers\Dimensao\GestaoController;
 use App\Http\Controllers\DisciplinaController;
 use App\Http\Controllers\UnidadeController;
-use App\Http\Controllers\PADController;
+use App\Http\Controllers\PadController;
 use App\Http\Controllers\Dimensao\Tabelas\Ensino\EnsinoAulaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CoordenadorController;
@@ -73,13 +73,12 @@ Route::prefix('/ensino')->group(function () {
 });
 
 Route::prefix('/pad')->group(function () {
-    Route::get('/index', [PADController::class, 'index'])->name('pad_index');
-    Route::get('/create', [PADController::class, 'create'])->name('pad_create');
-    Route::post('/store', [PADController::class, 'store'])->name('pad_store');
-    Route::get('/edit/{id}', [PADController::class, 'edit'])->name('pad_edit');
-    Route::post('/update/{id}', [PADController::class, 'update'])->name('pad_update');
-    Route::delete('/delete/{id}', [PADController::class, 'destroy'])->name('pad_delete');
-    Route::get('/anexo', [PADController::class, 'anexo'])->name('pad_anexo');
+    Route::get('/index', [PadController::class, 'index'])->name('pad_index');
+    Route::get('/create', [PadController::class, 'create'])->name('pad_create');
+    Route::post('/store', [PadController::class, 'store'])->name('pad_store');
+    Route::get('/edit/{id}', [PadController::class, 'edit'])->name('pad_edit');
+    Route::put('/update/{id}', [PadController::class, 'update'])->name('pad_update');
+    Route::delete('/delete/{id}', [PadController::class, 'delete'])->name('pad_delete');
 });
 
 Route::prefix('/coordenador')->group(function () {

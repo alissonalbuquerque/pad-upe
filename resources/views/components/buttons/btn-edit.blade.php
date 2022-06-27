@@ -1,1 +1,1 @@
-<a class="btn btn-secondary" href="{{$route}}"><i class="fas fa-edit"></i></a>
+<a class="{{$btn_class}}" href="{{$route}}"><i class="bi bi-pencil-square"></i></a>

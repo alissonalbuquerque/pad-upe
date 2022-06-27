@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Unidade;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,7 +21,7 @@ class DatabaseSeeder extends Seeder
             CursoSeeder::class,
             UserSeeder::class,
             PlanejamentoSeeder::class,
-            PADSeeder::class,
+            PadSeeder::class,
             DisciplinaSeeder::class,
         ]);
     }

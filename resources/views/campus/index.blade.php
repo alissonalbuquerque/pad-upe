@@ -18,7 +18,7 @@
         @include('components.buttons.btn-create', [
             'route' => route('campus_create'),
             'css' => '',
-            'text' => 'Novo Campus',
+            'content' => 'Novo Campus',
             'id' => '',
         ])
     </div>
@@ -40,6 +40,7 @@
                         <td>{{ $camp->unidade }}</td>
                         <td>
                             @include('components.buttons.btn-edit', [
+                                'btn_class' => 'btn btn-warning',
                                 'route' => route('campus_edit', ['id' => $camp->id]),
                             ])
                             @include('components.buttons.btn-soft-delete', [

@@ -89,7 +89,7 @@
         <h1 class="h2">Gestão de Unidades</h1>
     </div>
 
-    @include('components.buttons.btn-create', ['route' => route('unidade_create'), 'id' => 'btn-create-unidade', 'css' => 'btn btn-primary', 'text' => 'Cadastrar Nova Unidade'])
+    @include('components.buttons.btn-create', ['route' => route('unidade_create'), 'id' => 'btn-create-unidade', 'class' => 'btn btn-primary', 'content' => 'Cadastrar Nova Unidade'])
 
     @section('form-unidade-create')
     @show

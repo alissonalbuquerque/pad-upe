@@ -17,8 +17,8 @@
         <h2 class="">TODOS OS Diretores</h2>
         @include('components.buttons.btn-create', [
             'route' => route('diretor_create'),
-            'css' => '',
-            'text' => 'Novo Diretor',
+            'class' => '',
+            'content' => 'Novo Diretor',
             'id' => '',
         ])
     </div>
@@ -39,10 +39,12 @@
                         <td>{{ $diretor->document }}</td>
                         <td>
                             @include('components.buttons.btn-edit', [
+                                'btn_class' => 'btn btn-warning',
                                 'route' => route('diretor_edit', ['id' => $diretor->id]),
                             ])
                             @include('components.buttons.btn-delete', [
                                 'route' => route('diretor_delete', ['id' => $diretor->id]),
+                                'btn_class' => 'btn btn-danger',
                                 'modal_id' => $diretor->id,
                             ])
                         </td>

@@ -24,6 +24,10 @@ class Constants {
     const NATUREZA_VIVENCIA = 4;
     const NATUREZA_OUTROS = 5;
 
+    const STATUS_ATIVO = 1;
+    const STATUS_INATIVO = 2;
+    const STATUS_ARQUIVADO = 3;
+
 
     /**
      * @return array|string
@@ -91,7 +95,15 @@ class Constants {
         return $value !== null? $values[$value] : $values;
     }
     
+    public static function listStatus($value = null) {
     
+        $values = [
+            self::STATUS_ATIVO => 'Ativo',
+            self::STATUS_INATIVO => 'Inativo',
+            self::STATUS_ARQUIVADO => 'Arquivado',
+        ];
     
+        return $value !== null? $values[$value] : $values;
+    }
     
 }

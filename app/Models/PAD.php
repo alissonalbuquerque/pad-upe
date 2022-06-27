@@ -2,44 +2,32 @@
 
 namespace App\Models;
 
+use App\Models\Tabelas\Constants;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use PHPUnit\TextUI\XmlConfiguration\Constant;
 
-class PAD extends Model
+class Pad extends Model
 {
     use HasFactory;
 
-    /**
-     * References table PADs
-     * 
-     * @var string
-     */
-    protected $table = 'PADs';
+    protected $table = 'pad';
 
-    /**
-     * The attributes that are mass assignable.
-     * 
-     * @var array
-     */
-    protected $fillable = ['ano', 'semestre', 'carga_horaria', 'categoria', 'afastamento_total', 'afastamento_parcial', 'exerce_funcao_admin', 'exerce_funcao_sindical', 'licenca_de_acor_legais', 'outras_observacoes', 'professor_id', 'curso_id'];
+    protected $fillable = ['id', 'nome', 'data_inicio', 'data_fim', 'status'];
 
-    /**
-     * Get User with user.id = user.campus_id
-     * 
-     * @return User
-     */
-    public function professor()
-    {
-        return $this->belongsTo(User::class);
+    protected $dates = ['deleted_at'];
+
+    public function getStatusAsText() {
+        return Constants::listStatus($this->status);
     }
 
-    /**
-     * Get Curso with curso.id = curso.curso_id
-     * 
-     * @return Curso
-     */
-    public function curso()
-    {
-        return $this->belongsTo(Curso::class);
+    public function getDateInicio() {
+        return Carbon::parse($this->data_inicio)->format('d/m/Y');
+    }
+
+    public function getDateFim() {
+        return Carbon::parse($this->data_fim)->format('d/m/Y');
     }
 }
