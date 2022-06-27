@@ -41,7 +41,7 @@ class UserSeeder extends Seeder
             'name' => "Admin",
             'email' => "admin@upe.br",
             'email_verified_at' => null,
-            'password' => Hash::make('12345678'),
+            'password' => Hash::make('@admin'),
             'document' => "100000000",
             'status' => User::STATUS_ACTIVE,
             'campus_id' => NULL,

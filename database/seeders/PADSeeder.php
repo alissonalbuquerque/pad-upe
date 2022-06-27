@@ -6,7 +6,7 @@ use App\Models\PAD;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
-class PADSeeder extends Seeder
+class PadSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,14 +14,6 @@ class PADSeeder extends Seeder
      * @return void
      */
     public function run()
-    {
-        $users = User::where('type', '=', User::TYPE_TEACHER)->get();
-        foreach($users as $user) {
-            PAD::create([
-                'user_id' => $user->id,
-                'licenca_de_acor_legais' => ""
-            ]);
-        }
-        
+    {   
     }
 }

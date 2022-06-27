@@ -1,4 +1,4 @@
-<button class="btn btn-success" type="submit">
-    <i class="bi bi-sd-card-fill"></i>
-    Salvar
+<button class="{{$btn_class}}" type="submit">
+    <i class="{{$i_class}}"></i>
+    {{$content}}
 </button>

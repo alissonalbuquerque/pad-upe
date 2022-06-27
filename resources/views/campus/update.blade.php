@@ -46,7 +46,11 @@
                 @include('components.buttons.btn-cancel', [
                     'route' => route('campus_index'),
                 ])
-                @include('components.buttons.btn-save')
+                @include('components.buttons.btn-save', [
+                    'content' => 'Cadastrar'
+                    'btn_class' => 'btn btn-outline-success'
+                    'i_class' => ''
+                ])
             </div>
         </form>
     </div>

@@ -25,8 +25,8 @@ $( document ).ready(() => {
                         <td scope="row"> ${index+1} <td>  
                         <td> ${unidade.name} <td>
                         <td>
-                            @include('components.buttons.btn-edit', ['route' => ''])
-                            @include('components.buttons.btn-delete', ['route' => ''])
+                            @include('components.buttons.btn-edit', ['btn_class' => 'btn btn-warning', 'route' => ''])
+                            @include('components.buttons.btn-delete', ['id' => '', 'btn_class' => '', 'route' => ''])
                         </td>
                     </tr>
                 `)

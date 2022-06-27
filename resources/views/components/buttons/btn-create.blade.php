@@ -1,4 +1,4 @@
-<a class="btn btn-outline-primary {{$css}}" href="{{$route}}" id="{{$id}}">
+<a class="btn {{$class}}" href="{{$route}}" id="{{$id}}">
     <i class="bi bi-plus-circle"></i>
-    {{$text}}
+    {{$content}}
 </a>

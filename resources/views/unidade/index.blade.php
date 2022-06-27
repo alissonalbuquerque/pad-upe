@@ -17,8 +17,8 @@
         <h2 class="">TODAS AS UNIDADES</h2>
         @include('components.buttons.btn-create', [
             'route' => route('unidade_create'),
-            'css' => '',
-            'text' => 'Nova Unidade',
+            'class' => '',
+            'content' => 'Nova Unidade',
             'id' => '',
         ])
     </div>

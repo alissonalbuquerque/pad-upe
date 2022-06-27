@@ -16,8 +16,8 @@
         <h2 class="">TODOS OS COORDENADORES</h2>
         @include('components.buttons.btn-create', [
             'route' => route('coordenador_create'),
-            'css' => '',
-            'text' => 'Novo Coordenador',
+            'class' => '',
+            'content' => 'Novo Coordenador',
             'id' => '',
         ])
     </div>
@@ -39,6 +39,7 @@
                         <td>{{ $coordenador->document }}</td>
                         <td>
                             @include('components.buttons.btn-edit', [
+                                'btn_class' => 'btn btn-warning',
                                 'route' => route('coordenador_edit', ['id' => $coordenador->id]),
                             ])
                             @include('components.buttons.btn-delete', [

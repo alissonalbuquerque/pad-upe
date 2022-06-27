@@ -1,6 +1,6 @@
 <!-- Button trigger modal -->
-<button type="button" class="{{ $btn_class }}" data-bs-toggle="modal" data-bs-target="#modal-delete-{{ $id }}">
-    <i class="bi bi-trash"></i>
+<button type="button" class="{{$btn_class}}" data-bs-toggle="modal" data-bs-target="#modal-delete-{{ $id }}">
+<i class="bi bi-trash"></i>
 </button>
 
 <!-- Modal -->
