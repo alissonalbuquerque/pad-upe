@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\PAD;
 use App\Models\Tabelas\Constants;
+use App\Models\User;
+use App\Models\UserPad;
 use Database\Seeders\PadSeeder;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -46,8 +48,7 @@ class PadController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request
      */
     public function store(Request $request)
     {   
@@ -69,6 +70,16 @@ class PadController extends Controller
             $model = new Pad($request->all());
             
             if($model->save()) {
+                
+                $users = User::find()->whereType(User::TYPE_TEACHER)->get();
+
+                foreach($users as $user) {
+                    $modelUserPad = new UserPad();
+                    $modelUserPad->user_id = $user->id;
+                    $modelUserPad->pad_id = $model->id;
+                    $modelUserPad->save();
+                }
+
                 return redirect()->route('pad_index')->with('success', 'PAD cadastrado com sucesso!');
             } else {
                 return redirect()->route('pad_index')->with('success', 'Erro ao cadastrar o PAD!');

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Queries\UserQuery;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -133,6 +134,10 @@ class User extends Authenticatable
      */
     public function attributeName(string $attribute) {
         return $this->getTable() . '-' . $attribute;
+    }
+
+    public static function find() {
+        return new UserQuery(get_called_class());
     }
 
     /**
