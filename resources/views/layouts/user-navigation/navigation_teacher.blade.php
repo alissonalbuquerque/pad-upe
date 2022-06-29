@@ -1,7 +1,7 @@
 <!-- Botoes link lista vertical sidebarMenu -->
 <ul class="nav flex-column nav-pills" id="myTab" role="tablist" aria-orientation="vertical">
     <li class="nav-item">
-        <a class="nav-link {{ ((!empty($index_menu) ? $index_menu : 0) == 0? "active": "") }}" href="{{ route('dashboard') }}"
+        <a class="custom-nav-link {{ ((!empty($index_menu) ? $index_menu : 0) == 0? "active": "") }}" href="{{ route('dashboard') }}"
             aria-selected="true">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill"
                 viewBox="0 0 16 16">
@@ -15,7 +15,7 @@
     </li>
 
     <li class="nav-item">
-        <a class="nav-link {{ ((!empty($index_menu) ? $index_menu : 0) == 1? "active": "") }}" id="pad-tab" href="{{ route('pad_index') }}"
+        <a class="custom-nav-link {{ ((!empty($index_menu) ? $index_menu : 0) == 1? "active": "") }}" id="pad-tab" href="{{ route('pad_index') }}"
             aria-controls="pad" aria-selected="false">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book-half"
                 viewBox="0 0 16 16">
@@ -27,7 +27,7 @@
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" id="update-perfil-tab" data-toggle="tab" href="#update-perfil" role="tab"
+        <a class="custom-nav-link" id="update-perfil-tab" data-toggle="tab" href="#update-perfil" role="tab"
             aria-controls="update-perfil" aria-selected="true">
             <!-- Update Perfil - Hidden -->
         </a>

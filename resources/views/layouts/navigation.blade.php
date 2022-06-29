@@ -24,8 +24,8 @@
     @endif
 
     <!-- SidebarMenu : Diretor -->
-    @if (Auth::user()->isTypeMenager())
-        @include('layouts.user-navigation.navigation_menager')
+    @if (Auth::user()->isTypeDirector())
+        @include('layouts.user-navigation.navigation_director')
     @endif
 
     <!-- SidebarMenu : Coordenador -->

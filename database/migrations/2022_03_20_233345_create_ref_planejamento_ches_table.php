@@ -20,7 +20,7 @@ class CreateRefPlanejamentoChesTable extends Migration
             $table->float("ch_semanal", 5, 2);
             $table->float("ch_maxima", 5, 2);
             $table->foreignId('PAD_id')
-                ->constrained()
+                ->constrained('pads')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 

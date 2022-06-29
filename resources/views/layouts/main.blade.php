@@ -46,8 +46,8 @@
         @include('layouts.user-jquery.jquery_teacher')
     @endif
 
-    @if (Auth::user()->isTypeMenager())
-        @include('layouts.user-jquery.jquery_menager')
+    @if (Auth::user()->isTypeDirector())
+        @include('layouts.user-jquery.jquery_director')
     @endif
 
     @if (Auth::user()->isTypeCoordinator())

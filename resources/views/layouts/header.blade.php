@@ -7,6 +7,7 @@
                 class="img-fluid" width="268" height="100" alt="" />
         </a>
     </div>
+    <div class="header-divider"></div>
     <div class="mt-3 space-y-1 header-right-side">
         <!-- Authentication -->
         <form method="POST" action="{{ route('logout') }}">

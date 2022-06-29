@@ -47,5 +47,31 @@ class UserSeeder extends Seeder
             'campus_id' => NULL,
             'curso_id' => NULL,
         ]);
+
+        //UserDirector
+        User::create([
+            'type' => User::TYPE_DIRECTOR,
+            'name' => "Director",
+            'email' => "director@upe.br",
+            'email_verified_at' => null,
+            'password' => Hash::make('@director'),
+            'document' => "100000000",
+            'status' => User::STATUS_ACTIVE,
+            'campus_id' => 1,
+            'curso_id' => 1,
+        ]);
+
+        //UserDirector
+        User::create([
+            'type' => User::TYPE_COORDINATOR,
+            'name' => "Coordinator",
+            'email' => "coordinator@upe.br",
+            'email_verified_at' => null,
+            'password' => Hash::make('@coordinator'),
+            'document' => "100000000",
+            'status' => User::STATUS_ACTIVE,
+            'campus_id' => 1,
+            'curso_id' => 1,
+        ]);
     }
 }

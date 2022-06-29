@@ -1,5 +1,5 @@
 <x-app-layout>
-    @section('title', 'Home')
+    @section('title', 'Home')sdfsdfsdfsf
     <x-slot name="main">
         <div class="tab-content">
             @if(Auth::user()->isTypeAdmin())
@@ -10,8 +10,8 @@
                 @include('layouts.user-dashboard.dashboard_teacher', ['user' => Auth::user()])
             @endif
 
-            @if(Auth::user()->isTypeMenager())
-                @include('layouts.user-dashboard.dashboard_menager')
+            @if(Auth::user()->isTypeDirector())
+                @include('layouts.user-dashboard.dashboard_director')
             @endif
 
             @if(Auth::user()->isTypeCoordinator())

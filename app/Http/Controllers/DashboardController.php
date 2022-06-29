@@ -14,15 +14,16 @@ class DashboardController extends Controller
 
         $user = Auth::user();
 
-        if($user->isTypeAdmin())
-        {   
+        if($user->isTypeAdmin()){
             return view('dashboard', ['unidades' => UnidadeQuery::all(), 'unidade_index' => 1]);
-        }
-
-        if($user->isTypeTeacher())
-        {   
+        }elseif ($user->isTypeTeacher()) {
             return view('dashboard', ['PADs' => PAD::all(), 'menu_index'=> 0]);
-        }
-    }
+        }elseif ($user->isTypeDirector()) {
+            return view('dashboard', ['PADs' => PAD::all(), 'menu_index'=> 0]);
+        }elseif ($user->isTypeCoordinator()) {
+            return view('dashboard', ['PADs' => PAD::all(), 'menu_index'=> 0]);
+        } 
 
+        //return redirect()->route('login');
+    }
 }

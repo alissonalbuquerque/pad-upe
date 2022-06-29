@@ -16,7 +16,7 @@ class User extends Authenticatable
 
     const TYPE_ADMIN = 1;       // Administrador
     const TYPE_TEACHER = 2;     // Professor
-    const TYPE_MANAGER = 3;     // Diretor
+    const TYPE_DIRECTOR= 3;     // Diretor
     const TYPE_COORDINATOR = 4; // Coordenador
 
     const STATUS_ACTIVE = 1;
@@ -117,8 +117,8 @@ class User extends Authenticatable
     /**
      * @return bool
      */
-    public function isTypeMenager() {
-        return $this->type === self::TYPE_MANAGER;
+    public function isTypeDirector() {
+        return $this->type === self::TYPE_DIRECTOR;
     }
 
     /**
