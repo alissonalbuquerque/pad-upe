@@ -29,9 +29,24 @@ class PadController extends Controller
             return view('pad.admin.index', ['pads' => $pads]);
         }
         
-        dd('refatorar');
+        if(Auth::user()->isTypeTeacher()) {
+
+            $index_menu = 1;
+            $userPads = UserPad::find()->whereUser(Auth::user()->id)->get();
+            
+            return view('pad.teacher.index', ['index_menu' => $index_menu, 'userPads' => $userPads]);
+        }
     }
 
+    /**
+     * @param integer $id
+     * @return \Illuminate\Http\Response
+     */
+    public function view($id) {
+
+        return view('pad.teacher.view', ['id' => $id]);
+    }
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -47,20 +62,19 @@ class PadController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
      * @param  \Illuminate\Http\Request $request
      */
     public function store(Request $request)
     {   
         $validated = $request->validate([
-            'nome' => ['required', 'string', 'min:5', 'max:255'],
+            'nome' => ['required', 'string', 'min:6', 'max:255'],
             'status' => ['required', 'integer'],
             'data_inicio' => ['required', 'date', 'before_or_equal:data_fim'],
             'data_fim' => ['required', 'date', 'after_or_equal:data_inicio'],
         ],
         [
             'required' => 'O campo de :attribute é obrigatório',
-            'nome.min' => 'O campo de :attribute deve ter no mínimo 5 letras',
+            'nome.min' => 'O campo de :attribute deve ter no mínimo 6 letras',
             'nome.max' => 'O campo de :attribute deve ter no máximo 255 letras',
             'data_inicio.before_or_equal' => 'A :attribute deve ser uma data anterior ou igual a data de fim',
             'data_fim.after_or_equal' => 'A :attribute deve ser uma data posterior ou igual a data de início',
@@ -148,27 +162,28 @@ class PadController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  integer  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {   
         $validated = $request->validate([
-            'nome' => ['required', 'string', 'min:5', 'max:255'],
+            'nome' => ['required', 'string', 'min:6', 'max:255'],
             'status' => ['required', 'integer'],
             'data_inicio' => ['required', 'date', 'before_or_equal:data_fim'],
             'data_fim' => ['required', 'date', 'after_or_equal:data_inicio'],
         ],
         [
             'required' => 'O campo de :attribute é obrigatório',
-            'nome.min' => 'O campo de :attribute deve ter no mínimo 5 letras',
+            'nome.min' => 'O campo de :attribute deve ter no mínimo 6 letras',
             'nome.max' => 'O campo de :attribute deve ter no máximo 255 letras',
             'data_inicio.before_or_equal' => 'A :attribute deve ser uma data anterior ou igual a data de fim',
             'data_fim.after_or_equal' => 'A :attribute deve ser uma data posterior ou igual a data de início',
         ]);
 
         if($validated) {
-            $model = new Pad($request->all());
+            $model = Pad::find($id);
+            $model->fill($request->all());
             
             if($model->save()) {
                 return redirect()->route('pad_index')->with('success', 'PAD atualizado com sucesso!');

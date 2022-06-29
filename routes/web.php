@@ -81,6 +81,19 @@ Route::prefix('/pad')->group(function () {
     Route::delete('/delete/{id}', [PadController::class, 'delete'])->name('pad_delete');
 });
 
+Route::prefix('/pad/professor')->group(function () {
+    Route::get('/index', [PadController::class, 'index'])->name('pad_index');
+    Route::get('/view/{id}', [PadController::class, 'view'])->name('pad_view');
+    Route::get('/anexo', [PadController::class, 'anexo'])->name('pad_anexo');
+});
+
+Route::prefix('/pad/dimensao/')->group(function () {
+    Route::get('/gestao', [GestaoController::class, 'index'])->name('dimensao_gestao');
+    Route::get('/ensino', [EnsinoController::class, 'index'])->name('dimensao_ensino');
+    Route::get('/pesquisa', [PesquisaController::class, 'index'])->name('dimensao_pesquisa');
+    Route::get('/extensao', [ExtensaoController::class, 'index'])->name('dimensao_extensao');
+});
+
 Route::prefix('/coordenador')->group(function () {
     Route::get('/index', [CoordenadorController::class, 'index'])->name('coordenador_index');
     Route::get('/create', [CoordenadorController::class, 'create'])->name('coordenador_create');
@@ -102,13 +115,6 @@ Route::prefix('/diretor')->group(function () {
 // return json
 Route::get('/listar/unidade', [UnidadeController::class, 'getAll'])->name('listar_unidades');
 Route::get('/list/campus/{unidade_id}', [CampusController::class, 'findByUnidade'])->name('list_campus_by_unidade');
-
-Route::prefix('/pad/dimensao/')->group(function () {
-    Route::get('/gestao', [GestaoController::class, 'index'])->name('dimensao_gestao');
-    Route::get('/ensino', [EnsinoController::class, 'index'])->name('dimensao_ensino');
-    Route::get('/pesquisa', [PesquisaController::class, 'index'])->name('dimensao_pesquisa');
-    Route::get('/extensao', [ExtensaoController::class, 'index'])->name('dimensao_extensao');
-});
 
 Route::prefix('/pad/dimensao/ensino')->group(function () {
     Route::post('/aulas/create', [EnsinoAulaController::class, 'create'])->name('ensino_aula_create');
