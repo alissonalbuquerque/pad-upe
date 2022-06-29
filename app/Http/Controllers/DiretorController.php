@@ -16,7 +16,7 @@ class DiretorController extends Controller
      */
     public function index()
     {
-        $diretores = User::where('type', '=', User::TYPE_MANAGER)->get();
+        $diretores = User::where('type', '=', User::TYPE_DIRECTOR)->get();
         return view('diretor.index', [
             'index_menu' => MenuItemsAdmin::DIRETORES,
             'diretores' =>  $diretores

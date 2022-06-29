@@ -17,7 +17,7 @@
         <h2 class="">TODOS OS CAMPUS</h2>
         @include('components.buttons.btn-create', [
             'route' => route('campus_create'),
-            'css' => '',
+            'class' => '',
             'content' => 'Novo Campus',
             'id' => '',
         ])
@@ -33,6 +33,7 @@
                     <th scope="col">Ações</th>
                 </tr>
             </thead>
+
             <tbody>
                 @foreach ($campus as $camp)
                     <tr>

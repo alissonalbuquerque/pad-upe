@@ -33,6 +33,7 @@
                 </tr>
             </thead>
             <tbody>
+             
                 @foreach ($diretores as $diretor)
                     <tr>
                         <td>{{ $diretor->name }}</td>
@@ -42,9 +43,8 @@
                                 'btn_class' => 'btn btn-warning',
                                 'route' => route('diretor_edit', ['id' => $diretor->id]),
                             ])
-                            @include('components.buttons.btn-delete', [
+                            @include('components.buttons.btn-soft-delete', [
                                 'route' => route('diretor_delete', ['id' => $diretor->id]),
-                                'btn_class' => 'btn btn-danger',
                                 'modal_id' => $diretor->id,
                             ])
                         </td>

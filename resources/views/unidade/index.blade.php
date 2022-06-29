@@ -37,6 +37,7 @@
                     <td>{{ $unidade->name }}</td>
                     <td>
                         @include('components.buttons.btn-edit', [
+                            'btn_class' => 'btn btn-warning',
                             'route' => route('unidade_edit', ['id' => $unidade->id]),
                         ])
                         @include('components.buttons.btn-soft-delete', [

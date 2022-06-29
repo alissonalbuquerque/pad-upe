@@ -42,7 +42,7 @@
                                 'btn_class' => 'btn btn-warning',
                                 'route' => route('coordenador_edit', ['id' => $coordenador->id]),
                             ])
-                            @include('components.buttons.btn-delete', [
+                            @include('components.buttons.btn-soft-delete', [
                                 'route' => route('coordenador_delete', ['id' => $coordenador->id]),
                                 'modal_id' => $coordenador->id,
                             ])
