@@ -7,6 +7,12 @@
         </a>
     </li>
     <li class="nav-item">
+        <a href="{{ route('pad_index') }}" class="custom-nav-link {{ ((($index_menu ?? 0) == 0 ? 0: $index_menu ) == 6? "active": "") }}">
+            <i class="bi bi-book-half"></i>
+            PADs
+        </a>
+    </li>
+    <li class="nav-item">
         <a href="{{ route('campus_index') }}" class="custom-nav-link {{ ((($index_menu ?? 0) == 0 ? 0: $index_menu ) == 1? "active": "") }}">
             <i class="bi bi-bank2"></i>
             Campus
@@ -34,15 +40,6 @@
         <a href="{{ route('coordenador_index') }}" class="custom-nav-link {{ ((($index_menu ?? 0) == 0 ? 0: $index_menu ) == 5? "active": "") }}">
             <i class="bi bi-person-video3"></i>
             Coordenadores
-        </a>
-    </li>
-
-    <hr>
-
-    <li class="nav-item">
-        <a href="{{ route('pad_index') }}" class="custom-nav-link {{ ((($index_menu ?? 0) == 0 ? 0: $index_menu ) == 6? "active": "") }}">
-            <i class="bi bi-book-half"></i>
-            PADs
         </a>
     </li>
 </ul>
