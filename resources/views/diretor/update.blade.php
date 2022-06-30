@@ -17,7 +17,7 @@
 @section('body')
 
     @include('components.alerts')
-
+    {{ dd($user) }}
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2"> Atualizar Perfil </h1>
     </div>
@@ -60,8 +60,10 @@
                 <select class="custom-select mr-sm-2" name="unidade_id" id="selectUnidade"
                     aria-label="Default select example">
                     <option value="" disabled selected hidden> selecione... </option>
+ 
                     @foreach ($unidades as $unidade)
-                        <option value="{{ $unidade->id }}" {{ $user->unidade_id == $unidade->id ? 'selected' : '' }}>{{ $unidade->name }}</option>
+             
+                        <option value="{{ $unidade->id }}" {{ $user->unidade_id == $unidade->id ? 'selected' : '' }}> {{ $user->unidade_id }} - {{ $unidade->id }}</option>
                     @endforeach
                 </select>
                 @error('unidade_id')

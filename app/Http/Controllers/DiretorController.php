@@ -46,14 +46,14 @@ class DiretorController extends Controller
     {
         $model = new User();
         $validator = User::validator($request->all());
-        $validator->type = User::TYPE_MANAGER;
+        $validator->type = User::TYPE_DIRECTOR;
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
 
         $model->fill($request->all());
-        $model->type = User::TYPE_MANAGER;
+        $model->type = User::TYPE_DIRECTOR;
         $model->password = Hash::make($model->password);
         $model->save();
 

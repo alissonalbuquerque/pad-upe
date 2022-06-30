@@ -47,9 +47,9 @@
                     'route' => route('curso_index'),
                 ])
                 @include('components.buttons.btn-save', [
-                    'content' => 'Cadastrar'
-                    'btn_class' => 'btn btn-outline-success'
-                    'i_class' => ''
+                    'content' => 'Cadastrar',
+                    'btn_class' => 'btn btn-outline-success',
+                    'i_class' => '',
                 ])
             </div>
         </form>
