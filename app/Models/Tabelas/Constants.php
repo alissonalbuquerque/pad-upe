@@ -59,7 +59,7 @@ class Constants {
     /**
      * @return array|string
      */
-    public function listOrientacao($value = null) {
+    public static function listOrientacao($value = null) {
         $values = [
             self::ORIENTACAO_GRUPO => 'Grupo',
             self::ORIENTACAO_INDIVIDUAL => 'Individual',
@@ -71,7 +71,7 @@ class Constants {
     /**
      * @return array|string
      */
-    public function listFuncao($value = null) {
+    public static function listFuncao($value = null) {
         $values = [
             self::FUNCAO_COORDENADOR => 'Coordenador',
             self::FUNCAO_COLABORADOR => 'Colaborador',
@@ -84,7 +84,7 @@ class Constants {
     /**
      * @return array|string
      */
-    public function listNatureza($value = null) {
+    public static function listNatureza($value = null) {
         $values = [
             self::NATUREZA_INOVACAO => 'Inovação',
             self::NATUREZA_PEDAGOGICA => 'Pedagógica',
