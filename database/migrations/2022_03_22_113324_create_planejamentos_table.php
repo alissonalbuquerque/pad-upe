@@ -22,6 +22,11 @@ class CreatePlanejamentosTable extends Migration
             $table->integer('ch_maxima')->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreignId('pad_id')
+                    ->constrained('pad')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
         });
     }
 
