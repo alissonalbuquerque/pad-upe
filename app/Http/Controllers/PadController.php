@@ -8,6 +8,7 @@ use App\Models\PAD;
 use App\Models\Tabelas\Constants;
 use App\Models\User;
 use App\Models\UserPad;
+use App\Models\Util\MenuItemsAdmin;
 use Database\Seeders\PadSeeder;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -26,7 +27,8 @@ class PadController extends Controller
     {
         if(Auth::user()->isTypeAdmin()) {
             $pads = Pad::all();
-            return view('pad.admin.index', ['pads' => $pads]);
+            $index_menu = MenuItemsAdmin::PADS;
+            return view('pad.admin.index', ['index_menu' => $index_menu, 'pads' => $pads]);
         }
         
         if(Auth::user()->isTypeTeacher()) {

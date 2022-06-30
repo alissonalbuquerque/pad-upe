@@ -11,4 +11,5 @@ class MenuItemsAdmin
     const UNIDADES = 3;
     const DIRETORES = 4;
     const COORDENADORES = 5;
+    const PADS = 6;
 }
