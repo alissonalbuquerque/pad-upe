@@ -36,4 +36,13 @@
             Coordenadores
         </a>
     </li>
+
+    <hr>
+
+    <li class="nav-item">
+        <a href="{{ route('pad_index') }}" class="custom-nav-link {{ ((($index_menu ?? 0) == 0 ? 0: $index_menu ) == 6? "active": "") }}">
+            <i class="bi bi-book-half"></i>
+            PADs
+        </a>
+    </li>
 </ul>
