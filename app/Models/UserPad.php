@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Queries\UserPadQuery;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,11 +15,15 @@ class UserPad extends Model
     protected $fillable = ['user_id', 'pad_id'];
 
     public function user() {
-        $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function pad() {
-        $this->belongsTo(PAD::class);
+        return $this->belongsTo(PAD::class);
+    }
+
+    public static function find() {
+        return new UserPadQuery(get_called_class());
     }
 
 }

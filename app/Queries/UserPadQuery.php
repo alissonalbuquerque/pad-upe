@@ -2,20 +2,20 @@
 
 namespace App\Queries;
 
-use App\Models\User;
+use App\Models\UserPad;
 
-class UserQuery {
+class UserPadQuery {
 
     private $query;
 
     public function __construct()
     {
-        $this->query = User::where([]);
+        $this->query = UserPad::where([]);
     }
 
     /**
      * @param integer $id
-     * @return UserQuery|Builder
+     * @return UserPadQuery|Builder
      */
     public function whereId($id, $expression = '=')
     {
@@ -24,12 +24,12 @@ class UserQuery {
     }
 
     /**
-     * @param integer $type
-     * @return UserQuery|Builder
+     * @param integer $user_id
+     * @return UserPadQuery|Builder
      */
-    public function whereType($type, $expression = '=')
+    public function whereUser($user_id, $expression = '=')
     {
-        $this->query = $this->query->where('type', $expression, $type);
+        $this->query = $this->query->where('user_id', $expression, $user_id);
         return $this->query;
     }
 
