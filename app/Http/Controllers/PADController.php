@@ -43,8 +43,8 @@ class PadController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function view($id) {
-
-        return view('pad.teacher.view', ['id' => $id]);
+        $index_menu = 1;
+        return view('pad.teacher.view', ['id' => $id, 'index_menu' => $index_menu]);
     }
     
     /**
