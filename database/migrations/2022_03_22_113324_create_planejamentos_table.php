@@ -23,10 +23,10 @@ class CreatePlanejamentosTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreignId('pad_id')
-                    ->constrained('pad')
-                    ->onUpdate('cascade')
-                    ->onDelete('cascade');
+            // $table->foreignId('pad_id')
+            //         ->constrained('pads')
+            //         ->onUpdate('cascade')
+            //     ->onDelete('cascade');
         });
     }
 
