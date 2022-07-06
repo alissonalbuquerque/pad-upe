@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Unidade;
+use App\Models\Campus;
 use App\Models\User;
 use App\Models\Util\MenuItemsAdmin;
 use Illuminate\Http\Request;
@@ -82,7 +82,7 @@ class DiretorController extends Controller
         $user = User::findOrFail($id);
         return view('diretor.update', [
             'index_menu' => MenuItemsAdmin::DIRETORES,
-            'unidades' => Unidade::all(),
+            'campus' => Campus::all(),
             'user' => $user,
         ]);
     }
