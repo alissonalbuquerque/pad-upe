@@ -42,4 +42,11 @@
             Coordenadores
         </a>
     </li>
+
+    <li class="nav-item">
+        <a href="{{ route('professor_index') }}" class="custom-nav-link {{ ((($index_menu ?? 0) == 0 ? 0: $index_menu ) == 7? "active": "") }}">
+            <i class="bi bi-eyeglasses"></i>
+            Professores
+        </a>
+    </li>
 </ul>

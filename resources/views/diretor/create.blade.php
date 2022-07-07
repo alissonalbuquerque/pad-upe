@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Atulizar Perfil')
+@section('title', 'Cadastro - Diretor')
 
 @section('header')
     @include('layouts.header', [
@@ -27,7 +27,7 @@
             @csrf
             @method('POST')
 
-            <div class="form-group">
+            <div class="form-group mt-2">
                 <label for="email"> E-mail </label>
                 <input type="email" class="form-control" name="email" id="email" placeholder="example@email.com"
                     value="">
@@ -36,7 +36,7 @@
                     <span class="text-danger"> {{ $message }} </span>
                 @enderror
             </div>
-            <div class="form-group">
+            <div class="form-group mt-2">
                 <label for="name"> Nome </label>
                 <input type="name" class="form-control" name="name" id="name" placeholder="Nome Completo"
                     value="">
@@ -45,7 +45,7 @@
                     <span class="text-danger"> {{ $message }} </span>
                 @enderror
             </div>
-            <div class="form-group">
+            <div class="form-group mt-2">
                 <label for="document"> CPF </label>
                 <input type="document" class="form-control" name="document" id="document" placeholder="Senha"
                     value="">
@@ -55,21 +55,22 @@
                 @enderror
             </div>
 
-            <div class="form-group">
-                <label for="selectUnidade">Unidade</label>
-                <select class="custom-select mr-sm-2" name="unidade_id" id="selectUnidade"
+            <div class="form-group mt-2">
+                <label for="selectCampus">Campus</label>
+                <select class="form-select form-select" name="campus_id" id="selectCampus"
                     aria-label="Default select example">
                     <option value="" disabled selected hidden> selecione... </option>
-                    @foreach ($unidades as $unidade)
-                        <option value="{{ $unidade->id }}" {{ old('unidade_id') == $unidade->id ? 'selected' : '' }}>{{ $unidade->name }}</option>
+
+                    @foreach ($campus as $camp)
+                        <option value="{{ $camp->id }}">{{ $camp->name }}</option>
                     @endforeach
                 </select>
-                @error('unidade_id')
+                @error('campus_id')
                     <span class="text-danger"> {{ $message }} </span>
                 @enderror
             </div>
 
-            <div class="row">
+            <div class="row mt-2">
                 <div class="col-6">
                     <div class="form-group">
                         <label for="password"> Senha </label>

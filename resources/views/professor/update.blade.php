@@ -23,7 +23,7 @@
     </div>
 
     <div class="content">
-        <form class="" method="post" action="{{ route('coordenador_update', $user->id) }}">
+        <form class="" method="post" action="{{ route('professor_update', $user->id) }}">
             @csrf
             @method('POST')
 

@@ -2,37 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Campus;
 use App\Models\User;
+use App\Models\Curso;
 use App\Models\Util\MenuItemsAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class DiretorController extends Controller
+class ProfessorController extends Controller
 {
 
-    /**
-     * @return Response
-     */
     public function index()
     {
-        $diretores = User::where('type', '=', User::TYPE_DIRECTOR)->get();
-        return view('diretor.index', [
-            'index_menu' => MenuItemsAdmin::DIRETORES,
-            'diretores' =>  $diretores
+        $professores = User::where('type', '=', User::TYPE_TEACHER)->get();
+        return view('professor.index', [
+            'index_menu' => MenuItemsAdmin::PROFESSORES,
+            'professores' =>  $professores
         ]);
     }
 
-    /**
+     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        return view('diretor.create', [
-            'index_menu' => MenuItemsAdmin::DIRETORES,
-            'campus' => Campus::all(),
+        return view('professor.create', [
+            'index_menu' => MenuItemsAdmin::PROFESSORES,
+            'cursos' => Curso::all(),
         ]);
     }
 
@@ -46,18 +43,18 @@ class DiretorController extends Controller
     {
         $model = new User();
         $validator = User::validator($request->all());
-        $validator->type = User::TYPE_DIRECTOR;
+        $validator->type = User::TYPE_TEACHER;
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
 
         $model->fill($request->all());
-        $model->type = User::TYPE_DIRECTOR;
+        $model->type = User::TYPE_TEACHER;
         $model->password = Hash::make($model->password);
         $model->save();
 
-        return redirect()->route('diretor_index')->with('success', 'Salvo com sucesso!');
+        return redirect()->route('professor_index')->with('success', 'Salvo com sucesso!');
     }
 
     /**
@@ -80,9 +77,9 @@ class DiretorController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        return view('diretor.update', [
-            'index_menu' => MenuItemsAdmin::DIRETORES,
-            'campus' => Campus::all(),
+        return view('professor.update', [
+            'index_menu' => MenuItemsAdmin::PROFESSORES,
+            'cursos' => Curso::all(),
             'user' => $user,
         ]);
     }
@@ -111,7 +108,7 @@ class DiretorController extends Controller
         }
         
         $model->save();
-        return redirect()->route('diretor_index')->with('success', 'Atualizado com sucesso!');
+        return redirect()->route('professor_index')->with('success', 'Atualizado com sucesso!');
     }
 
     /**
@@ -124,6 +121,6 @@ class DiretorController extends Controller
     {
         $model = User::find($id);
         $model->delete();
-        return redirect()->route('diretor_index')->with('success', 'Excluído com sucesso!');
+        return redirect()->route('professor_index')->with('success', 'Excluído com sucesso!');
     }
 }

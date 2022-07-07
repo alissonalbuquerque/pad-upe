@@ -27,7 +27,7 @@
             @csrf
             @method('POST')
 
-            <div class="form-group">
+            <div class="form-group mt-2">
                 <label for="email"> E-mail </label>
                 <input type="email" class="form-control" name="email" id="email" placeholder="example@email.com"
                     value="{{ $user->email }}">
@@ -36,7 +36,7 @@
                     <span class="text-danger"> {{ $message }} </span>
                 @enderror
             </div>
-            <div class="form-group">
+            <div class="form-group mt-2">
                 <label for="name"> Nome </label>
                 <input type="name" class="form-control" name="name" id="name" placeholder="Nome Completo"
                     value="{{ $user->name }}">
@@ -45,7 +45,7 @@
                     <span class="text-danger"> {{ $message }} </span>
                 @enderror
             </div>
-            <div class="form-group">
+            <div class="form-group mt-2">
                 <label for="document"> CPF </label>
                 <input type="document" class="form-control" name="document" id="document" placeholder="Senha"
                     value="{{ $user->document }}">
@@ -55,8 +55,8 @@
                 @enderror
             </div>
 
-            <div class="form-group">
-                <label for="selectUnidade">Unidade</label>
+            <div class="form-group mt-2">
+                <label for="selectCampus">Campus</label>
                 <select class="form-select form-select" name="campus_id" id="selectCampus"
                     aria-label="Default select example">
                     <option value="" disabled selected hidden> selecione... </option>
@@ -66,13 +66,13 @@
                             {{ $camp->name }}</option>
                     @endforeach
                 </select>
-                @error('unidade_id')
+                @error('campus_id')
                     <span class="text-danger"> {{ $message }} </span>
                 @enderror
             </div>
 
             <div class="form-check mt-3">
-                <input class="form-check-input" type="checkbox" value="" name="alter-password" id="alter-password">
+                <input class="form-check-input" type="checkbox" value="" id="alter-password">
                 <label class="form-check-label" for="flexCheckDefault">
                     Alterar senha
                 </label>
@@ -80,7 +80,7 @@
             
             <div class="col-6">
                 <div class="form-group">
-                    <label for="password"> Senha </label>
+                    <label for="password"> Nova Senha </label>
                     <input type="password" class="form-control" name="password" id="password" placeholder="Senha"
                         value="" disabled>
                     <small id="password_information" class="form-text text-muted"> {{--  --}} </small>

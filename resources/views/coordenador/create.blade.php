@@ -1,84 +1,91 @@
 @extends('layouts.main')
 
-@section('title', 'Campus')
+@section('title', 'Cadastro - Coordenador')
+
 @section('header')
     @include('layouts.header', [
         'user' => Auth::user(),
     ])
 @endsection
+
 @section('nav')
     @include('layouts.navigation', [
         'index_menu' => $index_menu,
     ])
 @endsection
+
 @section('body')
-    <div class="content mx-auto">
-        <h1 class="titulo pt-4 pb-4 mb-3 border-bottom">CADASTRO DE CORRDENADORES</h1>
-        <p class="pb-4 mb-3 text-center text-muted align-items-center">
-            Insira os dados correspondentes nos campos exibidos abaixo
-        </p>
-        <!-- Formulario -->
 
+    @include('components.alerts')
 
-        <form action="{{ route('diretor_store') }}" method="post">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2"> Cadastrar novo Coordenador</h1>
+    </div>
+
+    <div class="content">
+        <form class="" method="post" action="{{ route('coordenador_store') }}">
             @csrf
             @method('POST')
-            <div class="form-group">
-               <label for="inputNameCoordenador">Nome</label>
-               <input type="text" class="form-control" id="inputNameCoordenador" placeholder="Nome">
+
+            <div class="form-group mt-2">
+                <label for="email"> E-mail </label>
+                <input type="email" class="form-control" name="email" id="email" placeholder="example@email.com"
+                    value="">
+                <small id="email_information" class="form-text text-muted"> {{--  --}} </small>
+                @error('email')
+                    <span class="text-danger"> {{ $message }} </span>
+                @enderror
             </div>
-            <div class="form-group">
-               <label for="inputEmailCoordenador">Email</label>
-               <input type="email" class="form-control" id="inputEmailCoordenador" placeholder="nome@upe.br">
+            <div class="form-group mt-2">
+                <label for="name"> Nome </label>
+                <input type="name" class="form-control" name="name" id="name" placeholder="Nome Completo"
+                    value="">
+                <small id="name_information" class="form-text text-muted"> {{--  --}} </small>
+                @error('name')
+                    <span class="text-danger"> {{ $message }} </span>
+                @enderror
             </div>
-            <div class="form-row">
-               <div class="form-group col-md-6">
-                  <label for="inputCPF">CPF</label>
-                  <input type="text" class="form-control" id="inputCPF" placeholder="000.000.000-00">
-               </div>
-               <div class="form-group col-md-6">
-                  <label for="inputMatricula">Matricula</label>
-                  <input type="text" class="form-control" id="inputMatricula" placeholder="Nº Matricula">
-               </div>
+            <div class="form-group mt-2">
+                <label for="document"> CPF </label>
+                <input type="document" class="form-control" name="document" id="document" placeholder="Senha"
+                    value="">
+                <small id="document_information" class="form-text text-muted"> {{--  --}} </small>
+                @error('document')
+                    <span class="text-danger"> {{ $message }} </span>
+                @enderror
             </div>
-            <div class="form-group">
-               <label for="selectArea">Dimensão de atuação</label>
-               <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" aria-label="Default select example">
-                  <option selected>Selecionar dimensão de atuação</option>
-                  <option value="1">ENSINO</option>
-                  <option value="2">PESQUISA</option>
-                  <option value="3">EXTENSÃO</option>
-                  <option value="4">GESTÃO</option>
-               </select>
+
+            <div class="form-group mt-2">
+                <label for="selectCurso">Curso</label>
+                <select class="form-select form-select" name="curso_id" id="selectCurso"
+                    aria-label="Default select example">
+                    <option value="" disabled selected hidden> selecione... </option>
+
+                    @foreach ($cursos as $curso)
+                        <option value="{{ $curso->id }}">{{ $curso->name }}</option>
+                    @endforeach
+                </select>
+                @error('curso_id')
+                    <span class="text-danger"> {{ $message }} </span>
+                @enderror
             </div>
-            <!--
-               <div class="form-row">
-               <div class="form-group col-md-6">
-                 <label for="selectCampus">Campus</label>
-                     <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" aria-label="Default select example">
-                         <option selected>Selecionar Campus</option>
-                         <option value="1">Um</option>
-                         <option value="2">Dois</option>
-                         <option value="3">Três</option>
-                       </select>
-                 </div>
-               <div class="form-group col-md-6">
-                 <label for="selectCurso">Curso</label>
-                     <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" aria-label="Default select example">
-                         <option selected>Selecionar Curso</option>
-                         <option value="1">Um</option>
-                         <option value="2">Dois</option>
-                         <option value="3">Três</option>
-                       </select>
-               </div>
-               </div>
-               -->
-               <div class="d-flex justify-content-between">
-                @include('components.buttons.btn-cancel', [
-                    'route' => route('unidade_index'),
-                ])
-                @include('components.buttons.btn-save')
+
+            <div class="row mt-2">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="password"> Senha </label>
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Senha">
+                        <small id="password_information" class="form-text text-muted"> {{--  --}} </small>
+                        @error('password')
+                            <span class="text-danger"> {{ $message }} </span>
+                        @enderror
+                    </div>
+                </div>
             </div>
-         </form>
+
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-success" type="submit"> Salvar </button>
+            </div>
+        </form>
     </div>
 @endsection

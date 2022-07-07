@@ -13,6 +13,7 @@ use App\Http\Controllers\PadController;
 use App\Http\Controllers\Dimensao\Tabelas\Ensino\EnsinoAulaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CoordenadorController;
+use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\DiretorController;
 use App\Models\Disciplina;
 use Illuminate\Support\Facades\Route;
@@ -110,6 +111,15 @@ Route::prefix('/diretor')->group(function () {
     Route::get('/edit/{id}', [DiretorController::class, 'edit'])->name('diretor_edit');
     Route::post('/update/{id}', [DiretorController::class, 'update'])->name('diretor_update');
     Route::delete('/delete/{id}', [DiretorController::class, 'destroy'])->name('diretor_delete');
+});
+
+Route::prefix('/professor')->group(function () {
+    Route::get('/index', [ProfessorController::class, 'index'])->name('professor_index');
+    Route::get('/create', [ProfessorController::class, 'create'])->name('professor_create');
+    Route::post('/store', [ProfessorController::class, 'store'])->name('professor_store');
+    Route::get('/edit/{id}', [ProfessorController::class, 'edit'])->name('professor_edit');
+    Route::post('/update/{id}', [ProfessorController::class, 'update'])->name('professor_update');
+    Route::delete('/delete/{id}', [ProfessorController::class, 'destroy'])->name('professor_delete');
 });
 
 // return json
