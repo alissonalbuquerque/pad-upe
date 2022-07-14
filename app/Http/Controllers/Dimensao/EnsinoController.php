@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dimensao;
 
 use App\Http\Controllers\Controller;
 use App\Models\Tabelas\Constants;
+use App\Models\Util\MenuItemsTeacher;
 use App\Models\Util\PadTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,7 @@ class EnsinoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index($user_pad_id, $form_selected = null, $model_id = null) {
 
         $user = Auth::user();
         $niveis = Constants::listNivel();
@@ -28,12 +29,13 @@ class EnsinoController extends Controller
         $funcoes_projeto = Constants::listFuncao();
         $funcoes_ensino = Constants::listFuncao();
         $naturezas = Constants::listNatureza();
-        
 
         $divs = PadTables::tablesEnsino();
 
         return view('pad.dimensao.ensino', [
-            'pad_id' => 1,
+            'user_pad_id' => $user_pad_id,
+            'form_selected' => $form_selected,
+            'model_id' => $model_id,
             'niveis' => $niveis,
             'modalidades' => $modalidades,
             'categorias' => $orientacoes,
@@ -41,7 +43,7 @@ class EnsinoController extends Controller
             'funcoes_projeto' => array_diff($funcoes_projeto, [Constants::listFuncao(Constants::FUNCAO_MEMBRO)]),
             'naturezas' => $naturezas,
             'divs' => $divs,
-            'index_menu' => self::MENU_PAD,
+            'index_menu' => MenuItemsTeacher::PAD,
         ]);
     }
 }

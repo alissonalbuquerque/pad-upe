@@ -50,7 +50,7 @@
     </div>
 
     <div class="" id="">
-        @include('pad.components.templates.table', ['table_id' => 'ensino_coordenacao_docente-table'])
+        @include('pad.components.templates.table', ['table_id' => 'ensino_coordenacao_docente-table', 'colunas' => ['Cód', ]])
     </div>
 
 </div>

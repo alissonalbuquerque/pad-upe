@@ -14,18 +14,19 @@
 <script type="text/javascript">
 
     $('#get-divs').change(function(e) {
-        e.preventDefault();
+        e.preventDefault()
 
-        const self = $(this);
+        const self = $(this)
         const divs = {!! $_divs !!}
 
         divs.forEach((div) => {
-            $('#'+div.id).hide();
+            $('#'+div.id).hide()
         })
-        
+
         if(self.val() !== '0') {
-            div = $('#'+self.val());
-            div.show();
+            div = $('#'+self.val())
+            div.show()
+            form_selected = self.val()
         }
 
         

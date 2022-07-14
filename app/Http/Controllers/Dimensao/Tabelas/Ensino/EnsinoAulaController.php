@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Dimensao\Tabelas\Ensino;
 
 use App\Http\Controllers\Controller;
 use App\Models\Tabelas\Ensino\EnsinoAula;
+use App\Models\UserPad;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
 
 class EnsinoAulaController extends Controller
 {   
@@ -15,30 +17,55 @@ class EnsinoAulaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request) {
+        
+        $validator = Validator::make($request->all(), EnsinoAula::rules(), EnsinoAula::messages());
 
-        dd($request->all());
+        if($validator->fails())
+        {   
+            return redirect()
+                        ->route('dimensao_ensino', [
+                            'user_pad_id' => $request->user_pad_id,
+                            'form_selected' => 'ensino_aulas'
+                        ])
+                        ->withErrors($validator)
+                        ->withInput();
+        }
 
-        $model = new EnsinoAula();
-        $model->fill($request->all());
-        $model->save();
+        $user_pad_id = $request->user_pad_id;
+        $div_selected = 'ensino_aulas';
 
-        return redirect()->route('dimensao_ensino');
+        $model = new EnsinoAula($request->all());
+
+        if($model->save()) {
+            return redirect()->route('dimensao_ensino', ['user_pad_id' => $user_pad_id, 'form_selected' => $div_selected])->with('success', 'Cadastro realizado com sucesso!');
+        } else {
+            return redirect()->route('dimensao_ensino', ['user_pad_id' => $user_pad_id, 'form_selected' => $div_selected])->with('fail', 'Erro ao cadastrar Atividade!');
+        }
+        
     }
 
-    public function update(integer $id, Request $request) {
-        dd('UPDATE');
+    public function update($id, Request $request) {
+        
+        dd($request->id);
     }
 
-    public function delete($id){
-
-        dd('DELETE');
-
+    public function delete($id = null, $user_pad_id = null)
+    {   
         $model = EnsinoAula::find($id);
+        $user_pad_id = $model->user_pad_id;
         $model->delete();
-        return redirect()->route('dimensao_ensino');
+        $div_selected = 'ensino_aulas';
+        return redirect()->route('dimensao_ensino', ['user_pad_id' => $user_pad_id, 'form_selected' => $div_selected])->with('success', 'Cadastro realizado com sucesso!');
     }
 
-    public function getAll($pad_id = null) {
-        return Response::json(['message' => 'teste']);
+    public function search($user_pad_id = null) {
+
+        $query = EnsinoAula::initQuery();
+
+        if($user_pad_id) {
+            $query->whereUserPad($user_pad_id)->orderBy('cod_atividade');
+        }
+        
+        return Response::json($query->get());
     }
 }

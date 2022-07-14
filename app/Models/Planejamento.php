@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Queries\PlanejamentoQuery;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -47,6 +48,10 @@ class Planejamento extends Model
      */
     public function dimensaoAsText() {
         return $this->listDimensao($this->dimensao);
+    }
+
+    public static function find() {
+        return new PlanejamentoQuery(get_called_class());
     }
 
 }

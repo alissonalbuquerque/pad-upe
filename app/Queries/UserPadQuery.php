@@ -4,13 +4,12 @@ namespace App\Queries;
 
 use App\Models\UserPad;
 
-class UserPadQuery {
-
-    private $query;
+class UserPadQuery extends CustomQuery {
 
     public function __construct()
     {
         $this->query = UserPad::where([]);
+        self::$instance = $this;
     }
 
     /**
@@ -18,9 +17,9 @@ class UserPadQuery {
      * @return UserPadQuery|Builder
      */
     public function whereId($id, $expression = '=')
-    {
+    {   
         $this->query = $this->query->where('id', $expression, $id);
-        return $this->query;
+        return self::$instance;
     }
 
     /**
@@ -28,16 +27,32 @@ class UserPadQuery {
      * @return UserPadQuery|Builder
      */
     public function whereUser($user_id, $expression = '=')
-    {
+    {   
         $this->query = $this->query->where('user_id', $expression, $user_id);
-        return $this->query;
+        return self::$instance;
     }
 
     /**
-     * @return Builder
+     * @param integer $pad_id
+     * @return UserPadQuery|Builder
      */
-    public function getQuery()
+    public function wherePad($pad_id, $expression = '=')
     {
-        return $this->query;
+        $this->query = $this->query->where('pad_id', $expression, $pad_id);
+        return self::$instance;
     }
+
+    /**
+     * @param integer $status
+     * @return UserPadQuery|Builder
+     */
+    public function wherePadStatus($status, $expression = '=') {
+        $this->query = 
+            $this->query
+                ->leftJoin('pad', 'user_pad.pad_id', '=', 'pad.id')
+                ->where('pad.status', $expression, $status);
+        
+        return self::$instance;
+    }
+
 }

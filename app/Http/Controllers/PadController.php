@@ -9,6 +9,7 @@ use App\Models\Tabelas\Constants;
 use App\Models\User;
 use App\Models\UserPad;
 use App\Models\Util\MenuItemsAdmin;
+use App\Models\Util\MenuItemsTeacher;
 use Database\Seeders\PadSeeder;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +34,7 @@ class PadController extends Controller
         
         if(Auth::user()->isTypeTeacher()) {
 
-            $index_menu = 1;
+            $index_menu = MenuItemsTeacher::PAD;
             $userPads = UserPad::find()->whereUser(Auth::user()->id)->get();
             
             return view('pad.teacher.index', ['index_menu' => $index_menu, 'userPads' => $userPads]);
@@ -46,7 +47,7 @@ class PadController extends Controller
      */
     public function view($id) {
         $index_menu = 1;
-        return view('pad.teacher.view', ['id' => $id, 'index_menu' => $index_menu]);
+        return view('pad.teacher.view', ['user_pad_id' => $id, 'index_menu' => $index_menu]);
     }
     
     /**

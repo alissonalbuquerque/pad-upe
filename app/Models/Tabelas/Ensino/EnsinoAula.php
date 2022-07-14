@@ -4,9 +4,13 @@ namespace App\Models\Tabelas\Ensino;
 
 use App\Models\Curso;
 use App\Models\Disciplina;
+use App\Models\Planejamento;
+use App\Models\Tabelas\Constants;
 use App\Queries\PlanejamentoQuery;
+use App\Queries\Tabelas\Ensino\EnsinoAulaQuery;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\Rule;
 
 class EnsinoAula extends Model
 {
@@ -24,7 +28,7 @@ class EnsinoAula extends Model
      * 
      * @var array
      */
-    protected $fillable = ['pad_id', 'cod_atividade', 'componente_curricular', 'curso', 'nivel', 'modalidade', 'ch_semanal', 'ch_total'];
+    protected $fillable = ['user_pad_id', 'cod_atividade', 'componente_curricular', 'curso', 'nivel', 'modalidade', 'ch_semanal', 'ch_total'];
     
     
     /**
@@ -49,6 +53,41 @@ class EnsinoAula extends Model
         ];
     }
 
+    /*
+        'user_pad_id',
+        'cod_atividade',
+        'componente_curricular',
+        'curso',
+        'nivel',
+        'modalidade',
+        'ch_semanal',
+        'ch_total'
+    */
+
+    public static function rules()
+    {
+        return [
+            'cod_atividade' => ['required', 'string', 'max:255'],
+            'componente_curricular' => ['required', 'string', 'max:255'],
+            'curso' => ['required', 'string', 'max:255'],
+            'nivel' => ['required', 'integer', Rule::in(array_keys(Constants::listNivel()))],
+            'modalidade' => ['required', 'integer', Rule::in(array_keys(Constants::listModalidade()))],
+            'ch_semanal' => ['required', 'integer', 'min:1'],
+            'ch_total' => ['required', 'integer', 'min:1'],
+        ];
+    }
+
+    public static function messages()
+    {
+        return [
+            'required' => 'O campo ":attribute" é obrigatório!',
+            'integer' => 'O campo ":attribute" deve cónter um inteiro!',
+            'in' => 'Selecione uma opção da lista de ":attribute"!',
+            'ch_semanal.min' => 'Carga horária semanal miníma é de 1 Hora!',
+            'ch_total.min' => 'Carga horária total miníma é de 1 Hora!',
+        ];
+    }
+
     /**
      * Get PAD with pad.id = ensino_aulas.pad_id
      * 
@@ -57,26 +96,6 @@ class EnsinoAula extends Model
     public function pad() {
         return $this->belongsTo(PAD::class);
     }
-    
-    // /**
-    //  * Get Curso with curso.id = ensino_aulas.curso_id
-    //  * 
-    //  * @return Curso
-    //  */
-    // public function curso()
-    // {
-    //     return $this->belongsTo(Curso::class);
-    // }
-
-    // /**
-    //  * Get Disciplina with diciplina.id = ensino_aulas.displina_id
-    //  * 
-    //  * @return Disciplina
-    //  */
-    // public function disciplina()
-    // {
-    //     return $this->belongsTo(Disciplina::class);
-    // }
 
     /**
      * Get Disciplina with diciplina.id = ensino_aulas.displina_id
@@ -92,8 +111,12 @@ class EnsinoAula extends Model
      * @return array
      */
     public function getPlanejamentos() {
-        $query = new PlanejamentoQuery();
-        return $query->whereInCodDimensao($this->codesDimensao)->get();
+        return Planejamento::find()->whereInCodDimensao($this->codesDimensao)->get();
+    }
+
+
+    public static function initQuery() {
+        return new EnsinoAulaQuery(get_called_class());
     }
 
 }

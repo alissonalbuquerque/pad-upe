@@ -60,7 +60,7 @@
     </div>
 
     <div class="" id="">
-        @include('pad.components.templates.table', ['table_id' => 'ensino_projeto-table'])
+        @include('pad.components.templates.table', ['table_id' => 'ensino_projeto-table', 'colunas' => ['Cód', ]])
     </div>
 
 </div>

@@ -1,8 +1,18 @@
-<table class="table" id="{{$table_id}}">
-    <thead>
+<div class="border rounded px-4">
+
+    <table class="table table-hover mt-4" id="{{$table_id}}">
+        <thead>
+            <tr>
+                <!-- <th scole="col">#</th> -->
+                @foreach($colunas as $coluna)
+                    <th scole="col">{{ $coluna }}</th>
+                @endforeach
+            </tr>
+        </thead>
         
-    </thead>
-    <tbody>
-        
-    </tbody>
-</table>
+        <tbody>
+
+        </tbody>
+    </table>
+
+</div>

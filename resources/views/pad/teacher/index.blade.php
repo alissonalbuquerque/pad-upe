@@ -27,7 +27,7 @@
                     @endif
                     <h5 class="text-center"> PAD: {{ $userPad->pad->nome }} </h4>
                     <h5 class="text-center"> Status: {{ $userPad->pad->getStatusAsText() }} </h4>
-                    <a class="stretched-link" href="{{ route('pad_view', ['id' => $userPad->pad_id]) }}" target="_blank"></a>
+                    <a class="stretched-link" href="{{ route('pad_view', ['id' => $userPad->id]) }}"></a>
                 </div>
             </div>
         @endforeach

@@ -6,8 +6,8 @@ use App\Models\Planejamento;
 
 class PlanejamentoQuery extends Query {
 
-    public function __construct($init = []) {
-        $this->query = Planejamento::where($init);
+    public function __construct() {
+        $this->query = Planejamento::where([]);
     }
 
     /**
