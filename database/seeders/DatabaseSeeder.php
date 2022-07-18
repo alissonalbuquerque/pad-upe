@@ -23,6 +23,8 @@ class DatabaseSeeder extends Seeder
             PlanejamentoSeeder::class,
             PadSeeder::class,
             DisciplinaSeeder::class,
+            EvaluatorSeeder::class,
+            
         ]);
     }
 }

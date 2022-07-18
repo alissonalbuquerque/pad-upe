@@ -4,6 +4,11 @@ namespace App\Models\Util;
 
 class PadTables {
 
+    const TYPE_ENSINO = 0;
+    const TYPE_EXTENSAO = 1;
+    const TYPE_PESQUISA = 2;
+    const TYPE_GESTAO = 3;
+
     public static function tablesEnsino() {
         return [
             ['id' => 'ensino_aulas', 'name' => 'ENSINO (AULAS EM COMPONENTES CURRICULARES)'],

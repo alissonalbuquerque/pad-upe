@@ -15,7 +15,7 @@
     </li>
 
     <li class="nav-item">
-        <a class="custom-nav-link {{ ((!empty($index_menu) ? $index_menu : 0) == 1? "active": "") }}" id="pad-tab" href="{{ route('pad_index') }}"
+        <a class="custom-nav-link {{ ((!empty($index_menu) ? $index_menu : 0) == 1? "active": "") }}" id="pad-tab" href="{{ route('avaliador_index') }}"
             aria-controls="pad" aria-selected="false">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book-half"
                 viewBox="0 0 16 16">

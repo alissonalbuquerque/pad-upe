@@ -9,14 +9,14 @@ use App\Models\Tabelas\Constants;
 use App\Models\User;
 use App\Models\UserPad;
 use App\Models\Util\MenuItemsAdmin;
-use Database\Seeders\PadSeeder;
+use App\Models\AvaliadorPad;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class PadController extends Controller
+class AvaliadorController extends Controller
 {
     /**
      * Show last PAD.
@@ -25,6 +25,10 @@ class PadController extends Controller
      */
     public function index()
     {
+
+        AvaliadorPad
+
+        return view('pad.avaliacao.index', ['index_menu' => 2]);
         if(Auth::user()->isTypeAdmin()) {
             $pads = Pad::all();
             $index_menu = MenuItemsAdmin::PADS;
@@ -36,7 +40,7 @@ class PadController extends Controller
             $index_menu = 1;
             $userPads = UserPad::find()->whereUser(Auth::user()->id)->get();
             
-            return view('pad.teacher.index', ['index_menu' => $index_menu, 'userPads' => $userPads]);
+            return view('pad.avaliacao.index', ['index_menu' => $index_menu, 'userPads' => $userPads]);
         }
     }
 
@@ -84,7 +88,7 @@ class PadController extends Controller
 
         if($validated) {
             $model = new Pad($request->all());
-        
+            
             if($model->save()) {
                 
                 $users = User::find()->whereType(User::TYPE_TEACHER)->get();

@@ -15,6 +15,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CoordenadorController;
 use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\DiretorController;
+use App\Http\Controllers\AvaliadorController;
 use App\Models\Disciplina;
 use Illuminate\Support\Facades\Route;
 
@@ -120,6 +121,15 @@ Route::prefix('/professor')->group(function () {
     Route::get('/edit/{id}', [ProfessorController::class, 'edit'])->name('professor_edit');
     Route::post('/update/{id}', [ProfessorController::class, 'update'])->name('professor_update');
     Route::delete('/delete/{id}', [ProfessorController::class, 'destroy'])->name('professor_delete');
+});
+
+Route::prefix('/avaliador')->group(function () {
+    Route::get('/index', [AvaliadorController::class, 'index'])->name('avaliador_index');
+    Route::get('/create', [AvaliadorController::class, 'create'])->name('avaliador_create');
+    Route::post('/store', [AvaliadorController::class, 'store'])->name('avaliador_store');
+    Route::get('/edit/{id}', [AvaliadorController::class, 'edit'])->name('avaliador_edit');
+    Route::post('/update/{id}', [AvaliadorController::class, 'update'])->name('avaliador_update');
+    Route::delete('/delete/{id}', [AvaliadorController::class, 'destroy'])->name('avaliador_delete');
 });
 
 // return json

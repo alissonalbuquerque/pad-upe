@@ -29,6 +29,5 @@ class CampusSeeder extends Seeder
                 ]);
             }
         }
-
     }
 }
