@@ -28,7 +28,7 @@
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">Nome</th>
-                    <th scope="col">CPF</th>
+                    <th scope="col">Documento</th>
                     <th scope="col">Ações</th>
                 </tr>
             </thead>
@@ -39,12 +39,12 @@
                         <td>{{ $coordenador->document }}</td>
                         <td>
                             @include('components.buttons.btn-edit', [
-                                'btn_class' => 'btn btn-warning',
                                 'route' => route('coordenador_edit', ['id' => $coordenador->id]),
                             ])
-                            @include('components.buttons.btn-soft-delete', [
+
+                            @include('components.buttons.btn-delete', [
+                                'id' => $coordenador->id,
                                 'route' => route('coordenador_delete', ['id' => $coordenador->id]),
-                                'modal_id' => $coordenador->id,
                             ])
                         </td>
                     </tr>

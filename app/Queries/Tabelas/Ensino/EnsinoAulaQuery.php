@@ -2,16 +2,16 @@
 
 namespace App\Queries\Tabelas\Ensino;
 
-use App\Models\EnsinoAula;
-use App\Models\Tabelas\Ensino\EnsinoAula as EnsinoEnsinoAula;
-use App\Queries\CustomQuery;
-use App\Queries\Query;
 
-class EnsinoAulaQuery extends CustomQuery {
+use App\Models\Tabelas\Ensino\EnsinoAula;
+use App\Queries\CustomQuery;
+
+class EnsinoAulaQuery extends CustomQuery
+{
 
     public function __construct()
     {
-        $this->query = EnsinoEnsinoAula::where([]);
+        $this->query = EnsinoAula::where([]);
         
         self::$instance = $this;
     }

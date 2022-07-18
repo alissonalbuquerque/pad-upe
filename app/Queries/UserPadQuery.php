@@ -4,7 +4,8 @@ namespace App\Queries;
 
 use App\Models\UserPad;
 
-class UserPadQuery extends CustomQuery {
+class UserPadQuery extends CustomQuery
+{
 
     public function __construct()
     {

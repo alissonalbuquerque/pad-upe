@@ -20,6 +20,7 @@ class CampusController extends Controller
     public function index()
     {
         $campus = Campus::all();
+        
         return view('campus.index', [
             'index_menu' => MenuItemsAdmin::CAMPUS,
             'campus' =>  $campus
@@ -122,6 +123,6 @@ class CampusController extends Controller
 
     public function findByUnidade(int $unidade_id)
     {
-        return CampusQuery::whereUnidadeId($unidade_id)->orderBy('name')->get();
+        return Campus::initQuery()->whereUnidadeId($unidade_id)->orderBy('name')->get();
     }
 }

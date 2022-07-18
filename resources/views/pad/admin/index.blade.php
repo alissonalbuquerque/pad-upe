@@ -25,7 +25,7 @@
             <div class="d-flex justify-content-end mb-2">
                 @include('components.buttons.btn-create', [
                     'id' => 'pad_create',
-                    'class' => 'btn-outline-success',
+                    'class' => 'btn-success',
                     'route' => route('pad_create'),
                     'content' => 'Cadastrar',
                 ])
@@ -58,13 +58,13 @@
                             <td>{{ $pad->getStatusAsText() }}</td>
                             <td>
                                 @include('components.buttons.btn-edit', [
-                                    'btn_class' => 'btn btn-outline-primary',
+                                    'btn_class' => 'btn btn-primary',
                                     'route' => route('pad_edit', ['id' => $pad->id])
                                 ])
 
                                 @include('components.buttons.btn-delete', [
                                     'id' => $pad->id,
-                                    'btn_class' => 'btn btn-outline-danger',
+                                    'btn_class' => 'btn btn-danger',
                                     'route' => route('pad_delete', ['id' => $pad->id])
                                 ])
                             </td>

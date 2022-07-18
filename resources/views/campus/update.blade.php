@@ -21,37 +21,52 @@
         <form action="{{ route('campus_update', $campus->id) }}" method="post">
             @csrf
             @method('POST')
-            <div class="form-group">
-                <label for="inputNameCampus">Nome do Campus</label>
-                <input type="text" name="name" class="form-control" id="inputNameCampus"
-                    placeholder="Insira o nome do Campus" value="{{ $campus->name }}{{ old('name') }}">
-                @error('name')
-                    <span class="text-danger"> {{ $message }} </span>
-                @enderror
+
+            <div class='row'>
+
+                <div class='mb-3 col-sm-6'>
+                    <div class="form-group">
+                        <label for="name">Nome do Campus</label>
+                        <input type="text" id="name" name="name" class="form-control" id="name" placeholder="Campus" value="{{ $campus->name }}{{ old('name') }}">
+                        @error('name')
+                            <span class="text-danger"> {{ $message }} </span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class='mb-3 col-sm-6'>
+                    <div class="form-group">
+                        <label for="unidade_id">Unidade</label>
+                        <select class="form-select" name="unidade_id" id="unidade_id">
+                            <option value="" disabled selected hidden> selecione... </option>
+                            @foreach ($unidades as $unidade)
+                                @if($campus->unidade_id == $unidade->id)
+                                    <option selected value="{{ $unidade->id }}"> {{ $unidade->name }} </option>
+                                @else
+                                    <option value="{{ $unidade->id }}"> {{ $unidade->name }} </option>
+                                @endif
+                                
+                            @endforeach
+                        </select>
+                        @error('unidade_id')
+                            <span class="text-danger"> {{ $message }} </span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class='mt-1 text-end'>
+                    @include('components.buttons.btn-cancel', [
+                        'route' => route('campus_index'),
+                        'content' => 'Cancelar'
+                    ])
+                    
+                    @include('components.buttons.btn-save', [
+                        'content' => 'Atualizar',
+                    ])
+                </div>
+                
             </div>
-            <div class="form-group">
-                <label for="selectCampus">Campus</label>
-                <select class="custom-select" name="unidade_id" id="unidade_id">                
-                    <option value="" disabled selected hidden> selecione... </option>
-                    @foreach ($unidades as $unidade)
-                        <option value="{{ $unidade->id }}" {{ $campus->unidade->id == $unidade->id ? 'selected' : '' }}>
-                            {{ $unidade->name }} </option>
-                    @endforeach
-                </select>
-                @error('unidade_id')
-                    <span class="text-danger"> {{ $message }} </span>
-                @enderror
-            </div>
-            <div class="d-flex justify-content-between">
-                @include('components.buttons.btn-cancel', [
-                    'route' => route('campus_index'),
-                ])
-                @include('components.buttons.btn-save', [
-                    'content' => 'Atualizar',
-                    'btn_class' => 'btn btn-outline-success',
-                    'i_class' => '',
-                ])
-            </div>
+
         </form>
     </div>
 @endsection

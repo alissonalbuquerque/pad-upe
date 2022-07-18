@@ -16,37 +16,37 @@
     <div class="d-flex justify-content-between align-items-center border-bottom">
         <h2 class="">TODAS AS UNIDADES</h2>
         @include('components.buttons.btn-create', [
+            'id' => 'unidade_create',
             'route' => route('unidade_create'),
-            'class' => '',
             'content' => 'Nova Unidade',
-            'id' => '',
         ])
     </div>
-    <table class="table mt-5">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Opções</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($unidades as $unidade)
+
+    <div class="table-responsive mt-5">
+        <table class="table table-hover table-striped">
+            <thead class="thead-dark">
                 <tr>
-                    <td scope="row">{{ $unidade->id }}</td>
-                    <td>{{ $unidade->name }}</td>
-                    <td>
-                        @include('components.buttons.btn-edit', [
-                            'btn_class' => 'btn btn-warning',
-                            'route' => route('unidade_edit', ['id' => $unidade->id]),
-                        ])
-                        @include('components.buttons.btn-soft-delete', [
-                            'route' => route('unidade_delete', ['id' => $unidade->id]),
-                            'modal_id' => $unidade->id,
-                        ])
-                    </td>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Ações</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach ($unidades as $unidade)
+                    <tr>
+                        <td>{{ $unidade->name }}</td>
+                        <td>
+                            @include('components.buttons.btn-edit', [
+                                'route' => route('unidade_edit', ['id' => $unidade->id]),
+                            ])
+                            
+                            @include('components.buttons.btn-delete', [
+                                'id' => $unidade->id,
+                                'route' => route('unidade_delete', ['id' => $unidade->id]),
+                            ])
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 @endsection

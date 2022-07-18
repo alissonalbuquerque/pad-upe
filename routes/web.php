@@ -13,8 +13,8 @@ use App\Http\Controllers\PadController;
 use App\Http\Controllers\Dimensao\Tabelas\Ensino\EnsinoAulaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CoordenadorController;
+use App\Http\Controllers\Dimensao\Tabelas\Pesquisa\PesquisaCoordenacaoController;
 use App\Http\Controllers\DiretorController;
-use App\Models\Disciplina;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -81,19 +81,6 @@ Route::prefix('/pad')->group(function () {
     Route::delete('/delete/{id}', [PadController::class, 'delete'])->name('pad_delete');
 });
 
-Route::prefix('/pad/professor')->group(function () {
-    Route::get('/index', [PadController::class, 'index'])->name('pad_index');
-    Route::get('/view/{id}', [PadController::class, 'view'])->name('pad_view');
-    Route::get('/anexo', [PadController::class, 'anexo'])->name('pad_anexo');
-});
-
-Route::prefix('/pad/dimensao/')->group(function () {
-    Route::get('/gestao/{user_pad_id}/{form_selected?}/{model_id?}', [GestaoController::class, 'index'])->name('dimensao_gestao');
-    Route::get('/ensino/{user_pad_id}/{form_selected?}/{model_id?}', [EnsinoController::class, 'index'])->name('dimensao_ensino');
-    Route::get('/pesquisa/{user_pad_id}/{form_selected?}/{model_id?}', [PesquisaController::class, 'index'])->name('dimensao_pesquisa');
-    Route::get('/extensao/{user_pad_id}/{form_selected?}/{model_id?}', [ExtensaoController::class, 'index'])->name('dimensao_extensao');
-});
-
 Route::prefix('/coordenador')->group(function () {
     Route::get('/index', [CoordenadorController::class, 'index'])->name('coordenador_index');
     Route::get('/create', [CoordenadorController::class, 'create'])->name('coordenador_create');
@@ -122,16 +109,41 @@ Route::prefix('/user')->group(function () {
 /** json */
 Route::get('/disciplina/{curso_id}', [DisciplinaController::class, 'getDisciplinaByCurso'])->name('get_disciplina_by_curso');
 
-/* EnsinoAulaController */
-Route::prefix('/pad/dimensao/ensino')->group(function () {
-    Route::post('/aulas/create', [EnsinoAulaController::class, 'create'])->name('ensino_aula_create');
-    Route::post('/ensino/aulas/update/{id?}', [EnsinoAulaController::class, 'update'])->name('ensino_aula_update');
-    Route::delete('/ensino/aulas/delete/{id?}', [EnsinoAulaController::class, 'delete'])->name('ensino_aula_delete');
+/** PadProfessor */
+Route::prefix('/pad/professor')->group(function () {
+    Route::get('/index', [PadController::class, 'index'])->name('pad_index');
+    Route::get('/view/{id}', [PadController::class, 'view'])->name('pad_view');
+    Route::get('/anexo/{id}', [PadController::class, 'anexo'])->name('pad_anexo');
 });
 
+/** Dimensoes|Eixos */
+Route::prefix('/pad/dimensao/')->group(function () {
+    Route::get('/gestao/{user_pad_id}/{form_selected?}', [GestaoController::class, 'index'])->name('dimensao_gestao');
+    Route::get('/ensino/{user_pad_id}/{form_selected?}', [EnsinoController::class, 'index'])->name('dimensao_ensino');
+    Route::get('/pesquisa/{user_pad_id}/{form_selected?}', [PesquisaController::class, 'index'])->name('dimensao_pesquisa');
+    Route::get('/extensao/{user_pad_id}/{form_selected?}', [ExtensaoController::class, 'index'])->name('dimensao_extensao');
+});
 
-// EndPoints Ajax
-Route::get('/pad/dimensao/ensino_aulas/search/{user_pad_id?}', [EnsinoAulaController::class, 'search'])->name('ensino_aula_search');
+/* EnsinoAulaController */
+Route::prefix('/pad/dimensao/ensino/aulas')->group(function () {
+    Route::post('/create', [EnsinoAulaController::class, 'create'])->name('ensino_aula_create');
+    Route::post('/update/{id}', [EnsinoAulaController::class, 'update'])->name('ensino_aula_update');
+    Route::post('/validate', [EnsinoAulaController::class, 'ajaxValidation'])->name('ensino_aula_validate');
+    Route::delete('/delete/{id}', [EnsinoAulaController::class, 'delete'])->name('ensino_aula_delete');
+
+    Route::get('/edit/{id?}', [EnsinoAulaController::class, 'edit'])->name('view_ensino_aula_update');
+    Route::get('/aulas/search/{user_pad_id?}', [EnsinoAulaController::class, 'search'])->name('ensino_aula_search');
+});
+
+/** PesquisaCoordenacaoController */
+Route::prefix('pad/dimensao/pesquisa/coordenacao')->group(function() {
+    Route::post('/create', [PesquisaCoordenacaoController::class, 'create'])->name('pesquisa_coordenacao_create');
+    Route::post('/update/{id}', [PesquisaCoordenacaoController::class, 'update'])->name('pesquisa_coordenacao_update');
+    Route::delete('/delete/{id}', [PesquisaCoordenacaoController::class, 'delete'])->name('pesquisa_coordenacao_delete');
+
+    Route::get('/edit/{id?}', [PesquisaCoordenacaoController::class, 'edit'])->name('pesquisa_coordenacao_edit');
+    Route::get('/search/{user_pad_id?}', [PesquisaCoordenacaoController::class, 'search'])->name('pesquisa_coordenacao_search');
+});
 
 // return json
 Route::get('/listar/unidade', [UnidadeController::class, 'getAll'])->name('listar_unidades');

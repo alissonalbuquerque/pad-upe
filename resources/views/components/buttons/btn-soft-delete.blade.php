@@ -1,6 +1,6 @@
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-{{ $modal_id }}">
-    <i class="fas fa-trash"></i>
+    <i class="bi bi-trash"></i>
 </button>
 
 <!-- Modal -->

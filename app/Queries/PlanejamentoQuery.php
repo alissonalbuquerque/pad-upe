@@ -4,10 +4,14 @@ namespace App\Queries;
 
 use App\Models\Planejamento;
 
-class PlanejamentoQuery extends Query {
+class PlanejamentoQuery extends CustomQuery
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->query = Planejamento::where([]);
+
+        self::$instance = $this;
     }
 
     /**
@@ -15,9 +19,10 @@ class PlanejamentoQuery extends Query {
      * @param string $expression 
      * @return Builder
      */
-    public function whereDimensao(int $dimensao, string $expression = '=') {
+    public function whereDimensao(int $dimensao, string $expression = '=')
+    {
         $this->query = $this->query->where('dimensao', $expression, $dimensao);
-        return $this->query;
+        return self::$instance;
     }
 
     /**
@@ -25,9 +30,10 @@ class PlanejamentoQuery extends Query {
      * @param string $expression 
      * @return Builder
      */
-    public function whereCodDimensao(string $cod_dimensao, string $expression = '=') {
+    public function whereCodDimensao(string $cod_dimensao, string $expression = '=')
+    {
         $this->query = $this->query->where('cod_dimensao', $expression, $cod_dimensao);
-        return $this->query;
+        return self::$instance;
     }
 
     /**
@@ -35,9 +41,10 @@ class PlanejamentoQuery extends Query {
      * @param string $expression 
      * @return Builder
      */
-    public function whereInCodDimensao($codes_dimensao) {
+    public function whereInCodDimensao($codes_dimensao)
+    {
         $this->query = $this->query->whereIn('cod_dimensao', $codes_dimensao);
-        return $this->query;
+        return self::$instance;
     }
 
 }

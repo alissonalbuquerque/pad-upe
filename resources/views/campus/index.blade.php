@@ -17,9 +17,9 @@
         <h2 class="">TODOS OS CAMPUS</h2>
         @include('components.buttons.btn-create', [
             'route' => route('campus_create'),
-            'class' => '',
+            'class' => 'btn btn-success',
             'content' => 'Novo Campus',
-            'id' => '',
+            'id' => 'campus_create',
         ])
     </div>
 
@@ -41,11 +41,12 @@
                         <td>{{ $camp->unidade }}</td>
                         <td>
                             @include('components.buttons.btn-edit', [
-                                'btn_class' => 'btn btn-warning',
                                 'route' => route('campus_edit', ['id' => $camp->id]),
                             ])
-                            @include('components.buttons.btn-soft-delete', [
-                                'modal_id' => $camp->id, 'route' => route('campus_delete', ['id' => $camp->id])
+
+                            @include('components.buttons.btn-delete', [
+                                'id' => $camp->id,
+                                'route' => route('campus_delete', ['id' => $camp->id])
                             ])
                         </td>
                     </tr>

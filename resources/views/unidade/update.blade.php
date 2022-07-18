@@ -21,23 +21,32 @@
         <form action="{{ route('unidade_update', ['id' => $unidade->id]) }}" method="post">
             @csrf
             @method('POST')
-            <div class="form-group">
-                <label for="inputNameCurso">Nome da Unidade</label>
-                <input type="text" class="form-control" name="name" value="{{ $unidade->name }}">
-                @error('name')
-                    <span class="text-danger"> {{ $message }} </span>
-                @enderror
+
+            <div class="row">
+
+                <div class="mb-3 col">
+                    <div class="form-group">
+                        <label for="name">Nome da Unidade</label>
+                        <input type="text" class="form-control" name="name" value="{{ $unidade->name }}" placeholder="Unidade">
+                        @error('name')
+                            <span class="text-danger"> {{ $message }} </span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="mt-1 text-end">
+                    @include('components.buttons.btn-cancel', [
+                        'route' => route('unidade_index'),
+                        'content' => 'Cancelar'
+                    ])
+
+                    @include('components.buttons.btn-save', [
+                        'content' => 'Cadastrar',
+                    ])
+                </div>
+
             </div>
-            <div class="d-flex justify-content-between">
-                @include('components.buttons.btn-cancel', [
-                    'route' => route('unidade_index'),
-                ])
-                @include('components.buttons.btn-save', [
-                    'content' => 'Atualizar',
-                    'btn_class' => 'btn btn-outline-success',
-                    'i_class' => '',
-                ])
-            </div>
+
         </form>
     </div>
 @endsection

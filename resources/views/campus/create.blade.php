@@ -22,37 +22,50 @@
         <form action="{{ route('campus_store') }}" method="post">
             @csrf
             @method('POST')
-            <div class="form-group">
-                <label for="inputNameCampus">Nome do Campus</label>
-                <input type="text" name="name" class="form-control" id="inputNameCampus"
-                    placeholder="Insira o nome do Campus" value="{{ old('name') }}">
-                @error('name')
-                    <span class="text-danger"> {{ $message }} </span>
-                @enderror
+
+            <div class='row'>
+
+                <div class='mb-3 col-sm-6'>
+                    <div class="form-group">
+                        <label for="name">Nome do Campus</label>
+                        <input type="text" name="name" class="form-control" id="name"
+                            placeholder="Campus" value="{{ old('name') }}">
+                        @error('name')
+                            <span class="text-danger"> {{ $message }} </span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class='mb-3 col-sm-6'>
+                    <div class="form-group">
+                        <label for="unidade_id">Unidade</label>
+                        <select class="form-select" name="unidade_id" id="unidade_id">
+                            <option value="" disabled selected hidden> selecione... </option>
+                            @foreach ($unidades as $unidade)
+                                <option value="{{ $unidade->id }}" {{ old('unidade_id') == $unidade->id ? 'selected' : '' }}>
+                                    {{ $unidade->name }} </option>
+                            @endforeach
+                        </select>
+                        @error('unidade_id')
+                            <span class="text-danger"> {{ $message }} </span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class='mt-1 text-end'>
+                    @include('components.buttons.btn-cancel', [
+                        'route' => route('campus_index'),
+                        'content' => 'Cancelar'
+                    ])
+                    
+                    @include('components.buttons.btn-save', [
+                        'content' => 'Cadastrar'
+                    ])
+                </div>
+                
             </div>
-            <div class="form-group">
-                <label for="selectCampus">Campus</label>
-                <select class="custom-select" name="unidade_id" id="unidade_id">                
-                    <option value="" disabled selected hidden> selecione... </option>
-                    @foreach ($unidades as $unidade)
-                        <option value="{{ $unidade->id }}" {{ old('unidade_id') == $unidade->id ? 'selected' : '' }}>
-                            {{ $unidade->name }} </option>
-                    @endforeach
-                </select>
-                @error('unidade_id')
-                    <span class="text-danger"> {{ $message }} </span>
-                @enderror
-            </div>
-            <div class="d-flex justify-content-between">
-                @include('components.buttons.btn-cancel', [
-                    'route' => route('campus_index'),
-                ])
-                @include('components.buttons.btn-save', [
-                    'content' => 'Cadastrar',
-                    'btn_class' => 'btn btn-outline-success',
-                    'i_class' => '',
-                ])
-            </div>
+
         </form>
+
     </div>
 @endsection

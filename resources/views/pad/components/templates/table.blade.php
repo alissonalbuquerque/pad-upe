@@ -11,7 +11,12 @@
         </thead>
         
         <tbody>
-
+            <tr>
+                    <!-- <th scole="col">#</th> -->
+                    @foreach($colunas as $coluna)
+                        <th scole="col">{{ $coluna }}</th>
+                    @endforeach
+                </tr>
         </tbody>
     </table>
 

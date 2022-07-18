@@ -2,18 +2,28 @@
 
 namespace App\Queries;
 
-use App\Models\PAD;
+use App\Models\Pad;
 
-class PADQuery extends PAD {
+class PadQuery extends CustomQuery
+{
+
+    public function __construct()
+    {
+        $this->query = Pad::where([]);
+
+        self::$instance = $this;
+    }
 
     /**
      * @param integer $id
      * @param string $expression 
      * @return PAD|null
      */
-    public static function whereUnidadeId(int $id, string $expression = '=')
+    public function whereUnidadeId(int $id, string $expression = '=')
     {
-        return PAD::where('unidade_id', $expression, $id);
+        $this->query = $this->query->where('unidade_id', $expression, $id);
+
+        return self::$instance;
     }
         
 }

@@ -30,6 +30,13 @@ class EnsinoAula extends Model
      */
     protected $fillable = ['user_pad_id', 'cod_atividade', 'componente_curricular', 'curso', 'nivel', 'modalidade', 'ch_semanal', 'ch_total'];
     
+    public function nivelAsString() {
+        return Constants::listNivel($this->nivel);
+    }
+
+    public function modalidadeAsString() {
+        return Constants::listModalidade($this->modalidade);
+    }
     
     /**
      * cod_dimensao from planejamento table

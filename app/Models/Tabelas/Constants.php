@@ -17,7 +17,9 @@ class Constants {
 
     const FUNCAO_COORDENADOR = 1;
     const FUNCAO_COLABORADOR = 2;
-    const FUNCAO_MEMBRO = 3;
+    const FUNCAO_ORIENTADOR = 4;
+    const FUNCAO_CO_ORIENTADOR = 5;
+    const FUNCAO_MEMBRO = 6;
 
     const NATUREZA_INOVACAO = 1;
     const NATUREZA_PEDAGOGICA = 2;
@@ -27,6 +29,12 @@ class Constants {
     const STATUS_ATIVO = 1;
     const STATUS_INATIVO = 2;
     const STATUS_ARQUIVADO = 3;
+
+    const DIMENSAO_ENSINO = 1;
+    const DIMENSAO_PESQUISA = 2;
+    const DIMENSAO_EXTENSAO = 3;
+    const DIMENSAO_GESTAO = 4;
+    const DIMENSAO_ANEXO = 5; 
 
 
     /**
@@ -71,11 +79,34 @@ class Constants {
     /**
      * @return array|string
      */
-    public static function listFuncao($value = null) {
+    public static function listFuncaoEnsino($value = null) {
+        $values = [
+            self::FUNCAO_COORDENADOR => 'Coordenador',
+            self::FUNCAO_MEMBRO => 'Membro',
+        ];
+        
+        return $value !== null? $values[$value] : $values;
+    }
+
+    /**
+     * @return array|string
+     */
+    public static function listFuncaoOrientador($value = null) {
+        $values = [
+            self::FUNCAO_ORIENTADOR => 'Orientador',
+            self::FUNCAO_CO_ORIENTADOR => 'Coorientador',
+        ];
+        
+        return $value !== null? $values[$value] : $values;
+    }
+
+    /**
+     * @return array|string
+     */
+    public static function listFuncaoProjeto($value = null) {
         $values = [
             self::FUNCAO_COORDENADOR => 'Coordenador',
             self::FUNCAO_COLABORADOR => 'Colaborador',
-            self::FUNCAO_MEMBRO => 'Membro',
         ];
         
         return $value !== null? $values[$value] : $values;
@@ -105,5 +136,19 @@ class Constants {
     
         return $value !== null? $values[$value] : $values;
     }
+
+    public static function listDimensao($value = null) {
+    
+        $values = [
+            self::DIMENSAO_ENSINO => 'Ensino',
+            self::DIMENSAO_PESQUISA => 'Pesquisa',
+            self::DIMENSAO_EXTENSAO => 'Extensão',
+            self::DIMENSAO_GESTAO => 'Gestão',
+            self::DIMENSAO_ANEXO => 'Anexo',
+        ];
+    
+        return $value !== null? $values[$value] : $values;
+    }
+    
     
 }

@@ -68,10 +68,14 @@
         
             </div>
 
-            <div class="d-flex justify-content-end mt-4">
+            <div class="mt-1 text-end">
+                @include('components.buttons.btn-cancel', [
+                    'route' => route('pad_index'),
+                    'content' => 'Cancelar'
+                ])
+
                 @include('components.buttons.btn-save', [
                     'btn_class' => 'btn btn-outline-success',
-                    'i_class' => '',
                     'content' => 'Atualizar',
                 ])
             </div>

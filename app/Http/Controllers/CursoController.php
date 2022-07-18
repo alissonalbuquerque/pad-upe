@@ -87,7 +87,7 @@ class CursoController extends Controller
         $curso = Curso::findOrFail($id);
         return view('curso.update', [
             'allCampus' => Campus::all(),
-            'index_menu' => MenuItemsAdmin::CAMPUS,
+            'index_menu' => MenuItemsAdmin::CURSOS,
             'curso' => $curso,
         ]);
     }

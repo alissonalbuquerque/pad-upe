@@ -4,16 +4,21 @@ namespace App\Queries;
 
 use App\Models\Curso;
 
-class CursoQuery extends Query {
+class CursoQuery extends CustomQuery
+{
 
-    public function __construct($init = [])
+    public function __construct()
     {
         $this->query = Curso::where([]);
+
+        self::$instance = $this;
     }
 
-    public function whereCampusId(int $campus_id, string $expression = '=') {
+    public function whereCampusId(int $campus_id, string $expression = '=')
+    {
         $this->query = $this->query->where('campus_id', $expression, $campus_id);
-        return $this->query;
+        
+        return self::$instance;
     }
 
 }

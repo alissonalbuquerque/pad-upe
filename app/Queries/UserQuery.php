@@ -4,13 +4,14 @@ namespace App\Queries;
 
 use App\Models\User;
 
-class UserQuery {
-
-    private $query;
+class UserQuery extends CustomQuery
+{
 
     public function __construct()
     {
         $this->query = User::where([]);
+
+        self::$instance = $this;
     }
 
     /**
@@ -20,7 +21,7 @@ class UserQuery {
     public function whereId($id, $expression = '=')
     {
         $this->query = $this->query->where('id', $expression, $id);
-        return $this->query;
+        return self::$instance;
     }
 
     /**
@@ -30,14 +31,7 @@ class UserQuery {
     public function whereType($type, $expression = '=')
     {
         $this->query = $this->query->where('type', $expression, $type);
-        return $this->query;
+        return self::$instance;
     }
 
-    /**
-     * @return Builder
-     */
-    public function getQuery()
-    {
-        return $this->query;
-    }
 }

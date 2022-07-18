@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Queries\CampusQuery;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -65,5 +66,10 @@ class Campus extends Model
         } catch(ValidationException $exception) {
 
         }
+    }
+
+    public static function initQuery()
+    {
+        return new CampusQuery(get_called_class());
     }
 }
