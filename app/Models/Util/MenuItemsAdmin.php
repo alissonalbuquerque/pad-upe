@@ -12,4 +12,5 @@ class MenuItemsAdmin
     const DIRETORES = 4;
     const COORDENADORES = 5;
     const PADS = 6;
+    const PROFESSORES = 7;
 }

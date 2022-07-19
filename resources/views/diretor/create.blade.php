@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Atulizar Perfil')
+@section('title', 'Cadastro - Diretor')
 
 @section('header')
     @include('layouts.header', [

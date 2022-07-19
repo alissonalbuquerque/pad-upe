@@ -2,11 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\PAD;
-use App\Models\User;
 use Illuminate\Database\Seeder;
 
-class PadSeeder extends Seeder
+class AvaliacaoSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +12,7 @@ class PadSeeder extends Seeder
      * @return void
      */
     public function run()
-    {   
+    {
+        //
     }
 }

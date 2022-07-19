@@ -68,6 +68,14 @@ $("#btn-update-perfil").on('click', () => {
     $("#update-perfil-tab").click()
 })
 
+// Update director and coordinators profile from admin page
+$('#alter-password').on('change', function() {
+    if($('#alter-password').is(':checked') ){
+        $("#password").removeAttr('disabled');  
+    }else{
+        $("#password").attr('disabled','disabled');
+    }
+});
 // $('#')
 </script>
 

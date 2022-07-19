@@ -6,15 +6,15 @@ use App\Queries\UserPadQuery;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserPad extends Model
+class AvaliadorPad extends Model
 {
     use HasFactory;
 
-    protected $table = 'user_pad';
+    protected $table = 'avaliador_pad';
 
-    protected $fillable = ['user_id', 'pad_id'];
+    protected $fillable = ['id', 'dimensao', 'user_id', 'pad_id'];
 
-    public function user() {
+    public function Avaliador() {
         return $this->belongsTo(User::class);
     }
 

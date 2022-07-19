@@ -1,26 +1,29 @@
 @extends('layouts.main')
 
-@section('title', 'Campus')
+@section('title', 'Cadastro - Coordenador')
+
 @section('header')
     @include('layouts.header', [
         'user' => Auth::user(),
     ])
 @endsection
+
 @section('nav')
     @include('layouts.navigation', [
         'index_menu' => $index_menu,
     ])
 @endsection
+
 @section('body')
-    <div class="content mx-auto">
-        <h1 class="titulo pt-4 pb-4 mb-3 border-bottom">CADASTRO DE CORRDENADORES</h1>
-        <p class="pb-4 mb-3 text-center text-muted align-items-center">
-            Insira os dados correspondentes nos campos exibidos abaixo
-        </p>
-        <!-- Formulario -->
 
+    @include('components.alerts')
 
-        <form action="{{ route('diretor_store') }}" method="post">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2"> Cadastrar novo Coordenador</h1>
+    </div>
+
+    <div class="content">
+        <form class="" method="post" action="{{ route('coordenador_store') }}">
             @csrf
             @method('POST')
 
@@ -103,6 +106,10 @@
                -->
 
             </div>
-         </form>
+
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-success" type="submit"> Salvar </button>
+            </div>
+        </form>
     </div>
 @endsection

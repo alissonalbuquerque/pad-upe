@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Coordenadores')
+@section('title', 'Professores')
 @section('header')
     @include('layouts.header', [
         'user' => Auth::user(),
@@ -13,11 +13,11 @@
 @endsection
 @section('body')
     <div class="d-flex justify-content-between align-items-center border-bottom">
-        <h2 class="">Coordenadores</h2>
+        <h2 class="">Professores</h2>
         @include('components.buttons.btn-create', [
-            'route' => route('coordenador_create'),
+            'route' => route('professor_create'),
             'class' => '',
-            'content' => 'Novo Coordenador',
+            'content' => 'Novo Professor',
             'id' => '',
         ])
     </div>
@@ -28,23 +28,23 @@
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">Nome</th>
-                    <th scope="col">Documento</th>
+                    <th scope="col">CPF</th>
                     <th scope="col">Ações</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($coordenadores as $coordenador)
+                @foreach ($professores as $professor)
                     <tr>
-                        <td>{{ $coordenador->name }}</td>
-                        <td>{{ $coordenador->document }}</td>
+                        <td>{{ $professor->name }}</td>
+                        <td>{{ $professor->document }}</td>
                         <td>
                             @include('components.buttons.btn-edit', [
-                                'route' => route('coordenador_edit', ['id' => $coordenador->id]),
+                                'btn_class' => 'btn btn-warning',
+                                'route' => route('professor_edit', ['id' => $professor->id]),
                             ])
-
-                            @include('components.buttons.btn-delete', [
-                                'id' => $coordenador->id,
-                                'route' => route('coordenador_delete', ['id' => $coordenador->id]),
+                            @include('components.buttons.btn-soft-delete', [
+                                'route' => route('professor_delete', ['id' => $professor->id]),
+                                'modal_id' => $professor->id,
                             ])
                         </td>
                     </tr>

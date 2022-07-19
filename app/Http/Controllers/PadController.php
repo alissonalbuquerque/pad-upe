@@ -85,7 +85,7 @@ class PadController extends Controller
 
         if($validated) {
             $model = new Pad($request->all());
-            
+        
             if($model->save()) {
                 
                 $users = User::find()->whereType(User::TYPE_TEACHER)->get();

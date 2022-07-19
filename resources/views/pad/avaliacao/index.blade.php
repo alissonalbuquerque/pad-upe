@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Coordenadores')
+@section('title', 'Campus')
 @section('header')
     @include('layouts.header', [
         'user' => Auth::user(),
@@ -12,12 +12,13 @@
     ])
 @endsection
 @section('body')
+    @include('components.alerts')
     <div class="d-flex justify-content-between align-items-center border-bottom">
-        <h2 class="">Coordenadores</h2>
+        <h2 class="">PADs</h2>
         @include('components.buttons.btn-create', [
-            'route' => route('coordenador_create'),
+            'route' => route('campus_create'),
             'class' => '',
-            'content' => 'Novo Coordenador',
+            'content' => 'Novo Campus',
             'id' => '',
         ])
     </div>
@@ -28,27 +29,27 @@
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">Nome</th>
-                    <th scope="col">Documento</th>
+                    <th scope="col">Unidade</th>
                     <th scope="col">Ações</th>
                 </tr>
             </thead>
+
             <tbody>
-                @foreach ($coordenadores as $coordenador)
+               {{--  @foreach ($campus as $camp)
                     <tr>
-                        <td>{{ $coordenador->name }}</td>
-                        <td>{{ $coordenador->document }}</td>
+                        <td>{{ $camp->name }}</td>
+                        <td>{{ $camp->unidade }}</td>
                         <td>
                             @include('components.buttons.btn-edit', [
-                                'route' => route('coordenador_edit', ['id' => $coordenador->id]),
+                                'btn_class' => 'btn btn-warning',
+                                'route' => route('campus_edit', ['id' => $camp->id]),
                             ])
-
-                            @include('components.buttons.btn-delete', [
-                                'id' => $coordenador->id,
-                                'route' => route('coordenador_delete', ['id' => $coordenador->id]),
+                            @include('components.buttons.btn-soft-delete', [
+                                'modal_id' => $camp->id, 'route' => route('campus_delete', ['id' => $camp->id])
                             ])
                         </td>
-                    </tr>
-                @endforeach
+                    </tr> 
+                @endforeach  --}}
             </tbody>
         </table>
     </div>
