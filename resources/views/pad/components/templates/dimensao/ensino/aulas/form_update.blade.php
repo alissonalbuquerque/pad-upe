@@ -1,5 +1,5 @@
 
-<div id="ensino_aulas">
+<div id="ensino_aula">
     <div>
         <div class="mb-3">
             <h3 class="h3"> Ensino - Aulas </h3 class="h3">
@@ -19,8 +19,7 @@
                     <input class="form-control @error('componente_curricular') is-invalid @enderror" type="text" name="componente_curricular" id="componente_curricular" value="{{$model->componente_curricular}}">
                     
                     @include('components.divs.errors', [
-                        'form' => 'ensino_aulas_form_update',
-                        'field' => 'componente_curricular',
+                        'field' => 'componente_curricular_update',
                     ])
 
                 </div>
@@ -30,8 +29,7 @@
                     <input class="form-control @error('curso') is-invalid @enderror" type="text" name="curso" id="curso" value="{{$model->curso}}">
                     
                     @include('components.divs.errors', [
-                        'form' => 'ensino_aulas_form_update',
-                        'field' => 'curso',
+                        'field' => 'curso_update',
                     ])
                 </div>
 
@@ -49,8 +47,7 @@
                     </select>
                     
                     @include('components.divs.errors', [
-                        'form' => 'ensino_aulas_form_update',
-                        'field' => 'nivel',
+                        'field' => 'nivel_update',
                     ])
                 </div>
 
@@ -68,8 +65,7 @@
                     </select>
 
                     @include('components.divs.errors', [
-                        'form' => 'ensino_aulas_form_update',
-                        'field' => 'modalidade',
+                        'field' => 'modalidade_update',
                     ])
                 </div>
 
@@ -78,8 +74,7 @@
                     <input class="form-control @error('ch_semanal') is-invalid @enderror" type="number" name="ch_semanal" id="ch_semanal" value="{{$model->ch_semanal}}">
                     
                     @include('components.divs.errors', [
-                        'form' => 'ensino_aulas_form_update',
-                        'field' => 'ch_semanal',
+                        'field' => 'ch_semanal_update',
                     ])
                 </div>
 
@@ -88,17 +83,19 @@
                     <input class="form-control @error('ch_total') is-invalid @enderror" type="number" name="ch_total" id="ch_total" value="{{$model->ch_total}}">
 
                     @include('components.divs.errors', [
-                        'form' => 'ensino_aulas_form_update',
-                        'field' => 'ch_total',
+                        'field' => 'ch_total_update',
                     ])
                 </div>
             </div>
 
             <div class="mt-1 text-end">
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" id="btn-submit_ensino_aulas-update" class="btn btn-success rounded">Atualizar</button>
-                    
+                    @include('components.buttons.btn-close_modal')
+
+                    @include('components.buttons.btn-save', [
+                        'id' => 'btn-submit_ensino_aulas-update',
+                        'content' => 'Atualizar',
+                    ])
                 </div>
             </div>
             
@@ -110,6 +107,6 @@
 @include('pad.components.scripts.ajaxValidation', [
     'btn_submit_id' => 'btn-submit_ensino_aulas-update',
     'form_id' => 'ensino_aulas_update-form',
+    'form_type' => 'update',
     'route' => route('ensino_aula_validate'),
-    'div_errors' => 'ensino_aulas_form_update',
 ])

@@ -1,9 +1,8 @@
 {{--
     @include('pad.components.scripts.dimensao.ensino.show_modal', [
-        'btn_edit_class' => '', 
+        'modal_id' => '',
         'route' => '', 
-        'modal_id' => '', 
-        'header' => '', 
+        'btn_edit_class' => '',
     ])
 --}}
 
@@ -12,9 +11,6 @@
     $('.{{ $btn_edit_class }}').click(function(e) {
 
         const id = $(this).attr('id')
-
-        
-        $('#modal-label-title-header-{{ $modal_id }}').text('{{ $header }}')
 
         $.ajax({
             type: 'GET',

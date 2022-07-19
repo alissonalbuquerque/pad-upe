@@ -10,13 +10,20 @@ use App\Http\Controllers\Dimensao\GestaoController;
 use App\Http\Controllers\DisciplinaController;
 use App\Http\Controllers\UnidadeController;
 use App\Http\Controllers\PadController;
-use App\Http\Controllers\Dimensao\Tabelas\Ensino\EnsinoAulaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CoordenadorController;
-use App\Http\Controllers\Dimensao\Tabelas\Pesquisa\PesquisaCoordenacaoController;
 use App\Http\Controllers\DiretorController;
 use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\AvaliadorController;
+use App\Http\Controllers\Dimensao\Tabelas\Ensino\EnsinoAulaController;
+use App\Http\Controllers\Dimensao\Tabelas\Ensino\EnsinoAtendimentoDiscenteController;
+use App\Http\Controllers\Dimensao\Tabelas\Ensino\EnsinoCoordenacaoDisciplinaController;
+use App\Http\Controllers\Dimensao\Tabelas\Ensino\EnsinoOrientacaoController;
+use App\Http\Controllers\Dimensao\Tabelas\Ensino\EnsinoParticipacaoController;
+use App\Http\Controllers\Dimensao\Tabelas\Ensino\EnsinoProjetoController;
+use App\Http\Controllers\Dimensao\Tabelas\Ensino\EnsinoSupervisaoController;
+use App\Http\Controllers\Dimensao\Tabelas\Ensino\EnsinoCoordenacaoDocenteController;
+use App\Http\Controllers\Dimensao\Tabelas\Pesquisa\PesquisaCoordenacaoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -137,8 +144,8 @@ Route::prefix('/pad/professor')->group(function () {
 
 /** Dimensoes|Eixos */
 Route::prefix('/pad/dimensao/')->group(function () {
-    Route::get('/gestao/{user_pad_id}/{form_selected?}', [GestaoController::class, 'index'])->name('dimensao_gestao');
-    Route::get('/ensino/{user_pad_id}/{form_selected?}', [EnsinoController::class, 'index'])->name('dimensao_ensino');
+    Route::get('/gestao/{user_pad_id}', [GestaoController::class, 'index'])->name('dimensao_gestao');
+    Route::get('/ensino/{user_pad_id}', [EnsinoController::class, 'index'])->name('dimensao_ensino');
     Route::get('/pesquisa/{user_pad_id}/{form_selected?}', [PesquisaController::class, 'index'])->name('dimensao_pesquisa');
     Route::get('/extensao/{user_pad_id}/{form_selected?}', [ExtensaoController::class, 'index'])->name('dimensao_extensao');
 });
@@ -150,10 +157,96 @@ Route::prefix('/pad/dimensao/ensino/aulas')->group(function () {
     Route::post('/validate', [EnsinoAulaController::class, 'ajaxValidation'])->name('ensino_aula_validate');
     Route::delete('/delete/{id}', [EnsinoAulaController::class, 'delete'])->name('ensino_aula_delete');
 
-    Route::get('/index/{id}', [EnsinoAulaController::class, 'index'])->name('ensino_aula_index');
+    Route::get('/index/{user_pad_id}', [EnsinoAulaController::class, 'index'])->name('ensino_aula_index');
     Route::get('/edit/{id?}', [EnsinoAulaController::class, 'edit'])->name('view_ensino_aula_update');
-    Route::get('/aulas/search/{user_pad_id?}', [EnsinoAulaController::class, 'search'])->name('ensino_aula_search');
+    Route::get('/search/{user_pad_id?}', [EnsinoAulaController::class, 'search'])->name('ensino_aula_search');
 });
+
+/* EnsinoCoordenacaoDisciplinaController */
+Route::prefix('/pad/dimensao/ensino/coordenacao/disciplina')->group(function () {
+    Route::post('/create', [EnsinoCoordenacaoDisciplinaController::class, 'create'])->name('ensino_coordenacao_disciplina_create');
+    Route::post('/update/{id}', [EnsinoCoordenacaoDisciplinaController::class, 'update'])->name('ensino_coordenacao_disciplina_update');
+    Route::post('/validate', [EnsinoCoordenacaoDisciplinaController::class, 'ajaxValidation'])->name('ensino_coordenacao_disciplina_validate');
+    Route::delete('/delete/{id}', [EnsinoCoordenacaoDisciplinaController::class, 'delete'])->name('ensino_coordenacao_disciplina_delete');
+
+    Route::get('/index/{user_pad_id}', [EnsinoCoordenacaoDisciplinaController::class, 'index'])->name('ensino_coordenacao_disciplina_index');
+    Route::get('/edit/{id?}', [EnsinoCoordenacaoDisciplinaController::class, 'edit'])->name('ensino_coordenacao_disciplina_update');
+    Route::get('/search/{user_pad_id?}', [EnsinoCoordenacaoDisciplinaController::class, 'search'])->name('ensino_coordenacao_disciplina_search');
+});
+
+
+/* EnsinoOrientacaoController */
+Route::prefix('/pad/dimensao/ensino/orientacao')->group(function () {
+    Route::post('/create', [EnsinoOrientacaoController::class, 'create'])->name('ensino_orientacao_create');
+    Route::post('/update/{id}', [EnsinoOrientacaoController::class, 'update'])->name('ensino_orientacao_update');
+    Route::post('/validate', [EnsinoOrientacaoController::class, 'ajaxValidation'])->name('ensino_orientacao_validate');
+    Route::delete('/delete/{id}', [EnsinoOrientacaoController::class, 'delete'])->name('ensino_orientacao_delete');
+
+    Route::get('/index/{user_pad_id}', [EnsinoOrientacaoController::class, 'index'])->name('ensino_orientacao_index');
+    Route::get('/edit/{id?}', [EnsinoOrientacaoController::class, 'edit'])->name('view_ensino_orientacao_update');
+    Route::get('/search/{user_pad_id?}', [EnsinoOrientacaoController::class, 'search'])->name('ensino_orientacao_search');
+});
+
+/* EnsinoSupervisaoController */
+Route::prefix('/pad/dimensao/ensino/supervisao')->group(function () {
+    Route::post('/create', [EnsinoSupervisaoController::class, 'create'])->name('ensino_supervisao_create');
+    Route::post('/update/{id}', [EnsinoSupervisaoController::class, 'update'])->name('ensino_supervisao_update');
+    Route::post('/validate', [EnsinoSupervisaoController::class, 'ajaxValidation'])->name('ensino_supervisao_validate');
+    Route::delete('/delete/{id}', [EnsinoSupervisaoController::class, 'delete'])->name('ensino_supervisao_delete');
+
+    Route::get('/index/{user_pad_id}', [EnsinoSupervisaoController::class, 'index'])->name('ensino_supervisao_index');
+    Route::get('/edit/{id?}', [EnsinoSupervisaoController::class, 'edit'])->name('ensino_supervisao_update');
+    Route::get('/search/{user_pad_id?}', [EnsinoSupervisaoController::class, 'search'])->name('ensino_supervisao_search');
+});
+
+/* EnsinoAtendimentoDiscenteController */
+Route::prefix('/pad/dimensao/ensino/atendimento/discente')->group(function () {
+    Route::post('/create', [EnsinoAtendimentoDiscenteController::class, 'create'])->name('ensino_atendimento_discente_create');
+    Route::post('/update/{id}', [EnsinoAtendimentoDiscenteController::class, 'update'])->name('ensino_atendimento_discente_update');
+    Route::post('/validate', [EnsinoAtendimentoDiscenteController::class, 'ajaxValidation'])->name('ensino_atendimento_discente_validate');
+    Route::delete('/delete/{id}', [EnsinoAtendimentoDiscenteController::class, 'delete'])->name('ensino_atendimento_discente_delete');
+
+    Route::get('/index/{user_pad_id}', [EnsinoAtendimentoDiscenteController::class, 'index'])->name('ensino_atendimento_discente_index');
+    Route::get('/edit/{id?}', [EnsinoAtendimentoDiscenteController::class, 'edit'])->name('ensino_atendimento_discente_update');
+    Route::get('/search/{user_pad_id?}', [EnsinoAtendimentoDiscenteController::class, 'search'])->name('ensino_atendimento_discente_search');
+});
+
+/* EnsinoProjetoController */
+Route::prefix('/pad/dimensao/ensino/projeto')->group(function () {
+    Route::post('/create', [EnsinoProjetoController::class, 'create'])->name('ensino_projeto_create');
+    Route::post('/update/{id}', [EnsinoProjetoController::class, 'update'])->name('ensino_projeto_update');
+    Route::post('/validate', [EnsinoProjetoController::class, 'ajaxValidation'])->name('ensino_projeto_validate');
+    Route::delete('/delete/{id}', [EnsinoProjetoController::class, 'delete'])->name('ensino_projeto_delete');
+
+    Route::get('/index/{user_pad_id}', [EnsinoProjetoController::class, 'index'])->name('ensino_projeto_index');
+    Route::get('/edit/{id?}', [EnsinoProjetoController::class, 'edit'])->name('ensino_projeto_update');
+    Route::get('/search/{user_pad_id?}', [EnsinoProjetoController::class, 'search'])->name('ensino_projeto_search');
+});
+
+/* EnsinoParticipacaoController */
+Route::prefix('/pad/dimensao/ensino/participacao')->group(function () {
+    Route::post('/create', [EnsinoParticipacaoController::class, 'create'])->name('ensino_participacao_create');
+    Route::post('/update/{id}', [EnsinoParticipacaoController::class, 'update'])->name('ensino_participacao_update');
+    Route::post('/validate', [EnsinoParticipacaoController::class, 'ajaxValidation'])->name('ensino_participacao_validate');
+    Route::delete('/delete/{id}', [EnsinoParticipacaoController::class, 'delete'])->name('ensino_participacao_delete');
+
+    Route::get('/index/{user_pad_id}', [EnsinoParticipacaoController::class, 'index'])->name('ensino_participacao_index');
+    Route::get('/edit/{id?}', [EnsinoParticipacaoController::class, 'edit'])->name('ensino_participacao_update');
+    Route::get('/search/{user_pad_id?}', [EnsinoParticipacaoController::class, 'search'])->name('ensino_participacao_search');
+});
+
+/* EnsinoCoordenacaoDocenteController */
+Route::prefix('/pad/dimensao/ensino/coordenacao/docente')->group(function () {
+    Route::post('/create', [EnsinoCoordenacaoDocenteController::class, 'create'])->name('ensino_coordenacao_docente_create');
+    Route::post('/update/{id}', [EnsinoCoordenacaoDocenteController::class, 'update'])->name('ensino_coordenacao_docente_update');
+    Route::post('/validate', [EnsinoCoordenacaoDocenteController::class, 'ajaxValidation'])->name('ensino_coordenacao_docente_validate');
+    Route::delete('/delete/{id}', [EnsinoCoordenacaoDocenteController::class, 'delete'])->name('ensino_coordenacao_docente_delete');
+
+    Route::get('/index/{user_pad_id}', [EnsinoCoordenacaoDocenteController::class, 'index'])->name('ensino_coordenacao_docente_index');
+    Route::get('/edit/{id?}', [EnsinoCoordenacaoDocenteController::class, 'edit'])->name('ensino_coordenacao_docente_update');
+    Route::get('/search/{user_pad_id?}', [EnsinoCoordenacaoDocenteController::class, 'search'])->name('ensino_coordenacao_docente_search');
+});
+
 
 /** PesquisaCoordenacaoController */
 Route::prefix('pad/dimensao/pesquisa/coordenacao')->group(function() {

@@ -16,35 +16,11 @@
 
         @include('pad.components.templates.dropdown-eixo', ['divs' => $divs])
 
-        @include('components.alerts')
-
-        @include('pad.components.templates.dimensao.ensino.aulas.form_create', ['user_pad_id' => $user_pad_id])
-
-        @include('pad.components.templates.dimensao.ensino.coordenacao_disciplina.form_create', ['user_pad_id' => $user_pad_id])
-
-        @include('pad.components.templates.dimensao.ensino.ensino_orientacao', ['user_pad_id' => $user_pad_id])
-
-        @include('pad.components.templates.dimensao.ensino.ensino_supervisao', ['user_pad_id' => $user_pad_id])
-
-        @include('pad.components.templates.dimensao.ensino.ensino_atendimento_discente', ['user_pad_id' => $user_pad_id])
-
-        @include('pad.components.templates.dimensao.ensino.ensino_projeto', ['user_pad_id' => $user_pad_id])
-
-        @include('pad.components.templates.dimensao.ensino.ensino_participacao', ['user_pad_id' => $user_pad_id])
-
-        @include('pad.components.templates.dimensao.ensino.ensino_coordenacao_docente', ['user_pad_id' => $user_pad_id])
-
-        @include('components.modal', ['size' => 'modal-lg'])
     </div>
 @endsection
 
 @section('scripts')
     
     @include('pad.components.scripts.dropdown-eixo', ['divs' => $divs])
-    @include('pad.components.scripts.dimensao.ensino.ensino')
-    
-    @include('pad.components.scripts.dimensao.ensino.aulas')
-    @include('pad.components.scripts.dimensao.ensino.ensino_orientacao')
-    @include('pad.components.scripts.dimensao.ensino.ensino_supervisao')
 
 @endsection

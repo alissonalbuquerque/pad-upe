@@ -24,11 +24,15 @@
               Você tem certeza que deseja excluir esse item?
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            @include('components.buttons.btn-close_modal')
             <form action="{{ $route }}" method="post">
                 @method('DELETE')
                 @csrf
-                <button id="btn-ok" type="submit" class="btn btn-primary">OK</button>
+                
+                @include('components.buttons.btn-save', [
+                  'id' => 'btn-ok',
+                  'content' => 'Excluir',
+                ])
             </form>
         </div>
     </div>

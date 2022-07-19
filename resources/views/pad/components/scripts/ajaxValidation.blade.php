@@ -3,7 +3,7 @@
         'btn_submit_id' => '',
         'form_id' => '',
         'route' => '',
-        'div_errors' => '',
+        'form_type' => '',
     ])
 --}}
 
@@ -19,23 +19,36 @@
 
         $.ajax({
             type: 'POST',
-            url: "{{ route('ensino_aula_validate') }}",
+            url: "{{ $route }}",
             data: values
         }).done(function(data, status) {
             
             if(data.status == 200) {
+
+                Toastify({
+                    text: "Campos preenchidos com sucesso",
+                    style: {
+                        background: "linear-gradient(to right, #00b09b, #96c93d)",
+                    },
+                    duration: 3000
+                }).showToast();
+
                 $('#{{ $form_id }}').submit()
             } else {
+                
                 Toastify({
                     text: "Erro no preenchimento dos campos",
+                    style: {
+                        background: "linear-gradient(to right, #fe0944, #feae96)"
+                    },
                     duration: 3000
                 }).showToast();
                 
                 let keys = Object.keys(data.errors)
 
                 keys.forEach((key) => {
-                    $('#'+'{{ $div_errors }}'+'_'+key+'-error').addClass('alert alert-danger')
-                    $('#'+'{{ $div_errors }}'+'_'+key+'-error span').text(data.errors[key].shift())
+                    $('#'+key+'_'+'{{ $form_type }}'+'-error').addClass('alert alert-danger')
+                    $('#'+key+'_'+'{{ $form_type }}'+'-error span').text(data.errors[key].shift())
                 })
                 
             }
@@ -43,7 +56,9 @@
         }).fail(function(data, status) {
             Toastify({
                 text: "Erro ao atualizar a atividade",
-                backgroundColor: '#e74c3c',
+                style: {
+                    background: "linear-gradient(to right, #fe0944, #feae96)"
+                },
                 duration: 3000
             }).showToast();
         })

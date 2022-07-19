@@ -1,14 +1,15 @@
 @php
     use Nette\Utils\Json;
 
-    $_divs = [];
+    $routes = [];
 
     foreach($divs as $div) {
         $id = $div['id'];
-        array_push($_divs, ['id' => $id]);
+        $route = $div['route'];
+        $routes[$id] = $route;
     }
 
-    $_divs = Json::encode($_divs);
+    $routes = Json::encode($routes);
 @endphp
 
 <script type="text/javascript">
@@ -16,19 +17,18 @@
     $('#get-divs').change(function(e) {
         e.preventDefault()
 
-        const self = $(this)
-        const divs = {!! $_divs !!}
+        const routes = {!! $routes !!}
+        const id = $(this).val()
+        const btn_submit = $('#alter_task')
+        const alter_task_form = $('#alter_task-form')
 
-        divs.forEach((div) => {
-            $('#'+div.id).hide()
-        })
-
-        if(self.val() !== '0') {
-            div = $('#'+self.val())
-            div.show()
-            form_selected = self.val()
+        if(id != '0') {
+            console.log(routes[id])
+            alter_task_form.attr('action', routes[id])
+            btn_submit.prop('disabled', false)
+        } else {
+            btn_submit.prop('disabled', true)
         }
-
         
     }).change();
     
