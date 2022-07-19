@@ -20,7 +20,7 @@
 
         @include('pad.components.templates.dimensao.ensino.aulas.form_create', ['user_pad_id' => $user_pad_id])
 
-        @include('pad.components.templates.dimensao.ensino.ensino_coordenacao_disciplina', ['user_pad_id' => $user_pad_id])
+        @include('pad.components.templates.dimensao.ensino.coordenacao_disciplina.form_create', ['user_pad_id' => $user_pad_id])
 
         @include('pad.components.templates.dimensao.ensino.ensino_orientacao', ['user_pad_id' => $user_pad_id])
 
