@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\Validator;
 
 class EnsinoAulaController extends Controller
 {   
+
+    public function index($user_pad_id)
+    {
+        return $user_pad_id;
+    }
+
     /**
      * Show the form for creating a new resource.
      *

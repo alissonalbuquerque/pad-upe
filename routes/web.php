@@ -131,6 +131,7 @@ Route::prefix('/pad/dimensao/ensino/aulas')->group(function () {
     Route::post('/validate', [EnsinoAulaController::class, 'ajaxValidation'])->name('ensino_aula_validate');
     Route::delete('/delete/{id}', [EnsinoAulaController::class, 'delete'])->name('ensino_aula_delete');
 
+    Route::get('/index/{id}', [EnsinoAulaController::class, 'index'])->name('ensino_aula_index');
     Route::get('/edit/{id?}', [EnsinoAulaController::class, 'edit'])->name('view_ensino_aula_update');
     Route::get('/aulas/search/{user_pad_id?}', [EnsinoAulaController::class, 'search'])->name('ensino_aula_search');
 });
