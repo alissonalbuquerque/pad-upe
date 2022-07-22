@@ -22,7 +22,7 @@ class UserPad extends Model
         return $this->belongsTo(PAD::class);
     }
 
-    public static function find() {
+    public static function initQuery() {
         return new UserPadQuery(get_called_class());
     }
 }

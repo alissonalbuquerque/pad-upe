@@ -15,11 +15,14 @@ class CreateAvaliacaoTable extends Migration
     {
         Schema::create('avaliacao', function (Blueprint $table) {
             $table->id();
-            $table->integer('ch_semanal')->notNull();
-            $table->integer('status')->notNull();
-            $table->string('descricao')->notNull();
-            $table->integer('tarefa_id')->notNull();
-            $table->foreignId('avaliador_id')->notNull();
+            $table->unsignedBigInteger('tarefa_id')->notNull();
+            $table->foreignId('avaliador_id')->nullable();
+            $table->tinyInteger('type')->notNull();
+            $table->tinyInteger('status')->notNull();
+            $table->string('descricao')->nullable();
+            $table->integer('ch_semanal')->nullable();
+            $table->integer('ch_total')->nullable();
+            
             $table->timestamps();
             $table->softDeletes();
         });

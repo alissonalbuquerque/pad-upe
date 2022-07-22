@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Curso;
 use App\Models\Unidade;
 use App\Models\User;
+use App\Models\Util\Status;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -23,13 +24,12 @@ class UserSeeder extends Seeder
         foreach($ids as $id)
         {
             User::create([
-                'type' => User::TYPE_TEACHER,
                 'name' => "Professor {$id}",
                 'email' => "professor{$id}@upe.br",
                 'email_verified_at' => null,
                 'password' => Hash::make('@professor'),
                 'document' => "00000000{$id}",
-                'status' => User::STATUS_ACTIVE,
+                'status' => Status::ATIVO,
                 'campus_id' => 3,
                 'curso_id' => 1,
             ]);
@@ -37,39 +37,36 @@ class UserSeeder extends Seeder
 
         // UserAdmin
         User::create([
-            'type' => User::TYPE_ADMIN,
             'name' => "Admin",
             'email' => "admin@upe.br",
             'email_verified_at' => null,
             'password' => Hash::make('@admin'),
             'document' => "100000000",
-            'status' => User::STATUS_ACTIVE,
+            'status' => Status::ATIVO,
             'campus_id' => NULL,
             'curso_id' => NULL,
         ]);
 
         //UserDirector
         User::create([
-            'type' => User::TYPE_DIRECTOR,
             'name' => "Director",
             'email' => "director@upe.br",
             'email_verified_at' => null,
             'password' => Hash::make('@director'),
             'document' => "100000000",
-            'status' => User::STATUS_ACTIVE,
+            'status' => Status::ATIVO,
             'campus_id' => 1,
             'curso_id' => 1,
         ]);
 
         //UserDirector
         User::create([
-            'type' => User::TYPE_COORDINATOR,
             'name' => "Coordinator",
             'email' => "coordinator@upe.br",
             'email_verified_at' => null,
             'password' => Hash::make('@coordinator'),
             'document' => "100000000",
-            'status' => User::STATUS_ACTIVE,
+            'status' => Status::ATIVO,
             'campus_id' => 1,
             'curso_id' => 1,
         ]);

@@ -9,9 +9,9 @@ class Avaliacao extends Model
 {
     use HasFactory;
 
-    protected $table = 'avaliador_pad';
+    protected $table = 'avaliacao';
 
-    protected $fillable = ['id', 'ch_semanal', 'status', 'descricao', 'tarefa_id', 'avaliador_id'];
+    protected $fillable = ['tarefa_id', 'avaliador_id', 'type', 'status', 'descricao', 'ch_semanal'];
 
 
     public function tarefa() {

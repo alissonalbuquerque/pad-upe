@@ -6,6 +6,8 @@ use App\Models\Curso;
 use App\Models\Disciplina;
 use App\Models\Planejamento;
 use App\Models\Tabelas\Constants;
+use App\Models\Util\Modalidade;
+use App\Models\Util\Nivel;
 use App\Queries\PlanejamentoQuery;
 use App\Queries\Tabelas\Ensino\EnsinoAulaQuery;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -28,15 +30,7 @@ class EnsinoAula extends Model
      * 
      * @var array
      */
-    protected $fillable = ['user_pad_id', 'cod_atividade', 'componente_curricular', 'curso', 'nivel', 'modalidade', 'ch_semanal', 'ch_total'];
-    
-    public function nivelAsString() {
-        return Constants::listNivel($this->nivel);
-    }
-
-    public function modalidadeAsString() {
-        return Constants::listModalidade($this->modalidade);
-    }
+    protected $fillable = ['user_pad_id', 'dimensao', 'cod_atividade', 'componente_curricular', 'curso', 'nivel', 'modalidade', 'ch_semanal', 'ch_total'];
     
     /**
      * cod_dimensao from planejamento table
@@ -60,17 +54,6 @@ class EnsinoAula extends Model
         ];
     }
 
-    /*
-        'user_pad_id',
-        'cod_atividade',
-        'componente_curricular',
-        'curso',
-        'nivel',
-        'modalidade',
-        'ch_semanal',
-        'ch_total'
-    */
-
     public static function rules()
     {
         return [
@@ -93,6 +76,16 @@ class EnsinoAula extends Model
             'ch_semanal.min' => 'Carga horária semanal miníma é de 1 Hora!',
             'ch_total.min' => 'Carga horária total miníma é de 1 Hora!',
         ];
+    }
+
+    public function nivelAsString()
+    {
+        return Nivel::listNivel($this->nivel);
+    }
+
+    public function modalidadeAsString()
+    {
+        return Modalidade::listModalidade($this->modalidade);
     }
 
     /**

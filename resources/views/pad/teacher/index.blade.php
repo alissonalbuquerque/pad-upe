@@ -26,7 +26,7 @@
                         <h1 class="text-center"> <i class="bi bi-journal-bookmark-fill"></i> </h1>
                     @endif
                     <h5 class="text-center"> PAD: {{ $userPad->pad->nome }} </h4>
-                    <h5 class="text-center"> Status: {{ $userPad->pad->getStatusAsText() }} </h4>
+                    <h5 class="text-center"> Status: {{ $userPad->pad->statusAsString() }} </h4>
                     <a class="stretched-link" href="{{ route('pad_view', ['id' => $userPad->id]) }}"></a>
                 </div>
             </div>

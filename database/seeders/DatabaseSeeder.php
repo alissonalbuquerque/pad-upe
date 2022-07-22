@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             PadSeeder::class,
             DisciplinaSeeder::class,
             EvaluatorSeeder::class,
+            UserTypeSeeder::class
             
         ]);
     }

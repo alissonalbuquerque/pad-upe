@@ -13,11 +13,11 @@ class UpdateUserTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->integer('type')->default(0)->change();
-            $table->string('document')->default("")->change();
-            $table->integer('status')->default(1)->change();
-        });
+        // Schema::table('users', function (Blueprint $table) {
+        //     $table->integer('type')->default(0)->change();
+        //     $table->string('document')->default("")->change();
+        //     $table->integer('status')->default(1)->change();
+        // });
     }
 
     /**

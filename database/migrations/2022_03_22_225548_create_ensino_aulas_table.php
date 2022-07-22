@@ -16,6 +16,7 @@ class CreateEnsinoAulasTable extends Migration
         Schema::create('ensino_aulas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_pad_id')->notNull();
+            $table->tinyInteger('dimensao')->nullable();
             $table->string('cod_atividade')->notNull();
             $table->string('componente_curricular')->notNull();
             $table->string('curso')->notNull();
@@ -37,4 +38,5 @@ class CreateEnsinoAulasTable extends Migration
     {
         Schema::dropIfExists('ensino_aulas');
     }
+    
 }

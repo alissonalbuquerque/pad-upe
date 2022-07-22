@@ -15,15 +15,6 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    const TYPE_ADMIN = 1;       // Administrador
-    const TYPE_TEACHER = 2;     // Professor
-    const TYPE_DIRECTOR= 3;     // Diretor
-    const TYPE_COORDINATOR = 4; // Coordenador
-
-    const STATUS_ACTIVE = 1;
-    const STATUS_INACTIVE = 2;
-    const STATUS_DELETED = 0;
-
     protected $table = "users";
 
     /**
@@ -31,7 +22,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'email', 'password', 'document', 'type', 'status', 'curso_id', 'campus_id'];
+    protected $fillable = ['name', 'email', 'password', 'document', 'status', 'curso_id', 'campus_id'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -101,42 +92,53 @@ class User extends Authenticatable
     }
 
 
+    public function perfis()
+    {
+        return $this->hasMany(UserType::class);
+    }
+
     /**
-     * @return bool
+     * @return UserType|Null
      */
-    public function isTypeAdmin() {
-        return $this->type === self::TYPE_ADMIN;
+    public function perfilSelected()
+    {   
+        return $this->perfis()->where('selected', true)->first();
     }
 
     /**
      * @return bool
      */
-    public function isTypeTeacher() {
-        return $this->type === self::TYPE_TEACHER;
+    public function isTypeAdmin()
+    {
+        return $this->perfilSelected()->type === UserType::ADMIN;
     }
 
     /**
      * @return bool
      */
-    public function isTypeDirector() {
-        return $this->type === self::TYPE_DIRECTOR;
+    public function isTypeTeacher()
+    {
+        return $this->perfilSelected()->type === UserType::TEACHER;
     }
 
     /**
      * @return bool
      */
-    public function isTypeCoordinator() {
-        return $this->type === self::TYPE_COORDINATOR;
+    public function isTypeDirector()
+    {
+        return $this->perfilSelected()->type === UserType::DIRECTOR;
     }
 
     /**
-     * @return string
+     * @return bool
      */
-    public function attributeName(string $attribute) {
-        return $this->getTable() . '-' . $attribute;
+    public function isTypeCoordinator()
+    {
+        return $this->perfilSelected()->type === UserType::COORDINATOR;
     }
 
-    public static function find() {
+    public static function initQuery()
+    {
         return new UserQuery(get_called_class());
     }
 

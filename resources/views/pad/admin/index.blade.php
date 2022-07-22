@@ -55,7 +55,7 @@
                             <td>{{ $pad->nome }}</td>
                             <td>{{ $pad->getDateInicio() }}</td>
                             <td>{{ $pad->getDateFim() }}</td>
-                            <td>{{ $pad->getStatusAsText() }}</td>
+                            <td>{{ $pad->statusAsString() }}</td>
                             <td>
                                 @include('components.buttons.btn-edit', [
                                     'btn_class' => 'btn btn-primary',

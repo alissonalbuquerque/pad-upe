@@ -3,11 +3,17 @@
 namespace App\Http\Controllers\Dimensao\Tabelas\Ensino;
 
 use App\Http\Controllers\Controller;
+use App\Models\Avaliacao;
 use App\Models\Tabelas\Constants;
 use App\Models\Tabelas\Ensino\EnsinoAula;
 use App\Models\UserPad;
+use App\Models\Util\Avaliacao as UtilAvaliacao;
+use App\Models\Util\Dimensao;
 use App\Models\Util\MenuItemsTeacher;
+use App\Models\Util\Modalidade;
+use App\Models\Util\Nivel;
 use App\Models\Util\PadTables;
+use App\Models\Util\Status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
@@ -24,8 +30,8 @@ class EnsinoAulaController extends Controller
                     ->get();
         
         
-        $niveis = Constants::listNivel();
-        $modalidades = Constants::listModalidade();
+        $niveis = Nivel::listNivel();
+        $modalidades = Modalidade::listModalidade();
         $divs = PadTables::tablesEnsino($user_pad_id);
 
         return view('pad.components.templates.dimensao.ensino.aulas.form_create', [
@@ -42,8 +48,8 @@ class EnsinoAulaController extends Controller
     public function edit($id) {
 
         $model = EnsinoAula::find($id);
-        $niveis = Constants::listNivel();
-        $modalidades = Constants::listModalidade();
+        $niveis = Nivel::listNivel();
+        $modalidades = Modalidade::listModalidade();
         
         return view('pad.components.templates.dimensao.ensino.aulas.form_update', [
             'model' => $model,
@@ -70,11 +76,25 @@ class EnsinoAulaController extends Controller
         }
 
         $user_pad_id = $request->user_pad_id;
-        $div_selected = 'ensino_aulas';
 
         $model = new EnsinoAula($request->all());
+        $model->dimensao = Dimensao::ENSINO;
 
-        if($model->save()) {
+        if($model->save())
+        {
+            $avaliacao = new Avaliacao([
+                'tarefa_id' => $model->id,
+                'type' => UtilAvaliacao::ENSINO_AULA,
+                'status' => Status::PENDENTE,
+            ]);
+
+            if(!$avaliacao->save())
+            {
+                return redirect()
+                    ->route('ensino_aula_index', ['user_pad_id' => $user_pad_id])
+                    ->with('fail', 'Erro ao cadastrar Atividade!');
+            }
+
             return redirect()
                     ->route('ensino_aula_index', ['user_pad_id' => $user_pad_id])
                     ->with('success', 'Cadastro realizado com sucesso!');

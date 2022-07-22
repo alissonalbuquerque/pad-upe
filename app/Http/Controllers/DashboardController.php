@@ -7,6 +7,7 @@ use App\Models\Tabelas\Constants;
 use App\Models\UserPad;
 use App\Models\Util\MenuItemsAdmin;
 use App\Models\Util\MenuItemsTeacher;
+use App\Models\Util\Status;
 use App\Queries\UnidadeQuery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,9 +27,9 @@ class DashboardController extends Controller
         if($user->isTypeTeacher())
         {   
             $userPads = 
-                UserPad::find()
+                UserPad::initQuery()
                     ->whereUser($user->id)
-                    ->wherePadStatus(Constants::STATUS_ATIVO)
+                    ->wherePadStatus(Status::ATIVO)
                     ->get();
 
             return view('dashboard', ['userPads' => $userPads, 'menu_index'=> MenuItemsTeacher::HOME]);

@@ -17,9 +17,9 @@ class UserPadQuery extends CustomQuery
      * @param integer $id
      * @return UserPadQuery|Builder
      */
-    public function whereId($id, $expression = '=')
+    public function whereId($id, $operator = '=')
     {   
-        $this->query = $this->query->where('id', $expression, $id);
+        $this->query = $this->query->where('id', $operator, $id);
         return self::$instance;
     }
 
@@ -27,9 +27,9 @@ class UserPadQuery extends CustomQuery
      * @param integer $user_id
      * @return UserPadQuery|Builder
      */
-    public function whereUser($user_id, $expression = '=')
+    public function whereUser($user_id, $operator = '=')
     {   
-        $this->query = $this->query->where('user_id', $expression, $user_id);
+        $this->query = $this->query->where('user_id', $operator, $user_id);
         return self::$instance;
     }
 
@@ -37,9 +37,9 @@ class UserPadQuery extends CustomQuery
      * @param integer $pad_id
      * @return UserPadQuery|Builder
      */
-    public function wherePad($pad_id, $expression = '=')
+    public function wherePad($pad_id, $operator = '=')
     {
-        $this->query = $this->query->where('pad_id', $expression, $pad_id);
+        $this->query = $this->query->where('pad_id', $operator, $pad_id);
         return self::$instance;
     }
 
@@ -47,11 +47,11 @@ class UserPadQuery extends CustomQuery
      * @param integer $status
      * @return UserPadQuery|Builder
      */
-    public function wherePadStatus($status, $expression = '=') {
+    public function wherePadStatus($status, $operator = '=') {
         $this->query = 
             $this->query
                 ->leftJoin('pad', 'user_pad.pad_id', '=', 'pad.id')
-                ->where('pad.status', $expression, $status);
+                ->where('pad.status', $operator, $status);
         
         return self::$instance;
     }

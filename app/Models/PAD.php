@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\Tabelas\Constants;
+use App\Models\Util\Status;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use PHPUnit\TextUI\XmlConfiguration\Constant;
 
 class Pad extends Model
 {
@@ -19,8 +18,8 @@ class Pad extends Model
 
     protected $dates = ['deleted_at'];
 
-    public function getStatusAsText() {
-        return Constants::listStatus($this->status);
+    public function statusAsString() {
+        return Status::listStatus($this->status);
     }
 
     public function getDateInicio() {

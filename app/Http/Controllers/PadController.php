@@ -8,8 +8,10 @@ use App\Models\PAD;
 use App\Models\Tabelas\Constants;
 use App\Models\User;
 use App\Models\UserPad;
+use App\Models\UserType;
 use App\Models\Util\MenuItemsAdmin;
 use App\Models\Util\MenuItemsTeacher;
+use App\Models\Util\Status;
 use Database\Seeders\PadSeeder;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -35,8 +37,8 @@ class PadController extends Controller
         if(Auth::user()->isTypeTeacher()) {
 
             $index_menu = MenuItemsTeacher::PAD;
-            $userPads = UserPad::find()->whereUser(Auth::user()->id)->get();
-            
+            $userPads = UserPad::initQuery()->whereUser(Auth::user()->id)->get();
+
             return view('pad.teacher.index', ['index_menu' => $index_menu, 'userPads' => $userPads]);
         }
     }
@@ -58,7 +60,7 @@ class PadController extends Controller
     public function create()
     {   
         $status = [
-            Constants::STATUS_ATIVO => Constants::listStatus(Constants::STATUS_ATIVO) 
+            Status::ATIVO => Status::listStatus(Status::ATIVO) 
         ];
         return view('pad.admin.create', ['status' => $status]);
     }
@@ -85,11 +87,11 @@ class PadController extends Controller
 
         if($validated) {
             $model = new Pad($request->all());
-        
+    
             if($model->save()) {
-                
-                $users = User::find()->whereType(User::TYPE_TEACHER)->get();
 
+                $users = User::initQuery()->whereType(UserType::TEACHER)->get();
+                
                 foreach($users as $user) {
                     $modelUserPad = new UserPad();
                     $modelUserPad->user_id = $user->id;
@@ -102,6 +104,7 @@ class PadController extends Controller
                 return redirect()->route('pad_index')->with('success', 'Erro ao cadastrar o PAD!');
             }
         }
+
     }
 
     public function anexo()

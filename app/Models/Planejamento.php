@@ -50,7 +50,7 @@ class Planejamento extends Model
         return $this->listDimensao($this->dimensao);
     }
 
-    public static function find() {
+    public static function initQuery() {
         return new PlanejamentoQuery(get_called_class());
     }
 
