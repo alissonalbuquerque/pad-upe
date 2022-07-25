@@ -15,15 +15,14 @@ class CreatePesquisaLiderancaTable extends Migration
     {
         Schema::create('pesquisa_lideranca', function (Blueprint $table) {
             $table->id();
-            $table->tinyInteger('dimensao');
             $table->foreignId('user_pad_id')->notNull();
+            $table->tinyInteger('dimensao')->nullable();
             $table->string('cod_atividade')->notNull();
             $table->string('grupo_pesquisa')->notNull();
-            $table->string('atividade')->notNull();
             $table->tinyInteger('funcao')->notNull();
             $table->integer('ch_semanal')->notNull();
             $table->softDeletes();
-            $table->timestamps();
+            $table->timestamps();            
         });
     }
 
