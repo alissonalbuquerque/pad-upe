@@ -19,7 +19,7 @@ class PadTables {
             ],
             [   'id' => 'ensino_coordenacao_disciplina',
                 'name' => '2. ENSINO (COORDENAÇÃO/ REGÊNCIA COMPONENTES CURRICULARES)',
-                'route' => route('ensino_coordenacao_disciplina_index', ['user_pad_id' => $user_pad_id])
+                'route' => route('ensino_coordenacao_regencia_index', ['user_pad_id' => $user_pad_id])
             ],
             [
                 'id' => 'ensino_orientacao',
@@ -50,7 +50,7 @@ class PadTables {
             [
                 'id' => 'ensino_coordenacao_docente',
                 'name' => '8. ENSINO (COORDENAÇÃO OU MEMBRO DE NÚCLEO DOCENTE ESTRUTURANTE OU NÚCLEO DOCENTE ESTRUTURANTE ASSISTENCIAL)',
-                'route' => route('ensino_coordenacao_docente_index', ['user_pad_id' => $user_pad_id])
+                'route' => route('ensino_membro_docente_index', ['user_pad_id' => $user_pad_id])
             ],
         ];
     }

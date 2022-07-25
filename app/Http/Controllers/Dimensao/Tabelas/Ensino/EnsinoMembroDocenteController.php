@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 
-class EnsinoCoordenacaoDisciplinaController extends Controller
+class EnsinoMembroDocenteController extends Controller
 {
     public function index($user_pad_id)
     {
