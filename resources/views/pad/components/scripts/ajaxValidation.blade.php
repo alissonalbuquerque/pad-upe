@@ -12,15 +12,15 @@
     $('#{{ $btn_submit_id }}').click(function(e) {
         e.preventDefault()
 
-        const values = $('#{{ $form_id }}').serializeArray()
+        const form = $('#{{ $form_id }}').serializeArray()
         
-        $('.ajax-errors').removeClass('alert alert-danger')
+        $('.ajax-errors').removeClass('alert alert-danger is-valid is-invalid')
         $('.ajax-errors span').empty();
 
         $.ajax({
             type: 'POST',
             url: "{{ $route }}",
-            data: values
+            data: form
         }).done(function(data, status) {
             
             if(data.status == 200) {
@@ -33,6 +33,15 @@
                     duration: 3000
                 }).showToast();
 
+                let form_keys = form.map((item) => {
+                    return item.name
+                })
+                form_keys = cleanFormKeys(form_keys, [])
+
+                form_keys.forEach((key) => {
+                    $('#{{ $form_id }} #'+key).addClass('is-valid')
+                })
+
                 $('#{{ $form_id }}').submit()
             } else {
                 
@@ -43,10 +52,20 @@
                     },
                     duration: 3000
                 }).showToast();
+
+                
+                let form_keys = form.map((item) => {
+                    return item.name
+                })
+                form_keys = cleanFormKeys(form_keys, Object.keys(data.errors))
+
+                form_keys.forEach((key) => {
+                    $('#{{ $form_id }} #'+key).addClass('is-valid')
+                })
                 
                 let keys = Object.keys(data.errors)
-
                 keys.forEach((key) => {
+                    $('#{{ $form_id }} #'+key).addClass('is-invalid')
                     $('#'+key+'_'+'{{ $form_type }}'+'-error').addClass('alert alert-danger')
                     $('#'+key+'_'+'{{ $form_type }}'+'-error span').text(data.errors[key].shift())
                 })
@@ -64,4 +83,17 @@
         })
     })
 
+
+    function cleanFormKeys(_form_keys, _errors_keys)
+    {   
+        let errors_keys = _errors_keys
+        errors_keys.push('_token')
+        errors_keys.push('user_pad_id')
+        
+        return (
+            _form_keys.filter((key) => {
+                return !errors_keys.includes(key)
+            })
+        )
+    }
 </script>
