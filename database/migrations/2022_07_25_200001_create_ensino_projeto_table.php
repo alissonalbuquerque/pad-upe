@@ -16,7 +16,7 @@ class CreateEnsinoProjetoTable extends Migration
         Schema::create('ensino_projeto', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_pad_id')->notNull();
-            $table->tinyInteger('dimensao')->nullable();
+            $table->tinyInteger('dimensao')->notNull();
             $table->string('cod_atividade')->notNull();
             $table->string('titulo')->notNull();
             $table->string('curso')->notNull();

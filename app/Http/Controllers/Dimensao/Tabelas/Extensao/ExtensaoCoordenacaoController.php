@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Dimensao\Tabelas\Pesquisa;
+namespace App\Http\Controllers\Dimensao\Tabelas\Extensao;
 
 use App\Http\Controllers\Controller;
 use App\Models\Tabelas\Constants;
@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 
-class PesquisaCoordenacaoController extends Controller
+class ExtensaoCoordenacaoController extends Controller
 {
     public function index($user_pad_id)
     {

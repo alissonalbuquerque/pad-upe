@@ -12,47 +12,20 @@ use App\Models\Util\PadTables;
 use Illuminate\Http\Request;
 
 class PesquisaController extends Controller
-{
+{   
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($user_pad_id, $form_selected = null)
-    {   
-        $divs = PadTables::tablesPesquisa();
-        $funcoesProjeto = Constants::listFuncaoProjeto();
+    public function index($user_pad_id) {
 
-        $pesquisasCoordenacao = 
-            PesquisaCoordenacao::initQuery()
-                ->whereUserPad($user_pad_id)
-                ->orderBy('cod_atividade')
-                ->get();
-        
-        $pesquisasLideranca = 
-            PesquisaLideranca::initQuery()
-                ->whereUserPad($user_pad_id)
-                ->orderBy('cod_atividade')
-                ->get();
-
-        $pesquisasOrientacao = 
-            PesquisaOrientacao::initQuery()
-                ->whereUserPad($user_pad_id)
-                ->orderBy('cod_atividade')
-                ->get();
+        $divs = PadTables::tablesPesquisa($user_pad_id);
 
         return view('pad.dimensao.pesquisa', [
-            'user_pad_id' => $user_pad_id, 
-            'form_selected' => $form_selected,
-
-            'pesquisasCoordenacao' => $pesquisasCoordenacao,
-            'pesquisasLideranca' => $pesquisasLideranca,
-            'pesquisasOrientacao' => $pesquisasOrientacao,
-
-            'funcoesProjeto' => $funcoesProjeto,
-
             'divs' => $divs,
             'index_menu' => MenuItemsTeacher::PAD,
         ]);
+
     }
 }

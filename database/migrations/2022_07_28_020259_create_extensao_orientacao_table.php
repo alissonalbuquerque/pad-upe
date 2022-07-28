@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEnsinoMembroDocenteTable extends Migration
+class CreateExtensaoOrientacaoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateEnsinoMembroDocenteTable extends Migration
      */
     public function up()
     {
-        Schema::create('ensino_membro_docente', function (Blueprint $table) {
+        Schema::create('extensao_orientacao', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_pad_id')->notNull();
             $table->tinyInteger('dimensao')->notNull();
             $table->string('cod_atividade')->notNull();
-            $table->string('nucleo')->notNull();
-            $table->string('documento')->notNull();
+            $table->string('titulo_projeto')->notNull();
+            $table->string('discente')->notNull();
             $table->tinyInteger('funcao')->notNull();
             $table->integer('ch_semanal')->notNull();
             $table->timestamps();
@@ -34,6 +34,6 @@ class CreateEnsinoMembroDocenteTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ensino_membro_docente');
+        Schema::dropIfExists('extensao_orientacao');
     }
 }

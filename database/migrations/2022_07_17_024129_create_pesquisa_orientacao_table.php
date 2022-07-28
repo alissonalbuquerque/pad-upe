@@ -16,7 +16,7 @@ class CreatePesquisaOrientacaoTable extends Migration
         Schema::create('pesquisa_orientacao', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_pad_id')->notNull();
-            $table->tinyInteger('dimensao')->nullable();
+            $table->tinyInteger('dimensao')->notNull();
             $table->string('cod_atividade')->notNull();
             $table->string('titulo_projeto')->notNull();
             $table->string('nome_orientando')->notNull();

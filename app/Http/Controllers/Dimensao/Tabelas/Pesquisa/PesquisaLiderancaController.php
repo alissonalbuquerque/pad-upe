@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 
-class PesquisaCoordenacaoController extends Controller
+class PesquisaLiderancaController extends Controller
 {
     public function index($user_pad_id)
     {
