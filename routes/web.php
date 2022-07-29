@@ -171,6 +171,7 @@ Route::prefix('/pad/dimensao/ensino/aulas')->group(function () {
     Route::get('/index/{user_pad_id}', [EnsinoAulaController::class, 'index'])->name('ensino_aula_index');
     Route::get('/edit/{id?}', [EnsinoAulaController::class, 'edit'])->name('view_ensino_aula_update');
     Route::get('/search/{user_pad_id?}', [EnsinoAulaController::class, 'search'])->name('ensino_aula_search');
+    Route::get('/resolucao', [EnsinoAulaController::class, 'viewResolucao'])->name('view_ensino_aula_resolucao');
 });
 
 /* EnsinoCoordenacaoRegenciaController */
@@ -183,6 +184,7 @@ Route::prefix('/pad/dimensao/ensino/coordenacao/regencia')->group(function () {
     Route::get('/index/{user_pad_id}', [EnsinoCoordenacaoRegenciaController::class, 'index'])->name('ensino_coordenacao_regencia_index');
     Route::get('/edit/{id?}', [EnsinoCoordenacaoRegenciaController::class, 'edit'])->name('view_ensino_coordenacao_regencia_update');
     Route::get('/search/{user_pad_id?}', [EnsinoCoordenacaoRegenciaController::class, 'search'])->name('ensino_coordenacao_regencia_search');
+    Route::get('/resolucao', [EnsinoCoordenacaoRegenciaController::class, 'viewResolucao'])->name('view_ensino_coordenacao_regencia_resolucao');
 });
 
 
@@ -196,6 +198,7 @@ Route::prefix('/pad/dimensao/ensino/orientacao')->group(function () {
     Route::get('/index/{user_pad_id}', [EnsinoOrientacaoController::class, 'index'])->name('ensino_orientacao_index');
     Route::get('/edit/{id?}', [EnsinoOrientacaoController::class, 'edit'])->name('view_ensino_orientacao_update');
     Route::get('/search/{user_pad_id?}', [EnsinoOrientacaoController::class, 'search'])->name('ensino_orientacao_search');
+    Route::get('/resolucao', [EnsinoOrientacaoController::class, 'viewResolucao'])->name('view_ensino_orientacao_resolucao');
 });
 
 
@@ -209,6 +212,7 @@ Route::prefix('/pad/dimensao/ensino/supervisao')->group(function () {
     Route::get('/index/{user_pad_id}', [EnsinoSupervisaoController::class, 'index'])->name('ensino_supervisao_index');
     Route::get('/edit/{id?}', [EnsinoSupervisaoController::class, 'edit'])->name('view_ensino_supervisao_update');
     Route::get('/search/{user_pad_id?}', [EnsinoSupervisaoController::class, 'search'])->name('ensino_supervisao_search');
+    Route::get('/resolucao', [EnsinoSupervisaoController::class, 'viewResolucao'])->name('view_ensino_supervisao_resolucao');
 });
 
 

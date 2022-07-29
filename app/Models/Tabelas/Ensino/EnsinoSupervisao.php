@@ -3,14 +3,12 @@
 namespace App\Models\Tabelas\Ensino;
 
 use App\Models\Planejamento;
-use App\Queries\PlanejamentoQuery;
-use App\Queries\Tabelas\Ensino\EnsinoOrientacaoQuery;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Queries\Tabelas\Ensino\EnsinoSupervisaoQuery;
 use Illuminate\Database\Eloquent\Model;
 
-class EnsinoOrientacao extends Model
+class EnsinoSupervisao extends Model
 {
-    /**
+        /**
      * References table ensino_orientacoes
      * 
      * @var string
@@ -22,7 +20,7 @@ class EnsinoOrientacao extends Model
      * 
      * @var array
      */
-    protected $fillable = ['cod_atividade', 'atividade', 'curso_id', 'nivel', 'type_orientacao', 'numero_orientandos', 'ch_semanal', 'pad_id'];
+    protected $fillable = ['user_pad_id', 'dimensao', 'cod_atividade', 'atividade', 'curso', 'nivel', 'type_supervisao', 'numero_orientandos', 'ch_semanal'];
 
     /**
      * @return array
@@ -64,13 +62,13 @@ class EnsinoOrientacao extends Model
      */
     public function getPlanejamentos()
     {
-        $codes = ['E-5', 'E-6', 'E-7', 'E-8', 'E-9'];
+        $codes = [];
         return Planejamento::initQuery()->whereInCodDimensao($codes)->get();
     }
 
     public static function initQuery()
     {
-        return new EnsinoOrientacaoQuery(get_called_class());
+        return new EnsinoSupervisaoQuery(get_called_class());
     }
 
 }

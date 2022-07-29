@@ -24,6 +24,10 @@
         <div>
             <div class="mb-3">
                 <h3 class="h3"> Ensino - Aulas </h3 class="h3">
+                @include('components.buttons.btn-show-resolucao', [
+                    'content' => 'Resolução',
+                    'btn_class' => 'show_resolucao',
+                ])
             </div>
             <form action="{{route('ensino_aula_create')}}" method="post" id="ensino_aulas-form" class="">
                 
@@ -195,6 +199,12 @@
     @include('pad.components.scripts.dimensao.ensino.show_modal', [
         'modal_id' => 'modal',
         'route' => route('view_ensino_aula_update'),
-        'btn_edit_class' => 'btn-edit_ensino_aula',
+        'btn_class' => 'btn-edit_ensino_aula',
+    ])
+
+    @include('pad.components.scripts.dimensao.ensino.show_modal', [
+        'modal_id' => 'modal',
+        'route' => route('view_ensino_aula_resolucao'),
+        'btn_class' => 'show_resolucao',
     ])
 @endsection

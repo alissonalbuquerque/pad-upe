@@ -58,6 +58,12 @@ class EnsinoAulaController extends Controller
         ]);
     }
 
+    public function viewResolucao()
+    {   
+        $resolucoes = EnsinoAula::getPlanejamentos();
+        return view('pad.components.templates.resolucao', ['resolucoes' => $resolucoes]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -169,5 +175,4 @@ class EnsinoAulaController extends Controller
 
         return Response::json(['errors' => $validator->errors(), 'status' => 400]);
     }
-
 }
