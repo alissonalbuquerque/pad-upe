@@ -17,11 +17,6 @@ class PesquisaLideranca extends Model
 
     protected $dates = ['deleted_at'];
 
-    public static function initQuery()
-    {
-        return new PesquisaLiderancaQuery(get_called_class());
-    }
-
     public function dimensaoAsString()
     {
         return Constants::listDimensao($this->dimensao);
@@ -32,4 +27,8 @@ class PesquisaLideranca extends Model
         return Constants::listFuncaoProjeto($this->funcao);
     }
     
+    public static function initQuery()
+    {
+        return new PesquisaLiderancaQuery(get_called_class());
+    }
 }

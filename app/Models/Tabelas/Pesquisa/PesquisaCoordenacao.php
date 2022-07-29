@@ -17,11 +17,6 @@ class PesquisaCoordenacao extends Model
 
     protected $dates = ['deleted_at'];
 
-    public static function initQuery()
-    {
-        return new PesquisaCoordenacaoQuery(get_called_class());
-    }
-
     public function dimensaoAsString()
     {
         return Constants::listDimensao($this->dimensao);
@@ -44,6 +39,11 @@ class PesquisaCoordenacao extends Model
         return [
 
         ];
+    }
+
+    public static function initQuery()
+    {
+        return new PesquisaCoordenacaoQuery(get_called_class());
     }
     
 }

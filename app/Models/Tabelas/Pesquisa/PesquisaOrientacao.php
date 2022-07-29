@@ -17,11 +17,6 @@ class PesquisaOrientacao extends Model
 
     protected $dates = ['deleted_at'];
 
-    public static function initQuery()
-    {
-        return new PesquisaOrientacaoQuery(get_called_class());
-    }
-
     public function dimensaoAsString()
     {
         return Constants::listDimensao($this->dimensao);
@@ -32,4 +27,8 @@ class PesquisaOrientacao extends Model
         return Constants::listFuncaoOrientador($this->funcao);
     }
     
+    public static function initQuery()
+    {
+        return new PesquisaOrientacaoQuery(get_called_class());
+    }
 }
