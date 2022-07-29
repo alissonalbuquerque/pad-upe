@@ -181,7 +181,7 @@ Route::prefix('/pad/dimensao/ensino/coordenacao/regencia')->group(function () {
     Route::delete('/delete/{id}', [EnsinoCoordenacaoRegenciaController::class, 'delete'])->name('ensino_coordenacao_regencia_delete');
 
     Route::get('/index/{user_pad_id}', [EnsinoCoordenacaoRegenciaController::class, 'index'])->name('ensino_coordenacao_regencia_index');
-    Route::get('/edit/{id?}', [EnsinoCoordenacaoRegenciaController::class, 'edit'])->name('ensino_coordenacao_regencia_update');
+    Route::get('/edit/{id?}', [EnsinoCoordenacaoRegenciaController::class, 'edit'])->name('view_ensino_coordenacao_regencia_update');
     Route::get('/search/{user_pad_id?}', [EnsinoCoordenacaoRegenciaController::class, 'search'])->name('ensino_coordenacao_regencia_search');
 });
 
@@ -207,7 +207,7 @@ Route::prefix('/pad/dimensao/ensino/supervisao')->group(function () {
     Route::delete('/delete/{id}', [EnsinoSupervisaoController::class, 'delete'])->name('ensino_supervisao_delete');
 
     Route::get('/index/{user_pad_id}', [EnsinoSupervisaoController::class, 'index'])->name('ensino_supervisao_index');
-    Route::get('/edit/{id?}', [EnsinoSupervisaoController::class, 'edit'])->name('ensino_supervisao_update');
+    Route::get('/edit/{id?}', [EnsinoSupervisaoController::class, 'edit'])->name('view_ensino_supervisao_update');
     Route::get('/search/{user_pad_id?}', [EnsinoSupervisaoController::class, 'search'])->name('ensino_supervisao_search');
 });
 
@@ -220,7 +220,7 @@ Route::prefix('/pad/dimensao/ensino/atendimento/discente')->group(function () {
     Route::delete('/delete/{id}', [EnsinoAtendimentoDiscenteController::class, 'delete'])->name('ensino_atendimento_discente_delete');
 
     Route::get('/index/{user_pad_id}', [EnsinoAtendimentoDiscenteController::class, 'index'])->name('ensino_atendimento_discente_index');
-    Route::get('/edit/{id?}', [EnsinoAtendimentoDiscenteController::class, 'edit'])->name('ensino_atendimento_discente_update');
+    Route::get('/edit/{id?}', [EnsinoAtendimentoDiscenteController::class, 'edit'])->name('view_ensino_atendimento_discente_update');
     Route::get('/search/{user_pad_id?}', [EnsinoAtendimentoDiscenteController::class, 'search'])->name('ensino_atendimento_discente_search');
 });
 
@@ -233,7 +233,7 @@ Route::prefix('/pad/dimensao/ensino/projeto')->group(function () {
     Route::delete('/delete/{id}', [EnsinoProjetoController::class, 'delete'])->name('ensino_projeto_delete');
 
     Route::get('/index/{user_pad_id}', [EnsinoProjetoController::class, 'index'])->name('ensino_projeto_index');
-    Route::get('/edit/{id?}', [EnsinoProjetoController::class, 'edit'])->name('ensino_projeto_update');
+    Route::get('/edit/{id?}', [EnsinoProjetoController::class, 'edit'])->name('view_ensino_projeto_update');
     Route::get('/search/{user_pad_id?}', [EnsinoProjetoController::class, 'search'])->name('ensino_projeto_search');
 });
 
@@ -246,7 +246,7 @@ Route::prefix('/pad/dimensao/ensino/participacao')->group(function () {
     Route::delete('/delete/{id}', [EnsinoParticipacaoController::class, 'delete'])->name('ensino_participacao_delete');
 
     Route::get('/index/{user_pad_id}', [EnsinoParticipacaoController::class, 'index'])->name('ensino_participacao_index');
-    Route::get('/edit/{id?}', [EnsinoParticipacaoController::class, 'edit'])->name('ensino_participacao_update');
+    Route::get('/edit/{id?}', [EnsinoParticipacaoController::class, 'edit'])->name('view_ensino_participacao_update');
     Route::get('/search/{user_pad_id?}', [EnsinoParticipacaoController::class, 'search'])->name('ensino_participacao_search');
 });
 
@@ -259,7 +259,7 @@ Route::prefix('/pad/dimensao/ensino/membro/docente')->group(function () {
     Route::delete('/delete/{id}', [EnsinoMembroDocenteController::class, 'delete'])->name('ensino_membro_docente_delete');
 
     Route::get('/index/{user_pad_id}', [EnsinoMembroDocenteController::class, 'index'])->name('ensino_membro_docente_index');
-    Route::get('/edit/{id?}', [EnsinoMembroDocenteController::class, 'edit'])->name('ensino_membro_docente_update');
+    Route::get('/edit/{id?}', [EnsinoMembroDocenteController::class, 'edit'])->name('view_ensino_membro_docente_update');
     Route::get('/search/{user_pad_id?}', [EnsinoMembroDocenteController::class, 'search'])->name('ensino_membro_docente_search');
 });
 
@@ -272,7 +272,7 @@ Route::prefix('/pad/dimensao/pesquisa/coordenacao')->group(function () {
     Route::delete('/delete/{id}', [PesquisaCoordenacaoController::class, 'delete'])->name('pesquisa_coordenacao_delete');
 
     Route::get('/index/{user_pad_id}', [PesquisaCoordenacaoController::class, 'index'])->name('pesquisa_coordenacao_index');
-    Route::get('/edit/{id?}', [PesquisaCoordenacaoController::class, 'edit'])->name('pesquisa_coordenacao_update');
+    Route::get('/edit/{id?}', [PesquisaCoordenacaoController::class, 'edit'])->name('view_pesquisa_coordenacao_update');
     Route::get('/search/{user_pad_id?}', [PesquisaCoordenacaoController::class, 'search'])->name('pesquisa_coordenacao_search');
 });
 
@@ -285,7 +285,7 @@ Route::prefix('/pad/dimensao/pesquisa/lideranca')->group(function () {
     Route::delete('/delete/{id}', [PesquisaLiderancaController::class, 'delete'])->name('pesquisa_lideranca_delete');
 
     Route::get('/index/{user_pad_id}', [PesquisaLiderancaController::class, 'index'])->name('pesquisa_lideranca_index');
-    Route::get('/edit/{id?}', [PesquisaLiderancaController::class, 'edit'])->name('pesquisa_lideranca_update');
+    Route::get('/edit/{id?}', [PesquisaLiderancaController::class, 'edit'])->name('view_pesquisa_lideranca_update');
     Route::get('/search/{user_pad_id?}', [PesquisaLiderancaController::class, 'search'])->name('pesquisa_lideranca_search');
 });
 
@@ -298,7 +298,7 @@ Route::prefix('/pad/dimensao/pesquisa/orientacao')->group(function () {
     Route::delete('/delete/{id}', [PesquisaOrientacaoController::class, 'delete'])->name('pesquisa_orientacao_delete');
 
     Route::get('/index/{user_pad_id}', [PesquisaOrientacaoController::class, 'index'])->name('pesquisa_orientacao_index');
-    Route::get('/edit/{id?}', [PesquisaOrientacaoController::class, 'edit'])->name('pesquisa_orientacao_update');
+    Route::get('/edit/{id?}', [PesquisaOrientacaoController::class, 'edit'])->name('view_pesquisa_orientacao_update');
     Route::get('/search/{user_pad_id?}', [PesquisaOrientacaoController::class, 'search'])->name('pesquisa_orientacao_search');
 });
 
@@ -311,7 +311,7 @@ Route::prefix('/pad/dimensao/extensao/coordenacao')->group(function () {
     Route::delete('/delete/{id}', [ExtensaoCoordenacaoController::class, 'delete'])->name('extensao_coordenacao_delete');
 
     Route::get('/index/{user_pad_id}', [ExtensaoCoordenacaoController::class, 'index'])->name('extensao_coordenacao_index');
-    Route::get('/edit/{id?}', [ExtensaoCoordenacaoController::class, 'edit'])->name('extensao_coordenacao_update');
+    Route::get('/edit/{id?}', [ExtensaoCoordenacaoController::class, 'edit'])->name('view_extensao_coordenacao_update');
     Route::get('/search/{user_pad_id?}', [ExtensaoCoordenacaoController::class, 'search'])->name('extensao_coordenacao_search');
 });
 
@@ -324,7 +324,7 @@ Route::prefix('/pad/dimensao/extensao/orientacao')->group(function () {
     Route::delete('/delete/{id}', [ExtensaoOrientacaoController::class, 'delete'])->name('extensao_orientacao_delete');
 
     Route::get('/index/{user_pad_id}', [ExtensaoOrientacaoController::class, 'index'])->name('extensao_orientacao_index');
-    Route::get('/edit/{id?}', [ExtensaoOrientacaoController::class, 'edit'])->name('extensao_orientacao_update');
+    Route::get('/edit/{id?}', [ExtensaoOrientacaoController::class, 'edit'])->name('view_extensao_orientacao_update');
     Route::get('/search/{user_pad_id?}', [ExtensaoOrientacaoController::class, 'search'])->name('extensao_orientacao_search');
 });
 
@@ -337,8 +337,9 @@ Route::prefix('/pad/dimensao/gestao/membro/comissao')->group(function () {
     Route::delete('/delete/{id}', [GestaoMembroComissaoController::class, 'delete'])->name('gestao_membro_comissao_delete');
 
     Route::get('/index/{user_pad_id}', [GestaoMembroComissaoController::class, 'index'])->name('gestao_membro_comissao_index');
-    Route::get('/edit/{id?}', [GestaoMembroComissaoController::class, 'edit'])->name('gestao_membro_comissao_update');
+    Route::get('/edit/{id?}', [GestaoMembroComissaoController::class, 'edit'])->name('view_gestao_membro_comissao_update');
     Route::get('/search/{user_pad_id?}', [GestaoMembroComissaoController::class, 'search'])->name('gestao_membro_comissao_search');
+    Route::get('/resolucao', [GestaoMembroComissaoController::class, 'viewResolucao'])->name('view_gestao_membro_comissao_resolucao');
 });
 
 
@@ -350,7 +351,7 @@ Route::prefix('/pad/dimensao/gestao/membro/conselho')->group(function () {
     Route::delete('/delete/{id}', [GestaoMembroConselhoController::class, 'delete'])->name('gestao_membro_conselho_delete');
 
     Route::get('/index/{user_pad_id}', [GestaoMembroConselhoController::class, 'index'])->name('gestao_membro_conselho_index');
-    Route::get('/edit/{id?}', [GestaoMembroConselhoController::class, 'edit'])->name('gestao_membro_conselho_update');
+    Route::get('/edit/{id?}', [GestaoMembroConselhoController::class, 'edit'])->name('view_gestao_membro_conselho_update');
     Route::get('/search/{user_pad_id?}', [GestaoMembroConselhoController::class, 'search'])->name('gestao_membro_conselho_search');
 });
 
@@ -363,7 +364,7 @@ Route::prefix('/pad/dimensao/gestao/membro/titular/conselho')->group(function ()
     Route::delete('/delete/{id}', [GestaoMembroTitularConselhoController::class, 'delete'])->name('gestao_membro_titular_conselho_delete');
 
     Route::get('/index/{user_pad_id}', [GestaoMembroTitularConselhoController::class, 'index'])->name('gestao_membro_titular_conselho_index');
-    Route::get('/edit/{id?}', [GestaoMembroTitularConselhoController::class, 'edit'])->name('gestao_membro_titular_conselho_update');
+    Route::get('/edit/{id?}', [GestaoMembroTitularConselhoController::class, 'edit'])->name('view_gestao_membro_titular_conselho_update');
     Route::get('/search/{user_pad_id?}', [GestaoMembroTitularConselhoController::class, 'search'])->name('gestao_membro_titular_conselho_search');
 });
 
@@ -376,7 +377,7 @@ Route::prefix('/pad/dimensao/gestao/representante/unidade/educacao')->group(func
     Route::delete('/delete/{id}', [GestaoRepresentanteUnidadeEducacaoController::class, 'delete'])->name('gestao_representante_unidade_educacao_delete');
 
     Route::get('/index/{user_pad_id}', [GestaoRepresentanteUnidadeEducacaoController::class, 'index'])->name('gestao_representante_unidade_educacao_index');
-    Route::get('/edit/{id?}', [GestaoRepresentanteUnidadeEducacaoController::class, 'edit'])->name('gestao_representante_unidade_educacao_update');
+    Route::get('/edit/{id?}', [GestaoRepresentanteUnidadeEducacaoController::class, 'edit'])->name('view_gestao_representante_unidade_educacao_update');
     Route::get('/search/{user_pad_id?}', [GestaoRepresentanteUnidadeEducacaoController::class, 'search'])->name('gestao_representante_unidade_educacao_search');
 });
 
@@ -389,7 +390,7 @@ Route::prefix('/pad/dimensao/gestao/membro/camaras')->group(function () {
     Route::delete('/delete/{id}', [GestaoMembroCamarasController::class, 'delete'])->name('gestao_membro_camaras_delete');
 
     Route::get('/index/{user_pad_id}', [GestaoMembroCamarasController::class, 'index'])->name('gestao_membro_camaras_index');
-    Route::get('/edit/{id?}', [GestaoMembroCamarasController::class, 'edit'])->name('gestao_membro_camaras_update');
+    Route::get('/edit/{id?}', [GestaoMembroCamarasController::class, 'edit'])->name('view_gestao_membro_camaras_update');
     Route::get('/search/{user_pad_id?}', [GestaoMembroCamarasController::class, 'search'])->name('gestao_membro_camaras_search');
 });
 
@@ -414,7 +415,7 @@ Route::prefix('/pad/dimensao/gestao/coordenacao/programa/institucional')->group(
     Route::delete('/delete/{id}', [GestaoCoordenacaoProgramaInstitucionalController::class, 'delete'])->name('gestao_coordenacao_programa_institucional_delete');
 
     Route::get('/index/{user_pad_id}', [GestaoCoordenacaoProgramaInstitucionalController::class, 'index'])->name('gestao_coordenacao_programa_institucional_index');
-    Route::get('/edit/{id?}', [GestaoCoordenacaoProgramaInstitucionalController::class, 'edit'])->name('gestao_coordenacao_programa_institucional_update');
+    Route::get('/edit/{id?}', [GestaoCoordenacaoProgramaInstitucionalController::class, 'edit'])->name('view_gestao_coordenacao_programa_institucional_update');
     Route::get('/search/{user_pad_id?}', [GestaoCoordenacaoProgramaInstitucionalController::class, 'search'])->name('gestao_coordenacao_programa_institucional_search');
 });
 
