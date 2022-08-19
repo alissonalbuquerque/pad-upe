@@ -55,7 +55,7 @@ class ExtensaoOrientacao extends Model
      * @return array
      */
     public static function getPlanejamentos() {
-        $codes = [];
+        $codes = ['X-2'];
         return Planejamento::initQuery()->whereInCodDimensao($codes)->get();
     }
 

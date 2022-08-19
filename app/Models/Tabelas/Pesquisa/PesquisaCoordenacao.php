@@ -2,6 +2,7 @@
 
 namespace App\Models\Tabelas\Pesquisa;
 
+use App\Models\Planejamento;
 use App\Models\Tabelas\Constants;
 use App\Queries\Tabelas\Pesquisa\PesquisaCoordenacaoQuery;
 use Illuminate\Database\Eloquent\Model;
@@ -39,6 +40,14 @@ class PesquisaCoordenacao extends Model
         return [
 
         ];
+    }
+
+    /**
+     * @return array
+     */
+    public static function getPlanejamentos() {
+        $codes = ['P-2', 'P-4'];
+        return Planejamento::initQuery()->whereInCodDimensao($codes)->get();
     }
 
     public static function initQuery()

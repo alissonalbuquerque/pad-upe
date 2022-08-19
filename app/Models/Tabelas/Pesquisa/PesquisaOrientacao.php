@@ -2,6 +2,7 @@
 
 namespace App\Models\Tabelas\Pesquisa;
 
+use App\Models\Planejamento;
 use App\Models\Tabelas\Constants;
 use App\Queries\Tabelas\Pesquisa\PesquisaOrientacaoQuery;
 use Illuminate\Database\Eloquent\Model;
@@ -27,6 +28,14 @@ class PesquisaOrientacao extends Model
         return Constants::listFuncaoOrientador($this->funcao);
     }
     
+    /**
+     * @return array
+     */
+    public static function getPlanejamentos() {
+        $codes = ['P-3'];
+        return Planejamento::initQuery()->whereInCodDimensao($codes)->get();
+    }
+
     public static function initQuery()
     {
         return new PesquisaOrientacaoQuery(get_called_class());

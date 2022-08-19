@@ -55,7 +55,7 @@ class ExtensaoCoordenacao extends Model
      * @return array
      */
     public static function getPlanejamentos() {
-        $codes = [];
+        $codes = ['X-1'];
         return Planejamento::initQuery()->whereInCodDimensao($codes)->get();
     }
 
