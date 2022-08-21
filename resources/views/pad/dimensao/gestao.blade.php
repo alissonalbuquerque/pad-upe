@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Ensino')
+@section('title', 'Gestão')
 @section('header')
     @include('layouts.header', [
         'user' => Auth::user(),
