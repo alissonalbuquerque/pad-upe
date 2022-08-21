@@ -3,8 +3,11 @@
 namespace App\Models\Tabelas\Extensao;
 
 use App\Models\Planejamento;
+use App\Models\Tabelas\Constants;
 use App\Queries\Tabelas\Extensao\ExtensaoCoordenacaoQuery;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\Rule;
+use PHPUnit\TextUI\XmlConfiguration\Constant;
 
 class ExtensaoCoordenacao extends Model
 {
@@ -19,35 +22,32 @@ class ExtensaoCoordenacao extends Model
      * 
      * @var array
      */
-    protected $fillable = ['user_pad_id', 'dimensao', 'cod_atividade', 'titulo_projeto', 'programa_extensao', 'funcao', 'ch_semanal', 'atividade'];
+    protected $fillable = ['orientacao_id', 'user_pad_id', 'dimensao', 'cod_atividade', 'titulo_projeto', 'programa_extensao', 'funcao', 'ch_semanal', 'atividade'];
 
-    /**
-     * @return array
-     */
-    public function orientacaoPreenchimento() {
-        return [
-            'descricao' =>              ['item' => '1.', 'descricao' => 'Ensino (Aulas em componentes curriculares)'],
-            'componente_curricular' =>  ['item' => 'Nome do Componente:', 'descricao' => 'Nome do componente curricular como descrito no PPC do curso'],
-            'curso' =>                  ['item' => 'Curso:', 'descricao' => 'Nome do curso ao qual o componente curricular pertence'],
-            'nivel' =>                  ['item' => 'Nível:', 'descricao' => 'Preencher o nível do curso ao qual o componente curricular pertence, sendo as opções: Graduação, Pós-graduação Stricto Sensu, Pós-Graduação Lato Sensu'],
-            'modalidade' =>             ['item' => 'Modalidade:', 'descricao' => 'Preencher a modalidade que o componente curricular é ofertado, sendo as opções: Presencial e EAD'],
-            'ch_semanal' =>             ['item' => 'Carga Horária Semanal:', 'descricao' => 'Carga horária total efetiva exercida pelo docente dentro do componente curricular dividida pelo número de semanas que o mesmo ocorre'],
-            'ch_total' =>               ['item' => 'Carga Horária Total:', 'descricao' => 'Carga horária total efetiva exercida pelo docente dentro do(s) componente(s) curricular (es)'],
-            
-        ];
-    }
+    // public function orientacao()
+    // {
+    //     return $this->hasOne(Orientacao::class);
+    // }
 
     public static function rules()
     {
         return [
 
+            'cod_atividade' => ['required', 'string', 'max:255'],
+            'titulo_projeto' => ['required', 'string', 'max:255'],
+            'programa_extensao' => ['required', 'string', 'max:255'],
+            'funcao' => ['required', 'integer', Rule::in(array_keys(Constants::listModalidade()))],
+            'ch_semanal' => ['required', 'integer', 'min:1'],
         ];
     }
 
     public static function messages()
     {
         return [
-
+            'required' => 'O campo ":attribute" é obrigatório!',
+            'integer' => 'O campo ":attribute" deve cónter um inteiro!',
+            'in' => 'Selecione uma opção da lista de ":attribute"!',
+            'ch_semanal.min' => 'Carga horária semanal miníma é de 1 Hora!',
         ];
     }
 
@@ -57,6 +57,14 @@ class ExtensaoCoordenacao extends Model
     public static function getPlanejamentos() {
         $codes = ['X-1'];
         return Planejamento::initQuery()->whereInCodDimensao($codes)->get();
+    }
+
+    /**
+     * @return string
+     */
+    public function funcaoAsString()
+    {
+        return Constants::listFuncaoProjeto($this->funcao);
     }
 
 

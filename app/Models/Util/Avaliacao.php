@@ -13,5 +13,12 @@ class Avaliacao
     const ENSINO_PROJETO = 6;
     const ENSINO_PARTICIPACAO = 7;
     const ENSINO_MEMBRO_DOCENTE = 8;
+
+    const PESQUISA_COORDENACAO = 9;
+    const PESQUISA_ORIENTACAO = 10;
+    const PESQUISA_LIDERANCA = 11;
+
+    const EXTENSAO_COORDENACAO = 12;
+    const EXTENSAO_ORIENTACAO = 13;
     
 }

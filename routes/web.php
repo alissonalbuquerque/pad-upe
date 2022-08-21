@@ -306,7 +306,6 @@ Route::prefix('/pad/dimensao/pesquisa/orientacao')->group(function () {
     Route::get('/search/{user_pad_id?}', [PesquisaOrientacaoController::class, 'search'])->name('pesquisa_orientacao_search');
 });
 
-
 /** ExtensaoCoordenacaoController */
 Route::prefix('/pad/dimensao/extensao/coordenacao')->group(function () {
     Route::post('/create', [ExtensaoCoordenacaoController::class, 'create'])->name('extensao_coordenacao_create');
@@ -317,6 +316,7 @@ Route::prefix('/pad/dimensao/extensao/coordenacao')->group(function () {
     Route::get('/index/{user_pad_id}', [ExtensaoCoordenacaoController::class, 'index'])->name('extensao_coordenacao_index');
     Route::get('/edit/{id?}', [ExtensaoCoordenacaoController::class, 'edit'])->name('view_extensao_coordenacao_update');
     Route::get('/search/{user_pad_id?}', [ExtensaoCoordenacaoController::class, 'search'])->name('extensao_coordenacao_search');
+    Route::get('/resolucao', [ExtensaoCoordenacaoController::class, 'viewResolucao'])->name('view_extensao_coordenacao_resolucao');
 });
 
 
@@ -330,6 +330,7 @@ Route::prefix('/pad/dimensao/extensao/orientacao')->group(function () {
     Route::get('/index/{user_pad_id}', [ExtensaoOrientacaoController::class, 'index'])->name('extensao_orientacao_index');
     Route::get('/edit/{id?}', [ExtensaoOrientacaoController::class, 'edit'])->name('view_extensao_orientacao_update');
     Route::get('/search/{user_pad_id?}', [ExtensaoOrientacaoController::class, 'search'])->name('extensao_orientacao_search');
+    Route::get('/resolucao', [ExtensaoOrientacaoController::class, 'viewResolucao'])->name('view_extensao_orientacao_resolucao');
 });
 
 

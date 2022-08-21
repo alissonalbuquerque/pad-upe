@@ -22,7 +22,7 @@ class CreateExtensaoCoordenacaoTable extends Migration
             $table->string('programa_extensao')->notNull();
             $table->tinyInteger('funcao')->notNull();
             $table->integer('ch_semanal')->notNull();
-            $table->text('atividade')->notNull();
+            $table->text('atividade')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
