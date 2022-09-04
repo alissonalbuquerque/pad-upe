@@ -44,6 +44,7 @@ Route::prefix('/pad/dimensao/gestao/membro/conselho')->group(function () {
     Route::get('/index/{user_pad_id}', [GestaoMembroConselhoController::class, 'index'])->name('gestao_membro_conselho_index');
     Route::get('/edit/{id?}', [GestaoMembroConselhoController::class, 'edit'])->name('view_gestao_membro_conselho_update');
     Route::get('/search/{user_pad_id?}', [GestaoMembroConselhoController::class, 'search'])->name('gestao_membro_conselho_search');
+    Route::get('/resolucao', [GestaoMembroConselhoController::class, 'viewResolucao'])->name('view_gestao_membro_conselho_resolucao');
 });
 
 
@@ -57,6 +58,7 @@ Route::prefix('/pad/dimensao/gestao/membro/titular/conselho')->group(function ()
     Route::get('/index/{user_pad_id}', [GestaoMembroTitularConselhoController::class, 'index'])->name('gestao_membro_titular_conselho_index');
     Route::get('/edit/{id?}', [GestaoMembroTitularConselhoController::class, 'edit'])->name('view_gestao_membro_titular_conselho_update');
     Route::get('/search/{user_pad_id?}', [GestaoMembroTitularConselhoController::class, 'search'])->name('gestao_membro_titular_conselho_search');
+    Route::get('/resolucao', [GestaoMembroTitularConselhoController::class, 'viewResolucao'])->name('view_gestao_membro_titular_conselho_resolucao');
 });
 
 
@@ -70,6 +72,7 @@ Route::prefix('/pad/dimensao/gestao/representante/unidade/educacao')->group(func
     Route::get('/index/{user_pad_id}', [GestaoRepresentanteUnidadeEducacaoController::class, 'index'])->name('gestao_representante_unidade_educacao_index');
     Route::get('/edit/{id?}', [GestaoRepresentanteUnidadeEducacaoController::class, 'edit'])->name('view_gestao_representante_unidade_educacao_update');
     Route::get('/search/{user_pad_id?}', [GestaoRepresentanteUnidadeEducacaoController::class, 'search'])->name('gestao_representante_unidade_educacao_search');
+    Route::get('/resolucao', [GestaoRepresentanteUnidadeEducacaoController::class, 'viewResolucao'])->name('view_gestao_representante_unidade_educacao_resolucao');
 });
 
 
@@ -83,6 +86,7 @@ Route::prefix('/pad/dimensao/gestao/membro/camaras')->group(function () {
     Route::get('/index/{user_pad_id}', [GestaoMembroCamarasController::class, 'index'])->name('gestao_membro_camaras_index');
     Route::get('/edit/{id?}', [GestaoMembroCamarasController::class, 'edit'])->name('view_gestao_membro_camaras_update');
     Route::get('/search/{user_pad_id?}', [GestaoMembroCamarasController::class, 'search'])->name('gestao_membro_camaras_search');
+    Route::get('/resolucao', [GestaoMembroCamarasController::class, 'viewResolucao'])->name('view_gestao_membro_camaras_resolucao');
 });
 
 
@@ -94,8 +98,9 @@ Route::prefix('/pad/dimensao/gestao/laboratorios/didaticos')->group(function () 
     Route::delete('/delete/{id}', [GestaoCoordenacaoLaboratoriosDidaticosController::class, 'delete'])->name('gestao_coordenacao_laboratorios_didaticos_delete');
 
     Route::get('/index/{user_pad_id}', [GestaoCoordenacaoLaboratoriosDidaticosController::class, 'index'])->name('gestao_coordenacao_laboratorios_didaticos_index');
-    Route::get('/edit/{id?}', [GestaoCoordenacaoLaboratoriosDidaticosController::class, 'edit'])->name('gestao_coordenacao_laboratorios_didaticos_update');
+    Route::get('/edit/{id?}', [GestaoCoordenacaoLaboratoriosDidaticosController::class, 'edit'])->name('view_gestao_coordenacao_laboratorios_didaticos_update');
     Route::get('/search/{user_pad_id?}', [GestaoCoordenacaoLaboratoriosDidaticosController::class, 'search'])->name('gestao_coordenacao_laboratorios_didaticos_search');
+    Route::get('/resolucao', [GestaoCoordenacaoLaboratoriosDidaticosController::class, 'viewResolucao'])->name('view_gestao_coordenacao_laboratorios_didaticos_resolucao');
 });
 
 /** GestaoCoordenacaoProgramaInstitucionalController */
@@ -108,4 +113,5 @@ Route::prefix('/pad/dimensao/gestao/coordenacao/programa/institucional')->group(
     Route::get('/index/{user_pad_id}', [GestaoCoordenacaoProgramaInstitucionalController::class, 'index'])->name('gestao_coordenacao_programa_institucional_index');
     Route::get('/edit/{id?}', [GestaoCoordenacaoProgramaInstitucionalController::class, 'edit'])->name('view_gestao_coordenacao_programa_institucional_update');
     Route::get('/search/{user_pad_id?}', [GestaoCoordenacaoProgramaInstitucionalController::class, 'search'])->name('gestao_coordenacao_programa_institucional_search');
+    Route::get('/resolucao', [GestaoCoordenacaoProgramaInstitucionalController::class, 'viewResolucao'])->name('view_gestao_coordenacao_programa_institucional_resolucao');
 });

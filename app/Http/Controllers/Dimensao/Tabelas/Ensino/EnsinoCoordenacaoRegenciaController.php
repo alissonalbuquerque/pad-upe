@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Dimensao\Tabelas\Ensino;
 use App\Http\Controllers\Controller;
 use App\Models\Avaliacao;
 use App\Models\Tabelas\Constants;
-use App\Models\Tabelas\Ensino\CoordenacaoRegencia;
+use App\Models\Tabelas\Ensino\EnsinoCoordenacaoRegencia;
 use App\Models\Util\Avaliacao as UtilAvaliacao;
 use App\Models\Util\Dimensao;
 use App\Models\Util\MenuItemsTeacher;
@@ -22,7 +22,7 @@ class EnsinoCoordenacaoRegenciaController extends Controller
     public function index($user_pad_id)
     {
         $coordenacaoRegencias = 
-                CoordenacaoRegencia::initQuery()
+                EnsinoCoordenacaoRegencia::initQuery()
                     ->whereUserPad($user_pad_id)
                     ->orderBy('cod_atividade')
                     ->get();
@@ -45,7 +45,7 @@ class EnsinoCoordenacaoRegenciaController extends Controller
     
     public function edit($id) {
 
-        $model = CoordenacaoRegencia::find($id);
+        $model = EnsinoCoordenacaoRegencia::find($id);
         $niveis = Nivel::listNivel();
         $modalidades = Modalidade::listModalidade();
         
@@ -58,7 +58,7 @@ class EnsinoCoordenacaoRegenciaController extends Controller
 
     public function viewResolucao()
     {   
-        $resolucoes = CoordenacaoRegencia::getPlanejamentos();
+        $resolucoes = EnsinoCoordenacaoRegencia::getPlanejamentos();
         return view('pad.components.templates.resolucao', ['resolucoes' => $resolucoes]);
     }
 
@@ -69,7 +69,7 @@ class EnsinoCoordenacaoRegenciaController extends Controller
      */
     public function create(Request $request) {
         
-        $validator = Validator::make($request->all(), CoordenacaoRegencia::rules(), CoordenacaoRegencia::messages());
+        $validator = Validator::make($request->all(), EnsinoCoordenacaoRegencia::rules(), EnsinoCoordenacaoRegencia::messages());
 
         if($validator->fails())
         {   
@@ -81,7 +81,7 @@ class EnsinoCoordenacaoRegenciaController extends Controller
 
         $user_pad_id = $request->user_pad_id;
 
-        $model = new CoordenacaoRegencia($request->all());
+        $model = new EnsinoCoordenacaoRegencia($request->all());
         $model->dimensao = Dimensao::ENSINO;
 
         if($model->save())
@@ -112,9 +112,9 @@ class EnsinoCoordenacaoRegenciaController extends Controller
     
     public function update($id, Request $request) {
     
-        $validator = Validator::make($request->all(), CoordenacaoRegencia::rules(), CoordenacaoRegencia::messages());
+        $validator = Validator::make($request->all(), EnsinoCoordenacaoRegencia::rules(), EnsinoCoordenacaoRegencia::messages());
 
-        $model = CoordenacaoRegencia::find($id);
+        $model = EnsinoCoordenacaoRegencia::find($id);
         $model->fill($request->all());
 
         $user_pad_id = $model->user_pad_id;
@@ -137,7 +137,7 @@ class EnsinoCoordenacaoRegenciaController extends Controller
     
     public function delete($id)
     {
-        $model = CoordenacaoRegencia::find($id);
+        $model = EnsinoCoordenacaoRegencia::find($id);
         
         $user_pad_id = $model->user_pad_id;
 
@@ -154,7 +154,7 @@ class EnsinoCoordenacaoRegenciaController extends Controller
     
     public function search($user_pad_id = null) {
 
-        $query = CoordenacaoRegencia::initQuery();
+        $query = EnsinoCoordenacaoRegencia::initQuery();
 
         if($user_pad_id) {
             $query->whereUserPad($user_pad_id)->orderBy('cod_atividade');
@@ -165,7 +165,7 @@ class EnsinoCoordenacaoRegenciaController extends Controller
 
     public function ajaxValidation(Request $request)
     {   
-        $validator = Validator::make($request->all(), CoordenacaoRegencia::rules(), CoordenacaoRegencia::messages());
+        $validator = Validator::make($request->all(), EnsinoCoordenacaoRegencia::rules(), EnsinoCoordenacaoRegencia::messages());
 
         if($validator->passes()) {
             return Response::json(['message' => true, 'status' => 200]);

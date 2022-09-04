@@ -3,6 +3,7 @@
 namespace App\Models\Tabelas\Gestao;
 
 use App\Models\Planejamento;
+use App\Models\Util\CargaHoraria;
 use App\Queries\Tabelas\Gestao\GestaoRepresentanteUnidadeEducacaoQuery;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,35 +21,33 @@ class GestaoRepresentanteUnidadeEducacao extends Model
      * 
      * @var array
      */
-    protected $fillable = ['user_pad_id', 'dimensao', 'cod_atividade', 'nome', 'documento', 'ch_semanal',];
-
-    /**
-     * @return array
-     */
-    public function orientacaoPreenchimento() {
-        return [
-            'descricao' =>              ['item' => '1.', 'descricao' => 'Ensino (Aulas em componentes curriculares)'],
-            'componente_curricular' =>  ['item' => 'Nome do Componente:', 'descricao' => 'Nome do componente curricular como descrito no PPC do curso'],
-            'curso' =>                  ['item' => 'Curso:', 'descricao' => 'Nome do curso ao qual o componente curricular pertence'],
-            'nivel' =>                  ['item' => 'Nível:', 'descricao' => 'Preencher o nível do curso ao qual o componente curricular pertence, sendo as opções: Graduação, Pós-graduação Stricto Sensu, Pós-Graduação Lato Sensu'],
-            'modalidade' =>             ['item' => 'Modalidade:', 'descricao' => 'Preencher a modalidade que o componente curricular é ofertado, sendo as opções: Presencial e EAD'],
-            'ch_semanal' =>             ['item' => 'Carga Horária Semanal:', 'descricao' => 'Carga horária total efetiva exercida pelo docente dentro do componente curricular dividida pelo número de semanas que o mesmo ocorre'],
-            'ch_total' =>               ['item' => 'Carga Horária Total:', 'descricao' => 'Carga horária total efetiva exercida pelo docente dentro do(s) componente(s) curricular (es)'],
-            
-        ];
-    }
+    protected $fillable = ['orientacao_id', 'user_pad_id', 'dimensao', 'cod_atividade', 'nome', 'documento', 'ch_semanal',];
 
     public static function rules()
     {
         return [
-
+            'cod_atividade' => ['required', 'string', 'max:255'],
+            'nome' => ['required', 'string', 'max:255'],
+            'documento' => ['required', 'string', 'max:255'],
+            'ch_semanal' => CargaHoraria::ch_semanal(),
         ];
     }
 
     public static function messages()
     {
-        return [
+        return [            
+            //cod_atividade
+            'cod_atividade.required' => 'O campo "Cód. Atividade" é obrigatório!',
 
+            //nome
+            'nome.required' => 'O campo "Documento Comprobatório da Representação Sindical" é obrigatório!',
+
+            //documento
+            'documento.required' => 'O campo "Documento que o Designa" é obrigatório!',
+
+            //ch_semanal
+            'ch_semanal.required' => 'O campo "CH. Semanal" é obrigatório!',
+            'ch_semanal.min' => 'Carga horária semanal miníma é de 1 Hora!',
         ];
     }
 
@@ -56,7 +55,7 @@ class GestaoRepresentanteUnidadeEducacao extends Model
      * @return array
      */
     public static function getPlanejamentos() {
-        $codes = [];
+        $codes = ['G-3'];
         return Planejamento::initQuery()->whereInCodDimensao($codes)->get();
     }
 

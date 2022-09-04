@@ -86,6 +86,7 @@ Route::prefix('/pad/dimensao/ensino/atendimento/discente')->group(function () {
     Route::get('/index/{user_pad_id}', [EnsinoAtendimentoDiscenteController::class, 'index'])->name('ensino_atendimento_discente_index');
     Route::get('/edit/{id?}', [EnsinoAtendimentoDiscenteController::class, 'edit'])->name('view_ensino_atendimento_discente_update');
     Route::get('/search/{user_pad_id?}', [EnsinoAtendimentoDiscenteController::class, 'search'])->name('ensino_atendimento_discente_search');
+    Route::get('/resolucao', [EnsinoAtendimentoDiscenteController::class, 'viewResolucao'])->name('view_ensino_atendimento_discente_resolucao');
 });
 
 
@@ -99,6 +100,7 @@ Route::prefix('/pad/dimensao/ensino/projeto')->group(function () {
     Route::get('/index/{user_pad_id}', [EnsinoProjetoController::class, 'index'])->name('ensino_projeto_index');
     Route::get('/edit/{id?}', [EnsinoProjetoController::class, 'edit'])->name('view_ensino_projeto_update');
     Route::get('/search/{user_pad_id?}', [EnsinoProjetoController::class, 'search'])->name('ensino_projeto_search');
+    Route::get('/resolucao', [EnsinoProjetoController::class, 'viewResolucao'])->name('view_ensino_projeto_resolucao');
 });
 
 
@@ -112,6 +114,7 @@ Route::prefix('/pad/dimensao/ensino/participacao')->group(function () {
     Route::get('/index/{user_pad_id}', [EnsinoParticipacaoController::class, 'index'])->name('ensino_participacao_index');
     Route::get('/edit/{id?}', [EnsinoParticipacaoController::class, 'edit'])->name('view_ensino_participacao_update');
     Route::get('/search/{user_pad_id?}', [EnsinoParticipacaoController::class, 'search'])->name('ensino_participacao_search');
+    Route::get('/resolucao', [EnsinoParticipacaoController::class, 'viewResolucao'])->name('view_ensino_participacao_resolucao');
 });
 
 
@@ -125,4 +128,5 @@ Route::prefix('/pad/dimensao/ensino/membro/docente')->group(function () {
     Route::get('/index/{user_pad_id}', [EnsinoMembroDocenteController::class, 'index'])->name('ensino_membro_docente_index');
     Route::get('/edit/{id?}', [EnsinoMembroDocenteController::class, 'edit'])->name('view_ensino_membro_docente_update');
     Route::get('/search/{user_pad_id?}', [EnsinoMembroDocenteController::class, 'search'])->name('ensino_membro_docente_search');
+    Route::get('/resolucao', [EnsinoMembroDocenteController::class, 'viewResolucao'])->name('view_ensino_membro_docente_resolucao');
 });

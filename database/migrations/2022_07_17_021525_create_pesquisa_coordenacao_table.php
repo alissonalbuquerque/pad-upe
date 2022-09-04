@@ -21,9 +21,10 @@ class CreatePesquisaCoordenacaoTable extends Migration
             $table->string('titulo_projeto')->notNull();
             $table->string('linha_grupo_pesquisa')->notNull();
             $table->tinyInteger('funcao')->notNull();
+            $table->string('cod_dimensao')->notNull();
             $table->integer('ch_semanal')->notNull();
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

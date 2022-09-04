@@ -94,7 +94,7 @@ class PadTables {
         return [
             [   
                 'id' => 'gestao_membro_comissao',
-                'name' => '1. GESTÃO (MEMBRO DE COMISSÃO/COMITÊ/NÚCLEO, FORMALMENTE DESIGNADO(A) NO  MBITO DA UPE)',
+                'name' => '1. GESTÃO (MEMBRO DE COMISSÃO/COMITÊ/NÚCLEO, FORMALMENTE DESIGNADO(A) NO ÂMBITO DA UPE)',
                 'route' => route('gestao_membro_comissao_index', ['user_pad_id' => $user_pad_id])
             ],
             [   

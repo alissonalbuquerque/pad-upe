@@ -62,7 +62,7 @@
 
                     <div class="mb-3 col-">
                         <div class="form-group">
-                            <textarea class="form-control @error('atividade') is-invalid @enderror ajax-errors" name="atividade" id="atividade" cols="30" rows="5" value="{{ $model->atividade }}" placeholder="Atividade: Informar/descrever a(s) atividade(s) desenvolvida(s)"></textarea>
+                            <textarea class="form-control @error('atividade') is-invalid @enderror ajax-errors" name="atividade" id="atividade" cols="30" rows="5" placeholder="Atividade: Informar/descrever a(s) atividade(s) desenvolvida(s)">{{ $model->atividade }}</textarea>
                         </div>
                         
                         @include('components.divs.errors', [

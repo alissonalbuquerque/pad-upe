@@ -2,7 +2,7 @@
 <div id="gestao_membro_comissao">
     <div>
         <div class="mb-3">
-            <h3 class="h3"> Gestão - Membro Comissão </h3 class="h3">
+            <h3 class="h3"> Gestão - Membro de Comissão/Comitê/Núcleo, Formalmente Designado(a) no Âmbito da UPE </h3 class="h3">
         </div>
         <form action="{{route('gestao_membro_comissao_update', ['id' => $model->id])}}" method="post" id="gestao_membro_comissao_update-form" class="">
             @csrf

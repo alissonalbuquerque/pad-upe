@@ -115,7 +115,7 @@ class GestaoMembroComissaoController extends Controller
     public function viewResolucao()
     {
         $resolucoes = GestaoMembroComissao::getPlanejamentos();
-        return view('pad.components.templates.dimensao.gestao.membro_comissao.resolucao', [
+        return view('pad.components.templates.resolucao', [
             'resolucoes' => $resolucoes
         ]);
     }

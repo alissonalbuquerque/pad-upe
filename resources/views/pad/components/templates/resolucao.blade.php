@@ -8,8 +8,12 @@
             <div class="card-body">
                 <p> {{ $resolucao->descricao }} </p>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"> <strong> Carga Horária Semanal : </strong> {{ $resolucao->ch_semanal }} </li>
-                    <li class="list-group-item"> <strong> Carga Horária Máxima : </strong> {{ $resolucao->ch_maxima }} </li>
+                    @php
+                        $ch_semanal = $resolucao->ch_semanal !== null? $resolucao->ch_semanal : '--';
+                        $ch_maxima = $resolucao->ch_maxima !== null? $resolucao->ch_maxima : '--';
+                    @endphp
+                    <li class="list-group-item"> <strong> Carga Horária Semanal : </strong> {{ $ch_semanal }} </li>
+                    <li class="list-group-item"> <strong> Carga Horária Máxima : </strong> {{ $ch_maxima }} </li>
                 </ul>                
             </div>
         </div>

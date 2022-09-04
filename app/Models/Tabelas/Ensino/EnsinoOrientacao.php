@@ -62,7 +62,7 @@ class EnsinoOrientacao extends Model
     /**
      * @return array
      */
-    public function getPlanejamentos()
+    public static function getPlanejamentos()
     {
         $codes = ['E-5', 'E-6', 'E-7', 'E-8', 'E-9'];
         return Planejamento::initQuery()->whereInCodDimensao($codes)->get();

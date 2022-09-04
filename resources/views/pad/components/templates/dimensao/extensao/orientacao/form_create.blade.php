@@ -143,7 +143,7 @@
 
     @include('components.modal', [
         'size' => 'modal-lg',
-        'header' => 'Extensão - Orientação',
+        'header' => '',
     ])
 </div>
 @endsection
@@ -153,7 +153,7 @@
     @include('pad.components.scripts.dropdown-eixo', ['divs' => $divs])
 
     @include('pad.components.scripts.cod_atividade', [
-        'cod_atividade' => '1-',
+        'cod_atividade' => '13-',
         'form_id' => 'extensao_orientacao-form',
         'div_selected' => 'extensao_coordenacao',
         'route' => route('extensao_orientacao_search'),

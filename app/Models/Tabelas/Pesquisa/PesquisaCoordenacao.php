@@ -4,9 +4,11 @@ namespace App\Models\Tabelas\Pesquisa;
 
 use App\Models\Planejamento;
 use App\Models\Tabelas\Constants;
+use App\Models\Util\CargaHoraria;
 use App\Queries\Tabelas\Pesquisa\PesquisaCoordenacaoQuery;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Validation\Rule;
 
 class PesquisaCoordenacao extends Model
 {   
@@ -14,9 +16,14 @@ class PesquisaCoordenacao extends Model
 
     protected $table = 'pesquisa_coordenacao';
 
-    protected $fillable = ['dimensao', 'user_pad_id', 'cod_atividade', 'titulo_projeto', 'linha_grupo_pesquisa', 'funcao', 'ch_semanal'];
+    protected $fillable = ['orientacao_id', 'cod_dimensao', 'user_pad_id', 'dimensao', 'cod_atividade', 'titulo_projeto', 'linha_grupo_pesquisa', 'funcao', 'ch_semanal'];
 
     protected $dates = ['deleted_at'];
+
+    // public function orientacao()
+    // {
+    //     return $this->hasOne(Orientacao::class);
+    // }
 
     public function dimensaoAsString()
     {
@@ -31,14 +38,39 @@ class PesquisaCoordenacao extends Model
     public static function rules()
     {
         return [
-
+            'cod_atividade' => ['required', 'string', 'max:255'],
+            'titulo_projeto' => ['required', 'string', 'max:255'],
+            'linha_grupo_pesquisa' => ['required', 'string', 'max:255'],
+            'funcao' => ['required', 'integer', Rule::in(array_keys(Constants::listFuncaoProjeto()))],
+            'cod_dimensao' => ['required', 'string', Rule::in(array_keys(self::listPlanejamentos()))],
+            'ch_semanal' => CargaHoraria::ch_semanal(),
         ];
     }
 
     public static function messages()
     {
         return [
+            //cod_atividade
+            'cod_atividade.required' => 'O campo "Cód. Atividade" é obrigatório!',
 
+            //titulo_projeto
+            'titulo_projeto.required' => 'O campo "Título do Projeto" é obrigatório!',
+            
+            //linha_grupo_pesquisa
+            'linha_grupo_pesquisa.required' => 'O campo "Linha e Grupo de Pesquisa" é obrigatório!',
+
+            //funcao
+            'funcao.required' => 'O campo "Função" é obrigatório!',
+            'funcao.in' => 'Selecione uma opção da lista de "Função"!',
+            'funcao.integer' => 'O campo "Função" deve ser um inteiro!',
+
+            //'cod_dimensao'
+            'cod_dimensao.required' => 'O campo "Resolução" é obrigatório',
+            'cod_dimensao.in' => 'Selecione uma opção da lista de "Resolução"',
+
+            //ch_semanal
+            'ch_semanal.required' => 'O campo "CH. Semanal" é obrigatório!',
+            'ch_semanal.min' => 'Carga horária semanal miníma é de 1 Hora!',
         ];
     }
 
@@ -48,6 +80,21 @@ class PesquisaCoordenacao extends Model
     public static function getPlanejamentos() {
         $codes = ['P-2', 'P-4'];
         return Planejamento::initQuery()->whereInCodDimensao($codes)->get();
+    }
+
+    /**
+     * @return array
+     */
+    public static function listPlanejamentos($cod_dimensao = null)
+    {
+        $planejamentos = self::getPlanejamentos();
+
+        $values = [];
+        foreach($planejamentos as $planejamento) {
+            $values[$planejamento->cod_dimensao] = $planejamento->descricao;
+        }
+
+        return $cod_dimensao !== null? $values[$cod_dimensao] : $values;
     }
 
     public static function initQuery()

@@ -3,15 +3,15 @@
 namespace App\Queries\Tabelas\Ensino;
 
 
-use App\Models\Tabelas\Ensino\CoordenacaoRegencia;
+use App\Models\Tabelas\Ensino\EnsinoCoordenacaoRegencia;
 use App\Queries\CustomQuery;
 
-class CoordenacaoRegenciaQuery extends CustomQuery
+class EnsinoCoordenacaoRegenciaQuery extends CustomQuery
 {
 
     public function __construct()
     {
-        $this->query = CoordenacaoRegencia::where([]);
+        $this->query = EnsinoCoordenacaoRegencia::where([]);
         
         self::$instance = $this;
     }

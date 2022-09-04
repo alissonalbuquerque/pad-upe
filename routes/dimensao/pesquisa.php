@@ -26,8 +26,8 @@ Route::prefix('/pad/dimensao/pesquisa/coordenacao')->group(function () {
     Route::get('/index/{user_pad_id}', [PesquisaCoordenacaoController::class, 'index'])->name('pesquisa_coordenacao_index');
     Route::get('/edit/{id?}', [PesquisaCoordenacaoController::class, 'edit'])->name('view_pesquisa_coordenacao_update');
     Route::get('/search/{user_pad_id?}', [PesquisaCoordenacaoController::class, 'search'])->name('pesquisa_coordenacao_search');
+    Route::get('/resolucao', [PesquisaCoordenacaoController::class, 'viewResolucao'])->name('view_pesquisa_coordenacao_resolucao');
 });
-
 
 /** PesquisaLiderancaController */
 Route::prefix('/pad/dimensao/pesquisa/lideranca')->group(function () {
@@ -39,6 +39,7 @@ Route::prefix('/pad/dimensao/pesquisa/lideranca')->group(function () {
     Route::get('/index/{user_pad_id}', [PesquisaLiderancaController::class, 'index'])->name('pesquisa_lideranca_index');
     Route::get('/edit/{id?}', [PesquisaLiderancaController::class, 'edit'])->name('view_pesquisa_lideranca_update');
     Route::get('/search/{user_pad_id?}', [PesquisaLiderancaController::class, 'search'])->name('pesquisa_lideranca_search');
+    Route::get('/resolucao', [PesquisaLiderancaController::class, 'viewResolucao'])->name('view_pesquisa_lideranca_resolucao');
 });
 
 
@@ -52,4 +53,5 @@ Route::prefix('/pad/dimensao/pesquisa/orientacao')->group(function () {
     Route::get('/index/{user_pad_id}', [PesquisaOrientacaoController::class, 'index'])->name('pesquisa_orientacao_index');
     Route::get('/edit/{id?}', [PesquisaOrientacaoController::class, 'edit'])->name('view_pesquisa_orientacao_update');
     Route::get('/search/{user_pad_id?}', [PesquisaOrientacaoController::class, 'search'])->name('pesquisa_orientacao_search');
+    Route::get('/resolucao', [PesquisaOrientacaoController::class, 'viewResolucao'])->name('view_pesquisa_orientacao_resolucao');
 });

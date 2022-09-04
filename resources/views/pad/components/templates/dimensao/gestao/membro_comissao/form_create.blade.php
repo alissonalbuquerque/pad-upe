@@ -23,7 +23,7 @@
     <div id="gestao_membro_comissao">
         <div>
             <div class="mb-3">
-                <h3 class="h3"> Gestão - Membro Comissão </h3>
+                <h3 class="h3"> Gestão - Membro de Comissão/Comitê/Núcleo, Formalmente Designado(a) no Âmbito da UPE </h3>
                 @include('components.buttons.btn-show-resolucao', [
                     'content' => 'Resolução',
                     'btn_class' => 'show_resolucao',
@@ -123,7 +123,7 @@
 
     @include('components.modal', [
         'size' => 'modal-lg',
-        'header' => 'Gestão - Membro Comissão',
+        'header' => '',
     ])
 </div>
 @endsection
@@ -133,7 +133,7 @@
     @include('pad.components.scripts.dropdown-eixo', ['divs' => $divs])
 
     @include('pad.components.scripts.cod_atividade', [
-        'cod_atividade' => '15-',
+        'cod_atividade' => '14-',
         'form_id' => 'gestao_membro_comissao-form',
         'div_selected' => 'gestao_membro_comissao',
         'route' => route('gestao_membro_comissao_search'),

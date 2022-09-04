@@ -4,6 +4,7 @@ namespace App\Models\Tabelas\Extensao;
 
 use App\Models\Planejamento;
 use App\Models\Tabelas\Constants;
+use App\Models\Util\CargaHoraria;
 use App\Queries\Tabelas\Extensao\ExtensaoCoordenacaoQuery;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
@@ -32,21 +33,34 @@ class ExtensaoCoordenacao extends Model
     public static function rules()
     {
         return [
-
             'cod_atividade' => ['required', 'string', 'max:255'],
             'titulo_projeto' => ['required', 'string', 'max:255'],
             'programa_extensao' => ['required', 'string', 'max:255'],
             'funcao' => ['required', 'integer', Rule::in(array_keys(Constants::listModalidade()))],
-            'ch_semanal' => ['required', 'integer', 'min:1'],
+            'atividade' => ['string', 'nullable'],
+            'ch_semanal' => CargaHoraria::ch_semanal()
         ];
     }
 
     public static function messages()
     {
         return [
-            'required' => 'O campo ":attribute" é obrigatório!',
-            'integer' => 'O campo ":attribute" deve cónter um inteiro!',
-            'in' => 'Selecione uma opção da lista de ":attribute"!',
+            //cod_atividade
+            'cod_atividade.required' => 'O campo "Cód. Atividade" é obrigatório!',
+
+            //titulo_projeto
+            'titulo_projeto.required' => 'O campo "Título do Projeto" é obrigatório!',
+
+            //programa_extensao
+            'programa_extensao.required' => 'O campo "Programa de Extensão" é obrigatório!',
+
+            //funcao
+            'funcao.required' => 'O campo "Função" é obrigatório!',
+            'funcao.in' => 'Selecione uma opção da lista de "Função"!',
+            'funcao.integer' => 'O campo "Função" deve ser um inteiro!',
+
+            //ch_semanal
+            'ch_semanal.required' => 'O campo "CH. Semanal" é obrigatório!',
             'ch_semanal.min' => 'Carga horária semanal miníma é de 1 Hora!',
         ];
     }

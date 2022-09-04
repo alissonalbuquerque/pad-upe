@@ -21,7 +21,7 @@ class EnsinoSupervisaoController extends Controller
 {
     public function index($user_pad_id)
     {   
-        $ensinoSupervisoes = 
+        $atividades = 
                 EnsinoSupervisao::initQuery()
                     ->whereUserPad($user_pad_id)
                     ->orderBy('cod_atividade')
@@ -33,7 +33,7 @@ class EnsinoSupervisaoController extends Controller
         $divs = PadTables::tablesEnsino($user_pad_id);
 
         return view('pad.components.templates.dimensao.ensino.supervisao.form_create', [
-            'ensinoSupervisoes' => $ensinoSupervisoes,
+            'atividades' => $atividades,
 
             'divs' => $divs,
             'niveis' => $niveis,

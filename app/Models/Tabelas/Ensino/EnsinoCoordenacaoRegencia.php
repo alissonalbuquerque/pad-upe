@@ -5,11 +5,10 @@ namespace App\Models\Tabelas\Ensino;
 use App\Models\Planejamento;
 use App\Models\Util\Modalidade;
 use App\Models\Util\Nivel;
-use App\Queries\Tabelas\Ensino\CoordenacaoRegenciaQuery;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Queries\Tabelas\Ensino\EnsinoCoordenacaoRegenciaQuery;
 use Illuminate\Database\Eloquent\Model;
 
-class CoordenacaoRegencia extends Model
+class EnsinoCoordenacaoRegencia extends Model
 {
     /**
      * References table ensino_aulas
@@ -66,6 +65,6 @@ class CoordenacaoRegencia extends Model
     }
 
     public static function initQuery() {
-        return new CoordenacaoRegenciaQuery(get_called_class());
+        return new EnsinoCoordenacaoRegenciaQuery(get_called_class());
     }
 }

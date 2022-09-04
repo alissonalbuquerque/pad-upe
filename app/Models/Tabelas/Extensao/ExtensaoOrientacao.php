@@ -4,6 +4,7 @@ namespace App\Models\Tabelas\Extensao;
 
 use App\Models\Planejamento;
 use App\Models\Tabelas\Constants;
+use App\Models\Util\CargaHoraria;
 use App\Queries\Tabelas\Extensao\ExtensaoOrientacaoQuery;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
@@ -51,17 +52,30 @@ class ExtensaoOrientacao extends Model
             'titulo_projeto' => ['required', 'string', 'max:255'],
             'discente' => ['required', 'string', 'max:255'],
             'funcao' => ['required', 'integer', Rule::in(array_keys(Constants::listFuncaoOrientador()))],
-            'ch_semanal' => ['required', 'integer', 'min:1'],
+            'ch_semanal' => CargaHoraria::ch_semanal(CargaHoraria::create_ch_min(2)),
         ];
     }
 
     public static function messages()
     {
         return [
-            'required' => 'O campo ":attribute" é obrigatório!',
-            'integer' => 'O campo ":attribute" deve cónter um inteiro!',
-            'in' => 'Selecione uma opção da lista de ":attribute"!',
-            'ch_semanal.min' => 'Carga horária semanal miníma é de 1 Hora!',
+            //cod_atividade
+            'cod_atividade.required' => 'O campo "Cód. Atividade" é obrigatório!',
+            
+            //titulo_projeto
+            'titulo_projeto.required' => 'O campo "Título do Projeto" é obrigatório!',
+
+            //discente
+            'discente.required' => 'O campo "Nome do Orientando" é obrigatório!',
+
+            //funcao
+            'funcao.required' => 'O campo "Função" é obrigatório!',
+            'funcao.in' => 'Selecione uma opção da lista de "Função"!',
+            'funcao.integer' => 'O campo "Função" deve ser um inteiro!',
+
+            //ch_semanal
+            'ch_semanal.required' => 'O campo "CH. Semanal" é obrigatório!',
+            'ch_semanal.min' => 'Carga horária semanal miníma é de 2 Horas!',
         ];
     }
 

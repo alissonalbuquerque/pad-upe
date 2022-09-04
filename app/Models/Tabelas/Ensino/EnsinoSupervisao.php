@@ -60,7 +60,7 @@ class EnsinoSupervisao extends Model
     /**
      * @return array
      */
-    public function getPlanejamentos()
+    public static function getPlanejamentos()
     {
         $codes = [];
         return Planejamento::initQuery()->whereInCodDimensao($codes)->get();
