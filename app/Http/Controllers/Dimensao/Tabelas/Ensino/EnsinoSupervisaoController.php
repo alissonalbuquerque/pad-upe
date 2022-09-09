@@ -30,6 +30,7 @@ class EnsinoSupervisaoController extends Controller
         
         $niveis = Nivel::listNivel();
         $supervisoes = Supervisao::listSupervisao();
+        $planejamentos = EnsinoSupervisao::listPlanejamentos();
         $divs = PadTables::tablesEnsino($user_pad_id);
 
         return view('pad.components.templates.dimensao.ensino.supervisao.form_create', [
@@ -38,6 +39,7 @@ class EnsinoSupervisaoController extends Controller
             'divs' => $divs,
             'niveis' => $niveis,
             'supervisoes' => $supervisoes,
+            'planejamentos' => $planejamentos,
             'user_pad_id' => $user_pad_id,
             'index_menu' => MenuItemsTeacher::PAD,
         ]);
@@ -47,12 +49,14 @@ class EnsinoSupervisaoController extends Controller
 
         $model = EnsinoSupervisao::find($id);
         $niveis = Nivel::listNivel();
-        $modalidades = Supervisao::listSupervisao();
+        $supervisoes = Supervisao::listSupervisao();
+        $planejamentos = EnsinoSupervisao::listPlanejamentos();
         
         return view('pad.components.templates.dimensao.ensino.supervisao.form_update', [
             'model' => $model,
             'niveis' => $niveis,
-            'modalidades' => $modalidades
+            'supervisoes' => $supervisoes,
+            'planejamentos' => $planejamentos,
         ]);
     }
 

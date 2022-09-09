@@ -23,7 +23,7 @@
     <div id="ensino_atendimento_discente">
         <div>
             <div class="mb-3">
-                <h3 class="h3"> Ensino - Atendimento ao Discente </h3 class="h3">
+                <h3 class="h3"> Ensino - Atendimento ao Discente </h3>
                 @include('components.buttons.btn-show-resolucao', [
                     'content' => 'Resolução',
                     'btn_class' => 'show_resolucao',
@@ -89,7 +89,7 @@
 
     @include('components.modal', [
         'size' => 'modal-lg',
-        'header' => 'Ensino - Atendimento ao Discente',
+        'header' => '',
     ])
 </div>
 @endsection

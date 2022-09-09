@@ -22,6 +22,7 @@ class CreateEnsinoCoordenacaoRegenciaTable extends Migration
             $table->string('curso')->notNull();
             $table->tinyInteger('nivel')->notNull();
             $table->tinyInteger('modalidade')->notNull();
+            $table->string('cod_dimensao')->notNull();
             $table->integer('ch_semanal')->notNull();
             $table->timestamps();
             $table->softDeletes();

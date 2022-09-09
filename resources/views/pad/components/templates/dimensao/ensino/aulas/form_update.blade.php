@@ -2,7 +2,7 @@
 <div id="ensino_aula">
     <div>
         <div class="mb-3">
-            <h3 class="h3"> Ensino - Aulas </h3 class="h3">
+            <h3 class="h3"> Ensino - Aulas </h3>
         </div>
         <form action="{{route('ensino_aula_update', ['id' => $model->id])}}" method="post" id="ensino_aulas_update-form" class="">
             @csrf
@@ -33,7 +33,7 @@
                     ])
                 </div>
 
-                <div class="mb-3 col-sm-3">
+                <div class="mb-3 col-sm-4">
                     <label class="form-label" for="nivel">Nível</label>
                     <select class="form-select @error('nivel') is-invalid @enderror ajax-errors" name="nivel" id="nivel" value="{{ old('nivel') }}">
                         <option value="0">Selecione um Nível</option>
@@ -51,7 +51,7 @@
                     ])
                 </div>
 
-                <div class="mb-3 col-sm-3">
+                <div class="mb-3 col-sm-4">
                     <label class="form-label" for="modalidade">Modalidade</label>
                     <select class="form-select @error('modalidade') is-invalid @enderror ajax-errors" name="modalidade" id="modalidade">
                         <option value="0">Selecione uma Modalidade</option>
@@ -69,21 +69,12 @@
                     ])
                 </div>
 
-                <div class="mb-3 col-sm-3">
+                <div class="mb-3 col-sm-4">
                     <label class="form-label" for="ch_semanal">CH. Semanal</label>
                     <input class="form-control @error('ch_semanal') is-invalid @enderror ajax-errors" type="number" name="ch_semanal" id="ch_semanal" value="{{$model->ch_semanal}}">
                     
                     @include('components.divs.errors', [
                         'field' => 'ch_semanal_update',
-                    ])
-                </div>
-
-                <div class="mb-3 col-sm-3">
-                    <label class="form-label" for="ch_total">CH. Total</label>
-                    <input class="form-control @error('ch_total') is-invalid @enderror ajax-errors" type="number" name="ch_total" id="ch_total" value="{{$model->ch_total}}">
-
-                    @include('components.divs.errors', [
-                        'field' => 'ch_total_update',
                     ])
                 </div>
             </div>

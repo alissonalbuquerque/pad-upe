@@ -30,6 +30,8 @@ class EnsinoCoordenacaoRegenciaController extends Controller
         
         $niveis = Nivel::listNivel();
         $modalidades = Modalidade::listModalidade();
+        $planejamentos = EnsinoCoordenacaoRegencia::listPlanejamentos();
+
         $divs = PadTables::tablesEnsino($user_pad_id);
 
         return view('pad.components.templates.dimensao.ensino.regencia.form_create', [
@@ -38,6 +40,7 @@ class EnsinoCoordenacaoRegenciaController extends Controller
             'divs' => $divs,
             'niveis' => $niveis,
             'modalidades' => $modalidades,
+            'planejamentos' => $planejamentos,
             'user_pad_id' => $user_pad_id,
             'index_menu' => MenuItemsTeacher::PAD,
         ]);
@@ -48,11 +51,13 @@ class EnsinoCoordenacaoRegenciaController extends Controller
         $model = EnsinoCoordenacaoRegencia::find($id);
         $niveis = Nivel::listNivel();
         $modalidades = Modalidade::listModalidade();
+        $planejamentos = EnsinoCoordenacaoRegencia::listPlanejamentos();
         
         return view('pad.components.templates.dimensao.ensino.regencia.form_update', [
             'model' => $model,
             'niveis' => $niveis,
-            'modalidades' => $modalidades
+            'modalidades' => $modalidades,
+            'planejamentos' => $planejamentos
         ]);
     }
 

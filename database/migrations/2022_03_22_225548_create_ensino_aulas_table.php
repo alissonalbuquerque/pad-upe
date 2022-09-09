@@ -23,7 +23,6 @@ class CreateEnsinoAulasTable extends Migration
             $table->tinyInteger('nivel')->notNull();
             $table->tinyInteger('modalidade')->notNull();
             $table->integer('ch_semanal')->notNull();
-            $table->integer('ch_total')->notNull();
             $table->timestamps();
             $table->softDeletes();
         });

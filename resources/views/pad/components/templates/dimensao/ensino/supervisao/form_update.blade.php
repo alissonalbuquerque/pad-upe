@@ -2,7 +2,7 @@
 <div id="ensino_supervisao">
     <div>
         <div class="mb-3">
-            <h3 class="h3"> Ensino - Supervisão </h3>
+            <h3 class="h3"> Ensino - Supervisões </h3>
         </div>
         <form action="{{route('ensino_supervisao_update', ['id' => $model->id])}}" method="post" id="ensino_supervisao_update-form" class="">
             @csrf

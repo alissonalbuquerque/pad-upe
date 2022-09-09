@@ -23,7 +23,7 @@
     <div id="ensino_aula">
         <div>
             <div class="mb-3">
-                <h3 class="h3"> Ensino - Orientação </h3 class="h3">
+                <h3 class="h3"> Ensino - Orientações </h3>
                 @include('components.buttons.btn-show-resolucao', [
                     'content' => 'Resolução',
                     'btn_class' => 'show_resolucao',
@@ -37,12 +37,12 @@
                     
                     <input type="hidden" id="user_pad_id" name="user_pad_id" value="{{$user_pad_id}}">
 
-                    <div class="mb-3 col-sm-2">
+                    <div class="mb-3 col-sm-3">
                         <label class="form-label" for="cod_atividade">Cód. Atividade</label>
                         <input class="form-control @error('cod_atividade') is-invalid @enderror ajax-errors" type="text" name="cod_atividade" id="cod_atividade" readonly>
                     </div>
 
-                    <div class="mb-3 col-sm-5">
+                    <div class="mb-3 col-sm-9">
                         <label class="form-label" for="atividade">Atividade: Orientação e/ou Coorientação</label>
                         <input class="form-control @error('atividade') is-invalid @enderror ajax-errors" type="text" name="atividade" id="atividade" value="{{ old('atividade') }}">
                         
@@ -51,7 +51,7 @@
                         ])
                     </div>
 
-                    <div class="mb-3 col-sm-5">
+                    <div class="mb-3 col-sm-12">
                         <label class="form-label" for="curso">Curso</label>
                         <input class="form-control @error('curso') is-invalid @enderror ajax-errors" type="text" name="curso" id="curso" value="{{ old('curso') }}">
                         
@@ -60,7 +60,7 @@
                         ])
                     </div>
 
-                    <div class="mb-3 col-sm-3">
+                    <div class="mb-3 col-sm-6">
                         <label class="form-label" for="nivel">Nível</label>
                         <select class="form-select @error('nivel') is-invalid @enderror ajax-errors" name="nivel" id="nivel" value="{{ old('nivel') }}">
                             <option value="0">Selecione um Nível</option>
@@ -78,7 +78,7 @@
                         ])
                     </div>
 
-                    <div class="mb-3 col-sm-3">
+                    <div class="mb-3 col-sm-6">
                         <label class="form-label" for="type_orientacao">Orientação</label>
                         <select class="form-select @error('type_orientacao') is-invalid @enderror ajax-errors" name="type_orientacao" id="type_orientacao" value="{{ old('type_orientacao') }}">
                             <option value="0">Selecione uma Modalidade</option>
@@ -95,8 +95,26 @@
                             'field' => 'type_orientacao_create'
                         ])
                     </div>
+                    
+                    <div class="mb-3 col-sm-8">
+                        <label class="form-label" for="cod_dimensao">Resolução</label>
+                        <select class="form-select @error('cod_dimensao') is-invalid @enderror ajax-errors" name="cod_dimensao" id="cod_dimensao" value="{{ old('cod_dimensao') }}">
+                            <option value="0">Selecione uma Resolução</option>
+                            @foreach($planejamentos as $value => $cod_dimensao)
+                                @if( $value == old('cod_dimensao') )
+                                    <option selected value="{{$value}}">{{$cod_dimensao}}</option>
+                                @else
+                                    <option value="{{$value}}">{{$cod_dimensao}}</option>
+                                @endif
+                            @endforeach
+                        </select>
 
-                    <div class="mb-3 col-sm-3">
+                        @include('components.divs.errors', [
+                            'field' => 'cod_dimensao_create'
+                        ])
+                    </div>
+
+                    <div class="mb-3 col-sm-4">
                         <label class="form-label" for="ch_semanal">CH. Semanal</label>
                         <input class="form-control @error('ch_semanal') is-invalid @enderror ajax-errors" type="number" name="ch_semanal" id="ch_semanal" value="{{ old('ch_semanal') }}">
                         
@@ -162,7 +180,7 @@
 
     @include('components.modal', [
         'size' => 'modal-lg',
-        'header' => 'Ensino - Orientação',
+        'header' => '',
     ])
 </div>
 @endsection

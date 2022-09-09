@@ -22,7 +22,8 @@ class CreateEnsinoOrientacoesTable extends Migration
             $table->string('curso')->notNull();
             $table->tinyInteger('nivel')->notNull();
             $table->tinyInteger('type_orientacao')->notNull();
-            $table->tinyInteger('numero_orientandos')->nullable();
+            $table->integer('numero_orientandos')->nullable();
+            $table->string('cod_dimensao')->notNull();
             $table->integer('ch_semanal')->notNull();
             $table->timestamps();
             $table->softDeletes();

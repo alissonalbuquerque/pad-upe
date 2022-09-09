@@ -23,7 +23,7 @@
     <div id="ensino_supervisao">
         <div>
             <div class="mb-3">
-                <h3 class="h3"> Ensino - Supervisão </h3>
+                <h3 class="h3"> Ensino - Supervisões </h3>
                 @include('components.buttons.btn-show-resolucao', [
                     'content' => 'Resolução',
                     'btn_class' => 'show_resolucao',
@@ -89,7 +89,7 @@
 
     @include('components.modal', [
         'size' => 'modal-lg',
-        'header' => 'Ensino - Supervisão',
+        'header' => '',
     ])
 </div>
 @endsection

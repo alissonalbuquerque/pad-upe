@@ -30,6 +30,7 @@ class EnsinoOrientacaoController extends Controller
         
         $niveis = Nivel::listNivel();
         $orientacoes = Orientacao::listOrientacao();
+        $planejamentos = EnsinoOrientacao::listPlanejamentos();
         $divs = PadTables::tablesEnsino($user_pad_id);
 
         return view('pad.components.templates.dimensao.ensino.orientacao.form_create', [
@@ -38,6 +39,7 @@ class EnsinoOrientacaoController extends Controller
             'divs' => $divs,
             'niveis' => $niveis,
             'orientacoes' => $orientacoes,
+            'planejamentos' => $planejamentos,
             'user_pad_id' => $user_pad_id,
             'index_menu' => MenuItemsTeacher::PAD,
         ]);
@@ -48,11 +50,13 @@ class EnsinoOrientacaoController extends Controller
         $model = EnsinoOrientacao::find($id);
         $niveis = Nivel::listNivel();
         $orientacoes = Orientacao::listOrientacao();
+        $planejamentos = EnsinoOrientacao::listPlanejamentos();
         
         return view('pad.components.templates.dimensao.ensino.aulas.form_update', [
             'model' => $model,
             'niveis' => $niveis,
             'orientacoes' => $orientacoes,
+            'planejamentos' => $planejamentos,
         ]);
     }
 

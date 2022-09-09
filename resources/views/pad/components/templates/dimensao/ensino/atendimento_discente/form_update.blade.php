@@ -2,7 +2,7 @@
 <div id="ensino_atendimento_discente">
     <div>
         <div class="mb-3">
-            <h3 class="h3"> Ensino - Aulas </h3 class="h3">
+            <h3 class="h3"> Ensino - Atendimento ao Discente </h3>
         </div>
         <form action="{{route('ensino_atendimento_discente_update', ['id' => $model->id])}}" method="post" id="ensino_atendimento_discente_update-form" class="">
             @csrf
