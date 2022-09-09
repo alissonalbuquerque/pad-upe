@@ -22,7 +22,7 @@ class EnsinoCoordenacaoRegencia extends Model
      * 
      * @var array
      */
-    protected $fillable = ['user_pad_id', 'dimensao', 'cod_atividade', 'componente_curricular', 'curso', 'nivel', 'modalidade', 'ch_semanal'];
+    protected $fillable = ['orientacao_id', 'user_pad_id', 'dimensao', 'cod_atividade', 'componente_curricular', 'curso', 'nivel', 'modalidade', 'ch_semanal'];
 
     /**
      * @return string
@@ -60,7 +60,7 @@ class EnsinoCoordenacaoRegencia extends Model
      */
     public static function getPlanejamentos()
     {
-        $codes = [];
+        $codes = ['E-14', 'E-15'];
         return Planejamento::initQuery()->whereInCodDimensao($codes)->get();
     }
 
