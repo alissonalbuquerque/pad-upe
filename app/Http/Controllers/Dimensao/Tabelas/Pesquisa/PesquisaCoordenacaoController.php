@@ -4,13 +4,16 @@ namespace App\Http\Controllers\Dimensao\Tabelas\Pesquisa;
 
 use App\Http\Controllers\Controller;
 use App\Models\Avaliacao;
+use App\Models\Planejamento;
 use App\Models\Tabelas\Constants;
 use App\Models\Tabelas\Pesquisa\PesquisaCoordenacao;
 use App\Models\Util\Avaliacao as UtilAvaliacao;
+use App\Models\Util\CargaHorariaValidation;
 use App\Models\Util\Dimensao;
 use App\Models\Util\MenuItemsTeacher;
 use App\Models\Util\PadTables;
 use App\Models\Util\Status;
+use App\Queries\Tabelas\TablesGenericGrouped;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
@@ -67,9 +70,31 @@ class PesquisaCoordenacaoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request) {
+    public function create(Request $request)
+    {
+        if($request->user_pad_id && $request->cod_dimensao)
+        {   
+            $agroup = new TablesGenericGrouped(PesquisaCoordenacao::class, $request->user_pad_id, $request->cod_dimensao);
+            $planejamento = Planejamento::initQuery()->whereCodDimensao($request->cod_dimensao)->first();
+            
+            $ch_min = $planejamento->ch_semanal;
+            $ch_max = $planejamento->ch_maxima;
+            $ch_sum = $agroup->agroup()->sum('ch_semanal');
 
-        $validator = Validator::make($request->all(), PesquisaCoordenacao::rules(), PesquisaCoordenacao::messages());
+            $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max, $ch_sum);
+
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(PesquisaCoordenacao::rules(), $cargaHoraria->rules()),
+                array_merge(PesquisaCoordenacao::messages(), $cargaHoraria->messages())
+            );
+        } else {
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(PesquisaCoordenacao::rules(), CargaHorariaValidation::defaultRules()),
+                array_merge(PesquisaCoordenacao::messages(), CargaHorariaValidation::defaultMessages())
+            );
+        }
 
         if($validator->fails())
         {   
@@ -110,9 +135,31 @@ class PesquisaCoordenacaoController extends Controller
         
     }
     
-    public function update($id, Request $request) {
-    
-        $validator = Validator::make($request->all(), PesquisaCoordenacao::rules(), PesquisaCoordenacao::messages());
+    public function update($id, Request $request)
+    {
+        if($request->user_pad_id && $request->cod_dimensao)
+        {   
+            $agroup = new TablesGenericGrouped(PesquisaCoordenacao::class, $request->user_pad_id, $request->cod_dimensao);
+            $planejamento = Planejamento::initQuery()->whereCodDimensao($request->cod_dimensao)->first();
+            
+            $ch_min = $planejamento->ch_semanal;
+            $ch_max = $planejamento->ch_maxima;
+            $ch_sum = $agroup->agroup()->sum('ch_semanal');
+
+            $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max, $ch_sum);
+
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(PesquisaCoordenacao::rules(), $cargaHoraria->rules()),
+                array_merge(PesquisaCoordenacao::messages(), $cargaHoraria->messages())
+            );
+        } else {
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(PesquisaCoordenacao::rules(), CargaHorariaValidation::defaultRules()),
+                array_merge(PesquisaCoordenacao::messages(), CargaHorariaValidation::defaultMessages())
+            );
+        }
 
         $model = PesquisaCoordenacao::find($id);
         $model->fill($request->all());
@@ -167,7 +214,29 @@ class PesquisaCoordenacaoController extends Controller
 
     public function ajaxValidation(Request $request)
     {   
-        $validator = Validator::make($request->all(), PesquisaCoordenacao::rules(), PesquisaCoordenacao::messages());
+        if($request->user_pad_id && $request->cod_dimensao)
+        {   
+            $agroup = new TablesGenericGrouped(PesquisaCoordenacao::class, $request->user_pad_id, $request->cod_dimensao);
+            $planejamento = Planejamento::initQuery()->whereCodDimensao($request->cod_dimensao)->first();
+            
+            $ch_min = $planejamento->ch_semanal;
+            $ch_max = $planejamento->ch_maxima;
+            $ch_sum = $agroup->agroup()->sum('ch_semanal');
+
+            $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max, $ch_sum);
+
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(PesquisaCoordenacao::rules(), $cargaHoraria->rules()),
+                array_merge(PesquisaCoordenacao::messages(), $cargaHoraria->messages())
+            );
+        } else {
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(PesquisaCoordenacao::rules(), CargaHorariaValidation::defaultRules()),
+                array_merge(PesquisaCoordenacao::messages(), CargaHorariaValidation::defaultMessages())
+            );
+        }
 
         if($validator->passes()) {
             return Response::json(['message' => true, 'status' => 200]);

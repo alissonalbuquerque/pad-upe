@@ -42,7 +42,6 @@ class PesquisaOrientacao extends Model
             'titulo_projeto' => ['required', 'string', 'max:255'],
             'nome_orientando' => ['required', 'string', 'max:255'],
             'funcao' => ['required', 'integer', Rule::in(array_keys(Constants::listFuncaoOrientador()))],
-            'ch_semanal' => CargaHoraria::ch_semanal(CargaHoraria::create_ch_min(2)),
         ];
     }
 
@@ -62,10 +61,6 @@ class PesquisaOrientacao extends Model
             'funcao.required' => 'O campo "Função" é obrigatório!',
             'funcao.integer' => 'O campo "Função" deve cónter um inteiro!',
             'funcao.in' => 'Selecione uma opção da lista de "Função"!',
-
-            //ch_semanal
-            'ch_semanal.required' => 'O campo "CH. Semanal" é obrigatório!',
-            'ch_semanal.min' => 'Carga horária semanal miníma é de 2 Horas!',
         ];
     }
     

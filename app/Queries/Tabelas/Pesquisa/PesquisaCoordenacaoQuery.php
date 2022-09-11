@@ -21,4 +21,11 @@ class PesquisaCoordenacaoQuery extends CustomQuery
         return self::$instance;
     }
 
+    public function whereCodDimensao($cod_dimensao, $operator = '=')
+    {   
+        $this->query = $this->query->where('cod_dimensao', $operator, $cod_dimensao);
+
+        return self::$instance;
+    }
+
 }

@@ -4,13 +4,16 @@ namespace App\Http\Controllers\Dimensao\Tabelas\Pesquisa;
 
 use App\Http\Controllers\Controller;
 use App\Models\Avaliacao;
+use App\Models\Planejamento;
 use App\Models\Tabelas\Constants;
 use App\Models\Tabelas\Pesquisa\PesquisaOrientacao;
 use App\Models\Util\Avaliacao as UtilAvaliacao;
+use App\Models\Util\CargaHorariaValidation;
 use App\Models\Util\Dimensao;
 use App\Models\Util\MenuItemsTeacher;
 use App\Models\Util\PadTables;
 use App\Models\Util\Status;
+use App\Queries\Tabelas\TablesGenericGrouped;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
@@ -62,9 +65,22 @@ class PesquisaOrientacaoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request) {
+    public function create(Request $request)
+    {    
+        $agroup = new TablesGenericGrouped(PesquisaOrientacao::class, $request->user_pad_id);
+        $planejamento = Planejamento::initQuery()->whereCodDimensao('P-3')->first();
         
-        $validator = Validator::make($request->all(), PesquisaOrientacao::rules(), PesquisaOrientacao::messages());
+        $ch_min = $planejamento->ch_semanal;
+        $ch_max = $planejamento->ch_maxima;
+        $ch_sum = $agroup->agroup()->sum('ch_semanal');
+
+        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max, $ch_sum);
+
+        $validator = Validator::make(
+            $request->all(), 
+            array_merge(PesquisaOrientacao::rules(), $cargaHoraria->rules()),
+            array_merge(PesquisaOrientacao::messages(), $cargaHoraria->messages())
+        );
 
         if($validator->fails())
         {   
@@ -105,9 +121,22 @@ class PesquisaOrientacaoController extends Controller
         
     }
     
-    public function update($id, Request $request) {
-    
-        $validator = Validator::make($request->all(), PesquisaOrientacao::rules(), PesquisaOrientacao::messages());
+    public function update($id, Request $request)
+    {
+        $agroup = new TablesGenericGrouped(PesquisaOrientacao::class, $request->user_pad_id);
+        $planejamento = Planejamento::initQuery()->whereCodDimensao('P-3')->first();
+        
+        $ch_min = $planejamento->ch_semanal;
+        $ch_max = $planejamento->ch_maxima;
+        $ch_sum = $agroup->agroup()->sum('ch_semanal');
+
+        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max, $ch_sum);
+
+        $validator = Validator::make(
+            $request->all(), 
+            array_merge(PesquisaOrientacao::rules(), $cargaHoraria->rules()),
+            array_merge(PesquisaOrientacao::messages(), $cargaHoraria->messages())
+        );
 
         $model = PesquisaOrientacao::find($id);
         $model->fill($request->all());
@@ -162,7 +191,20 @@ class PesquisaOrientacaoController extends Controller
 
     public function ajaxValidation(Request $request)
     {   
-        $validator = Validator::make($request->all(), PesquisaOrientacao::rules(), PesquisaOrientacao::messages());
+        $agroup = new TablesGenericGrouped(PesquisaOrientacao::class, $request->user_pad_id);
+        $planejamento = Planejamento::initQuery()->whereCodDimensao('P-3')->first();
+        
+        $ch_min = $planejamento->ch_semanal;
+        $ch_max = $planejamento->ch_maxima;
+        $ch_sum = $agroup->agroup()->sum('ch_semanal');
+
+        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max, $ch_sum);
+
+        $validator = Validator::make(
+            $request->all(), 
+            array_merge(PesquisaOrientacao::rules(), $cargaHoraria->rules()),
+            array_merge(PesquisaOrientacao::messages(), $cargaHoraria->messages())
+        );
 
         if($validator->passes()) {
             return Response::json(['message' => true, 'status' => 200]);

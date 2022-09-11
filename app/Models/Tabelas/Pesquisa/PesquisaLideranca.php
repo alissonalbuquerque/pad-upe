@@ -40,7 +40,6 @@ class PesquisaLideranca extends Model
             'cod_atividade' => ['required', 'string', 'max:255'],
             'grupo_pesquisa' => ['required', 'string', 'max:255'],
             'funcao' => ['required', 'integer', Rule::in(array_keys(Constants::listFuncaoProjeto()))],
-            'ch_semanal' => ['required', 'integer', 'min:1'],
         ];
     }
 
@@ -57,10 +56,6 @@ class PesquisaLideranca extends Model
             'funcao.required' => 'O campo "Função" é obrigatório!',
             'funcao.integer' => 'O campo "Função" deve cónter um inteiro!',
             'funcao.in' => 'Selecione uma opção da lista de "Função"!',
-            
-            //ch_semanal
-            'ch_semanal.required' => 'O campo "CH. Semanal" é obrigatório!',
-            'ch_semanal.min' => 'Carga horária semanal miníma é de 1 Hora!',
         ];
     }
     

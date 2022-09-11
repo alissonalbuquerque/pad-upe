@@ -43,7 +43,6 @@ class PesquisaCoordenacao extends Model
             'linha_grupo_pesquisa' => ['required', 'string', 'max:255'],
             'funcao' => ['required', 'integer', Rule::in(array_keys(Constants::listFuncaoProjeto()))],
             'cod_dimensao' => ['required', 'string', Rule::in(array_keys(self::listPlanejamentos()))],
-            'ch_semanal' => CargaHoraria::ch_semanal(),
         ];
     }
 
@@ -67,10 +66,6 @@ class PesquisaCoordenacao extends Model
             //'cod_dimensao'
             'cod_dimensao.required' => 'O campo "Resolução" é obrigatório',
             'cod_dimensao.in' => 'Selecione uma opção da lista de "Resolução"',
-
-            //ch_semanal
-            'ch_semanal.required' => 'O campo "CH. Semanal" é obrigatório!',
-            'ch_semanal.min' => 'Carga horária semanal miníma é de 1 Hora!',
         ];
     }
 

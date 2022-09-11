@@ -38,5 +38,10 @@ class CustomQuery
     {
         return $this->query->first();
     }
+
+    public function sum(string $column)
+    {
+        return $this->query->sum($column);
+    }
 }
 
