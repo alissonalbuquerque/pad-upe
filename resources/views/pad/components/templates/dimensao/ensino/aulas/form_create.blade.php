@@ -60,7 +60,7 @@
                         ])
                     </div>
 
-                    <div class="mb-3 col-sm-4">
+                    <div class="mb-3 col-sm-6">
                         <label class="form-label" for="nivel">Nível</label>
                         <select class="form-select @error('nivel') is-invalid @enderror ajax-errors" name="nivel" id="nivel" value="{{ old('nivel') }}">
                             <option value="0">Selecione um Nível</option>
@@ -78,7 +78,7 @@
                         ])
                     </div>
 
-                    <div class="mb-3 col-sm-4">
+                    <div class="mb-3 col-sm-6">
                         <label class="form-label" for="modalidade">Modalidade</label>
                         <select class="form-select @error('modalidade') is-invalid @enderror ajax-errors" name="modalidade" id="modalidade" value="{{ old('modalidade') }}">
                             <option value="0">Selecione uma Modalidade</option>
@@ -93,6 +93,24 @@
                         
                         @include('components.divs.errors', [
                             'field' => 'modalidade_create'
+                        ])
+                    </div>
+                    
+                    <div class="mb-3 col-sm-8">
+                        <label class="form-label" for="cod_dimensao">Resolução</label>
+                        <select class="form-select @error('cod_dimensao') is-invalid @enderror ajax-errors" name="cod_dimensao" id="cod_dimensao" value="{{ old('cod_dimensao') }}">
+                            <option value="0">Selecione uma Resolução</option>
+                            @foreach($planejamentos as $value => $cod_dimensao)
+                                @if( $value == old('cod_dimensao') )
+                                    <option selected value="{{$value}}">{{$cod_dimensao}}</option>
+                                @else
+                                    <option value="{{$value}}">{{$cod_dimensao}}</option>
+                                @endif
+                            @endforeach
+                        </select>
+
+                        @include('components.divs.errors', [
+                            'field' => 'cod_dimensao_create'
                         ])
                     </div>
 

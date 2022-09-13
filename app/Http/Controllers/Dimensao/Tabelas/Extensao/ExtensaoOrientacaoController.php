@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Dimensao\Tabelas\Extensao;
 
 use App\Http\Controllers\Controller;
 use App\Models\Avaliacao;
+use App\Models\Planejamento;
 use App\Models\Tabelas\Constants;
 use App\Models\Tabelas\Extensao\ExtensaoOrientacao;
 use App\Models\Util\Avaliacao as UtilAvaliacao;
+use App\Models\Util\CargaHorariaValidation;
 use App\Models\Util\Dimensao;
 use App\Models\Util\MenuItemsTeacher;
 use App\Models\Util\PadTables;
@@ -62,9 +64,20 @@ class ExtensaoOrientacaoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request) {
+    public function create(Request $request)
+    {    
+        $planejamento = Planejamento::initQuery()->whereCodDimensao('X-2')->first();
         
-        $validator = Validator::make($request->all(), ExtensaoOrientacao::rules(), ExtensaoOrientacao::messages());
+        $ch_min = $planejamento->ch_semanal;
+        $ch_max = $planejamento->ch_maxima;
+
+        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+
+        $validator = Validator::make(
+            $request->all(), 
+            array_merge(ExtensaoOrientacao::rules(), $cargaHoraria->rules()),
+            array_merge(ExtensaoOrientacao::messages(), $cargaHoraria->messages())
+        );
 
         if($validator->fails())
         {   
@@ -105,9 +118,20 @@ class ExtensaoOrientacaoController extends Controller
         
     }
     
-    public function update($id, Request $request) {
-    
-        $validator = Validator::make($request->all(), ExtensaoOrientacao::rules(), ExtensaoOrientacao::messages());
+    public function update($id, Request $request)
+    {
+        $planejamento = Planejamento::initQuery()->whereCodDimensao('X-2')->first();
+        
+        $ch_min = $planejamento->ch_semanal;
+        $ch_max = $planejamento->ch_maxima;
+
+        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+
+        $validator = Validator::make(
+            $request->all(), 
+            array_merge(ExtensaoOrientacao::rules(), $cargaHoraria->rules()),
+            array_merge(ExtensaoOrientacao::messages(), $cargaHoraria->messages())
+        );
 
         $model = ExtensaoOrientacao::find($id);
         $model->fill($request->all());
@@ -162,7 +186,18 @@ class ExtensaoOrientacaoController extends Controller
 
     public function ajaxValidation(Request $request)
     {   
-        $validator = Validator::make($request->all(), ExtensaoOrientacao::rules(), ExtensaoOrientacao::messages());
+        $planejamento = Planejamento::initQuery()->whereCodDimensao('X-2')->first();
+        
+        $ch_min = $planejamento->ch_semanal;
+        $ch_max = $planejamento->ch_maxima;
+
+        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+
+        $validator = Validator::make(
+            $request->all(), 
+            array_merge(ExtensaoOrientacao::rules(), $cargaHoraria->rules()),
+            array_merge(ExtensaoOrientacao::messages(), $cargaHoraria->messages())
+        );
 
         if($validator->passes()) {
             return Response::json(['message' => true, 'status' => 200]);

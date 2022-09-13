@@ -8,9 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Avaliacao;
+use App\Models\Planejamento;
 use App\Models\Tabelas\Gestao\GestaoMembroTitularConselho;
 use App\Models\Util\Dimensao;
 use App\Models\Util\Avaliacao as UtilAvaliacao;
+use App\Models\Util\CargaHorariaValidation;
 use App\Models\Util\MenuItemsTeacher;
 use App\Models\Util\PadTables;
 use App\Models\Util\Status;
@@ -38,7 +40,18 @@ class GestaoMembroTitularConselhoController extends Controller
     
     public function create(Request $request)
     {
-        $validator = Validator::make($request->all(), GestaoMembroTitularConselho::rules(), GestaoMembroTitularConselho::messages());
+        $planejamento = Planejamento::initQuery()->whereCodDimensao('G-2')->first();
+        
+        $ch_min = $planejamento->ch_semanal;
+        $ch_max = $planejamento->ch_maxima;
+
+        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+
+        $validator = Validator::make(
+            $request->all(), 
+            array_merge(GestaoMembroTitularConselho::rules(), $cargaHoraria->rules()),
+            array_merge(GestaoMembroTitularConselho::messages(), $cargaHoraria->messages())
+        );
 
         if($validator->fails())
         {   
@@ -80,7 +93,18 @@ class GestaoMembroTitularConselhoController extends Controller
     
     public function update($id, Request $request)
     {
-        $validator = Validator::make($request->all(), GestaoMembroTitularConselho::rules(), GestaoMembroTitularConselho::messages());
+        $planejamento = Planejamento::initQuery()->whereCodDimensao('G-2')->first();
+        
+        $ch_min = $planejamento->ch_semanal;
+        $ch_max = $planejamento->ch_maxima;
+
+        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+
+        $validator = Validator::make(
+            $request->all(), 
+            array_merge(GestaoMembroTitularConselho::rules(), $cargaHoraria->rules()),
+            array_merge(GestaoMembroTitularConselho::messages(), $cargaHoraria->messages())
+        );
 
         $model = GestaoMembroTitularConselho::find($id);
         $model->fill($request->all());
@@ -150,7 +174,18 @@ class GestaoMembroTitularConselhoController extends Controller
 
     public function ajaxValidation(Request $request)
     {   
-        $validator = Validator::make($request->all(), GestaoMembroTitularConselho::rules(), GestaoMembroTitularConselho::messages());
+        $planejamento = Planejamento::initQuery()->whereCodDimensao('G-2')->first();
+        
+        $ch_min = $planejamento->ch_semanal;
+        $ch_max = $planejamento->ch_maxima;
+
+        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+
+        $validator = Validator::make(
+            $request->all(), 
+            array_merge(GestaoMembroTitularConselho::rules(), $cargaHoraria->rules()),
+            array_merge(GestaoMembroTitularConselho::messages(), $cargaHoraria->messages())
+        );
 
         if($validator->passes()) {
             return Response::json(['message' => true, 'status' => 200]);

@@ -34,7 +34,7 @@ class EnsinoAula extends Model
             'curso' => ['required', 'string', 'max:255'],
             'nivel' => ['required', 'integer', Rule::in(array_keys(Nivel::listNivel()))],
             'modalidade' => ['required', 'integer', Rule::in(array_keys(Modalidade::listModalidade()))],
-            'ch_semanal' => CargaHoraria::ch_semanal()
+            'cod_dimensao' => ['required', 'string', Rule::in(array_keys(self::listPlanejamentos()))],
         ];
     }
 
@@ -60,10 +60,9 @@ class EnsinoAula extends Model
             'modalidade.in' => 'Selecione uma opção da lista de "Modalidade"!',
             'modalidade.integer' => 'O campo "Modalidade" deve cónter um inteiro!',
 
-            //ch_semanal
-            'ch_semanal.required' => 'O campo "CH. Semanal" é obrigatório!',
-            'ch_semanal.min' => 'Carga horária semanal miníma é de 1 Hora!',
-            'ch_semanal.integer' => 'O campo "CH. Semanal" deve cónter um inteiro!',
+            //'cod_dimensao'
+            'cod_dimensao.required' => 'O campo "Resolução" é obrigatório',
+            'cod_dimensao.in' => 'Selecione uma opção da lista de "Resolução"',
         ];
     }
 
@@ -85,6 +84,20 @@ class EnsinoAula extends Model
         return Planejamento::initQuery()->whereInCodDimensao($codes)->get();
     }
 
+    /**
+     * @return array
+     */
+    public static function listPlanejamentos($cod_dimensao = null)
+    {
+        $planejamentos = self::getPlanejamentos();
+
+        $values = [];
+        foreach($planejamentos as $planejamento) {
+            $values[$planejamento->cod_dimensao] = $planejamento->descricao;
+        }
+
+        return $cod_dimensao !== null? $values[$cod_dimensao] : $values;
+    }
 
     public static function initQuery()
     {

@@ -72,16 +72,14 @@ class PesquisaCoordenacaoController extends Controller
      */
     public function create(Request $request)
     {
-        if($request->user_pad_id && $request->cod_dimensao)
+        if($request->cod_dimensao)
         {   
-            $agroup = new TablesGenericGrouped(PesquisaCoordenacao::class, $request->user_pad_id, $request->cod_dimensao);
             $planejamento = Planejamento::initQuery()->whereCodDimensao($request->cod_dimensao)->first();
             
             $ch_min = $planejamento->ch_semanal;
             $ch_max = $planejamento->ch_maxima;
-            $ch_sum = $agroup->agroup()->sum('ch_semanal');
 
-            $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max, $ch_sum);
+            $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
 
             $validator = Validator::make(
                 $request->all(), 
@@ -137,16 +135,14 @@ class PesquisaCoordenacaoController extends Controller
     
     public function update($id, Request $request)
     {
-        if($request->user_pad_id && $request->cod_dimensao)
+        if($request->cod_dimensao)
         {   
-            $agroup = new TablesGenericGrouped(PesquisaCoordenacao::class, $request->user_pad_id, $request->cod_dimensao);
             $planejamento = Planejamento::initQuery()->whereCodDimensao($request->cod_dimensao)->first();
             
             $ch_min = $planejamento->ch_semanal;
             $ch_max = $planejamento->ch_maxima;
-            $ch_sum = $agroup->agroup()->sum('ch_semanal');
 
-            $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max, $ch_sum);
+            $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
 
             $validator = Validator::make(
                 $request->all(), 
@@ -214,16 +210,14 @@ class PesquisaCoordenacaoController extends Controller
 
     public function ajaxValidation(Request $request)
     {   
-        if($request->user_pad_id && $request->cod_dimensao)
+        if($request->cod_dimensao)
         {   
-            $agroup = new TablesGenericGrouped(PesquisaCoordenacao::class, $request->user_pad_id, $request->cod_dimensao);
             $planejamento = Planejamento::initQuery()->whereCodDimensao($request->cod_dimensao)->first();
             
             $ch_min = $planejamento->ch_semanal;
             $ch_max = $planejamento->ch_maxima;
-            $ch_sum = $agroup->agroup()->sum('ch_semanal');
 
-            $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max, $ch_sum);
+            $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
 
             $validator = Validator::make(
                 $request->all(), 

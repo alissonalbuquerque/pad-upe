@@ -67,14 +67,12 @@ class PesquisaLiderancaController extends Controller
      */
     public function create(Request $request)
     {
-        $agroup = new TablesGenericGrouped(PesquisaLideranca::class, $request->user_pad_id);
         $planejamento = Planejamento::initQuery()->whereCodDimensao('P-1')->first();
         
         $ch_min = $planejamento->ch_semanal;
         $ch_max = $planejamento->ch_maxima;
-        $ch_sum = $agroup->agroup()->sum('ch_semanal');
 
-        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max, $ch_sum);
+        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
 
         $validator = Validator::make(
             $request->all(), 
@@ -123,14 +121,12 @@ class PesquisaLiderancaController extends Controller
     
     public function update($id, Request $request)
     {
-        $agroup = new TablesGenericGrouped(PesquisaLideranca::class, $request->user_pad_id);
         $planejamento = Planejamento::initQuery()->whereCodDimensao('P-1')->first();
         
         $ch_min = $planejamento->ch_semanal;
         $ch_max = $planejamento->ch_maxima;
-        $ch_sum = $agroup->agroup()->sum('ch_semanal');
 
-        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max, $ch_sum);
+        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
 
         $validator = Validator::make(
             $request->all(), 
@@ -191,14 +187,12 @@ class PesquisaLiderancaController extends Controller
 
     public function ajaxValidation(Request $request)
     {   
-        $agroup = new TablesGenericGrouped(PesquisaLideranca::class, $request->user_pad_id);
         $planejamento = Planejamento::initQuery()->whereCodDimensao('P-1')->first();
         
         $ch_min = $planejamento->ch_semanal;
         $ch_max = $planejamento->ch_maxima;
-        $ch_sum = $agroup->agroup()->sum('ch_semanal');
 
-        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max, $ch_sum);
+        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
 
         $validator = Validator::make(
             $request->all(), 

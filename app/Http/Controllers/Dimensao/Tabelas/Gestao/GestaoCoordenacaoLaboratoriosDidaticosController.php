@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Tabelas\Constants;
 use App\Models\Tabelas\Gestao\GestaoCoordenacaoLaboratoriosDidaticos;
 use App\Models\Avaliacao;
+use App\Models\Planejamento;
 use App\Models\Util\Avaliacao as UtilAvaliacao;
+use App\Models\Util\CargaHorariaValidation;
 use App\Models\Util\Dimensao;
 use App\Models\Util\MenuItemsTeacher;
 use App\Models\Util\PadTables;
@@ -38,7 +40,18 @@ class GestaoCoordenacaoLaboratoriosDidaticosController extends Controller
     
     public function create(Request $request)
     {
-        $validator = Validator::make($request->all(), GestaoCoordenacaoLaboratoriosDidaticos::rules(), GestaoCoordenacaoLaboratoriosDidaticos::messages());
+        $planejamento = Planejamento::initQuery()->whereCodDimensao('G-5')->first();
+        
+        $ch_min = $planejamento->ch_semanal;
+        $ch_max = $planejamento->ch_maxima;
+
+        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+
+        $validator = Validator::make(
+            $request->all(), 
+            array_merge(GestaoCoordenacaoLaboratoriosDidaticos::rules(), $cargaHoraria->rules()),
+            array_merge(GestaoCoordenacaoLaboratoriosDidaticos::messages(), $cargaHoraria->messages())
+        );
 
         if($validator->fails())
         {   
@@ -80,7 +93,18 @@ class GestaoCoordenacaoLaboratoriosDidaticosController extends Controller
     
     public function update($id, Request $request)
     {
-        $validator = Validator::make($request->all(), GestaoCoordenacaoLaboratoriosDidaticos::rules(), GestaoCoordenacaoLaboratoriosDidaticos::messages());
+        $planejamento = Planejamento::initQuery()->whereCodDimensao('G-5')->first();
+        
+        $ch_min = $planejamento->ch_semanal;
+        $ch_max = $planejamento->ch_maxima;
+
+        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+
+        $validator = Validator::make(
+            $request->all(), 
+            array_merge(GestaoCoordenacaoLaboratoriosDidaticos::rules(), $cargaHoraria->rules()),
+            array_merge(GestaoCoordenacaoLaboratoriosDidaticos::messages(), $cargaHoraria->messages())
+        );
 
         $model = GestaoCoordenacaoLaboratoriosDidaticos::find($id);
         $model->fill($request->all());
@@ -150,7 +174,18 @@ class GestaoCoordenacaoLaboratoriosDidaticosController extends Controller
 
     public function ajaxValidation(Request $request)
     {   
-        $validator = Validator::make($request->all(), GestaoCoordenacaoLaboratoriosDidaticos::rules(), GestaoCoordenacaoLaboratoriosDidaticos::messages());
+        $planejamento = Planejamento::initQuery()->whereCodDimensao('G-5')->first();
+        
+        $ch_min = $planejamento->ch_semanal;
+        $ch_max = $planejamento->ch_maxima;
+
+        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+
+        $validator = Validator::make(
+            $request->all(), 
+            array_merge(GestaoCoordenacaoLaboratoriosDidaticos::rules(), $cargaHoraria->rules()),
+            array_merge(GestaoCoordenacaoLaboratoriosDidaticos::messages(), $cargaHoraria->messages())
+        );
 
         if($validator->passes()) {
             return Response::json(['message' => true, 'status' => 200]);

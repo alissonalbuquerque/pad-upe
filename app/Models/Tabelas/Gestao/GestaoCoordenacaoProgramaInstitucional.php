@@ -29,7 +29,6 @@ class GestaoCoordenacaoProgramaInstitucional extends Model
             'cod_atividade' => ['required', 'string', 'max:255'],
             'nome' => ['required', 'string', 'max:255'],
             'documento' => ['required', 'string', 'max:255'],
-            'ch_semanal' => CargaHoraria::ch_semanal(CargaHoraria::create_ch_min(2)),
         ];
     }
 
@@ -44,10 +43,6 @@ class GestaoCoordenacaoProgramaInstitucional extends Model
 
             //documento
             'documento.required' => 'O campo "Documento que o Designa" é obrigatório!',
-
-            //ch_semanal
-            'ch_semanal.required' => 'O campo "CH. Semanal" é obrigatório!',
-            'ch_semanal.min' => 'Carga horária semanal miníma é de 2 Horas!',
         ];
     }
 

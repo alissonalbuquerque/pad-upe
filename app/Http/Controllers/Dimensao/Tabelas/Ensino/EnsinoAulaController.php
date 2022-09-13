@@ -4,16 +4,19 @@ namespace App\Http\Controllers\Dimensao\Tabelas\Ensino;
 
 use App\Http\Controllers\Controller;
 use App\Models\Avaliacao;
+use App\Models\Planejamento;
 use App\Models\Tabelas\Constants;
 use App\Models\Tabelas\Ensino\EnsinoAula;
 use App\Models\UserPad;
 use App\Models\Util\Avaliacao as UtilAvaliacao;
+use App\Models\Util\CargaHorariaValidation;
 use App\Models\Util\Dimensao;
 use App\Models\Util\MenuItemsTeacher;
 use App\Models\Util\Modalidade;
 use App\Models\Util\Nivel;
 use App\Models\Util\PadTables;
 use App\Models\Util\Status;
+use App\Queries\Tabelas\TablesGenericGrouped;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
@@ -32,6 +35,7 @@ class EnsinoAulaController extends Controller
         
         $niveis = Nivel::listNivel();
         $modalidades = Modalidade::listModalidade();
+        $planejamentos = EnsinoAula::listPlanejamentos();
         $divs = PadTables::tablesEnsino($user_pad_id);
 
         return view('pad.components.templates.dimensao.ensino.aulas.form_create', [
@@ -40,6 +44,7 @@ class EnsinoAulaController extends Controller
             'divs' => $divs,
             'niveis' => $niveis,
             'modalidades' => $modalidades,
+            'planejamentos' => $planejamentos,
             'user_pad_id' => $user_pad_id,
             'index_menu' => MenuItemsTeacher::PAD,
         ]);
@@ -50,11 +55,13 @@ class EnsinoAulaController extends Controller
         $model = EnsinoAula::find($id);
         $niveis = Nivel::listNivel();
         $modalidades = Modalidade::listModalidade();
+        $planejamentos = EnsinoAula::listPlanejamentos();
         
         return view('pad.components.templates.dimensao.ensino.aulas.form_update', [
             'model' => $model,
             'niveis' => $niveis,
-            'modalidades' => $modalidades
+            'modalidades' => $modalidades,
+            'planejamentos' => $planejamentos,
         ]);
     }
 
@@ -69,10 +76,30 @@ class EnsinoAulaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request) {
-        
-        $validator = Validator::make($request->all(), EnsinoAula::rules(), EnsinoAula::messages());
+    public function create(Request $request)
+    {
+        if($request->cod_dimensao)
+        {   
+            $planejamento = Planejamento::initQuery()->whereCodDimensao($request->cod_dimensao)->first();
+            
+            $ch_min = $planejamento->ch_semanal;
+            $ch_max = $planejamento->ch_maxima;
 
+            $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(EnsinoAula::rules(), $cargaHoraria->rules()),
+                array_merge(EnsinoAula::messages(), $cargaHoraria->messages())
+            );
+        } else {
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(EnsinoAula::rules(), CargaHorariaValidation::defaultRules()),
+                array_merge(EnsinoAula::messages(), CargaHorariaValidation::defaultMessages())
+            );
+        }
+        
         if($validator->fails())
         {   
             return redirect()
@@ -112,9 +139,29 @@ class EnsinoAulaController extends Controller
         
     }
 
-    public function update($id, Request $request) {
-    
-        $validator = Validator::make($request->all(), EnsinoAula::rules(), EnsinoAula::messages());
+    public function update($id, Request $request)
+    {
+        if($request->cod_dimensao)
+        {   
+            $planejamento = Planejamento::initQuery()->whereCodDimensao($request->cod_dimensao)->first();
+            
+            $ch_min = $planejamento->ch_semanal;
+            $ch_max = $planejamento->ch_maxima;
+
+            $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(EnsinoAula::rules(), $cargaHoraria->rules()),
+                array_merge(EnsinoAula::messages(), $cargaHoraria->messages())
+            );
+        } else {
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(EnsinoAula::rules(), CargaHorariaValidation::defaultRules()),
+                array_merge(EnsinoAula::messages(), CargaHorariaValidation::defaultMessages())
+            );
+        }
 
         $model = EnsinoAula::find($id);
         $model->fill($request->all());
@@ -166,8 +213,28 @@ class EnsinoAulaController extends Controller
     }
 
     public function ajaxValidation(Request $request)
-    {   
-        $validator = Validator::make($request->all(), EnsinoAula::rules(), EnsinoAula::messages());
+    {
+        if($request->cod_dimensao)
+        {   
+            $planejamento = Planejamento::initQuery()->whereCodDimensao($request->cod_dimensao)->first();
+            
+            $ch_min = $planejamento->ch_semanal;
+            $ch_max = $planejamento->ch_maxima;
+
+            $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(EnsinoAula::rules(), $cargaHoraria->rules()),
+                array_merge(EnsinoAula::messages(), $cargaHoraria->messages())
+            );
+        } else {
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(EnsinoAula::rules(), CargaHorariaValidation::defaultRules()),
+                array_merge(EnsinoAula::messages(), CargaHorariaValidation::defaultMessages())
+            );
+        }
 
         if($validator->passes()) {
             return Response::json(['message' => true, 'status' => 200]);

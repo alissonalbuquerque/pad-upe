@@ -83,7 +83,7 @@
                     </select>
 
                     @include('components.divs.errors', [
-                        'field' => 'cod_dimensao_create'
+                        'field' => 'cod_dimensao_update'
                     ])
                 </div>
 
