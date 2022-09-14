@@ -7,10 +7,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Avaliacao;
+use App\Models\Planejamento;
 use App\Models\Tabelas\Constants;
 use App\Models\Tabelas\Ensino\EnsinoMembroDocente;
 use App\Models\Util\Avaliacao as UtilAvaliacao;
+use App\Models\Util\CargaHorariaValidation;
 use App\Models\Util\Dimensao;
+use App\Models\Util\Funcao;
 use App\Models\Util\MenuItemsTeacher;
 use App\Models\Util\Modalidade;
 use App\Models\Util\Nivel;
@@ -18,9 +21,9 @@ use App\Models\Util\PadTables;
 use App\Models\Util\Status;
 
 class EnsinoMembroDocenteController extends Controller
-{
+{   
     public function index($user_pad_id)
-    {
+    {   
         $atividades = 
                 EnsinoMembroDocente::initQuery()
                     ->whereUserPad($user_pad_id)
@@ -28,16 +31,14 @@ class EnsinoMembroDocenteController extends Controller
                     ->get();
         
         
-        $niveis = Nivel::listNivel();
-        $modalidades = Constants::listModalidade();
+        $funcoes = Funcao::listFuncaoEnsino();
         $divs = PadTables::tablesEnsino($user_pad_id);
 
         return view('pad.components.templates.dimensao.ensino.membro_docente.form_create', [
             'atividades' => $atividades,
 
             'divs' => $divs,
-            'niveis' => $niveis,
-            'modalidades' => $modalidades,
+            'funcoes' => $funcoes,
             'user_pad_id' => $user_pad_id,
             'index_menu' => MenuItemsTeacher::PAD,
         ]);
@@ -46,13 +47,11 @@ class EnsinoMembroDocenteController extends Controller
     public function edit($id) {
 
         $model = EnsinoMembroDocente::find($id);
-        $niveis = Nivel::listNivel();
-        $modalidades = Modalidade::listModalidade();
+        $funcoes = Funcao::listFuncaoEnsino();
         
         return view('pad.components.templates.dimensao.ensino.membro_docente.form_update', [
             'model' => $model,
-            'niveis' => $niveis,
-            'modalidades' => $modalidades
+            'funcoes' => $funcoes,
         ]);
     }
 
@@ -69,12 +68,23 @@ class EnsinoMembroDocenteController extends Controller
      */
     public function create(Request $request) {
         
-        $validator = Validator::make($request->all(), EnsinoMembroDocente::rules(), EnsinoMembroDocente::messages());
+        $planejamento = Planejamento::initQuery()->whereCodDimensao('E-13')->first();
+        
+        $ch_min = $planejamento->ch_semanal;
+        $ch_max = $planejamento->ch_maxima;
+
+        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+
+        $validator = Validator::make(
+            $request->all(), 
+            array_merge(EnsinoMembroDocente::rules(), $cargaHoraria->rules()),
+            array_merge(EnsinoMembroDocente::messages(), $cargaHoraria->messages())
+        );
 
         if($validator->fails())
         {   
             return redirect()
-                        ->route('ensino_coordenacao_regencia_index', ['user_pad_id' => $request->user_pad_id,])
+                        ->route('ensino_membro_docente_index', ['user_pad_id' => $request->user_pad_id,])
                         ->withErrors($validator)
                         ->withInput();
         }
@@ -95,24 +105,35 @@ class EnsinoMembroDocenteController extends Controller
             if(!$avaliacao->save())
             {
                 return redirect()
-                    ->route('ensino_coordenacao_regencia_index', ['user_pad_id' => $user_pad_id])
+                    ->route('ensino_membro_docente_index', ['user_pad_id' => $user_pad_id])
                     ->with('fail', 'Erro ao cadastrar Atividade!');
             }
 
             return redirect()
-                    ->route('ensino_coordenacao_regencia_index', ['user_pad_id' => $user_pad_id])
+                    ->route('ensino_membro_docente_index', ['user_pad_id' => $user_pad_id])
                     ->with('success', 'Cadastro realizado com sucesso!');
         } else {
             return redirect()
-                    ->route('ensino_coordenacao_regencia_index', ['user_pad_id' => $user_pad_id])
+                    ->route('ensino_membro_docente_index', ['user_pad_id' => $user_pad_id])
                     ->with('fail', 'Erro ao cadastrar Atividade!');
         }
         
     }
     
-    public function update($id, Request $request) {
-    
-        $validator = Validator::make($request->all(), EnsinoMembroDocente::rules(), EnsinoMembroDocente::messages());
+    public function update($id, Request $request)
+    {
+        $planejamento = Planejamento::initQuery()->whereCodDimensao('E-13')->first();
+        
+        $ch_min = $planejamento->ch_semanal;
+        $ch_max = $planejamento->ch_maxima;
+
+        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+
+        $validator = Validator::make(
+            $request->all(), 
+            array_merge(EnsinoMembroDocente::rules(), $cargaHoraria->rules()),
+            array_merge(EnsinoMembroDocente::messages(), $cargaHoraria->messages())
+        );
 
         $model = EnsinoMembroDocente::find($id);
         $model->fill($request->all());
@@ -122,15 +143,15 @@ class EnsinoMembroDocenteController extends Controller
         if($validator->fails())
         {   
             return redirect()
-                        ->route('ensino_aula_index', ['ensino_coordenacao_regencia_id' => $user_pad_id])
+                        ->route('ensino_membro_docente_index', ['user_pad_id' => $user_pad_id])
                         ->with('fail', 'Erro ao atualizar Atividade!');
         }
 
         if($model->save()) {
-            return redirect()->route('ensino_aula_index', ['ensino_coordenacao_regencia_id' => $user_pad_id])
+            return redirect()->route('ensino_membro_docente_index', ['user_pad_id' => $user_pad_id])
                     ->with('success', 'Atualizado com sucesso!');
         } else {
-            return redirect()->route('ensino_aula_index', ['ensino_coordenacao_regencia_id' => $user_pad_id])
+            return redirect()->route('ensino_membro_docente_index', ['user_pad_id' => $user_pad_id])
                     ->with('fail', 'Erro ao atualizar a Atividade!');
         }
     }
@@ -143,11 +164,11 @@ class EnsinoMembroDocenteController extends Controller
 
         if($model->delete()) {
             return redirect()
-                    ->route('ensino_coordenacao_regencia_index', ['user_pad_id' => $user_pad_id])
+                    ->route('ensino_membro_docente_index', ['user_pad_id' => $user_pad_id])
                     ->with('success', 'Atividade removida com Sucesso!');
         } else {
             return redirect()
-                    ->route('ensino_coordenacao_regencia_index', ['user_pad_id' => $user_pad_id])
+                    ->route('ensino_membro_docente_index', ['user_pad_id' => $user_pad_id])
                     ->with('fail', 'Erro ao remover atividade!');
         }
     }
@@ -165,7 +186,18 @@ class EnsinoMembroDocenteController extends Controller
 
     public function ajaxValidation(Request $request)
     {   
-        $validator = Validator::make($request->all(), EnsinoMembroDocente::rules(), EnsinoMembroDocente::messages());
+        $planejamento = Planejamento::initQuery()->whereCodDimensao('E-13')->first();
+        
+        $ch_min = $planejamento->ch_semanal;
+        $ch_max = $planejamento->ch_maxima;
+
+        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+
+        $validator = Validator::make(
+            $request->all(), 
+            array_merge(EnsinoMembroDocente::rules(), $cargaHoraria->rules()),
+            array_merge(EnsinoMembroDocente::messages(), $cargaHoraria->messages())
+        );
 
         if($validator->passes()) {
             return Response::json(['message' => true, 'status' => 200]);

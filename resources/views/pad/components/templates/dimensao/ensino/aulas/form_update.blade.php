@@ -74,7 +74,7 @@
                     <select class="form-select @error('cod_dimensao') is-invalid @enderror ajax-errors" name="cod_dimensao" id="cod_dimensao" value="{{ old('cod_dimensao') }}">
                         <option value="0">Selecione uma Resolução</option>
                         @foreach($planejamentos as $value => $cod_dimensao)
-                            @if( $value == old('cod_dimensao') )
+                            @if( $value == $model->cod_dimensao )
                                 <option selected value="{{$value}}">{{$cod_dimensao}}</option>
                             @else
                                 <option value="{{$value}}">{{$cod_dimensao}}</option>

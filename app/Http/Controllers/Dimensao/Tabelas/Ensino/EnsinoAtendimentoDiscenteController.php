@@ -8,9 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Avaliacao;
+use App\Models\Planejamento;
 use App\Models\Tabelas\Ensino\EnsinoAtendimentoDiscente;
 use App\Models\UserPad;
 use App\Models\Util\Avaliacao as UtilAvaliacao;
+use App\Models\Util\CargaHorariaValidation;
 use App\Models\Util\Dimensao;
 use App\Models\Util\MenuItemsTeacher;
 use App\Models\Util\Modalidade;
@@ -68,9 +70,20 @@ class EnsinoAtendimentoDiscenteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request) {
+    public function create(Request $request)
+    {
+        $planejamento = Planejamento::initQuery()->whereCodDimensao('E-16')->first();
         
-        $validator = Validator::make($request->all(), EnsinoAtendimentoDiscente::rules(), EnsinoAtendimentoDiscente::messages());
+        $ch_min = $planejamento->ch_semanal;
+        $ch_max = $planejamento->ch_maxima;
+
+        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+
+        $validator = Validator::make(
+            $request->all(), 
+            array_merge(EnsinoAtendimentoDiscente::rules(), $cargaHoraria->rules()),
+            array_merge(EnsinoAtendimentoDiscente::messages(), $cargaHoraria->messages())
+        );
 
         if($validator->fails())
         {   
@@ -113,7 +126,18 @@ class EnsinoAtendimentoDiscenteController extends Controller
 
     public function update($id, Request $request) {
     
-        $validator = Validator::make($request->all(), EnsinoAtendimentoDiscente::rules(), EnsinoAtendimentoDiscente::messages());
+        $planejamento = Planejamento::initQuery()->whereCodDimensao('E-16')->first();
+        
+        $ch_min = $planejamento->ch_semanal;
+        $ch_max = $planejamento->ch_maxima;
+
+        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+
+        $validator = Validator::make(
+            $request->all(), 
+            array_merge(EnsinoAtendimentoDiscente::rules(), $cargaHoraria->rules()),
+            array_merge(EnsinoAtendimentoDiscente::messages(), $cargaHoraria->messages())
+        );
 
         $model = EnsinoAtendimentoDiscente::find($id);
         $model->fill($request->all());
@@ -166,7 +190,18 @@ class EnsinoAtendimentoDiscenteController extends Controller
 
     public function ajaxValidation(Request $request)
     {   
-        $validator = Validator::make($request->all(), EnsinoAtendimentoDiscente::rules(), EnsinoAtendimentoDiscente::messages());
+        $planejamento = Planejamento::initQuery()->whereCodDimensao('E-16')->first();
+        
+        $ch_min = $planejamento->ch_semanal;
+        $ch_max = $planejamento->ch_maxima;
+
+        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+
+        $validator = Validator::make(
+            $request->all(), 
+            array_merge(EnsinoAtendimentoDiscente::rules(), $cargaHoraria->rules()),
+            array_merge(EnsinoAtendimentoDiscente::messages(), $cargaHoraria->messages())
+        );
 
         if($validator->passes()) {
             return Response::json(['message' => true, 'status' => 200]);

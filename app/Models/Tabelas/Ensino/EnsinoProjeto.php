@@ -3,7 +3,6 @@
 namespace App\Models\Tabelas\Ensino;
 
 use App\Models\Planejamento;
-use App\Models\Util\CargaHoraria;
 use App\Models\Util\Funcao;
 use App\Models\Util\Natureza;
 use App\Queries\Tabelas\Ensino\EnsinoProjetoQuery;
@@ -34,7 +33,6 @@ class EnsinoProjeto extends Model
             'curso' => ['required', 'string', 'max:255'],
             'natureza' => ['required', 'integer', Rule::in(array_keys(Natureza::listNatureza()))],
             'funcao' => ['required', 'integer', Rule::in(array_keys(Funcao::listFuncaoProjeto()))],
-            'ch_semanal' => CargaHoraria::ch_semanal()
         ];
     }
 
@@ -59,11 +57,6 @@ class EnsinoProjeto extends Model
             'funcao.required' => 'O campo "Função" é obrigatório!',
             'funcao.in' => 'Selecione uma opção da lista de "Função"!',
             'funcao.integer' => 'O campo "Função" deve cónter um inteiro!',
-
-            //ch_semanal
-            'ch_semanal.required' => 'O campo "CH. Semanal" é obrigatório!',
-            'ch_semanal.min' => 'Carga horária semanal miníma é de 1 Hora!',
-            'ch_semanal.integer' => 'O campo "CH. Semanal" deve cónter um inteiro!',
         ];
     }
 

@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Dimensao\Tabelas\Ensino;
 
 use App\Http\Controllers\Controller;
 use App\Models\Avaliacao;
+use App\Models\Planejamento;
 use App\Models\Tabelas\Constants;
 use App\Models\Tabelas\Ensino\EnsinoParticipacao;
 use App\Models\UserPad;
 use App\Models\Util\Avaliacao as UtilAvaliacao;
+use App\Models\Util\CargaHorariaValidation;
 use App\Models\Util\Dimensao;
 use App\Models\Util\MenuItemsTeacher;
 use App\Models\Util\Modalidade;
@@ -68,9 +70,20 @@ class EnsinoParticipacaoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request) {
+    public function create(Request $request)
+    {
+        $planejamento = Planejamento::initQuery()->whereCodDimensao('E-12')->first();
         
-        $validator = Validator::make($request->all(), EnsinoParticipacao::rules(), EnsinoParticipacao::messages());
+        $ch_min = $planejamento->ch_semanal;
+        $ch_max = $planejamento->ch_maxima;
+
+        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+
+        $validator = Validator::make(
+            $request->all(), 
+            array_merge(EnsinoParticipacao::rules(), $cargaHoraria->rules()),
+            array_merge(EnsinoParticipacao::messages(), $cargaHoraria->messages())
+        );
 
         if($validator->fails())
         {   
@@ -111,9 +124,20 @@ class EnsinoParticipacaoController extends Controller
         
     }
 
-    public function update($id, Request $request) {
-    
-        $validator = Validator::make($request->all(), EnsinoParticipacao::rules(), EnsinoParticipacao::messages());
+    public function update($id, Request $request)
+    {
+        $planejamento = Planejamento::initQuery()->whereCodDimensao('E-12')->first();
+        
+        $ch_min = $planejamento->ch_semanal;
+        $ch_max = $planejamento->ch_maxima;
+
+        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+
+        $validator = Validator::make(
+            $request->all(), 
+            array_merge(EnsinoParticipacao::rules(), $cargaHoraria->rules()),
+            array_merge(EnsinoParticipacao::messages(), $cargaHoraria->messages())
+        );
 
         $model = EnsinoParticipacao::find($id);
         $model->fill($request->all());
@@ -166,7 +190,18 @@ class EnsinoParticipacaoController extends Controller
 
     public function ajaxValidation(Request $request)
     {   
-        $validator = Validator::make($request->all(), EnsinoParticipacao::rules(), EnsinoParticipacao::messages());
+        $planejamento = Planejamento::initQuery()->whereCodDimensao('E-12')->first();
+        
+        $ch_min = $planejamento->ch_semanal;
+        $ch_max = $planejamento->ch_maxima;
+
+        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+
+        $validator = Validator::make(
+            $request->all(), 
+            array_merge(EnsinoParticipacao::rules(), $cargaHoraria->rules()),
+            array_merge(EnsinoParticipacao::messages(), $cargaHoraria->messages())
+        );
 
         if($validator->passes()) {
             return Response::json(['message' => true, 'status' => 200]);

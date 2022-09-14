@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Dimensao\Tabelas\Ensino;
 
 use App\Http\Controllers\Controller;
 use App\Models\Avaliacao;
+use App\Models\Planejamento;
 use App\Models\Tabelas\Constants;
 use App\Models\Tabelas\Ensino\EnsinoCoordenacaoRegencia;
 use App\Models\Util\Avaliacao as UtilAvaliacao;
+use App\Models\Util\CargaHorariaValidation;
 use App\Models\Util\Dimensao;
 use App\Models\Util\MenuItemsTeacher;
 use App\Models\Util\Modalidade;
@@ -72,9 +74,29 @@ class EnsinoCoordenacaoRegenciaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request) {
-        
-        $validator = Validator::make($request->all(), EnsinoCoordenacaoRegencia::rules(), EnsinoCoordenacaoRegencia::messages());
+    public function create(Request $request)
+    {
+        if($request->cod_dimensao)
+        {   
+            $planejamento = Planejamento::initQuery()->whereCodDimensao($request->cod_dimensao)->first();
+            
+            $ch_min = $planejamento->ch_semanal;
+            $ch_max = $planejamento->ch_maxima;
+
+            $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(EnsinoCoordenacaoRegencia::rules(), $cargaHoraria->rules()),
+                array_merge(EnsinoCoordenacaoRegencia::messages(), $cargaHoraria->messages())
+            );
+        } else {
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(EnsinoCoordenacaoRegencia::rules(), CargaHorariaValidation::defaultRules()),
+                array_merge(EnsinoCoordenacaoRegencia::messages(), CargaHorariaValidation::defaultMessages())
+            );
+        }
 
         if($validator->fails())
         {   
@@ -115,9 +137,29 @@ class EnsinoCoordenacaoRegenciaController extends Controller
         
     }
     
-    public function update($id, Request $request) {
-    
-        $validator = Validator::make($request->all(), EnsinoCoordenacaoRegencia::rules(), EnsinoCoordenacaoRegencia::messages());
+    public function update($id, Request $request)
+    {
+        if($request->cod_dimensao)
+        {   
+            $planejamento = Planejamento::initQuery()->whereCodDimensao($request->cod_dimensao)->first();
+            
+            $ch_min = $planejamento->ch_semanal;
+            $ch_max = $planejamento->ch_maxima;
+
+            $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(EnsinoCoordenacaoRegencia::rules(), $cargaHoraria->rules()),
+                array_merge(EnsinoCoordenacaoRegencia::messages(), $cargaHoraria->messages())
+            );
+        } else {
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(EnsinoCoordenacaoRegencia::rules(), CargaHorariaValidation::defaultRules()),
+                array_merge(EnsinoCoordenacaoRegencia::messages(), CargaHorariaValidation::defaultMessages())
+            );
+        }
 
         $model = EnsinoCoordenacaoRegencia::find($id);
         $model->fill($request->all());
@@ -170,7 +212,27 @@ class EnsinoCoordenacaoRegenciaController extends Controller
 
     public function ajaxValidation(Request $request)
     {   
-        $validator = Validator::make($request->all(), EnsinoCoordenacaoRegencia::rules(), EnsinoCoordenacaoRegencia::messages());
+        if($request->cod_dimensao)
+        {   
+            $planejamento = Planejamento::initQuery()->whereCodDimensao($request->cod_dimensao)->first();
+            
+            $ch_min = $planejamento->ch_semanal;
+            $ch_max = $planejamento->ch_maxima;
+
+            $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(EnsinoCoordenacaoRegencia::rules(), $cargaHoraria->rules()),
+                array_merge(EnsinoCoordenacaoRegencia::messages(), $cargaHoraria->messages())
+            );
+        } else {
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(EnsinoCoordenacaoRegencia::rules(), CargaHorariaValidation::defaultRules()),
+                array_merge(EnsinoCoordenacaoRegencia::messages(), CargaHorariaValidation::defaultMessages())
+            );
+        }
 
         if($validator->passes()) {
             return Response::json(['message' => true, 'status' => 200]);

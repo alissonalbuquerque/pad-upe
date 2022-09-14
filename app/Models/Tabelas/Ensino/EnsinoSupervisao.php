@@ -3,7 +3,6 @@
 namespace App\Models\Tabelas\Ensino;
 
 use App\Models\Planejamento;
-use App\Models\Util\CargaHoraria;
 use App\Models\Util\Nivel;
 use App\Models\Util\Supervisao;
 use App\Queries\Tabelas\Ensino\EnsinoSupervisaoQuery;
@@ -39,7 +38,6 @@ class EnsinoSupervisao extends Model
             'type_orientacao' => ['required', 'integer', Rule::in(array_keys(Supervisao::listSupervisao()))],
             'numero_orientandos' => ['integer'],
             'cod_dimensao' => ['required', 'string', Rule::in(array_keys(self::listPlanejamentos()))],
-            'ch_semanal' => CargaHoraria::ch_semanal()
         ];
     }
 
@@ -74,11 +72,6 @@ class EnsinoSupervisao extends Model
             //'cod_dimensao'
             'cod_dimensao.required' => 'O campo "Resolução" é obrigatório',
             'cod_dimensao.in' => 'Selecione uma opção da lista de "Resolução"',
-
-            //ch_semanal
-            'ch_semanal.required' => 'O campo "CH. Semanal" é obrigatório!',
-            'ch_semanal.min' => 'Carga horária semanal miníma é de 1 Hora!',
-            'ch_semanal.integer' => 'O campo "CH. Semanal" deve cónter um inteiro!',
         ];
     }
 

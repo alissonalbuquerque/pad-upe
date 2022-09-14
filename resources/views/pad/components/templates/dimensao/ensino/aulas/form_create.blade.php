@@ -146,7 +146,6 @@
                         <th scope="col"> Nível </th>
                         <th scope="col"> Modalidade </th>
                         <th scope="col"> CH Semanal </th>
-                        <th scope="col"> CH Total </th>
                         <th scope="col"> Opções </th>
                     </tr>
                 </thead>
@@ -160,7 +159,6 @@
                         <td>{{ $ensinoAula->nivelAsString() }}</td>
                         <td>{{ $ensinoAula->modalidadeAsString() }}</td>
                         <td>{{ $ensinoAula->ch_semanal }}</td>
-                        <td>{{ $ensinoAula->ch_total }}</td>
                         <td>
                             @include('components.buttons.btn-edit-task', [
                                 'btn_class' => 'btn-edit_ensino_aula',

@@ -3,7 +3,6 @@
 namespace App\Models\Tabelas\Gestao;
 
 use App\Models\Planejamento;
-use App\Models\Util\CargaHoraria;
 use App\Queries\Tabelas\Gestao\GestaoMembroConselhoQuery;
 use Illuminate\Database\Eloquent\Model;
 

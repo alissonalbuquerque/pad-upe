@@ -4,7 +4,6 @@ namespace App\Models\Tabelas\Pesquisa;
 
 use App\Models\Planejamento;
 use App\Models\Tabelas\Constants;
-use App\Models\Util\CargaHoraria;
 use App\Queries\Tabelas\Pesquisa\PesquisaCoordenacaoQuery;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;

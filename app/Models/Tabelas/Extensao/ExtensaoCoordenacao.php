@@ -4,11 +4,9 @@ namespace App\Models\Tabelas\Extensao;
 
 use App\Models\Planejamento;
 use App\Models\Tabelas\Constants;
-use App\Models\Util\CargaHoraria;
 use App\Queries\Tabelas\Extensao\ExtensaoCoordenacaoQuery;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
-use PHPUnit\TextUI\XmlConfiguration\Constant;
 
 class ExtensaoCoordenacao extends Model
 {
