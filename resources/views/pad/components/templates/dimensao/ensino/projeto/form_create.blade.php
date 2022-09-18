@@ -42,6 +42,68 @@
                         <input class="form-control @error('cod_atividade') is-invalid @enderror ajax-errors" type="text" name="cod_atividade" id="cod_atividade" readonly>
                     </div>
 
+                    <div class="mb-3 col-sm-10">
+                        <label class="form-label" for="titulo">Título do Projeto</label>
+                        <input class="form-control @error('titulo') is-invalid @enderror ajax-errors" type="text" name="titulo" id="titulo" value="{{ old('titulo') }}">
+                        
+                        @include('components.divs.errors', [
+                            'field' => 'titulo_create',
+                        ])
+                    </div>
+
+                    <div class="mb-3 col-sm-6">
+                        <label class="form-label" for="curso">Curso(s) que Desenvolve</label>
+                        <input class="form-control @error('curso') is-invalid @enderror ajax-errors" type="text" name="curso" id="curso" value="{{ old('curso') }}">
+                        
+                        @include('components.divs.errors', [
+                            'field' => 'curso_create'
+                        ])
+                    </div>
+
+                    <div class="mb-3 col-sm-6">
+                        <label class="form-label" for="natureza">Natureza</label>
+                        <select class="form-select @error('natureza') is-invalid @enderror ajax-errors" name="natureza" id="natureza" value="{{ old('natureza') }}">
+                            <option value="0">Selecione um Nível</option>
+                            @foreach($naturezas as $value => $natureza)
+                                @if( $value == old('natureza') )
+                                    <option selected value="{{$value}}">{{$natureza}}</option>
+                                @else
+                                    <option value="{{$value}}">{{$natureza}}</option>
+                                @endif
+                            @endforeach
+                        </select>
+
+                        @include('components.divs.errors', [
+                            'field' => 'natureza_create'
+                        ])
+                    </div>
+
+                    <div class="mb-3 col-sm-6">
+                        <label class="form-label" for="funcao">Função</label>
+                        <select class="form-select @error('funcao') is-invalid @enderror ajax-errors" name="funcao" id="funcao" value="{{ old('funcao') }}">
+                            <option value="0">Selecione uma Função</option>
+                            @foreach($funcoes as $value => $funcao)
+                                @if( $value == old('funcao') )
+                                    <option selected value="{{$value}}">{{$funcao}}</option>
+                                @else
+                                    <option value="{{$value}}">{{$funcao}}</option>
+                                @endif
+                            @endforeach
+                        </select>
+
+                        @include('components.divs.errors', [
+                            'field' => 'funcao_create'
+                        ])
+                    </div>
+
+                    <div class="mb-3 col-sm-6">
+                        <label class="form-label" for="ch_semanal">CH. Semanal</label>
+                        <input class="form-control @error('ch_semanal') is-invalid @enderror ajax-errors" type="number" name="ch_semanal" id="ch_semanal" value="{{ old('ch_semanal') }}">
+                        
+                        @include('components.divs.errors', [
+                            'field' => 'ch_semanal_create'
+                        ])
+                    </div>
                 </div>
 
                 <div class="mt-1 text-end">
@@ -60,7 +122,12 @@
                 <thead>
                     <tr>
                         <!-- <th scole="col">#</th> -->
-                        <th scope="col"> Cód </th>
+                        <th scope="col"> Cód </th>´
+                        <th scope="col"> Título do Projeto </th>
+                        <th scope="col"> Curso </th>
+                        <th scope="col"> Natureza </th>
+                        <th scope="col"> Função </th>
+                        <th scope="col"> CH. Semanal </th>
                     </tr>
                 </thead>
                 
@@ -68,6 +135,11 @@
                     @foreach($atividades as $atividade)
                     <tr>
                         <td>{{ $atividade->cod_atividade }}</td>
+                        <td>{{ $atividade->titulo }}</td>
+                        <td>{{ $atividade->curso }}</td>
+                        <td>{{ $atividade->naturezaAsString() }}</td>
+                        <td>{{ $atividade->funcaoAsString() }}</td>
+                        <td>{{ $atividade->ch_semanal }}</td>
                         <td>
                             @include('components.buttons.btn-edit-task', [
                                 'btn_class' => 'btn-edit_ensino_projeto',
@@ -76,7 +148,7 @@
 
                             @include('components.buttons.btn-delete', [
                                 'id' => $atividade->id,
-                                'route' => route('ensino_projeto_delete', ['id' => $ensinoAula->id])
+                                'route' => route('ensino_projeto_delete', ['id' => $atividade->id])
                             ])
                         </td>
                     </tr>
@@ -89,7 +161,7 @@
 
     @include('components.modal', [
         'size' => 'modal-lg',
-        'header' => 'Ensino - Projeto',
+        'header' => '',
     ])
 </div>
 @endsection

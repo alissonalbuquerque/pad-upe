@@ -32,7 +32,6 @@ class EnsinoParticipacaoController extends Controller
         
         
         $niveis = Nivel::listNivel();
-        $modalidades = Modalidade::listModalidade();
         $divs = PadTables::tablesEnsino($user_pad_id);
 
         return view('pad.components.templates.dimensao.ensino.participacao.form_create', [
@@ -40,7 +39,6 @@ class EnsinoParticipacaoController extends Controller
 
             'divs' => $divs,
             'niveis' => $niveis,
-            'modalidades' => $modalidades,
             'user_pad_id' => $user_pad_id,
             'index_menu' => MenuItemsTeacher::PAD,
         ]);

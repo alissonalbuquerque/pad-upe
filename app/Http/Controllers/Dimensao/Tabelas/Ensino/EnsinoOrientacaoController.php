@@ -54,7 +54,7 @@ class EnsinoOrientacaoController extends Controller
         $orientacoes = Orientacao::listOrientacao();
         $planejamentos = EnsinoOrientacao::listPlanejamentos();
         
-        return view('pad.components.templates.dimensao.ensino.aulas.form_update', [
+        return view('pad.components.templates.dimensao.ensino.orientacao.form_update', [
             'model' => $model,
             'niveis' => $niveis,
             'orientacoes' => $orientacoes,
@@ -75,6 +75,8 @@ class EnsinoOrientacaoController extends Controller
      */
     public function create(Request $request)
     {
+        $ch_semanal_temp = $request->ch_semanal;
+
         if($request->cod_dimensao)
         {   
             $planejamento = Planejamento::initQuery()->whereCodDimensao($request->cod_dimensao)->first();
@@ -82,10 +84,12 @@ class EnsinoOrientacaoController extends Controller
             $ch_min = $planejamento->ch_semanal;
             $ch_max = $planejamento->ch_maxima;
 
-            $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+            $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max, ['field' => 'Qtd. Participantes', 'value' => $request->numero_orientandos]);
+
+            $request->merge(['ch_semanal' => $request->ch_semanal * ($request->numero_orientandos?? 1)]);
 
             $validator = Validator::make(
-                $request->all(), 
+                $request->all(),
                 array_merge(EnsinoOrientacao::rules(), $cargaHoraria->rules()),
                 array_merge(EnsinoOrientacao::messages(), $cargaHoraria->messages())
             );
@@ -99,6 +103,7 @@ class EnsinoOrientacaoController extends Controller
 
         if($validator->fails())
         {   
+            $request->merge(['ch_semanal' => $ch_semanal_temp]);
             return redirect()
                         ->route('ensino_orientacao_index', ['user_pad_id' => $request->user_pad_id,])
                         ->withErrors($validator)
@@ -106,12 +111,13 @@ class EnsinoOrientacaoController extends Controller
         }
 
         $user_pad_id = $request->user_pad_id;
+        $request->merge(['ch_semanal' => $ch_semanal_temp]);
 
         $model = new EnsinoOrientacao($request->all());
         $model->dimensao = Dimensao::ENSINO;
 
         if($model->save())
-        {
+        {   
             $avaliacao = new Avaliacao([
                 'tarefa_id' => $model->id,
                 'type' => UtilAvaliacao::ENSINO_ORIENTACAO,
@@ -137,7 +143,11 @@ class EnsinoOrientacaoController extends Controller
     }
 
     public function update($id, Request $request)
-    {
+    {   
+        $model = EnsinoOrientacao::find($id);
+
+        $ch_semanal_temp = $request->ch_semanal;
+
         if($request->cod_dimensao)
         {   
             $planejamento = Planejamento::initQuery()->whereCodDimensao($request->cod_dimensao)->first();
@@ -145,10 +155,12 @@ class EnsinoOrientacaoController extends Controller
             $ch_min = $planejamento->ch_semanal;
             $ch_max = $planejamento->ch_maxima;
 
-            $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+            $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max, ['field' => 'Qtd. Participantes', 'value' => $request->numero_orientandos]);
+
+            $request->merge(['ch_semanal' => $request->ch_semanal * ($request->numero_orientandos?? 1)]);
 
             $validator = Validator::make(
-                $request->all(), 
+                $request->all(),
                 array_merge(EnsinoOrientacao::rules(), $cargaHoraria->rules()),
                 array_merge(EnsinoOrientacao::messages(), $cargaHoraria->messages())
             );
@@ -160,17 +172,18 @@ class EnsinoOrientacaoController extends Controller
             );
         }
 
-        $model = EnsinoOrientacao::find($id);
-        $model->fill($request->all());
-
         $user_pad_id = $model->user_pad_id;
 
         if($validator->fails())
         {   
+            $request->merge(['ch_semanal' => $ch_semanal_temp]);
             return redirect()
                         ->route('ensino_orientacao_index', ['user_pad_id' => $user_pad_id])
                         ->with('fail', 'Erro ao atualizar Atividade!');
         }
+
+        $request->merge(['ch_semanal' => $ch_semanal_temp]);
+        $model->fill($request->all());
 
         if($model->save()) {
             return redirect()->route('ensino_orientacao_index', ['user_pad_id' => $user_pad_id])
@@ -211,6 +224,8 @@ class EnsinoOrientacaoController extends Controller
 
     public function ajaxValidation(Request $request)
     {   
+        $ch_semanal_temp = $request->ch_semanal;
+
         if($request->cod_dimensao)
         {   
             $planejamento = Planejamento::initQuery()->whereCodDimensao($request->cod_dimensao)->first();
@@ -218,10 +233,12 @@ class EnsinoOrientacaoController extends Controller
             $ch_min = $planejamento->ch_semanal;
             $ch_max = $planejamento->ch_maxima;
 
-            $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+            $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max, ['field' => 'Qtd. Participantes', 'value' => $request->numero_orientandos]);
+
+            $request->merge(['ch_semanal' => $request->ch_semanal * ($request->numero_orientandos?? 1)]);
 
             $validator = Validator::make(
-                $request->all(), 
+                $request->all(),
                 array_merge(EnsinoOrientacao::rules(), $cargaHoraria->rules()),
                 array_merge(EnsinoOrientacao::messages(), $cargaHoraria->messages())
             );
@@ -234,6 +251,7 @@ class EnsinoOrientacaoController extends Controller
         }
 
         if($validator->passes()) {
+            $request->merge(['ch_semanal' => $ch_semanal_temp]);
             return Response::json(['message' => true, 'status' => 200]);
         }
 

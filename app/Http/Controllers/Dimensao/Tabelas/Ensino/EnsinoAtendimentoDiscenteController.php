@@ -88,7 +88,7 @@ class EnsinoAtendimentoDiscenteController extends Controller
         if($validator->fails())
         {   
             return redirect()
-                        ->route('atendimento_discente_index', ['user_pad_id' => $request->user_pad_id,])
+                        ->route('ensino_atendimento_discente_index', ['user_pad_id' => $request->user_pad_id,])
                         ->withErrors($validator)
                         ->withInput();
         }
@@ -109,16 +109,16 @@ class EnsinoAtendimentoDiscenteController extends Controller
             if(!$avaliacao->save())
             {
                 return redirect()
-                    ->route('atendimento_discente_index', ['user_pad_id' => $user_pad_id])
+                    ->route('ensino_atendimento_discente_index', ['user_pad_id' => $user_pad_id])
                     ->with('fail', 'Erro ao cadastrar Atividade!');
             }
 
             return redirect()
-                    ->route('atendimento_discente_index', ['user_pad_id' => $user_pad_id])
+                    ->route('ensino_atendimento_discente_index', ['user_pad_id' => $user_pad_id])
                     ->with('success', 'Cadastro realizado com sucesso!');
         } else {
             return redirect()
-                    ->route('atendimento_discente_index', ['user_pad_id' => $user_pad_id])
+                    ->route('ensino_atendimento_discente_index', ['user_pad_id' => $user_pad_id])
                     ->with('fail', 'Erro ao cadastrar Atividade!');
         }
         
@@ -147,15 +147,15 @@ class EnsinoAtendimentoDiscenteController extends Controller
         if($validator->fails())
         {   
             return redirect()
-                        ->route('atendimento_discente_index', ['user_pad_id' => $user_pad_id])
+                        ->route('ensino_atendimento_discente_index', ['user_pad_id' => $user_pad_id])
                         ->with('fail', 'Erro ao atualizar Atividade!');
         }
 
         if($model->save()) {
-            return redirect()->route('atendimento_discente_index', ['user_pad_id' => $user_pad_id])
+            return redirect()->route('ensino_atendimento_discente_index', ['user_pad_id' => $user_pad_id])
                     ->with('success', 'Atualizado com sucesso!');
         } else {
-            return redirect()->route('atendimento_discente_index', ['user_pad_id' => $user_pad_id])
+            return redirect()->route('ensino_atendimento_discente_index', ['user_pad_id' => $user_pad_id])
                     ->with('fail', 'Erro ao atualizar a Atividade!');
         }
     }
@@ -168,11 +168,11 @@ class EnsinoAtendimentoDiscenteController extends Controller
 
         if($model->delete()) {
             return redirect()
-                    ->route('atendimento_discente_index', ['user_pad_id' => $user_pad_id])
+                    ->route('ensino_atendimento_discente_index', ['user_pad_id' => $user_pad_id])
                     ->with('success', 'Atividade removida com Sucesso!');
         } else {
             return redirect()
-                    ->route('atendimento_discente_index', ['user_pad_id' => $user_pad_id])
+                    ->route('ensino_atendimento_discente_index', ['user_pad_id' => $user_pad_id])
                     ->with('fail', 'Erro ao remover atividade!');
         }
     }

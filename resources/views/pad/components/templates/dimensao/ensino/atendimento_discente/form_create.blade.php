@@ -42,6 +42,50 @@
                         <input class="form-control @error('cod_atividade') is-invalid @enderror ajax-errors" type="text" name="cod_atividade" id="cod_atividade" readonly>
                     </div>
 
+                    <div class="mb-3 col-sm-10">
+                        <label class="form-label" for="componente_curricular">Componente Curricular</label>
+                        <input class="form-control @error('componente_curricular') is-invalid @enderror ajax-errors" type="text" name="componente_curricular" id="componente_curricular" value="{{ old('componente_curricular') }}">
+                        
+                        @include('components.divs.errors', [
+                            'field' => 'componente_curricular_create',
+                        ])
+                    </div>
+
+                    <div class="mb-3 col-sm-12">
+                        <label class="form-label" for="curso">Curso</label>
+                        <input class="form-control @error('curso') is-invalid @enderror ajax-errors" type="text" name="curso" id="curso" value="{{ old('curso') }}">
+                        
+                        @include('components.divs.errors', [
+                            'field' => 'curso_create'
+                        ])
+                    </div>
+
+                    <div class="mb-3 col-sm-6">
+                        <label class="form-label" for="nivel">Nível</label>
+                        <select class="form-select @error('nivel') is-invalid @enderror ajax-errors" name="nivel" id="nivel" value="{{ old('nivel') }}">
+                            <option value="0">Selecione um Nível</option>
+                            @foreach($niveis as $value => $nivel)
+                                @if( $value == old('nivel') )
+                                    <option selected value="{{$value}}">{{$nivel}}</option>
+                                @else
+                                    <option value="{{$value}}">{{$nivel}}</option>
+                                @endif
+                            @endforeach
+                        </select>
+
+                        @include('components.divs.errors', [
+                            'field' => 'nivel_create'
+                        ])
+                    </div>
+
+                    <div class="mb-3 col-sm-6">
+                        <label class="form-label" for="ch_semanal">CH. Semanal</label>
+                        <input class="form-control @error('ch_semanal') is-invalid @enderror ajax-errors" type="number" name="ch_semanal" id="ch_semanal" value="{{ old('ch_semanal') }}">
+                        
+                        @include('components.divs.errors', [
+                            'field' => 'ch_semanal_create'
+                        ])
+                    </div>
                 </div>
 
                 <div class="mt-1 text-end">
@@ -61,6 +105,10 @@
                     <tr>
                         <!-- <th scole="col">#</th> -->
                         <th scope="col"> Cód </th>
+                        <th scope="col"> Componente Curricular </th>
+                        <th scope="col"> Curso </th>
+                        <th scope="col"> Nível </th>
+                        <th scope="col"> CH. Semanal </th>
                     </tr>
                 </thead>
                 
@@ -68,6 +116,10 @@
                     @foreach($atividades as $atividade)
                     <tr>
                         <td>{{ $atividade->cod_atividade }}</td>
+                        <td>{{ $atividade->componente_curricular }}</td>
+                        <td>{{ $atividade->curso }}</td>
+                        <td>{{ $atividade->nivelAsString() }}</td>
+                        <td>{{ $atividade->ch_semanal }}</td>
                         <td>
                             @include('components.buttons.btn-edit-task', [
                                 'btn_class' => 'btn-edit_ensino_atendimento_discente',
@@ -76,7 +128,7 @@
 
                             @include('components.buttons.btn-delete', [
                                 'id' => $atividade->id,
-                                'route' => route('ensino_atendimento_discente_delete', ['id' => $ensinoAula->id])
+                                'route' => route('ensino_atendimento_discente_delete', ['id' => $atividade->id])
                             ])
                         </td>
                     </tr>

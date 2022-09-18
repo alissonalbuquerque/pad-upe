@@ -26,6 +26,11 @@ class EnsinoAtendimentoDiscente extends Model
      */
     protected $fillable = ['orientacao_id', 'user_pad_id', 'dimensao', 'cod_atividade', 'componente_curricular', 'curso', 'nivel', 'ch_semanal'];
 
+    public function nivelAsString()
+    {
+        return Nivel::listNivel($this->nivel);
+    }
+    
     public static function rules()
     {
         return [

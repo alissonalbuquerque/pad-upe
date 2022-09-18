@@ -25,6 +25,18 @@ class EnsinoProjeto extends Model
      */
     protected $fillable = ['orientacao_id', 'user_pad_id', 'dimensao', 'cod_atividade', 'titulo', 'curso', 'natureza', 'funcao', 'ch_semanal'];
 
+    /** @return string|array */
+    public function naturezaAsString()
+    {
+        return Natureza::listNatureza($this->natureza);
+    }
+
+    /** @return string|array */
+    public function funcaoAsString()
+    {
+        return Funcao::listFuncaoProjeto($this->funcao);
+    }
+
     public static function rules()
     {
         return [
@@ -43,7 +55,7 @@ class EnsinoProjeto extends Model
             'cod_atividade.required' => 'O campo "Cod. Atividade" é obrigatório!',
 
             //titulo
-            'titulo.required' => 'O campo "Componente Curricular" é obrigatório!',
+            'titulo.required' => 'O campo "Título do Projeto" é obrigatório!',
 
             //curso
             'curso.required' => 'O campo "Curso" é obrigatório!',

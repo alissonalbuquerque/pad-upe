@@ -24,6 +24,13 @@ class EnsinoParticipacao extends Model
      */
     protected $fillable = ['orientacao_id', 'user_pad_id', 'dimensao', 'cod_atividade', 'curso', 'nivel', 'ch_semanal'];
 
+
+    /** @return string|array */
+    public function nivelAsString()
+    {
+        return Nivel::listNivel($this->nivel);
+    }
+
     public static function rules()
     {
         return [
@@ -40,12 +47,12 @@ class EnsinoParticipacao extends Model
             'cod_atividade.required' => 'O campo "Cod. Atividade" é obrigatório!',
 
             //curso
-            'curso.required' => 'O campo "Curso" é obrigatório!',
+            'curso.required' => 'O campo "Nome do Curso" é obrigatório!',
 
             //nivel
-            'nivel.required' => 'O campo "Nível" é obrigatório!',
-            'nivel.in' => 'Selecione uma opção da lista de "Nível"!',
-            'nivel.integer' => 'O campo "Nível" deve cónter um inteiro!',
+            'nivel.required' => 'O campo "Nível do Curso" é obrigatório!',
+            'nivel.in' => 'Selecione uma opção da lista de "Nível do Curso"!',
+            'nivel.integer' => 'O campo "Nível do Curso" deve cónter um inteiro!',
         ];
     }
 

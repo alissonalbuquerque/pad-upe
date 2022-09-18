@@ -11,8 +11,10 @@ use App\Models\UserPad;
 use App\Models\Util\Avaliacao as UtilAvaliacao;
 use App\Models\Util\CargaHorariaValidation;
 use App\Models\Util\Dimensao;
+use App\Models\Util\Funcao;
 use App\Models\Util\MenuItemsTeacher;
 use App\Models\Util\Modalidade;
+use App\Models\Util\Natureza;
 use App\Models\Util\Nivel;
 use App\Models\Util\PadTables;
 use App\Models\Util\Status;
@@ -30,32 +32,31 @@ class EnsinoProjetoController extends Controller
                     ->orderBy('cod_atividade')
                     ->get();
         
-        
-        $niveis = Nivel::listNivel();
-        $modalidades = Modalidade::listModalidade();
+        $naturezas = Natureza::listNatureza();
+        $funcoes = Funcao::listFuncaoProjeto();
         $divs = PadTables::tablesEnsino($user_pad_id);
 
         return view('pad.components.templates.dimensao.ensino.projeto.form_create', [
             'atividades' => $atividades,
 
             'divs' => $divs,
-            'niveis' => $niveis,
-            'modalidades' => $modalidades,
+            'funcoes' => $funcoes,
+            'naturezas' => $naturezas,
             'user_pad_id' => $user_pad_id,
             'index_menu' => MenuItemsTeacher::PAD,
         ]);
     }
 
-    public function edit($id) {
-
+    public function edit($id)
+    {
         $model = EnsinoProjeto::find($id);
-        $niveis = Nivel::listNivel();
-        $modalidades = Modalidade::listModalidade();
+        $naturezas = Natureza::listNatureza();
+        $funcoes = Funcao::listFuncaoProjeto();
         
         return view('pad.components.templates.dimensao.ensino.projeto.form_update', [
             'model' => $model,
-            'niveis' => $niveis,
-            'modalidades' => $modalidades
+            'funcoes' => $funcoes,
+            'naturezas' => $naturezas,
         ]);
     }
 

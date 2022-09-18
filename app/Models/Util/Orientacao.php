@@ -2,7 +2,6 @@
 
 namespace App\Models\Util;
 
-
 class Orientacao
 {
     const GRUPO = 1;

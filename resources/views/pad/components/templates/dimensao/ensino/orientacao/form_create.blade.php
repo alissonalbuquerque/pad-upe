@@ -60,7 +60,7 @@
                         ])
                     </div>
 
-                    <div class="mb-3 col-sm-6">
+                    <div class="mb-3 col-sm-4">
                         <label class="form-label" for="nivel">Nível</label>
                         <select class="form-select @error('nivel') is-invalid @enderror ajax-errors" name="nivel" id="nivel" value="{{ old('nivel') }}">
                             <option value="0">Selecione um Nível</option>
@@ -78,7 +78,7 @@
                         ])
                     </div>
 
-                    <div class="mb-3 col-sm-6">
+                    <div class="mb-3 col-sm-4">
                         <label class="form-label" for="type_orientacao">Orientação</label>
                         <select class="form-select @error('type_orientacao') is-invalid @enderror ajax-errors" name="type_orientacao" id="type_orientacao" value="{{ old('type_orientacao') }}">
                             <option value="0">Selecione uma Modalidade</option>
@@ -95,6 +95,16 @@
                             'field' => 'type_orientacao_create'
                         ])
                     </div>
+
+                    <div class="mb-3 col-sm-4">
+                        <label class="form-label" for="numero_orientandos">Qtd. Participantes</label>
+                        <input class="form-control @error('numero_orientandos') is-invalid @enderror ajax-errors" type="number" name="numero_orientandos" id="numero_orientandos" value="{{ old('numero_orientandos') }}">
+                        
+                        @include('components.divs.errors', [
+                            'field' => 'numero_orientandos_create'
+                        ])
+                    </div>
+                    
                     
                     <div class="mb-3 col-sm-8">
                         <label class="form-label" for="cod_dimensao">Resolução</label>
@@ -113,7 +123,7 @@
                             'field' => 'cod_dimensao_create'
                         ])
                     </div>
-
+                    
                     <div class="mb-3 col-sm-4">
                         <label class="form-label" for="ch_semanal">CH. Semanal</label>
                         <input class="form-control @error('ch_semanal') is-invalid @enderror ajax-errors" type="number" name="ch_semanal" id="ch_semanal" value="{{ old('ch_semanal') }}">
@@ -122,6 +132,7 @@
                             'field' => 'ch_semanal_create'
                         ])
                     </div>
+                    
                 </div>
 
                 <div class="mt-1 text-end">
@@ -158,7 +169,7 @@
                         <td>{{ $ensinoOrientacao->curso }}</td>
                         <td>{{ $ensinoOrientacao->nivelAsString() }}</td>
                         <td>{{ $ensinoOrientacao->orientacaoAsString() }}</td>
-                        <td>{{ $ensinoOrientacao->ch_semanal }}</td>
+                        <td>{{ $ensinoOrientacao->chSemanal() }}</td>
                         <td>
                             @include('components.buttons.btn-edit-task', [
                                 'btn_class' => 'btn-edit_ensino_orientacao',
@@ -214,4 +225,7 @@
         'route' => route('view_ensino_orientacao_resolucao'),
         'btn_class' => 'show_resolucao',
     ])
+
+    @include('pad.components.templates.dimensao.ensino.orientacao.numero_orientandos', ['form_id' => 'ensino_orientacao-form'])
+
 @endsection
