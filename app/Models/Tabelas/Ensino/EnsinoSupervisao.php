@@ -16,7 +16,7 @@ class EnsinoSupervisao extends Model
      * 
      * @var string
      */
-    protected $table = 'ensino_orientacoes';
+    protected $table = 'ensino_supervisao';
 
     /**
      * The attributes that are mass assignable.
@@ -24,6 +24,24 @@ class EnsinoSupervisao extends Model
      * @var array
      */
     protected $fillable = ['orientacao_id', 'cod_dimensao', 'user_pad_id', 'dimensao', 'cod_atividade', 'atividade', 'curso', 'nivel', 'type_supervisao', 'numero_orientandos', 'ch_semanal'];
+
+    /** @return string */
+    public function nivelAsString()
+    {
+        return Nivel::listNivel($this->nivel);
+    }
+
+    /** @return string */
+    public function supervisaoAsString()
+    {
+        return Supervisao::listSupervisao($this->type_supervisao);
+    }
+
+    /** @return string */
+    public function chSemanal()
+    {
+        return sprintf('%s (x%s)', $this->ch_semanal, $this->numero_orientandos);
+    }
 
     /**
      * @return array
@@ -35,8 +53,8 @@ class EnsinoSupervisao extends Model
             'atividade' => ['required', 'string', 'max:255'],
             'curso' => ['required', 'string', 'max:255'],
             'nivel' => ['required', 'integer', Rule::in(array_keys(Nivel::listNivel()))],
-            'type_orientacao' => ['required', 'integer', Rule::in(array_keys(Supervisao::listSupervisao()))],
-            'numero_orientandos' => ['integer'],
+            'type_supervisao' => ['required', 'integer', Rule::in(array_keys(Supervisao::listSupervisao()))],
+            'numero_orientandos' => ['required', 'integer', 'min:1'],
             'cod_dimensao' => ['required', 'string', Rule::in(array_keys(self::listPlanejamentos()))],
         ];
     }
@@ -67,7 +85,9 @@ class EnsinoSupervisao extends Model
             'type_supervisao.integer' => 'O campo "Supervisão" deve cónter um inteiro!',
             
             //'numero_orientandos'
-            'numero_orientandos' => 'O campo "Número de Orientandos" deve cónter um inteiro!',
+            'numero_orientandos.required' => 'O campo "Qtd. Participantes" é obrigatório!',
+            'numero_orientandos.integer' => 'O campo "Qtd. Participantes" deve cónter um inteiro!',
+            'numero_orientandos.min' => 'O valor minímo de "Qtd. Participantes" é 1 (um) participante',
 
             //'cod_dimensao'
             'cod_dimensao.required' => 'O campo "Resolução" é obrigatório',

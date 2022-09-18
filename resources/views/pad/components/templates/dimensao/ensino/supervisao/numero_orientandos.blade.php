@@ -1,19 +1,19 @@
 {{--
-    @include('pad.components.templates.dimensao.ensino.orientacao.numero_orientandos', ['form_id' => ''])
+    @include('pad.components.templates.dimensao.ensino.supervisao.numero_orientandos', ['form_id' => ''])
 --}}
 
 @php
-    use App\Models\Util\Orientacao;
+    use App\Models\Util\Supervisao;
 
-    $orientacao_grupo = Orientacao::GRUPO;
+    $supervisao_grupo = Supervisao::GRUPO;
 @endphp
 
 <script type="text/javascript">
 
     $(document).ready(function() {
 
-        $('#{{$form_id}} #type_orientacao').on('change', function() {
-            if($(this).val() == {{$orientacao_grupo}}) {
+        $('#{{$form_id}} #type_supervisao').on('change', function() {
+            if($(this).val() == {{$supervisao_grupo}}) {
                 $('#{{$form_id}} #numero_orientandos').show()
                 $("#{{$form_id}} label[for='numero_orientandos']").show()
             } else {
