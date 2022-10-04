@@ -32,6 +32,7 @@ class PlanejamentoSeeder extends Seeder
             ['cod_dimensao' => 'E-15', 'dimensao' => Planejamento::ENSINO, 'descricao' => 'Coordenação de estágio de curso de graduação', 'ch_semanal' => 2, 'ch_maxima' => null],
             ['cod_dimensao' => 'E-16', 'dimensao' => Planejamento::ENSINO, 'descricao' => 'Atendimento ao estudante', 'ch_semanal' => 1, 'ch_maxima' => 4],
             ['cod_dimensao' => 'E-17', 'dimensao' => Planejamento::ENSINO, 'descricao' => 'Preceptoria/Tutoria de residência de estudantes', 'ch_semanal' => 2, 'ch_maxima' => 8],
+            ['cod_dimensao' => 'E-18', 'dimensao' => Planejamento::ENSINO, 'descricao' => 'Atividades fora dos padrões de preenchimento apresentados anteriormente', 'ch_semanal' => null, 'ch_maxima' => null],
         ];
 
         $list_pesquisa = [
@@ -39,11 +40,13 @@ class PlanejamentoSeeder extends Seeder
             ['cod_dimensao' => 'P-2', 'dimensao' => Planejamento::PESQUISA, 'descricao' => 'Coordenação e/ou participação em Projetos de Pesquisa cadastrados no SISPG', 'ch_semanal' => null, 'ch_maxima' => 12],
             ['cod_dimensao' => 'P-3', 'dimensao' => Planejamento::PESQUISA, 'descricao' => 'Orientação de Iniciação Científica oriunda de projeto/subprojeto cadastrado no SISPG', 'ch_semanal' => 2, 'ch_maxima' => 6],
             ['cod_dimensao' => 'P-4', 'dimensao' => Planejamento::PESQUISA, 'descricao' => 'Co-orientação de Iniciação Científica oriunda de projeto/subprojeto cadastrado no SISPG', 'ch_semanal' => 1, 'ch_maxima' => 3],
+            ['cod_dimensao' => 'P-5', 'dimensao' => Planejamento::PESQUISA, 'descricao' => 'Atividades fora dos padrões de preenchimento apresentados anteriormente', 'ch_semanal' => null, 'ch_maxima' => null],
         ];
 
         $list_extensao = [
             ['cod_dimensao' => 'X-1', 'dimensao' => Planejamento::EXTENSAO, 'descricao' => 'Coordenação e/ou participação em atividades de Extensão homologadas na PROEC', 'ch_semanal' => null, 'ch_maxima' => 12],
-            ['cod_dimensao' => 'X-2', 'dimensao' => Planejamento::EXTENSAO, 'descricao' => 'Orientação ou acompanhamento de estudantes em atividades de extensão  homologados na PROEC', 'ch_semanal' => 2, 'ch_maxima' => 6],
+            ['cod_dimensao' => 'X-2', 'dimensao' => Planejamento::EXTENSAO, 'descricao' => 'Orientação ou acompanhamento de estudantes em atividades de extensão homologados na PROEC', 'ch_semanal' => 2, 'ch_maxima' => 6],
+            ['cod_dimensao' => 'X-3', 'dimensao' => Planejamento::EXTENSAO, 'descricao' => 'Atividades fora dos padrões de preenchimento apresentados anteriormente', 'ch_semanal' => null, 'ch_maxima' => null],
         ];
 
         $list_gestao = [
@@ -53,6 +56,7 @@ class PlanejamentoSeeder extends Seeder
             ['cod_dimensao' => 'G-4', 'dimensao' => Planejamento::GESTAO, 'descricao' => 'Participação como membro nas câmaras consultivas dos Conselhos Superiores', 'ch_semanal' => 1, 'ch_maxima' => null],
             ['cod_dimensao' => 'G-5', 'dimensao' => Planejamento::GESTAO, 'descricao' => 'Coordenação de laboratórios didáticos, de informática, de ensino ou pesquisa', 'ch_semanal' => 2, 'ch_maxima' => null],
             ['cod_dimensao' => 'G-6', 'dimensao' => Planejamento::GESTAO, 'descricao' => 'Coordenação de Programa Institucional', 'ch_semanal' => 2, 'ch_maxima' => null],
+            ['cod_dimensao' => 'G-7', 'dimensao' => Planejamento::GESTAO, 'descricao' => 'Atividades fora dos padrões de preenchimento apresentados anteriormente', 'ch_semanal' => null, 'ch_maxima' => null],
         ];
 
         foreach($list_ensino as $ensino) {
