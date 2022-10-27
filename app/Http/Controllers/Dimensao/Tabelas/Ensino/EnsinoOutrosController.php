@@ -32,7 +32,6 @@ class EnsinoOutrosController extends Controller
 
         return view('pad.components.templates.dimensao.ensino.outros.form_create', [
             'atividades' => $atividades,
-
             'divs' => $divs,
 
             'user_pad_id' => $user_pad_id,
