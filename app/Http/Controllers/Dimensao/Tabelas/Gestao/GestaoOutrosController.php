@@ -3,13 +3,11 @@
 namespace App\Http\Controllers\Dimensao\Tabelas\Gestao;
 
 use App\Http\Controllers\Controller;
-use App\Models\Tabelas\Constants;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Avaliacao;
 use App\Models\Planejamento;
-use App\Models\Tabelas\Gestao\GestaoMembroCamaras;
 use App\Models\Tabelas\Gestao\GestaoOutros;
 use App\Models\Util\Dimensao;
 use App\Models\Util\Avaliacao as UtilAvaliacao;
@@ -50,44 +48,44 @@ class GestaoOutrosController extends Controller
 
         $validator = Validator::make(
             $request->all(), 
-            array_merge(GestaoMembroCamaras::rules(), $cargaHoraria->rules()),
-            array_merge(GestaoMembroCamaras::messages(), $cargaHoraria->messages())
+            array_merge(GestaoOutros::rules(), $cargaHoraria->rules()),
+            array_merge(GestaoOutros::messages(), $cargaHoraria->messages())
         );
 
         if($validator->fails())
         {   
             return redirect()
-                        ->route('gestao_membro_camaras_index', ['user_pad_id' => $request->user_pad_id,])
+                        ->route('gestao_outros_index', ['user_pad_id' => $request->user_pad_id,])
                         ->withErrors($validator)
                         ->withInput();
         }
 
         $user_pad_id = $request->user_pad_id;
 
-        $model = new GestaoMembroCamaras($request->all());
+        $model = new GestaoOutros($request->all());
         $model->dimensao = Dimensao::GESTAO;
 
         if($model->save())
         {
             $avaliacao = new Avaliacao([
                 'tarefa_id' => $model->id,
-                'type' => UtilAvaliacao::GESTAO_MEMBRO_CAMARAS,
+                'type' => UtilAvaliacao::GESTAO_OUTROS,
                 'status' => Status::PENDENTE,
             ]);
 
             if(!$avaliacao->save())
             {
                 return redirect()
-                    ->route('gestao_membro_camaras_index', ['user_pad_id' => $user_pad_id])
+                    ->route('gestao_outros_index', ['user_pad_id' => $user_pad_id])
                     ->with('fail', 'Erro ao cadastrar Atividade!');
             }
 
             return redirect()
-                    ->route('gestao_membro_camaras_index', ['user_pad_id' => $user_pad_id])
+                    ->route('gestao_outros_index', ['user_pad_id' => $user_pad_id])
                     ->with('success', 'Cadastro realizado com sucesso!');
         } else {
             return redirect()
-                    ->route('gestao_membro_camaras_index', ['user_pad_id' => $user_pad_id])
+                    ->route('gestao_outros_index', ['user_pad_id' => $user_pad_id])
                     ->with('fail', 'Erro ao cadastrar Atividade!');
         }
     }
@@ -103,11 +101,11 @@ class GestaoOutrosController extends Controller
 
         $validator = Validator::make(
             $request->all(), 
-            array_merge(GestaoMembroCamaras::rules(), $cargaHoraria->rules()),
-            array_merge(GestaoMembroCamaras::messages(), $cargaHoraria->messages())
+            array_merge(GestaoOutros::rules(), $cargaHoraria->rules()),
+            array_merge(GestaoOutros::messages(), $cargaHoraria->messages())
         );
 
-        $model = GestaoMembroCamaras::find($id);
+        $model = GestaoOutros::find($id);
         $model->fill($request->all());
 
         $user_pad_id = $model->user_pad_id;
@@ -115,31 +113,31 @@ class GestaoOutrosController extends Controller
         if($validator->fails())
         {   
             return redirect()
-                        ->route('gestao_membro_camaras_index', ['user_pad_id' => $user_pad_id])
+                        ->route('gestao_outros_index', ['user_pad_id' => $user_pad_id])
                         ->with('fail', 'Erro ao atualizar Atividade!');
         }
 
         if($model->save()) {
-            return redirect()->route('gestao_membro_camaras_index', ['user_pad_id' => $user_pad_id])
+            return redirect()->route('gestao_outros_index', ['user_pad_id' => $user_pad_id])
                     ->with('success', 'Atualizado com sucesso!');
         } else {
-            return redirect()->route('gestao_membro_camaras_index', ['user_pad_id' => $user_pad_id])
+            return redirect()->route('gestao_outros_index', ['user_pad_id' => $user_pad_id])
                     ->with('fail', 'Erro ao atualizar a Atividade!');
         }
     }
 
     public function edit($id)
     {
-        $model = GestaoMembroCamaras::find($id);
+        $model = GestaoOutros::find($id);
         
-        return view('pad.components.templates.dimensao.gestao.membro_camaras.form_update', [
+        return view('pad.components.templates.dimensao.gestao.outros.form_update', [
             'model' => $model,
         ]);
     }
 
     public function viewResolucao()
     {
-        $resolucoes = GestaoMembroCamaras::getPlanejamentos();
+        $resolucoes = GestaoOutros::getPlanejamentos();
         return view('pad.components.templates.resolucao', [
             'resolucoes' => $resolucoes
         ]);
@@ -147,24 +145,24 @@ class GestaoOutrosController extends Controller
 
     public function delete($id)
     {
-        $model = GestaoMembroCamaras::find($id);
+        $model = GestaoOutros::find($id);
         
         $user_pad_id = $model->user_pad_id;
 
         if($model->delete()) {
             return redirect()
-                    ->route('gestao_membro_camaras_index', ['user_pad_id' => $user_pad_id])
+                    ->route('gestao_outros_index', ['user_pad_id' => $user_pad_id])
                     ->with('success', 'Atividade removida com Sucesso!');
         } else {
             return redirect()
-                    ->route('gestao_membro_camaras_index', ['user_pad_id' => $user_pad_id])
+                    ->route('gestao_outros_index', ['user_pad_id' => $user_pad_id])
                     ->with('fail', 'Erro ao remover atividade!');
         }
     }
     
     public function search($user_pad_id = null)
     {
-        $query = GestaoMembroCamaras::initQuery();
+        $query = GestaoOutros::initQuery();
 
         if($user_pad_id) {
             $query->whereUserPad($user_pad_id)->orderBy('cod_atividade');
@@ -184,8 +182,8 @@ class GestaoOutrosController extends Controller
 
         $validator = Validator::make(
             $request->all(), 
-            array_merge(GestaoMembroCamaras::rules(), $cargaHoraria->rules()),
-            array_merge(GestaoMembroCamaras::messages(), $cargaHoraria->messages())
+            array_merge(GestaoOutros::rules(), $cargaHoraria->rules()),
+            array_merge(GestaoOutros::messages(), $cargaHoraria->messages())
         );
 
         if($validator->passes()) {

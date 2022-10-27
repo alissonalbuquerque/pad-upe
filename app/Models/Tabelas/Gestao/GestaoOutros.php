@@ -20,7 +20,7 @@ class GestaoOutros extends Model
      * 
      * @var array
      */
-    protected $fillable = ['orientacao_id', 'user_pad_id', 'cod_dimensao', 'dimensao', 'cod_atividade', 'atividade', 'descricao', 'ch_semanal'];
+    protected $fillable = ['orientacao_id', 'user_pad_id', 'dimensao', 'cod_atividade', 'atividade', 'descricao', 'ch_semanal'];
 
     public static function rules()
     {

@@ -20,7 +20,6 @@ class CreateGestaoOutroTable extends Migration
             $table->string('cod_atividade')->notNull();
             $table->string('atividade')->notNull();
             $table->text('descricao')->notNull();
-            $table->string('cod_dimensao')->notNull();
             $table->integer('ch_semanal')->notNull();
             $table->timestamps();
             $table->softDeletes();
