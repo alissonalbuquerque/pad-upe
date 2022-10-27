@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Dimensao\Tabelas\Pesquisa;
 use App\Http\Controllers\Controller;
 use App\Models\Avaliacao;
 use App\Models\Planejamento;
-use App\Models\Tabelas\Ensino\EnsinoOutros;
 use App\Models\Tabelas\Pesquisa\PesquisaOutros;
 use App\Models\Util\Avaliacao as UtilAvaliacao;
 use App\Models\Util\CargaHorariaValidation;
@@ -41,7 +40,7 @@ class PesquisaOutrosController extends Controller
     
     public function edit($id) {
 
-        $model = EnsinoOutros::find($id);
+        $model = PesquisaOutros::find($id);
         
         return view('pad.components.templates.dimensao.pesquisa.outros.form_update', [
             'model' => $model,
@@ -84,14 +83,14 @@ class PesquisaOutrosController extends Controller
 
         $user_pad_id = $request->user_pad_id;
 
-        $model = new EnsinoOutros($request->all());
+        $model = new PesquisaOutros($request->all());
         $model->dimensao = Dimensao::PESQUISA;
 
         if($model->save())
         {
             $avaliacao = new Avaliacao([
                 'tarefa_id' => $model->id,
-                'type' => UtilAvaliacao::ENSINO_OUTROS,
+                'type' => UtilAvaliacao::PESQUISA_OUTROS,
                 'status' => Status::PENDENTE,
             ]);
 
@@ -136,17 +135,17 @@ class PesquisaOutrosController extends Controller
         if($validator->fails())
         {   
             return redirect()
-                        ->route('ensino_outros_index', ['user_pad_id' => $user_pad_id])
+                        ->route('pesquisa_outros_index', ['user_pad_id' => $user_pad_id])
                         ->with('fail', 'Erro ao atualizar Atividade!');
         }
 
         if($model->save()) {
             return redirect()
-                    ->route('ensino_outros_index', ['user_pad_id' => $user_pad_id])
+                    ->route('pesquisa_outros_index', ['user_pad_id' => $user_pad_id])
                     ->with('success', 'Atualizado com sucesso!');
         } else {
             return redirect()
-                    ->route('ensino_outros_index', ['user_pad_id' => $user_pad_id])
+                    ->route('pesquisa_outros_index', ['user_pad_id' => $user_pad_id])
                     ->with('fail', 'Erro ao atualizar a Atividade!');
         }
     }
@@ -159,16 +158,17 @@ class PesquisaOutrosController extends Controller
 
         if($model->delete()) {
             return redirect()
-                    ->route('ensino_outros_index', ['user_pad_id' => $user_pad_id])
+                    ->route('pesquisa_outros_index', ['user_pad_id' => $user_pad_id])
                     ->with('success', 'Atividade removida com Sucesso!');
         } else {
             return redirect()
-                    ->route('ensino_outros_index', ['user_pad_id' => $user_pad_id])
+                    ->route('pesquisa_outros_index', ['user_pad_id' => $user_pad_id])
                     ->with('fail', 'Erro ao remover atividade!');
         }
     }
 
-    public function search($user_pad_id = null) {
+    public function search($user_pad_id = null)
+    {
 
         $query = PesquisaOutros::initQuery();
 
