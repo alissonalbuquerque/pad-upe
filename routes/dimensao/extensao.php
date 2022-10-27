@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Dimensao\Tabelas\Extensao\ExtensaoCoordenacaoController;
 use App\Http\Controllers\Dimensao\Tabelas\Extensao\ExtensaoOrientacaoController;
+use App\Http\Controllers\Dimensao\Tabelas\Extensao\ExtensaoOutrosController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,4 +41,18 @@ Route::prefix('/pad/dimensao/extensao/orientacao')->group(function () {
     Route::get('/edit/{id?}', [ExtensaoOrientacaoController::class, 'edit'])->name('view_extensao_orientacao_update');
     Route::get('/search/{user_pad_id?}', [ExtensaoOrientacaoController::class, 'search'])->name('extensao_orientacao_search');
     Route::get('/resolucao', [ExtensaoOrientacaoController::class, 'viewResolucao'])->name('view_extensao_orientacao_resolucao');
+});
+
+
+/** ExtensaoOutrosController */
+Route::prefix('/pad/dimensao/extensao/outros')->group(function () {
+    Route::post('/create', [ExtensaoOutrosController::class, 'create'])->name('extensao_outros_create');
+    Route::post('/update/{id}', [ExtensaoOutrosController::class, 'update'])->name('extensao_outros_update');
+    Route::post('/validate', [ExtensaoOutrosController::class, 'ajaxValidation'])->name('extensao_outros_validate');
+    Route::delete('/delete/{id}', [ExtensaoOutrosController::class, 'delete'])->name('extensao_outros_delete');
+
+    Route::get('/index/{user_pad_id}', [ExtensaoOutrosController::class, 'index'])->name('extensao_outros_index');
+    Route::get('/edit/{id?}', [ExtensaoOutrosController::class, 'edit'])->name('extensao_outros_update');
+    Route::get('/search/{user_pad_id?}', [ExtensaoOutrosController::class, 'search'])->name('extensao_outros_search');
+    Route::get('/resolucao', [ExtensaoOutrosController::class, 'viewResolucao'])->name('extensao_outros_resolucao');
 });

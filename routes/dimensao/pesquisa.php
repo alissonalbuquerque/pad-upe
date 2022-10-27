@@ -3,6 +3,7 @@
 use App\Http\Controllers\Dimensao\Tabelas\Pesquisa\PesquisaCoordenacaoController;
 use App\Http\Controllers\Dimensao\Tabelas\Pesquisa\PesquisaLiderancaController;
 use App\Http\Controllers\Dimensao\Tabelas\Pesquisa\PesquisaOrientacaoController;
+use App\Http\Controllers\Dimensao\Tabelas\Pesquisa\PesquisaOutrosController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -54,4 +55,17 @@ Route::prefix('/pad/dimensao/pesquisa/orientacao')->group(function () {
     Route::get('/edit/{id?}', [PesquisaOrientacaoController::class, 'edit'])->name('view_pesquisa_orientacao_update');
     Route::get('/search/{user_pad_id?}', [PesquisaOrientacaoController::class, 'search'])->name('pesquisa_orientacao_search');
     Route::get('/resolucao', [PesquisaOrientacaoController::class, 'viewResolucao'])->name('view_pesquisa_orientacao_resolucao');
+});
+
+/** PesquisaOutrosController */
+Route::prefix('/pad/dimensao/pesquisa/outros')->group(function () {
+    Route::post('/create', [PesquisaOutrosController::class, 'create'])->name('pesquisa_outros_create');
+    Route::post('/update/{id}', [PesquisaOutrosController::class, 'update'])->name('pesquisa_outros_update');
+    Route::post('/validate', [PesquisaOutrosController::class, 'ajaxValidation'])->name('pesquisa_outros_validate');
+    Route::delete('/delete/{id}', [PesquisaOutrosController::class, 'delete'])->name('pesquisa_outros_delete');
+
+    Route::get('/index/{user_pad_id}', [PesquisaOutrosController::class, 'index'])->name('pesquisa_outros_index');
+    Route::get('/edit/{id?}', [PesquisaOutrosController::class, 'edit'])->name('view_pesquisa_outros_update');
+    Route::get('/search/{user_pad_id?}', [PesquisaOutrosController::class, 'search'])->name('pesquisa_outros_search');
+    Route::get('/resolucao', [PesquisaOutrosController::class, 'viewResolucao'])->name('view_pesquisa_outros_resolucao');
 });

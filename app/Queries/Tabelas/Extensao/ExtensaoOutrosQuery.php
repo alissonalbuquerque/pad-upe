@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Queries\Tabelas\Pesquisa;
+namespace App\Queries\Tabelas\Extensao;
 
 use App\Models\Tabelas\Extensao\ExtensaoOutros;
 use App\Queries\CustomQuery;

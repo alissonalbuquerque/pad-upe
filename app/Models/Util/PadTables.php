@@ -52,6 +52,12 @@ class PadTables {
                 'name' => '8. ENSINO (COORDENAÇÃO OU MEMBRO DE NÚCLEO DOCENTE ESTRUTURANTE OU NÚCLEO DOCENTE ESTRUTURANTE ASSISTENCIAL)',
                 'route' => route('ensino_membro_docente_index', ['user_pad_id' => $user_pad_id])
             ],
+            [
+                'id' => 'ensino_outros',
+                'name' => '9. ENSINO (OUTROS)',
+                'route' => route('ensino_outros_index', ['user_pad_id' => $user_pad_id])
+
+            ],
         ];
     }
 
@@ -72,6 +78,11 @@ class PadTables {
                 'name' => '3. PESQUISA (ORIENTAÇÃO DE INICIAÇÃO CIENTÍFICA DE PROJETOS VINCULADOS CADASTRADOS NO SISPG)',
                 'route' => route('pesquisa_orientacao_index', ['user_pad_id' => $user_pad_id])
             ],
+            [
+                'id' => 'pesquisa_outros',
+                'name' => '4. PESQUISA (OUTROS)',
+                'route' => route('pesquisa_outros_index', ['user_pad_id' => $user_pad_id])
+            ],
         ];
     }
 
@@ -86,6 +97,11 @@ class PadTables {
                 'id' => 'extensao_orientacao',
                 'name' => '2. EXTENSÃO (ORIENTAÇÃO OU ACOMPANHAMENTO DE ESTUDANTES EM ATIVIDADES DE EXTENSÃO HOMOLOGADAS PELA PROEC)',
                 'route' => route('extensao_orientacao_index', ['user_pad_id' => $user_pad_id])
+            ],
+            [
+                'id' => 'extensao_outros',
+                'name' => '3. EXTENSÃO (OUTROS)',
+                'route' => route('extensao_outros_index', ['user_pad_id' => $user_pad_id])
             ],
         ];
     }
@@ -126,6 +142,11 @@ class PadTables {
                 'id' => 'gestao_coordenacao_programa_institucional',
                 'name' => '7. GESTÃO (COORDENAÇÃO DE PROGRAMA INSTITUCIONAL)',
                 'route' => route('gestao_coordenacao_programa_institucional_index', ['user_pad_id' => $user_pad_id])
+            ],
+            [
+                'id' => 'gestao_outros',
+                'name' => '8. GESTÃO (OUTROS)',
+                'route' => route('gestao_outros_index', ['user_pad_id' => $user_pad_id])
             ],
         ];
     }

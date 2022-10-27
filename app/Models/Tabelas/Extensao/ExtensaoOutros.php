@@ -3,7 +3,7 @@
 namespace App\Models\Tabelas\Extensao;
 
 use App\Models\Planejamento;
-use App\Queries\Tabelas\Pesquisa\ExtensaoOutrosQuery;
+use App\Queries\Tabelas\Extensao\ExtensaoOutrosQuery;
 use Illuminate\Database\Eloquent\Model;
 
 class ExtensaoOutros extends Model
@@ -20,7 +20,7 @@ class ExtensaoOutros extends Model
      * 
      * @var array
      */
-    protected $fillable = ['orientacao_id', 'user_pad_id', 'dimensao', 'cod_atividade', 'atividade', 'descricao', 'ch_semanal'];
+    protected $fillable = ['orientacao_id', 'user_pad_id', 'dimensao', 'cod_dimensao', 'cod_atividade', 'atividade', 'descricao', 'ch_semanal'];
 
     public static function rules()
     {

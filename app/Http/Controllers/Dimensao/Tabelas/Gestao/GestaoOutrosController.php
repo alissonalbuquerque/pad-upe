@@ -3,32 +3,34 @@
 namespace App\Http\Controllers\Dimensao\Tabelas\Gestao;
 
 use App\Http\Controllers\Controller;
+use App\Models\Tabelas\Constants;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Avaliacao;
 use App\Models\Planejamento;
-use App\Models\Tabelas\Gestao\GestaoCoordenacaoProgramaInstitucional;
+use App\Models\Tabelas\Gestao\GestaoMembroCamaras;
+use App\Models\Tabelas\Gestao\GestaoOutros;
 use App\Models\Util\Dimensao;
 use App\Models\Util\Avaliacao as UtilAvaliacao;
 use App\Models\Util\CargaHorariaValidation;
 use App\Models\Util\MenuItemsTeacher;
 use App\Models\Util\PadTables;
 use App\Models\Util\Status;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Validator;
 
-class GestaoCoordenacaoProgramaInstitucionalController extends Controller
+class GestaoOutrosController extends Controller
 {
     public function index($user_pad_id)
     {
         $atividades = 
-                GestaoCoordenacaoProgramaInstitucional::initQuery()
+                GestaoOutros::initQuery()
                     ->whereUserPad($user_pad_id)
                     ->orderBy('cod_atividade')
                     ->get();
 
         $divs = PadTables::tablesGestao($user_pad_id);
 
-        return view('pad.components.templates.dimensao.gestao.coordenacao_programa_institucional.form_create', [
+        return view('pad.components.templates.dimensao.gestao.outros.form_create', [
             'atividades' => $atividades,
 
             'divs' => $divs,
@@ -39,7 +41,7 @@ class GestaoCoordenacaoProgramaInstitucionalController extends Controller
     
     public function create(Request $request)
     {
-        $planejamento = Planejamento::initQuery()->whereCodDimensao('G-6')->first();
+        $planejamento = Planejamento::initQuery()->whereCodDimensao('G-4')->first();
         
         $ch_min = $planejamento->ch_semanal;
         $ch_max = $planejamento->ch_maxima;
@@ -48,51 +50,51 @@ class GestaoCoordenacaoProgramaInstitucionalController extends Controller
 
         $validator = Validator::make(
             $request->all(), 
-            array_merge(GestaoCoordenacaoProgramaInstitucional::rules(), $cargaHoraria->rules()),
-            array_merge(GestaoCoordenacaoProgramaInstitucional::messages(), $cargaHoraria->messages())
+            array_merge(GestaoMembroCamaras::rules(), $cargaHoraria->rules()),
+            array_merge(GestaoMembroCamaras::messages(), $cargaHoraria->messages())
         );
 
         if($validator->fails())
         {   
             return redirect()
-                        ->route('gestao_coordenacao_programa_institucional_index', ['user_pad_id' => $request->user_pad_id,])
+                        ->route('gestao_membro_camaras_index', ['user_pad_id' => $request->user_pad_id,])
                         ->withErrors($validator)
                         ->withInput();
         }
 
         $user_pad_id = $request->user_pad_id;
 
-        $model = new GestaoCoordenacaoProgramaInstitucional($request->all());
+        $model = new GestaoMembroCamaras($request->all());
         $model->dimensao = Dimensao::GESTAO;
 
         if($model->save())
         {
             $avaliacao = new Avaliacao([
                 'tarefa_id' => $model->id,
-                'type' => UtilAvaliacao::GESTAO_COORDENACAO_PROGRAMA_INSTITUCIONAL,
+                'type' => UtilAvaliacao::GESTAO_MEMBRO_CAMARAS,
                 'status' => Status::PENDENTE,
             ]);
 
             if(!$avaliacao->save())
             {
                 return redirect()
-                    ->route('gestao_coordenacao_programa_institucional_index', ['user_pad_id' => $user_pad_id])
+                    ->route('gestao_membro_camaras_index', ['user_pad_id' => $user_pad_id])
                     ->with('fail', 'Erro ao cadastrar Atividade!');
             }
 
             return redirect()
-                    ->route('gestao_coordenacao_programa_institucional_index', ['user_pad_id' => $user_pad_id])
+                    ->route('gestao_membro_camaras_index', ['user_pad_id' => $user_pad_id])
                     ->with('success', 'Cadastro realizado com sucesso!');
         } else {
             return redirect()
-                    ->route('gestao_coordenacao_programa_institucional_index', ['user_pad_id' => $user_pad_id])
+                    ->route('gestao_membro_camaras_index', ['user_pad_id' => $user_pad_id])
                     ->with('fail', 'Erro ao cadastrar Atividade!');
         }
     }
     
     public function update($id, Request $request)
     {
-        $planejamento = Planejamento::initQuery()->whereCodDimensao('G-6')->first();
+        $planejamento = Planejamento::initQuery()->whereCodDimensao('G-4')->first();
         
         $ch_min = $planejamento->ch_semanal;
         $ch_max = $planejamento->ch_maxima;
@@ -101,11 +103,11 @@ class GestaoCoordenacaoProgramaInstitucionalController extends Controller
 
         $validator = Validator::make(
             $request->all(), 
-            array_merge(GestaoCoordenacaoProgramaInstitucional::rules(), $cargaHoraria->rules()),
-            array_merge(GestaoCoordenacaoProgramaInstitucional::messages(), $cargaHoraria->messages())
+            array_merge(GestaoMembroCamaras::rules(), $cargaHoraria->rules()),
+            array_merge(GestaoMembroCamaras::messages(), $cargaHoraria->messages())
         );
 
-        $model = GestaoCoordenacaoProgramaInstitucional::find($id);
+        $model = GestaoMembroCamaras::find($id);
         $model->fill($request->all());
 
         $user_pad_id = $model->user_pad_id;
@@ -113,31 +115,31 @@ class GestaoCoordenacaoProgramaInstitucionalController extends Controller
         if($validator->fails())
         {   
             return redirect()
-                        ->route('gestao_coordenacao_programa_institucional_index', ['user_pad_id' => $user_pad_id])
+                        ->route('gestao_membro_camaras_index', ['user_pad_id' => $user_pad_id])
                         ->with('fail', 'Erro ao atualizar Atividade!');
         }
 
         if($model->save()) {
-            return redirect()->route('gestao_coordenacao_programa_institucional_index', ['user_pad_id' => $user_pad_id])
+            return redirect()->route('gestao_membro_camaras_index', ['user_pad_id' => $user_pad_id])
                     ->with('success', 'Atualizado com sucesso!');
         } else {
-            return redirect()->route('gestao_coordenacao_programa_institucional_index', ['user_pad_id' => $user_pad_id])
+            return redirect()->route('gestao_membro_camaras_index', ['user_pad_id' => $user_pad_id])
                     ->with('fail', 'Erro ao atualizar a Atividade!');
         }
     }
 
     public function edit($id)
     {
-        $model = GestaoCoordenacaoProgramaInstitucional::find($id);
+        $model = GestaoMembroCamaras::find($id);
         
-        return view('pad.components.templates.dimensao.gestao.coordenacao_programa_institucional.form_update', [
+        return view('pad.components.templates.dimensao.gestao.membro_camaras.form_update', [
             'model' => $model,
         ]);
     }
 
     public function viewResolucao()
     {
-        $resolucoes = GestaoCoordenacaoProgramaInstitucional::getPlanejamentos();
+        $resolucoes = GestaoMembroCamaras::getPlanejamentos();
         return view('pad.components.templates.resolucao', [
             'resolucoes' => $resolucoes
         ]);
@@ -145,24 +147,24 @@ class GestaoCoordenacaoProgramaInstitucionalController extends Controller
 
     public function delete($id)
     {
-        $model = GestaoCoordenacaoProgramaInstitucional::find($id);
+        $model = GestaoMembroCamaras::find($id);
         
         $user_pad_id = $model->user_pad_id;
 
         if($model->delete()) {
             return redirect()
-                    ->route('gestao_coordenacao_programa_institucional_index', ['user_pad_id' => $user_pad_id])
+                    ->route('gestao_membro_camaras_index', ['user_pad_id' => $user_pad_id])
                     ->with('success', 'Atividade removida com Sucesso!');
         } else {
             return redirect()
-                    ->route('gestao_coordenacao_programa_institucional_index', ['user_pad_id' => $user_pad_id])
+                    ->route('gestao_membro_camaras_index', ['user_pad_id' => $user_pad_id])
                     ->with('fail', 'Erro ao remover atividade!');
         }
     }
     
     public function search($user_pad_id = null)
     {
-        $query = GestaoCoordenacaoProgramaInstitucional::initQuery();
+        $query = GestaoMembroCamaras::initQuery();
 
         if($user_pad_id) {
             $query->whereUserPad($user_pad_id)->orderBy('cod_atividade');
@@ -173,7 +175,7 @@ class GestaoCoordenacaoProgramaInstitucionalController extends Controller
 
     public function ajaxValidation(Request $request)
     {   
-        $planejamento = Planejamento::initQuery()->whereCodDimensao('G-6')->first();
+        $planejamento = Planejamento::initQuery()->whereCodDimensao('G-4')->first();
         
         $ch_min = $planejamento->ch_semanal;
         $ch_max = $planejamento->ch_maxima;
@@ -182,8 +184,8 @@ class GestaoCoordenacaoProgramaInstitucionalController extends Controller
 
         $validator = Validator::make(
             $request->all(), 
-            array_merge(GestaoCoordenacaoProgramaInstitucional::rules(), $cargaHoraria->rules()),
-            array_merge(GestaoCoordenacaoProgramaInstitucional::messages(), $cargaHoraria->messages())
+            array_merge(GestaoMembroCamaras::rules(), $cargaHoraria->rules()),
+            array_merge(GestaoMembroCamaras::messages(), $cargaHoraria->messages())
         );
 
         if($validator->passes()) {

@@ -133,7 +133,7 @@
     @include('pad.components.scripts.dropdown-eixo', ['divs' => $divs])
 
     @include('pad.components.scripts.cod_atividade', [
-        'cod_atividade' => '14-',
+        'cod_atividade' => '17-',
         'form_id' => 'gestao_membro_comissao-form',
         'div_selected' => 'gestao_membro_comissao',
         'route' => route('gestao_membro_comissao_search'),

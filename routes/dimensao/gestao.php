@@ -6,6 +6,7 @@ use App\Http\Controllers\Dimensao\Tabelas\Gestao\GestaoMembroCamarasController;
 use App\Http\Controllers\Dimensao\Tabelas\Gestao\GestaoMembroComissaoController;
 use App\Http\Controllers\Dimensao\Tabelas\Gestao\GestaoMembroConselhoController;
 use App\Http\Controllers\Dimensao\Tabelas\Gestao\GestaoMembroTitularConselhoController;
+use App\Http\Controllers\Dimensao\Tabelas\Gestao\GestaoOutrosController;
 use App\Http\Controllers\Dimensao\Tabelas\Gestao\GestaoRepresentanteUnidadeEducacaoController;
 use Illuminate\Support\Facades\Route;
 
@@ -114,4 +115,17 @@ Route::prefix('/pad/dimensao/gestao/coordenacao/programa/institucional')->group(
     Route::get('/edit/{id?}', [GestaoCoordenacaoProgramaInstitucionalController::class, 'edit'])->name('view_gestao_coordenacao_programa_institucional_update');
     Route::get('/search/{user_pad_id?}', [GestaoCoordenacaoProgramaInstitucionalController::class, 'search'])->name('gestao_coordenacao_programa_institucional_search');
     Route::get('/resolucao', [GestaoCoordenacaoProgramaInstitucionalController::class, 'viewResolucao'])->name('view_gestao_coordenacao_programa_institucional_resolucao');
+});
+
+/** GestaoOutrosController */
+Route::prefix('/pad/dimensao/gestao/outros')->group(function () {
+    Route::post('/create', [GestaoOutrosController::class, 'create'])->name('gestao_outros_create');
+    Route::post('/update/{id}', [GestaoOutrosController::class, 'update'])->name('gestao_outros_update');
+    Route::post('/validate', [GestaoOutrosController::class, 'ajaxValidation'])->name('gestao_outros_validate');
+    Route::delete('/delete/{id}', [GestaoOutrosController::class, 'delete'])->name('gestao_outros_delete');
+
+    Route::get('/index/{user_pad_id}', [GestaoOutrosController::class, 'index'])->name('gestao_outros_index');
+    Route::get('/edit/{id?}', [GestaoOutrosController::class, 'edit'])->name('view_gestao_outros_update');
+    Route::get('/search/{user_pad_id?}', [GestaoOutrosController::class, 'search'])->name('gestao_outros_search');
+    Route::get('/resolucao', [GestaoOutrosController::class, 'viewResolucao'])->name('view_gestao_outros_resolucao');
 });

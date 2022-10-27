@@ -8,6 +8,7 @@ use App\Http\Controllers\Dimensao\Tabelas\Ensino\EnsinoParticipacaoController;
 use App\Http\Controllers\Dimensao\Tabelas\Ensino\EnsinoProjetoController;
 use App\Http\Controllers\Dimensao\Tabelas\Ensino\EnsinoSupervisaoController;
 use App\Http\Controllers\Dimensao\Tabelas\Ensino\EnsinoMembroDocenteController;
+use App\Http\Controllers\Dimensao\Tabelas\Ensino\EnsinoOutrosController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -129,4 +130,17 @@ Route::prefix('/pad/dimensao/ensino/membro/docente')->group(function () {
     Route::get('/edit/{id?}', [EnsinoMembroDocenteController::class, 'edit'])->name('view_ensino_membro_docente_update');
     Route::get('/search/{user_pad_id?}', [EnsinoMembroDocenteController::class, 'search'])->name('ensino_membro_docente_search');
     Route::get('/resolucao', [EnsinoMembroDocenteController::class, 'viewResolucao'])->name('view_ensino_membro_docente_resolucao');
+});
+
+/* EnsinoOutrosController */
+Route::prefix('/pad/dimensao/ensino/outros')->group(function () {
+    Route::post('/create', [EnsinoOutrosController::class, 'create'])->name('ensino_outros_create');
+    Route::post('/update/{id}', [EnsinoOutrosController::class, 'update'])->name('ensino_outros_update');
+    Route::post('/validate', [EnsinoOutrosController::class, 'ajaxValidation'])->name('ensino_outros_validate');
+    Route::delete('/delete/{id}', [EnsinoOutrosController::class, 'delete'])->name('ensino_outros_delete');
+
+    Route::get('/index/{user_pad_id}', [EnsinoOutrosController::class, 'index'])->name('ensino_outros_index');
+    Route::get('/edit/{id?}', [EnsinoOutrosController::class, 'edit'])->name('view_ensino_outros_update');
+    Route::get('/search/{user_pad_id?}', [EnsinoOutrosController::class, 'search'])->name('ensino_outros_search');
+    Route::get('/resolucao', [EnsinoOutrosController::class, 'viewResolucao'])->name('view_ensino_outros_resolucao');
 });
