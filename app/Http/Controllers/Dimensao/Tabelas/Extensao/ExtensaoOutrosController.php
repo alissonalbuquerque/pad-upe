@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Dimensao\Tabelas\Extensao;
 use App\Http\Controllers\Controller;
 use App\Models\Avaliacao;
 use App\Models\Planejamento;
-use App\Models\Tabelas\Ensino\EnsinoOutros;
 use App\Models\Tabelas\Extensao\ExtensaoOutros;
 use App\Models\Util\Avaliacao as UtilAvaliacao;
 use App\Models\Util\CargaHorariaValidation;
@@ -41,7 +40,7 @@ class ExtensaoOutrosController extends Controller
     
     public function edit($id) {
 
-        $model = EnsinoOutros::find($id);
+        $model = ExtensaoOutros::find($id);
         
         return view('pad.components.templates.dimensao.extensao.outros.form_update', [
             'model' => $model,
@@ -54,11 +53,6 @@ class ExtensaoOutrosController extends Controller
         return view('pad.components.templates.resolucao', ['resolucoes' => $resolucoes]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create(Request $request)
     {
         $planejamento = Planejamento::initQuery()->whereCodDimensao('X-3')->first();
@@ -77,37 +71,37 @@ class ExtensaoOutrosController extends Controller
         if($validator->fails())
         {   
             return redirect()
-                        ->route('pesquisa_outros_index', ['user_pad_id' => $request->user_pad_id,])
+                        ->route('extensao_outros_index', ['user_pad_id' => $request->user_pad_id,])
                         ->withErrors($validator)
                         ->withInput();
         }
 
         $user_pad_id = $request->user_pad_id;
 
-        $model = new EnsinoOutros($request->all());
-        $model->dimensao = Dimensao::PESQUISA;
+        $model = new ExtensaoOutros($request->all());
+        $model->dimensao = Dimensao::EXTENSAO;
 
         if($model->save())
         {
             $avaliacao = new Avaliacao([
                 'tarefa_id' => $model->id,
-                'type' => UtilAvaliacao::ENSINO_OUTROS,
+                'type' => UtilAvaliacao::EXTENSAO_OUTROS,
                 'status' => Status::PENDENTE,
             ]);
 
             if(!$avaliacao->save())
             {
                 return redirect()
-                    ->route('pesquisa_outros_index', ['user_pad_id' => $user_pad_id])
+                    ->route('extensao_outros_index', ['user_pad_id' => $user_pad_id])
                     ->with('fail', 'Erro ao cadastrar Atividade!');
             }
 
             return redirect()
-                    ->route('pesquisa_outros_index', ['user_pad_id' => $user_pad_id])
+                    ->route('extensao_outros_index', ['user_pad_id' => $user_pad_id])
                     ->with('success', 'Cadastro realizado com sucesso!');
         } else {
             return redirect()
-                    ->route('pesquisa_outros_index', ['user_pad_id' => $user_pad_id])
+                    ->route('extensao_outros_index', ['user_pad_id' => $user_pad_id])
                     ->with('fail', 'Erro ao cadastrar Atividade!');
         }
         
@@ -159,17 +153,17 @@ class ExtensaoOutrosController extends Controller
 
         if($model->delete()) {
             return redirect()
-                    ->route('ensino_outros_index', ['user_pad_id' => $user_pad_id])
+                    ->route('extensao_outros_index', ['user_pad_id' => $user_pad_id])
                     ->with('success', 'Atividade removida com Sucesso!');
         } else {
             return redirect()
-                    ->route('ensino_outros_index', ['user_pad_id' => $user_pad_id])
+                    ->route('extensao_outros_index', ['user_pad_id' => $user_pad_id])
                     ->with('fail', 'Erro ao remover atividade!');
         }
     }
 
-    public function search($user_pad_id = null) {
-
+    public function search($user_pad_id = null)
+    {
         $query = ExtensaoOutros::initQuery();
 
         if($user_pad_id) {

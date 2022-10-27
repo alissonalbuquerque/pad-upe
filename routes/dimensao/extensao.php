@@ -52,7 +52,7 @@ Route::prefix('/pad/dimensao/extensao/outros')->group(function () {
     Route::delete('/delete/{id}', [ExtensaoOutrosController::class, 'delete'])->name('extensao_outros_delete');
 
     Route::get('/index/{user_pad_id}', [ExtensaoOutrosController::class, 'index'])->name('extensao_outros_index');
-    Route::get('/edit/{id?}', [ExtensaoOutrosController::class, 'edit'])->name('extensao_outros_update');
+    Route::get('/edit/{id?}', [ExtensaoOutrosController::class, 'edit'])->name('view_extensao_outros_update');
     Route::get('/search/{user_pad_id?}', [ExtensaoOutrosController::class, 'search'])->name('extensao_outros_search');
-    Route::get('/resolucao', [ExtensaoOutrosController::class, 'viewResolucao'])->name('extensao_outros_resolucao');
+    Route::get('/resolucao', [ExtensaoOutrosController::class, 'viewResolucao'])->name('view_extensao_outros_resolucao');
 });
