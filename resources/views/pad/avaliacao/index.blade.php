@@ -15,12 +15,7 @@
     @include('components.alerts')
     <div class="d-flex justify-content-between align-items-center border-bottom">
         <h2 class="">PADs</h2>
-        @include('components.buttons.btn-create', [
-            'route' => route('campus_create'),
-            'class' => '',
-            'content' => 'Novo Campus',
-            'id' => '',
-        ])
+
     </div>
 
     <!-- Tabela -->
@@ -28,13 +23,223 @@
         <table class="table table-hover table-striped">
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Unidade</th>
-                    <th scope="col">Ações</th>
+                    <th scope="col">Professor</th>
+                    <th scope="col">Dimensão</th>
+                    <th scope="col">Opções</th>
                 </tr>
             </thead>
 
             <tbody>
+
+                <tr>
+                    <td>Professor 1</td>
+                    <td>Ensino</td>
+                    <td>
+
+                        @include('components.buttons.btn-avaliar', [
+                            'route' => route('avaliador_avaliar'),
+                            'class' => '',
+                            'content' => 'Avaliar',
+                            'id' => '',
+                        ])
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Professor 2</td>
+                    <td>Ensino</td>
+                    <td>
+
+                        @include('components.buttons.btn-avaliar', [
+                            'route' => route('avaliador_avaliar'),
+                            'class' => '',
+                            'content' => 'Avaliar',
+                            'id' => '',
+                        ])
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Professor 3</td>
+                    <td>Ensino</td>
+                    <td>
+
+                        @include('components.buttons.btn-avaliar', [
+                            'route' => route('avaliador_avaliar'),
+                            'class' => '',
+                            'content' => 'Avaliar',
+                            'id' => '',
+                        ])
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Professor 4</td>
+                    <td>Ensino</td>
+                    <td>
+
+                        @include('components.buttons.btn-avaliar', [
+                            'route' => route('avaliador_avaliar'),
+                            'class' => '',
+                            'content' => 'Avaliar',
+                            'id' => '',
+                        ])
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Professor 5</td>
+                    <td>Ensino</td>
+                    <td>
+
+                        @include('components.buttons.btn-avaliar', [
+                            'route' => route('avaliador_avaliar'),
+                            'class' => '',
+                            'content' => 'Avaliar',
+                            'id' => '',
+                        ])
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Professor 6</td>
+                    <td>Ensino</td>
+                    <td>
+
+                        @include('components.buttons.btn-avaliar', [
+                            'route' => route('avaliador_avaliar'),
+                            'class' => '',
+                            'content' => 'Avaliar',
+                            'id' => '',
+                        ])
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Professor 7</td>
+                    <td>Ensino</td>
+                    <td>
+
+                        @include('components.buttons.btn-avaliar', [
+                            'route' => route('avaliador_avaliar'),
+                            'class' => '',
+                            'content' => 'Avaliar',
+                            'id' => '',
+                        ])
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Professor 8</td>
+                    <td>Ensino</td>
+                    <td>
+
+                        @include('components.buttons.btn-avaliar', [
+                            'route' => route('avaliador_avaliar'),
+                            'class' => '',
+                            'content' => 'Avaliar',
+                            'id' => '',
+                        ])
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Professor 9</td>
+                    <td>Ensino</td>
+                    <td>
+
+                        @include('components.buttons.btn-avaliar', [
+                            'route' => route('avaliador_avaliar'),
+                            'class' => '',
+                            'content' => 'Avaliar',
+                            'id' => '',
+                        ])
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Professor 10</td>
+                    <td>Ensino</td>
+                    <td>
+
+                        @include('components.buttons.btn-avaliar', [
+                            'route' => route('avaliador_avaliar'),
+                            'class' => '',
+                            'content' => 'Avaliar',
+                            'id' => '',
+                        ])
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Professor 11</td>
+                    <td>Ensino</td>
+                    <td>
+
+                        @include('components.buttons.btn-avaliar', [
+                            'route' => route('avaliador_avaliar'),
+                            'class' => '',
+                            'content' => 'Avaliar',
+                            'id' => '',
+                        ])
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Professor 12</td>
+                    <td>Ensino</td>
+                    <td>
+
+                        @include('components.buttons.btn-avaliar', [
+                            'route' => route('avaliador_avaliar'),
+                            'class' => '',
+                            'content' => 'Avaliar',
+                            'id' => '',
+                        ])
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Professor 13</td>
+                    <td>Ensino</td>
+                    <td>
+
+                        @include('components.buttons.btn-avaliar', [
+                            'route' => route('avaliador_avaliar'),
+                            'class' => '',
+                            'content' => 'Avaliar',
+                            'id' => '',
+                        ])
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Professor 14</td>
+                    <td>Ensino</td>
+                    <td>
+
+                        @include('components.buttons.btn-avaliar', [
+                            'route' => route('avaliador_avaliar'),
+                            'class' => '',
+                            'content' => 'Avaliar',
+                            'id' => '',
+                        ])
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Professor 17</td>
+                    <td>Ensino</td>
+                    <td>
+
+                        @include('components.buttons.btn-avaliar', [
+                            'route' => route('avaliador_avaliar'),
+                            'class' => '',
+                            'content' => 'Avaliar',
+                            'id' => '',
+                        ])
+                    </td>
+                </tr>
                {{--  @foreach ($campus as $camp)
                     <tr>
                         <td>{{ $camp->name }}</td>

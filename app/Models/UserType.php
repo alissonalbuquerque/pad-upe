@@ -13,6 +13,7 @@ class UserType extends Model
     const TEACHER = 2;     // Professor
     const DIRECTOR= 3;     // Diretor
     const COORDINATOR = 4; // Coordenador
+    const EVALUATOR = 5;   // Avaliador
 
     protected $table = 'user_type';
 
@@ -43,11 +44,11 @@ class UserType extends Model
         $values = [
             self::ADMIN => 'Administrador',
             self::TEACHER => 'Professor',
-            self::DIRECTOR=> 'Diretor',
+            self::DIRECTOR => 'Diretor',
             self::COORDINATOR => 'Coordenador',
+            self::EVALUATOR => 'Evaluator',
         ];
         
         return $value !== null? $values[$value] : $values;
     }
-
 }

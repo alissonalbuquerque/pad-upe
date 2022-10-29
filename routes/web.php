@@ -114,6 +114,7 @@ Route::prefix('/professor')->group(function () {
 
 Route::prefix('/avaliador')->group(function () {
     Route::get('/index', [AvaliadorController::class, 'index'])->name('avaliador_index');
+    Route::get('/avaliar', [AvaliadorController::class, 'avaliar'])->name('avaliador_avaliar');
     Route::get('/create', [AvaliadorController::class, 'create'])->name('avaliador_create');
     Route::post('/store', [AvaliadorController::class, 'store'])->name('avaliador_store');
     Route::get('/edit/{id}', [AvaliadorController::class, 'edit'])->name('avaliador_edit');

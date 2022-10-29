@@ -17,6 +17,10 @@
             @if(Auth::user()->isTypeCoordinator())
                 @include('layouts.user-dashboard.dashboard_coordinator')
             @endif
+
+            @if(Auth::user()->isTypeEvaluator())
+                @include('layouts.user-dashboard.dashboard_avaliador', ['user' => Auth::user()])
+            @endif
         </div>
     </x-slot>
 </x-app-layout>

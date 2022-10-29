@@ -33,4 +33,9 @@
         @include('layouts.user-navigation.navigation_coordinator')
     @endif
 
+    <!-- SidebarMenu : Avaliador -->
+    @if (Auth::user()->isTypeEvaluator())
+        @include('layouts.user-navigation.navigation_avaliador')
+    @endif
+
 </nav>

@@ -45,6 +45,17 @@ class DashboardController extends Controller
             return view('dashboard', ['PADs' => PAD::all(), 'menu_index'=> 0]);
         } 
 
+        if($user->isTypeEvaluator())
+        {   
+            $userPads = 
+                UserPad::initQuery()
+                    ->whereUser($user->id)
+                    ->wherePadStatus(Status::ATIVO)
+                    ->get();
+
+            return view('dashboard', ['userPads' => $userPads, 'menu_index'=> MenuItemsTeacher::HOME]);
+        }
+
         //return redirect()->route('login');
     }
 }
