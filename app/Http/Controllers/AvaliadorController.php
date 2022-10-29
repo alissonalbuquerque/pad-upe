@@ -1,9 +1,12 @@
 <?php
  
 namespace App\Http\Controllers;
- 
-use App\Http\Controllers\Controller;
+
+use App\Models\User;
+use App\Models\Curso;
+use App\Models\Util\MenuItemsAvaliador;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AvaliadorController extends Controller
 {
@@ -14,7 +17,20 @@ class AvaliadorController extends Controller
      */
     public function index()
     {
+       // $professores = User::where('type', '=', User::->isTypeTeacher())->get();
+        return view('pad.avaliacao.index', [
+            'index_menu' => MenuItemsAvaliador::PADs,
+            'professores' =>  null
+        ]);
+    }
 
+    public function avaliar()
+    {
+       // $professores = User::where('type', '=', User::->isTypeTeacher())->get();
+        return view('pad.avaliacao.dimensao.ensino', [
+            'index_menu' => MenuItemsAvaliador::PADs,
+            'user_pad_id' =>  1
+        ]);
     }
 
     /**

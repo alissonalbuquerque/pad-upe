@@ -137,6 +137,14 @@ class User extends Authenticatable
         return $this->perfilSelected()->type === UserType::COORDINATOR;
     }
 
+    /**
+     * @return bool
+     */
+    public function isTypeEvaluator()
+    {
+        return $this->perfilSelected()->type === UserType::EVALUATOR;
+    }
+
     public static function initQuery()
     {
         return new UserQuery(get_called_class());
