@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Campus;
 use App\Models\Curso;
 use App\Models\Unidade;
+use App\Models\Util\Menu;
 use App\Models\Util\MenuItemsAdmin;
 use Illuminate\Http\Request;
 
@@ -26,7 +27,7 @@ class CursoController extends Controller
 
         return view('curso.index', [
             'campusWithCursos' => $campusWithCursos,
-            'index_menu' => MenuItemsAdmin::CURSOS
+            'menu' => Menu::CURSOS
         ]);
     }
 
@@ -41,7 +42,7 @@ class CursoController extends Controller
 
         return view('curso.create', [
             'allCampus' => $allCampus,
-            'index_menu' => MenuItemsAdmin::CURSOS
+            'menu' => Menu::CURSOS
         ]);
     }
 
@@ -87,7 +88,7 @@ class CursoController extends Controller
         $curso = Curso::findOrFail($id);
         return view('curso.update', [
             'allCampus' => Campus::all(),
-            'index_menu' => MenuItemsAdmin::CURSOS,
+            'menu' => Menu::CURSOS,
             'curso' => $curso,
         ]);
     }

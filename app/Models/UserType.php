@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Pad;
 use App\Models\Util\Status;
 use App\Queries\UserTypeQuery;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class UserType extends Model
@@ -17,11 +17,16 @@ class UserType extends Model
 
     protected $table = 'user_type';
 
-    protected $fillable = ['user_id', 'type', 'status', 'selected'];
+    protected $fillable = ['user_id', 'pad_id', 'type', 'status', 'selected'];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function pad()
+    {
+        return $this->belongsTo(Pad::class);
     }
 
     public function typeAsString()

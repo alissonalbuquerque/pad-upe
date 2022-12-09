@@ -9,6 +9,7 @@ use App\Models\Tabelas\Constants;
 use App\Models\User;
 use App\Models\UserPad;
 use App\Models\UserType;
+use App\Models\Util\Menu;
 use App\Models\Util\MenuItemsAdmin;
 use App\Models\Util\MenuItemsTeacher;
 use App\Models\Util\Status;
@@ -27,19 +28,19 @@ class PadController extends Controller
      * @return \Illuminate\View\View
      */
     public function index()
-    {
+    {   
         if(Auth::user()->isTypeAdmin()) {
             $pads = Pad::all();
-            $index_menu = MenuItemsAdmin::PADS;
-            return view('pad.admin.index', ['index_menu' => $index_menu, 'pads' => $pads]);
+            $menu = Menu::PADS;
+            return view('pad.admin.index', ['menu' => $menu, 'pads' => $pads]);
         }
         
-        if(Auth::user()->isTypeTeacher()) {
-
-            $index_menu = MenuItemsTeacher::PAD;
+        if(Auth::user()->isTypeTeacher())
+        {
+            $menu = Menu::PADS;
             $userPads = UserPad::initQuery()->whereUser(Auth::user()->id)->get();
 
-            return view('pad.teacher.index', ['index_menu' => $index_menu, 'userPads' => $userPads]);
+            return view('pad.teacher.index', ['menu' => $menu, 'userPads' => $userPads]);
         }
     }
 
@@ -48,8 +49,8 @@ class PadController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function view($id) {
-        $index_menu = 1;
-        return view('pad.teacher.view', ['user_pad_id' => $id, 'index_menu' => $index_menu]);
+        $menu = Menu::PADS;
+        return view('pad.teacher.view', ['user_pad_id' => $id, 'menu' => $menu]);
     }
     
     /**

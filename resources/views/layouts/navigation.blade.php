@@ -1,14 +1,35 @@
-<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+<nav id="sidebar_menu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
     <!-- SidebarMenu : Perfil -->
+
+    @php
+        use App\Models\Util\Menu;
+
+        $edit_active = 'btn btn-outline-primary btn-sm';
+
+        if(isset($menu)) {
+            $edit_active = $menu == Menu::USER ? 'btn btn-primary btn-sm' : 'btn btn-outline-primary btn-sm';
+        }
+    @endphp
+
     @if (Auth::check())
-        <div class="content mx-auto text-center">
-            <div class="d-flex justify-content-center flex-column content-user-info">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-                <a id="btn-update-perfil" class="btn" href="{{ route('edit_perfil') }}">
-                    <i class="bi bi-gear"></i>
-                    Editar Perfil
-                </a>
+        <div class="content">
+            <div class="d-flex justify-content-center">
+
+                <div class="content-user-info">
+                    <div class="text-center">
+
+                        <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
+                        <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                        <div class="mt-3">
+                            <a class="{{ $edit_active }}" href="{{ route('edit_perfil') }}">
+                                <i class="bi bi-gear-fill"></i>
+                                Editar Perfil
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
         </div>
     @endif

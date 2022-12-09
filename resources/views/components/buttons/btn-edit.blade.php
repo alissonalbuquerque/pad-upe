@@ -3,6 +3,6 @@
         'route' => ''
     ])
 --}}
-<a class="btn btn-warning" href="{{$route}}">
+<a class="btn btn-primary btn-sm" href="{{$route}}">
     <i class="bi bi-pencil-square"></i>
 </a>

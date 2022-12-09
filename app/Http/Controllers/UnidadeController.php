@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Unidade;
+use App\Models\Util\Menu;
 use App\Models\Util\MenuItemsAdmin;
 use App\Queries\UnidadeQuery;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class UnidadeController extends Controller
     {
         return view('unidade.index', [
             'unidades' => Unidade::all(),
-            'index_menu' => MenuItemsAdmin::UNIDADES
+            'menu' => Menu::UNIDADES,
         ]);
     }
 
@@ -31,7 +32,7 @@ class UnidadeController extends Controller
     {
         return view('unidade.create', [
             'unidades' => Unidade::all(),
-            'index_menu' => MenuItemsAdmin::UNIDADES
+            'menu' => Menu::UNIDADES,
         ]);
     }
 
@@ -77,7 +78,7 @@ class UnidadeController extends Controller
         $model = Unidade::find($id);
         return view('unidade.update', [
             'unidade' => $model,
-            'index_menu' => MenuItemsAdmin::UNIDADES
+            'menu' => Menu::UNIDADES,
         ]);
     }
 

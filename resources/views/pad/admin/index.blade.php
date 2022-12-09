@@ -9,16 +9,16 @@
 @endsection
 
 @section('nav')
-    @include('layouts.navigation', [])
+    @include('layouts.navigation', ['menu' => $menu])
 @endsection
 
 @section('body')
 
-    <div class="">
+    <div>
         
-        <h3> PAD - Listagem </h3>
+        <h3 class="h3"> PADs </h3>
 
-        <div class="">
+        <div>
 
             @include('components.alerts')
 
@@ -33,7 +33,7 @@
             
             <div class="border rounded px-4">
 
-                <table class="table table-hover mt-4">
+                <table class="table table-responsive table-hover mt-4">
                     <thead>
                         <tr>
                             <th scole="col">#</th>
@@ -57,16 +57,21 @@
                             <td>{{ $pad->getDateFim() }}</td>
                             <td>{{ $pad->statusAsString() }}</td>
                             <td>
-                                @include('components.buttons.btn-edit', [
-                                    'btn_class' => 'btn btn-primary',
-                                    'route' => route('pad_edit', ['id' => $pad->id])
-                                ])
-
-                                @include('components.buttons.btn-delete', [
-                                    'id' => $pad->id,
-                                    'btn_class' => 'btn btn-danger',
-                                    'route' => route('pad_delete', ['id' => $pad->id])
-                                ])
+                                <div class="btn-group" role="group">
+                                    <div class="me-1">
+                                        @include('components.buttons.btn-edit', [
+                                            'btn_class' => 'btn btn-primary',
+                                            'route' => route('pad_edit', ['id' => $pad->id])
+                                        ])
+                                    </div>
+                                    <div class="me-1">
+                                        @include('components.buttons.btn-delete', [
+                                            'id' => $pad->id,
+                                            'btn_class' => 'btn btn-danger',
+                                            'route' => route('pad_delete', ['id' => $pad->id])
+                                        ])
+                                    </div>
+                                </div>    
                             </td>
                         </tr>
                         @endforeach

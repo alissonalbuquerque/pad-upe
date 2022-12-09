@@ -1,60 +1,60 @@
+
 @extends('layouts.main')
 
-@section('title', 'Campus')
+@section('title', 'Usuários')
+
 @section('header')
     @include('layouts.header', [
         'user' => Auth::user(),
     ])
 @endsection
+
 @section('nav')
-    @include('layouts.navigation', [
-        'menu' => $menu,
-    ])
+    @include('layouts.navigation', ['menu' => $menu])
 @endsection
+
 @section('body')
 
 <div>
-    
-    <h3 class="h3"> Campus </h3>
+
+    <h3 class="h3"> Usuários </h3>
 
     <div>
-
         @include('components.alerts')
 
         <div class="d-flex justify-content-end mb-2">
             @include('components.buttons.btn-create', [
-                'id' => 'campus_create',
-                'route' => route('campus_create'),
+                'id' => 'user_create',
                 'content' => 'Cadastrar',
+                'route' => route('user_create'),
             ])
         </div>
 
         <div class="border rounded px-4">
             <table class="table table-hover mt-4">
-                <thead class="thead-dark">
+                <thead>
                     <tr>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Unidade</th>
-                        <th scope="col">Ações</th>
+                        <th class="w-50" scole="col">Nome</th>
+                        <th class="w-50" scole="col">Email</th>
+                        <th scole="col">Opções</th>
                     </tr>
                 </thead>
-
                 <tbody>
-                    @foreach ($campus as $camp)
+                    @foreach($users as $user) 
                         <tr>
-                            <td>{{ $camp->name }}</td>
-                            <td>{{ $camp->unidade }}</td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
                             <td>
                                 <div class="btn-group" role="group">
                                     <div class="me-1">
                                         @include('components.buttons.btn-edit', [
-                                            'route' => route('campus_edit', ['id' => $camp->id]),
+                                            'route' => route('user_edit', ['id' => $user->id])
                                         ])
                                     </div>
                                     <div class="me-1">
                                         @include('components.buttons.btn-delete', [
-                                            'id' => $camp->id,
-                                            'route' => route('campus_delete', ['id' => $camp->id])
+                                            'id' => $user->id,
+                                            'route' => route('user_delete',  ['id' => $user->id])
                                         ])
                                     </div>
                                 </div>
@@ -64,7 +64,6 @@
                 </tbody>
             </table>
         </div>
-
     </div>
 </div>
 @endsection

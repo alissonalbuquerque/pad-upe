@@ -10,7 +10,7 @@
 
 @section('nav')
     @include('layouts.navigation', [
-        'index_menu' => $index_menu,
+        'menu' => $menu
     ])
 @endsection
 

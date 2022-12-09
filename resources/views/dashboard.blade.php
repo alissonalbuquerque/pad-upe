@@ -1,5 +1,5 @@
 <x-app-layout>
-    @section('title', 'Home')sdfsdfsdfsf
+    @section('title', 'Home')
     <x-slot name="main">
         <div class="tab-content">
             @if(Auth::user()->isTypeAdmin())

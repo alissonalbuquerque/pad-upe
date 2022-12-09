@@ -1,26 +1,29 @@
 @extends('layouts.main')
 
 @php
-    use App\Models\Tabelas\Constants;
+    use App\Models\Util\Status;
 @endphp
 
-@section('title', 'Unidade')
+@section('title', 'PADs')
+
 @section('header')
     @include('layouts.header', [
         'user' => Auth::user(),
     ])
 @endsection
+
 @section('nav')
     @include('layouts.navigation', [
-        'index_menu' => $index_menu,
+        'menu' => $menu,
     ])
 @endsection
+
 @section('body')
     <div class="d-flex">
         @foreach($userPads as $userPad)
             <div class="card mx-2" style="width: 12rem;">
                 <div class="card-body">
-                    @if($userPad->pad->status === Constants::STATUS_ATIVO)
+                    @if($userPad->pad->status === Status::ATIVO)
                         <h1 class="text-center"> <i class="bi bi-book-half"></i> </h1>
                     @else
                         <h1 class="text-center"> <i class="bi bi-journal-bookmark-fill"></i> </h1>

@@ -8,7 +8,7 @@
 --}}
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-delete-{{ $id }}">
+<button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modal-delete-{{ $id }}">
     <i class="bi bi-trash"></i>
 </button>
 

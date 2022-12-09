@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Campus;
 use App\Models\Unidade;
+use App\Models\Util\Menu;
 use App\Queries\CampusQuery;
 use Illuminate\Http\Request;
 use App\Models\Util\MenuItemsAdmin;
@@ -22,7 +23,7 @@ class CampusController extends Controller
         $campus = Campus::all();
         
         return view('campus.index', [
-            'index_menu' => MenuItemsAdmin::CAMPUS,
+            'menu' => Menu::CAMPUS,
             'campus' =>  $campus
         ]);
     }
@@ -36,7 +37,7 @@ class CampusController extends Controller
     {
         return view('campus.create', [
             'unidades' => Unidade::all(),
-            'index_menu' => MenuItemsAdmin::CAMPUS,
+            'menu' => Menu::CAMPUS,
         ]);
     }
 
@@ -82,7 +83,7 @@ class CampusController extends Controller
         $campus = Campus::findOrFail($id);
         return view('campus.update', [
             'unidades' => Unidade::all(),
-            'index_menu' => MenuItemsAdmin::CAMPUS,
+            'menu' => Menu::CAMPUS,
             'campus' => $campus,
         ]);
     }

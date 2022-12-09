@@ -128,6 +128,15 @@ Route::prefix('/user')->group(function () {
     Route::post('/update/password', [UserController::class, 'updatePassword'])->name('update_password');
 });
 
+Route::prefix('/users')->group(function() {
+    Route::get('/index', [UserController::class, 'actionIndex'])->name('user_index');
+    Route::get('/create', [UserController::class, 'actionCreate'])->name('user_create');
+    Route::post('/store', [UserController::class, 'actionStore'])->name('user_store');
+    Route::get('/edit/{id}', [UserController::class, 'actionEdit'])->name('user_edit');
+    Route::get('/update/{id}', [UserController::class, 'actionUpdate'])->name('user_update');
+    Route::delete('/delete/{id}', [UserController::class, 'actionDelete'])->name('user_delete');
+});
+
 /** json */
 Route::get('/disciplina/{curso_id}', [DisciplinaController::class, 'getDisciplinaByCurso'])->name('get_disciplina_by_curso');
 
