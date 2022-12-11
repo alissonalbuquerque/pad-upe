@@ -26,7 +26,7 @@
     </div>
 
     <form action="{{route('user_store')}}" method="POST">
-        @include('users._form', ['type' => 'create'])
+        @include('users._form', ['model' => $model])
     </form>
 
 </div>

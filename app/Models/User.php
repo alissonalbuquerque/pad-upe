@@ -40,6 +40,46 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime'
     ];
 
+
+    // Validate User General:  name, email and password
+    public static function ruleDefault()
+    {
+        return [
+            'name' => ['required', 'min:4'],
+            'email' => ['required', 'email']
+        ];
+    }
+
+    public static function validatePassword()
+    {
+        return [
+
+        ];
+    }
+
+    // Validate User from Type Admin
+    public static function ruleAdmin()
+    {
+        return [
+
+        ];
+    }
+
+    // Validate User from Type Teacher
+    public static function ruleTeacher()
+    {
+
+        return [];
+    }
+
+    public static function messages()
+    {
+        return [
+            'name.required' => 'O campo "Nome" é obrigatório!',
+            'email.required' => 'O "E-Mail" é obrigatório',
+        ];
+    }
+
     /** 
      * Validar os campos de acordo com as regras implementadas
      * 
@@ -47,13 +87,13 @@ class User extends Authenticatable
     public static function validator($attributes, $rule_password = false) {
 
         $rules = [
-            'email' => ['required', 'email', ],
-            'name' => ['required', ]
+            'name' => ['required'],
+            'email' => ['required', 'email'],
         ];
 
         if($rule_password) {
             $rules = [
-                'password' => ['required', 'min:6'],
+                'password' => ['required', 'min:8'],
                 'password_confirmation' => [],
             ];
         }

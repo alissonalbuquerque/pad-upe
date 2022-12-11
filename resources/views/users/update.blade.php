@@ -21,8 +21,15 @@
     
     @include('components.alerts')
 
+    <div class="mb-3">
+        <h3 class="h4"> Atualizar - Usuário </h3>
+    </div>
+
     <form action="{{route('user_update', ['id' => $model->id])}}" method="POST">
-        @include('users._form', ['type' => 'update'])
+        @include('users._form', [
+            'model' => $model,
+            'status' => $status,
+        ])
     </form>
 
 </div>

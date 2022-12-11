@@ -1,19 +1,10 @@
-
-@php
-    use App\Models\Util\Form;
-
-    if(!isset($type)) {
-        $type = Form::TYPE_CREATE;
-    }
-@endphp
-
 <!-- Tabs -->
 <div>
     <ul class="nav nav-tabs">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="user-tab" data-bs-toggle="tab" data-bs-target="#user-container" type="button" role="tab" aria-controls="user-container" arial-selected="true"> Usuário </button>
         </li>
-        @if($type == Form::TYPE_UPDATE)
+        @if( $model->exists )
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="paper-tab" data-bs-toggle="tab" data-bs-target="#paper-container" type="button" role="tab" aria-controls="paper-container" arial-selected="false"> Papeis </button>
             </li>
@@ -33,32 +24,37 @@
                 <div class="mb-4 col-12">
                     <div class="form-group">
                         <label class="form-label" for="name"> Nome </label>
-                        <input type="text" name="name" id="name" class="form-control" placeholder="Nome">
+                        <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror" placeholder="Nome" value="{{ $model->exists ? $model->name : old('name') }}">
+                        @include('components.divs.errors', ['field' => 'name'])
                     </div>
                 </div>
 
                 <div class="mb-4 col-12">
                     <div class="form-group">
                         <label class="form-label" for="email"> E-Mail </label>
-                        <input type="text" name="email" id="email" class="form-control" placeholder="E-Mail">
+                        <input type="text" name="email" id="email" class="form-control @error('email') is-invalid @enderror" placeholder="E-Mail" value="{{ $model->exists ? $model->email : old('email') }}">
+                        @include('components.divs.errors', ['field' => 'email'])
                     </div>
                 </div>
 
-                @if($type == Form::TYPE_UPDATE)
+                @if( $model->exists )
                     <div class="mb-4 col-12">
                         <div class="form-group">
                             <label class="form-label" for="status"> Status </label>
                             <select class="form-select" name="status" id="status">
-                                <option value="" disabled selected hidden> Selecione... </option>
-                                @foreach([] as $option)
-
+                                @foreach($status as $value => $text)
+                                    @if($model->status == $value)
+                                        <option value="{{ $value }}" selected> {{ $text }} </option>
+                                    @else
+                                        <option value="{{ $value }}"> {{ $text }} </option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
                     </div>
                 @endif
                 
-                @if($type == Form::TYPE_UPDATE)
+                @if( $model->exists )
                     <div class="mb-4 col-6">
                         <div class="form-group">
                             <label class="form-label" for="curso_id"> Curso </label>
@@ -72,7 +68,7 @@
                     </div>
                 @endif
 
-                @if($type == Form::TYPE_UPDATE)
+                @if( $model->exists )
                     <div class="mb-4 col-6">
                         <div class="form-group">
                             <label class="form-label" for="campus_id"> Campus </label>
@@ -88,11 +84,11 @@
 
                 <div class="mt-1 text-end">
                     <div class="modal-footer">
-                        @if($type == Form::TYPE_CREATE)
+                        @if( !$model->exists )
                             @include('components.buttons.btn-save', ['content' => 'Cadastrar'])
                         @endif
 
-                        @if($type == Form::TYPE_UPDATE)
+                        @if( $model->exists )
                             @include('components.buttons.btn-save', ['content' => 'Atualizar'])
                         @endif
 
@@ -103,7 +99,7 @@
         </div>
     </div>
 
-    @if($type == Form::TYPE_UPDATE)
+    @if( $model->exists )
         <div id="paper-container" class="tab-pane fade" role="tabpanel" aria-labelledby="paper-tab">
             <div class="border border-rounded mt-2 p-2">
                 <div class="row">

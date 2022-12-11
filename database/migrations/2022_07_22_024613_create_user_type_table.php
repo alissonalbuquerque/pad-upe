@@ -16,7 +16,7 @@ class CreateUserTypeTable extends Migration
         Schema::create('user_type', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->foreignId('pad_id');
+            $table->foreignId('pad_id')->nullable();
             $table->tinyInteger('type');
             $table->tinyInteger('status');
             $table->boolean('selected');
