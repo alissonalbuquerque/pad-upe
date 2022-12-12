@@ -39,7 +39,7 @@ class UserType extends Model
         return Status::listStatus($this->status);
     }
 
-    public function initQuery()
+    public static function initQuery()
     {
         return new UserTypeQuery(get_called_class());
     }

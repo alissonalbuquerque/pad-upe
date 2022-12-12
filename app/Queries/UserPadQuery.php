@@ -24,12 +24,12 @@ class UserPadQuery extends CustomQuery
     }
 
     /**
-     * @param integer $user_id
+     * @param integer $user_type_id
      * @return UserPadQuery|Builder
      */
-    public function whereUser($user_id, $operator = '=')
+    public function whereUser($user_type_id, $operator = '=')
     {   
-        $this->query = $this->query->where('user_id', $operator, $user_id);
+        $this->query = $this->query->where('user_type_id', $operator, $user_type_id);
         return self::$instance;
     }
 
@@ -40,6 +40,16 @@ class UserPadQuery extends CustomQuery
     public function wherePad($pad_id, $operator = '=')
     {
         $this->query = $this->query->where('pad_id', $operator, $pad_id);
+        return self::$instance;
+    }
+
+    /**
+     * @param integer $status
+     * @return UserPadQuery|Builder
+     */
+    public function whereStatus($status, $operator = '=')
+    {
+        $this->query = $this->query->where('status', $operator, $status);
         return self::$instance;
     }
 

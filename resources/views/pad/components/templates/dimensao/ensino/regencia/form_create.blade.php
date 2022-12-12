@@ -161,15 +161,20 @@
                         <td>{{ $coordenacaoRegencia->modalidadeAsString() }}</td>
                         <td>{{ $coordenacaoRegencia->ch_semanal }}</td>
                         <td>
-                            @include('components.buttons.btn-edit-task', [
-                                'btn_class' => 'btn-edit_ensino_coordenacao_regencia',
-                                'btn_id' => $coordenacaoRegencia->id,
-                            ])
-
-                            @include('components.buttons.btn-delete', [
-                                'id' => $coordenacaoRegencia->id,
-                                'route' => route('ensino_coordenacao_regencia_delete', ['id' => $coordenacaoRegencia->id])
-                            ])
+                            <div class="btn-group" role="group">
+                                <div class="me-1">
+                                    @include('components.buttons.btn-edit-task', [
+                                        'btn_class' => 'btn-edit_ensino_coordenacao_regencia',
+                                        'btn_id' => $coordenacaoRegencia->id,
+                                    ])
+                                </div>
+                                <div class="me-1">
+                                    @include('components.buttons.btn-delete', [
+                                        'id' => $coordenacaoRegencia->id,
+                                        'route' => route('ensino_coordenacao_regencia_delete', ['id' => $coordenacaoRegencia->id])
+                                    ])
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     @endforeach

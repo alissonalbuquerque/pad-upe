@@ -103,15 +103,20 @@
                         <td>{{ $membroComissao->documento }}</td>
                         <td>{{ $membroComissao->ch_semanal }}</td>
                         <td>
-                            @include('components.buttons.btn-edit-task', [
-                                'btn_class' => 'btn-edit_gestao_membro_comissao',
-                                'btn_id' => $membroComissao->id,
-                            ])
-
-                            @include('components.buttons.btn-delete', [
-                                'id' => $membroComissao->id,
-                                'route' => route('gestao_membro_comissao_delete', ['id' => $membroComissao->id])
-                            ])
+                            <div class="btn-group" role="group">
+                                <div class="me-1">
+                                    @include('components.buttons.btn-edit-task', [
+                                        'btn_class' => 'btn-edit_gestao_membro_comissao',
+                                        'btn_id' => $membroComissao->id,
+                                    ])
+                                </div>
+                                <div class="me-1">
+                                    @include('components.buttons.btn-delete', [
+                                        'id' => $membroComissao->id,
+                                        'route' => route('gestao_membro_comissao_delete', ['id' => $membroComissao->id])
+                                    ])
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     @endforeach

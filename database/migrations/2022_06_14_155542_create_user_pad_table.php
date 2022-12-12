@@ -13,10 +13,12 @@ class CreateUserPadTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_pad', function (Blueprint $table) {
+        Schema::create('user_pad', function (Blueprint $table)
+        {
             $table->id();
-            $table->foreignId('user_id');
+            $table->foreignId('user_type_id');
             $table->foreignId('pad_id');
+            $table->tinyInteger('status');
             $table->timestamps();
         });
     }

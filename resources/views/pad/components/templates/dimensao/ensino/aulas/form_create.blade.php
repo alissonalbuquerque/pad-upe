@@ -160,15 +160,20 @@
                         <td>{{ $ensinoAula->modalidadeAsString() }}</td>
                         <td>{{ $ensinoAula->ch_semanal }}</td>
                         <td>
-                            @include('components.buttons.btn-edit-task', [
-                                'btn_class' => 'btn-edit_ensino_aula',
-                                'btn_id' => $ensinoAula->id,
-                            ])
-
-                            @include('components.buttons.btn-delete', [
-                                'id' => $ensinoAula->id,
-                                'route' => route('ensino_aula_delete', ['id' => $ensinoAula->id])
-                            ])
+                            <div class="btn-group" role="group">
+                                <div class="me-1">
+                                    @include('components.buttons.btn-edit-task', [
+                                        'btn_class' => 'btn-edit_ensino_aula',
+                                        'btn_id' => $ensinoAula->id,
+                                    ])
+                                </div>
+                                <div class="me-1">
+                                    @include('components.buttons.btn-delete', [
+                                        'id' => $ensinoAula->id,
+                                        'route' => route('ensino_aula_delete', ['id' => $ensinoAula->id])
+                                    ])
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     @endforeach

@@ -83,7 +83,8 @@ class UserController extends Controller
         $password = array_shift($email_splited);
         $model->password = Hash::make($password);
 
-        if($model->save()) {
+        if($model->save())
+        {
             return redirect()->route('user_edit', ['id' => $model->id])->with('success', 'Usuário cadastrado com sucesso!');
         }
 

@@ -23,7 +23,7 @@ class EnsinoAula extends Model
      * 
      * @var array
      */
-    protected $fillable = ['orientacao_id', 'user_pad_id', 'dimensao', 'cod_atividade', 'componente_curricular', 'curso', 'nivel', 'modalidade', 'ch_semanal', 'ch_total'];
+    protected $fillable = ['orientacao_id', 'user_pad_id', 'cod_dimensao', 'dimensao', 'cod_atividade', 'componente_curricular', 'curso', 'nivel', 'modalidade', 'ch_semanal', 'ch_total'];
 
     public static function rules()
     {

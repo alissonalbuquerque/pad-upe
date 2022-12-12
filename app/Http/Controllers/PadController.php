@@ -9,6 +9,7 @@ use App\Models\Tabelas\Constants;
 use App\Models\User;
 use App\Models\UserPad;
 use App\Models\UserType;
+use App\Models\UserTypePad;
 use App\Models\Util\Menu;
 use App\Models\Util\MenuItemsAdmin;
 use App\Models\Util\MenuItemsTeacher;
@@ -29,14 +30,16 @@ class PadController extends Controller
      */
     public function index()
     {   
-        if(Auth::user()->isTypeAdmin()) {
+        if(Auth::user()->isTypeAdmin())
+        {
+            $users = User::initQuery()->whereType(UserType::TEACHER)->get();
             $pads = Pad::all();
             $menu = Menu::PADS;
             return view('pad.admin.index', ['menu' => $menu, 'pads' => $pads]);
         }
         
         if(Auth::user()->isTypeTeacher())
-        {
+        {   
             $menu = Menu::PADS;
             $userPads = UserPad::initQuery()->whereUser(Auth::user()->id)->get();
 
@@ -48,7 +51,8 @@ class PadController extends Controller
      * @param integer $id
      * @return \Illuminate\Http\Response
      */
-    public function view($id) {
+    public function view($id)
+    {   
         $menu = Menu::PADS;
         return view('pad.teacher.view', ['user_pad_id' => $id, 'menu' => $menu]);
     }
@@ -86,18 +90,24 @@ class PadController extends Controller
             'data_fim.after_or_equal' => 'A :attribute deve ser uma data posterior ou igual a data de início',
         ]);
 
-        if($validated) {
+        if($validated)
+        {
             $model = new Pad($request->all());
     
-            if($model->save()) {
-
+            if($model->save())
+            {
                 $users = User::initQuery()->whereType(UserType::TEACHER)->get();
                 
-                foreach($users as $user) {
-                    $modelUserPad = new UserPad();
-                    $modelUserPad->user_id = $user->id;
-                    $modelUserPad->pad_id = $model->id;
-                    $modelUserPad->save();
+                foreach($users as $user)
+                {   
+                    $profile = $user->profile(UserType::TEACHER);
+
+                    $userPad = new UserPad();
+                    $userPad->pad_id = $model->id;
+                    $userPad->user_type_id = $profile->id;
+                    $userPad->status = Status::ATIVO;
+                    
+                    $userPad->save();
                 }
 
                 return redirect()->route('pad_index')->with('success', 'PAD cadastrado com sucesso!');
@@ -112,44 +122,6 @@ class PadController extends Controller
     {
         return view('pad.anexo', ['index_menu' => 1 ]);
     }
-
-    // /**
-    //  * Store a newly created resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function store(Request $request)
-    // {
-    //     $rules = [
-	// 		'first_name' => 'required|string|min:3|max:255',
-	// 		'city_name' => 'required|string|min:3|max:255',
-	// 		'email' => 'required|string|email|max:255'
-	// 	];
-	// 	$validator = Validator::make($request->all(),$rules);
-	// 	if ($validator->fails()) {
-	// 		return redirect('insert')
-	// 		->withInput()
-	// 		->withErrors($validator);
-	// 	}
-	// 	else{
-    //         $data = $request->input();
-	// 		try{
-	// 			$student = new StudInsert;
-    //             $student->first_name = $data['first_name'];
-    //             $student->last_name = $data['last_name'];
-	// 			$student->city_name = $data['city_name'];
-	// 			$student->email = $data['email'];
-	// 			$student->save();
-	// 			return redirect('insert')->with('status',"Insert successfully");
-	// 		}
-	// 		catch(Exception $e){
-	// 			return redirect('insert')->with('failed',"operation failed");
-	// 		}
-	// 	}
-        
-    //     return redirect('/dashboard');
-    // }
 
     /**
      * Show the form for editing the specified resource.

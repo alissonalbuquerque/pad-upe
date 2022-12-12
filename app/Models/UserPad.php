@@ -3,8 +3,12 @@
 namespace App\Models;
 
 use App\Queries\UserPadQuery;
+use App\Models\Pad;
+use App\Models\Util\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+
+//remover tabela de user_pad
 
 class UserPad extends Model
 {
@@ -12,14 +16,18 @@ class UserPad extends Model
 
     protected $table = 'user_pad';
 
-    protected $fillable = ['user_id', 'pad_id'];
+    protected $fillable = ['user_type_id', 'pad_id', 'status'];
 
     public function user() {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(UserType::class);
     }
 
     public function pad() {
-        return $this->belongsTo(PAD::class);
+        return $this->belongsTo(Pad::class);
+    }
+
+    public function statusAsText() {
+        return Status::listStatus($this->status);
     }
 
     public static function initQuery() {

@@ -121,15 +121,20 @@
                         <td>{{ $atividade->nivelAsString() }}</td>
                         <td>{{ $atividade->ch_semanal }}</td>
                         <td>
-                            @include('components.buttons.btn-edit-task', [
-                                'btn_class' => 'btn-edit_ensino_atendimento_discente',
-                                'btn_id' => $atividade->id,
-                            ])
-
-                            @include('components.buttons.btn-delete', [
-                                'id' => $atividade->id,
-                                'route' => route('ensino_atendimento_discente_delete', ['id' => $atividade->id])
-                            ])
+                            <div class="btn-group" role="group">
+                                <div class="me-1">
+                                    @include('components.buttons.btn-edit-task', [
+                                        'btn_class' => 'btn-edit_ensino_atendimento_discente',
+                                        'btn_id' => $atividade->id,
+                                    ])
+                                </div>
+                                <div class="me-1">
+                                    @include('components.buttons.btn-delete', [
+                                        'id' => $atividade->id,
+                                        'route' => route('ensino_atendimento_discente_delete', ['id' => $atividade->id])
+                                    ])
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     @endforeach

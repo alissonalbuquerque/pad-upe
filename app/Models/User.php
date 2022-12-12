@@ -131,8 +131,16 @@ class User extends Authenticatable
         return $this->belongsTo(Unidade::class);
     }
 
+    public function profile($type_profile)
+    {
+        return UserType::initQuery()
+                        ->whereUser($this->id)
+                        ->whereType($type_profile)
+                        ->first();
+    }
 
-    public function perfis()
+    /** @return UserType[]|null */
+    public function profiles()
     {
         return $this->hasMany(UserType::class);
     }
@@ -140,9 +148,9 @@ class User extends Authenticatable
     /**
      * @return UserType|Null
      */
-    public function perfilSelected()
+    public function profileSelected()
     {   
-        return $this->perfis()->where('selected', true)->first();
+        return $this->profiles()->where('selected', true)->first();
     }
 
     /**
@@ -150,7 +158,7 @@ class User extends Authenticatable
      */
     public function isTypeAdmin()
     {
-        return $this->perfilSelected()->type === UserType::ADMIN;
+        return $this->profileSelected()->type === UserType::ADMIN;
     }
 
     /**
@@ -158,7 +166,7 @@ class User extends Authenticatable
      */
     public function isTypeTeacher()
     {
-        return $this->perfilSelected()->type === UserType::TEACHER;
+        return $this->profileSelected()->type === UserType::TEACHER;
     }
 
     /**
@@ -166,7 +174,7 @@ class User extends Authenticatable
      */
     public function isTypeDirector()
     {
-        return $this->perfilSelected()->type === UserType::DIRECTOR;
+        return $this->profileSelected()->type === UserType::DIRECTOR;
     }
 
     /**
@@ -174,7 +182,7 @@ class User extends Authenticatable
      */
     public function isTypeCoordinator()
     {
-        return $this->perfilSelected()->type === UserType::COORDINATOR;
+        return $this->profileSelected()->type === UserType::COORDINATOR;
     }
 
     /**
@@ -182,7 +190,7 @@ class User extends Authenticatable
      */
     public function isTypeEvaluator()
     {
-        return $this->perfilSelected()->type === UserType::EVALUATOR;
+        return $this->profileSelected()->type === UserType::EVALUATOR;
     }
 
     public static function initQuery()

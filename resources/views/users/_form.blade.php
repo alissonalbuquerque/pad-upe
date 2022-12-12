@@ -81,20 +81,6 @@
                         </div>
                     </div>
                 @endif
-
-                <div class="mt-1 text-end">
-                    <div class="modal-footer">
-                        @if( !$model->exists )
-                            @include('components.buttons.btn-save', ['content' => 'Cadastrar'])
-                        @endif
-
-                        @if( $model->exists )
-                            @include('components.buttons.btn-save', ['content' => 'Atualizar'])
-                        @endif
-
-                        @include('components.buttons.btn-cancel', ['content' => 'Cancelar', 'route' => route('user_index')])
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -108,5 +94,19 @@
             </div>
         </div>
     @endif
+
+    <div class="mt-1 text-end">
+        <div class="modal-footer">
+            @if( !$model->exists )
+                @include('components.buttons.btn-save', ['content' => 'Cadastrar'])
+            @endif
+
+            @if( $model->exists )
+                @include('components.buttons.btn-save', ['content' => 'Atualizar'])
+            @endif
+
+            @include('components.buttons.btn-cancel', ['content' => 'Cancelar', 'route' => route('user_index')])
+        </div>
+    </div>
 
 </div>
