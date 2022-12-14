@@ -135,6 +135,9 @@ Route::prefix('/users')->group(function() {
     Route::get('/edit/{id}', [UserController::class, 'actionEdit'])->name('user_edit');
     Route::get('/update/{id}', [UserController::class, 'actionUpdate'])->name('user_update');
     Route::delete('/delete/{id}', [UserController::class, 'actionDelete'])->name('user_delete');
+
+    Route::post('/import', [UserController::class, 'actionImport'])->name('user_import');
+    Route::get('/importView', [UserController::class, 'actionImportView'])->name('user_import_view');
 });
 
 /** json */

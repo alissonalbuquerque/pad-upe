@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\UsersImport;
 use App\Models\User;
+use App\Models\UserType;
 use App\Models\Util\Menu;
 use App\Models\Util\Status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\HeadingRowImport;
 use NunoMaduro\Collision\Adapters\Phpunit\State;
 
 class UserController extends Controller
@@ -113,5 +118,52 @@ class UserController extends Controller
 
     public function actionDelete($id) {
 
+    }
+
+    public function actionImport(Request $request)
+    {   
+        $request->validate(['file' => 'required|mimes:csv,txt,xlx,xls,xlsx,pdf|max:2048']);
+        
+        $file = $request->file;
+        	
+        $excel = Excel::toArray(new UsersImport, $file)[0];
+
+        unset($excel[0]);
+
+        foreach($excel as $row)
+        {   
+            $email = trim(strtolower($row[7]));
+
+            if($email == "#n/a" || $email == "-") {
+                continue;
+            } else {
+
+                $password = explode("@", $email);
+                $password = array_shift($password);
+
+                $user = new User();
+                $user->name = trim($row[1]);
+                $user->email = $email;
+                $user->password = Hash::make($password);
+                $user->status = Status::ATIVO;
+
+                $user->save();
+
+                $userType = new UserType();
+                $userType->user_id = $user->id;
+                $userType->type = UserTYPE::TEACHER;
+                $userType->status = Status::ATIVO;
+                $userType->selected = true;
+
+                $userType->save();
+            }
+        }
+
+        return redirect()->route('user_import_view')->with('success', 'Importado com Sucesso');
+    }
+
+    public function actionImportView()
+    {
+        return view('users.importView');   
     }
 }
