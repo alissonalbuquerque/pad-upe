@@ -9,6 +9,16 @@
         </h3>
     </div>
     <div class="d-flex">
-       
+        @foreach($userPads as $userPad)
+            <div class="card mx-2" style="width: 12rem;">
+                <div class="card-body">
+                    
+                    <h3 class="text-center"> <i class="bi bi-book-half"></i> </h3>
+                    
+                    
+                    <a class="stretched-link" href="{{ route('pad_view', ['id' => $userPad->id]) }}"></a>
+                </div>
+            </div>
+        @endforeach
     </div>
 </div>
