@@ -198,6 +198,22 @@ class User extends Authenticatable
         return new UserQuery(get_called_class());
     }
 
+    public function dashboardName()
+    {
+        $name = $this->name;
+        $split = explode(' ', $name);
+
+        $dashboardName = '';
+
+        if(count($split) >= 2) {
+            $dashboardName = array_shift($split) . ' ' . array_shift($split);
+        } else {
+            $dashboardName = array_shift($split);
+        }
+
+        return $dashboardName;
+    }
+
     /**
      * @return string
      */

@@ -130,13 +130,22 @@ class UserController extends Controller
 
         unset($excel[0]);
 
+        $excel = array_filter($excel,
+            function($row) {
+                $email = trim($row[7]);
+                return strstr($email, '@');
+            }
+        );
+
+        $importCount = 0;
+        $duplicados = 0;
         foreach($excel as $row)
         {   
             $email = trim(strtolower($row[7]));
 
-            if($email == "#n/a" || $email == "-") {
-                continue;
-            } else {
+            $userQuery = User::initQuery()->whereEmail($email)->first();
+            
+            if($userQuery === null) {
 
                 $password = explode("@", $email);
                 $password = array_shift($password);
@@ -147,19 +156,26 @@ class UserController extends Controller
                 $user->password = Hash::make($password);
                 $user->status = Status::ATIVO;
 
-                $user->save();
+                if($user->save())
+                {
+                    $userType = new UserType();
+                    $userType->user_id = $user->id;
+                    $userType->type = UserTYPE::TEACHER;
+                    $userType->status = Status::ATIVO;
+                    $userType->selected = true;
 
-                $userType = new UserType();
-                $userType->user_id = $user->id;
-                $userType->type = UserTYPE::TEACHER;
-                $userType->status = Status::ATIVO;
-                $userType->selected = true;
+                    if($userType->save())
+                    {
+                        $importCount++;
+                    }
+                }
 
-                $userType->save();
+            } else {
+                $duplicados++;
             }
         }
 
-        return redirect()->route('user_import_view')->with('success', 'Importado com Sucesso');
+        return redirect()->route('user_import_view')->with('success', sprintf('Importado com Sucesso! Importados: %d | Duplicados: %d', $importCount, $duplicados));
     }
 
     public function actionImportView()
