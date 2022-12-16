@@ -27,12 +27,10 @@ class DashboardController extends Controller
         }
 
         if($user->isTypeTeacher())
-        {   
-            $userType = $user->profile(UserType::TEACHER);
-
+        {
             $userPads = 
                 UserPad::initQuery()
-                    ->whereUser($userType->id)
+                    ->whereUser($user->id)
                     ->wherePadStatus(Status::ATIVO)
                     ->get();
 

@@ -16,10 +16,10 @@ class UserPad extends Model
 
     protected $table = 'user_pad';
 
-    protected $fillable = ['id', 'user_type_id', 'pad_id', 'status'];
+    protected $fillable = ['id', 'user_id', 'pad_id', 'status'];
 
     public function user() {
-        return $this->belongsTo(UserType::class);
+        return $this->belongsTo(User::class);
     }
 
     public function pad() {

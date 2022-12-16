@@ -29,7 +29,7 @@ class UserPadQuery extends CustomQuery
      */
     public function whereUser($user_type_id, $operator = '=')
     {   
-        $this->query = $this->query->where('user_type_id', $operator, $user_type_id);
+        $this->query = $this->query->where('user_id', $operator, $user_type_id);
         return self::$instance;
     }
 

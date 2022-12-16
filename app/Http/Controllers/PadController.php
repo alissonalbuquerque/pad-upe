@@ -102,13 +102,13 @@ class PadController extends Controller
                 
                 foreach($users as $user)
                 {   
-                    $userType = $user->profile(UserType::TEACHER);
+                    $profile = $user->profile(UserType::TEACHER);
 
-                    if($userType)
+                    if($profile)
                     {
                         $userPad = new UserPad();
                         $userPad->pad_id = $model->id;
-                        $userPad->user_type_id = $userType->id;
+                        $userPad->user_id = $user->id;
                         $userPad->status = Status::ATIVO;
                         
                         $userPad->save();
