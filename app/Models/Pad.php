@@ -30,3 +30,4 @@ class Pad extends Model
         return Carbon::parse($this->data_fim)->format('d/m/Y');
     }
 }
+
