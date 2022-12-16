@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\PAD;
+use App\Models\Pad;
 use App\Models\User;
 use App\Models\Util\Status;
 use Illuminate\Database\Seeder;

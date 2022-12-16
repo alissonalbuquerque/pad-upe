@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
  
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\PAD;
+use App\Models\Pad;
 use App\Models\Tabelas\Constants;
 use App\Models\User;
 use App\Models\UserPad;

@@ -15,7 +15,7 @@ class Avaliacao extends Model
 
 
     public function tarefa() {
-        //return $this->belongsTo(PAD::class);
+        //return $this->belongsTo(Pad::class);
     }
 
     public function avaliadorPad() {

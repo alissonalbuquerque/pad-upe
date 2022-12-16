@@ -17,7 +17,7 @@ class PadQuery extends CustomQuery
     /**
      * @param integer $id
      * @param string $expression 
-     * @return PAD|null
+     * @return Pad|null
      */
     public function whereUnidadeId(int $id, string $expression = '=')
     {

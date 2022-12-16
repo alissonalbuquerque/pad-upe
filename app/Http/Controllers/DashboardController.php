@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PAD;
+use App\Models\Pad;
 use App\Models\Tabelas\Constants;
 use App\Models\UserPad;
 use App\Models\Util\Menu;
@@ -38,12 +38,12 @@ class DashboardController extends Controller
         
         if($user->isTypeDirector())
         {
-            return view('dashboard', ['PADs' => PAD::all(), 'menu'=> Menu::HOME]);
+            return view('dashboard', ['PADs' => Pad::all(), 'menu'=> Menu::HOME]);
         }
 
         if($user->isTypeCoordinator())
         {
-            return view('dashboard', ['PADs' => PAD::all(), 'menu'=> Menu::HOME]);
+            return view('dashboard', ['PADs' => Pad::all(), 'menu'=> Menu::HOME]);
         } 
 
         if($user->isTypeEvaluator())
