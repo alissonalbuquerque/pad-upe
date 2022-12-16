@@ -1,7 +1,5 @@
 @php
     use App\Models\Pad;
-
-    <!-- dd('pad'); -->
 @endphp
 
 <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
