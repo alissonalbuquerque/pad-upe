@@ -23,7 +23,7 @@ class UserPad extends Model
     }
 
     public function pad() {
-        return $this->belongsTo(Pad::class);
+        return $this->belongsTo(Pad::class, 'pad_id');
     }
 
     public function statusAsText() {
