@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pad;
 use App\Models\Tabelas\Constants;
 use App\Models\UserPad;
+use App\Models\UserType;
 use App\Models\Util\Menu;
 use App\Models\Util\MenuItemsAdmin;
 use App\Models\Util\MenuItemsTeacher;
@@ -27,9 +28,11 @@ class DashboardController extends Controller
 
         if($user->isTypeTeacher())
         {   
+            $userType = $user->profile(UserType::TEACHER);
+
             $userPads = 
                 UserPad::initQuery()
-                    ->whereUser($user->id)
+                    ->whereUser($userType->id)
                     ->wherePadStatus(Status::ATIVO)
                     ->get();
 
