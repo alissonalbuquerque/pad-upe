@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Queries\UserPadQuery;
-use app\Models\Pad;
+use App\Models\Pad;
 use App\Models\Util\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
