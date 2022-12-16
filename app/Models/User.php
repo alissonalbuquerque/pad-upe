@@ -41,66 +41,21 @@ class User extends Authenticatable
     ];
 
 
-    // Validate User General:  name, email and password
-    public static function ruleDefault()
+    public static function validator(array $attributes)
     {
-        return [
+        $rules = [
             'name' => ['required', 'min:4'],
             'email' => ['required', 'email']
         ];
-    }
-
-    public static function validatePassword()
-    {
-        return [
-
-        ];
-    }
-
-    // Validate User from Type Admin
-    public static function ruleAdmin()
-    {
-        return [
-
-        ];
-    }
-
-    // Validate User from Type Teacher
-    public static function ruleTeacher()
-    {
-
-        return [];
-    }
-
-    public static function messages()
-    {
-        return [
-            'name.required' => 'O campo "Nome" é obrigatório!',
-            'email.required' => 'O "E-Mail" é obrigatório',
-        ];
-    }
-
-    /** 
-     * Validar os campos de acordo com as regras implementadas
-     * 
-     */
-    public static function validator($attributes, $rule_password = false) {
-
-        $rules = [
-            'name' => ['required'],
-            'email' => ['required', 'email'],
-        ];
-
-        if($rule_password) {
-            $rules = [
-                'password' => ['required', 'min:8'],
-                'password_confirmation' => [],
-            ];
-        }
 
         $messages = [
-            // 'unique' => "O :attribute já está registrado no sistema",
-            'required' => "O :attribute precisa ser preenchido",
+            //name
+            'name.min' => 'O campo "Nome" dever ter no mínimo 4 caracteres.',
+            'name.required' => 'O campo "Nome" é obrigatório.',
+
+            //email
+            'email.required' => 'O campo "E-Mail" é obrigatório.',
+            'email.email' => 'O campo "E-Mail" deve conter um e-mail valido.'
         ];
 
         try {
@@ -108,8 +63,56 @@ class User extends Authenticatable
         } catch(ValidationException $exception) {
 
         }
-
     }
+
+    public static function validatorPassword(array $attributes)
+    {
+        $rules = [
+            'password' => ['required', 'min:8'],
+            'password_confirmation' => [],
+        ];
+
+        $messages = [
+
+        ];
+
+        try{
+            return Validator::make($attributes, $rules, $messages);
+        } catch(ValidationException $exception) {
+
+        }
+    }
+
+    /** 
+    * Validar os campos de acordo com as regras implementadas
+    * 
+    */
+    // public static function validator($attributes, $rule_password = false) {
+
+    //     $rules = [
+    //         'name' => ['required'],
+    //         'email' => ['required', 'email'],
+    //     ];
+
+    //     if($rule_password) {
+    //         $rules = [
+    //             'password' => ['required', 'min:8'],
+    //             'password_confirmation' => [],
+    //         ];
+    //     }
+
+    //     $messages = [
+    //         // 'unique' => "O :attribute já está registrado no sistema",
+    //         'required' => "O :attribute precisa ser preenchido",
+    //     ];
+
+    //     try {
+    //         return Validator::make($attributes, $rules, $messages);
+    //     } catch(ValidationException $exception) {
+
+    //     }
+
+    // }
 
     /**
      * Get Curso with curso.id = user.curso_id
@@ -133,10 +136,7 @@ class User extends Authenticatable
 
     public function profile($type_profile)
     {
-        return UserType::initQuery()
-                        ->whereUser($this->id)
-                        ->whereType($type_profile)
-                        ->first();
+        return UserType::initQuery()->whereUser($this->id)->whereType($type_profile)->first();
     }
 
     /** @return UserType[]|null */

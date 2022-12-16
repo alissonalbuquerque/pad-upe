@@ -93,6 +93,8 @@ class PadController extends Controller
         if($validated)
         {
             $model = new Pad($request->all());
+
+            $users = User::initQuery()->whereType(UserType::TEACHER)->get();
     
             if($model->save())
             {
@@ -100,14 +102,17 @@ class PadController extends Controller
                 
                 foreach($users as $user)
                 {   
-                    $profile = $user->profile(UserType::TEACHER);
+                    $userType = $user->profile(UserType::TEACHER);
 
-                    $userPad = new UserPad();
-                    $userPad->pad_id = $model->id;
-                    $userPad->user_type_id = $profile->id;
-                    $userPad->status = Status::ATIVO;
-                    
-                    $userPad->save();
+                    if($userType)
+                    {
+                        $userPad = new UserPad();
+                        $userPad->pad_id = $model->id;
+                        $userPad->user_type_id = $userType->id;
+                        $userPad->status = Status::ATIVO;
+                        
+                        $userPad->save();
+                    }
                 }
 
                 return redirect()->route('pad_index')->with('success', 'PAD cadastrado com sucesso!');

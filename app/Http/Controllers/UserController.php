@@ -17,12 +17,13 @@ use NunoMaduro\Collision\Adapters\Phpunit\State;
 
 class UserController extends Controller
 {   
-    public function editPerfil() {
+    public function editPerfil()
+    {   
         return view('user.update_perfil', ['menu' => Menu::USER]);
     }
 
-    public function updatePerfil(Request $request) {
-
+    public function updatePerfil(Request $request)
+    {   
         $validator = User::validator($request->all());
 
         if($validator->fails()) {
@@ -34,12 +35,11 @@ class UserController extends Controller
         $user->save();
         
         return redirect()->route('edit_perfil')->with('success', 'Salvo com sucesso!');
-
     }
 
-    public function updatePassword(Request $request) {
-
-        $validator = User::validator($request->all(), true);
+    public function updatePassword(Request $request)
+    {
+        $validator = User::validatorPassword($request->all());
 
         // if($validator->fails()) {
         //     return redirect()->back()->withErrors($validator->errors());
