@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Queries\UserPadQuery;
-use App\Models\Pad;
+use app\Models\Pad;
 use App\Models\Util\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,7 +23,7 @@ class UserPad extends Model
     }
 
     public function pad() {
-        return $this->belongsTo(Pad::class, 'pad_id');
+        return $this->belongsTo(Pad::class);
     }
 
     public function statusAsText() {
