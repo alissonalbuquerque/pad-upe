@@ -15,7 +15,7 @@
                 <x-auth-validation-errors class="alert alert-danger mb-2" :errors="$errors" />
 
                 <form action="{{ route('login') }}" method="POST" class="signin-form d-md-flex">
-                    @csrf
+                    
 
                     <!-- Informações -->
                     <div class="half p-4 py-md-5 bg-primary">
@@ -23,10 +23,11 @@
                             <h4 class="mb-4"> Informações </h4>
                         </div>
                         <p class="w-100 text-center"> Bem Vindo ao PAD </p>
-                        <p class="w-100 text-center"> O primeiro acesso deve ser realizado utilizando o seu e-mail institucional como login e parte local do email como senha. </p>
+                        <p class="w-100 text-center"> Serviço em ajuste. Em breve, será novamente liberado </p>
+                        <!-- <p class="w-100 text-center"> O primeiro acesso deve ser realizado utilizando o seu e-mail institucional como login e parte local do email como senha. </p>
                         <p class="w-100 font-weight-bold"> Exemplo: </p>
                         <p class="w-100 font-weight-bold"> <span class="bold"> Login: </span> usuario.email@upe.br </p>
-                        <p class="w-100 font-weight-bold"> <span class="bold"> Senha: </span> usuario.email </p>
+                        <p class="w-100 font-weight-bold"> <span class="bold"> Senha: </span> usuario.email </p> -->
 
                         <!-- <p class="w-100 text-center">O primeiro acesso deve ser realizado utilizando seu e-mail
                             e CPF, nos campos de login e senha respectivamente</p> -->
