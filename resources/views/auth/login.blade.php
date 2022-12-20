@@ -23,7 +23,7 @@
                             <h4 class="mb-4"> Informações </h4>
                         </div>
                         <p class="w-100 text-center"> Bem Vindo ao PAD </p>
-                        <p class="w-100 text-center"> Serviço em ajuste. Em breve, será novamente liberado </p>
+                        <p class="w-100 text-center text-danger"> Serviço em ajuste. Em breve, será novamente liberado </p>
                         <!-- <p class="w-100 text-center"> O primeiro acesso deve ser realizado utilizando o seu e-mail institucional como login e parte local do email como senha. </p>
                         <p class="w-100 font-weight-bold"> Exemplo: </p>
                         <p class="w-100 font-weight-bold"> <span class="bold"> Login: </span> usuario.email@upe.br </p>
