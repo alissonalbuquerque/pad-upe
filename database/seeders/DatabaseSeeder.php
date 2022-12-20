@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             // CampusSeeder::class,
             // CursoSeeder::class,
             // UserSeeder::class,
-            PlanejamentoSeeder::class,
+            // PlanejamentoSeeder::class,
             // PadSeeder::class,
             // DisciplinaSeeder::class,
             // EvaluatorSeeder::class,
