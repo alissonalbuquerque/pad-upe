@@ -29,6 +29,8 @@ class ExtensaoCoordenacaoController extends Controller
 
         $funcoes = Constants::listFuncaoProjeto();
 
+        $planejamentos = ExtensaoCoordenacao::listPlanejamentos();
+
         $divs = PadTables::tablesExtensao($user_pad_id);
 
         return view('pad.components.templates.dimensao.extensao.coordenacao.form_create', [
@@ -36,6 +38,7 @@ class ExtensaoCoordenacaoController extends Controller
 
             'divs' => $divs,
             'funcoes' => $funcoes,
+            'planejamentos' => $planejamentos,
 
             'user_pad_id' => $user_pad_id,
             'index_menu' => MenuItemsTeacher::PAD,
@@ -46,10 +49,12 @@ class ExtensaoCoordenacaoController extends Controller
 
         $model = ExtensaoCoordenacao::find($id);
         $funcoes = Constants::listFuncaoProjeto();
+        $planejamentos = ExtensaoCoordenacao::listPlanejamentos();
         
         return view('pad.components.templates.dimensao.extensao.coordenacao.form_update', [
             'model' => $model,
-            'funcoes' => $funcoes
+            'funcoes' => $funcoes,
+            'planejamentos' => $planejamentos
         ]);
     }
 
@@ -64,20 +69,29 @@ class ExtensaoCoordenacaoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request) {
-        
-        $planejamento = Planejamento::initQuery()->whereCodDimensao('X-1')->first();
-        
-        $ch_min = $planejamento->ch_semanal;
-        $ch_max = $planejamento->ch_maxima;
+    public function create(Request $request)
+    {
+        if($request->cod_dimensao)
+        {   
+            $planejamento = Planejamento::initQuery()->whereCodDimensao($request->cod_dimensao)->first();
+            
+            $ch_min = $planejamento->ch_semanal;
+            $ch_max = $planejamento->ch_maxima;
 
-        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+            $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
 
-        $validator = Validator::make(
-            $request->all(), 
-            array_merge(ExtensaoCoordenacao::rules(), $cargaHoraria->rules()),
-            array_merge(ExtensaoCoordenacao::messages(), $cargaHoraria->messages())
-        );
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(ExtensaoCoordenacao::rules(), $cargaHoraria->rules()),
+                array_merge(ExtensaoCoordenacao::messages(), $cargaHoraria->messages())
+            );
+        } else {
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(ExtensaoCoordenacao::rules(), CargaHorariaValidation::defaultRules()),
+                array_merge(ExtensaoCoordenacao::messages(), CargaHorariaValidation::defaultMessages())
+            );
+        }
 
         if($validator->fails())
         {   
@@ -118,20 +132,29 @@ class ExtensaoCoordenacaoController extends Controller
         
     }
     
-    public function update($id, Request $request) {
-    
-        $planejamento = Planejamento::initQuery()->whereCodDimensao('X-1')->first();
-        
-        $ch_min = $planejamento->ch_semanal;
-        $ch_max = $planejamento->ch_maxima;
+    public function update($id, Request $request)
+    {
+        if($request->cod_dimensao)
+        {   
+            $planejamento = Planejamento::initQuery()->whereCodDimensao($request->cod_dimensao)->first();
+            
+            $ch_min = $planejamento->ch_semanal;
+            $ch_max = $planejamento->ch_maxima;
 
-        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+            $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
 
-        $validator = Validator::make(
-            $request->all(), 
-            array_merge(ExtensaoCoordenacao::rules(), $cargaHoraria->rules()),
-            array_merge(ExtensaoCoordenacao::messages(), $cargaHoraria->messages())
-        );
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(ExtensaoCoordenacao::rules(), $cargaHoraria->rules()),
+                array_merge(ExtensaoCoordenacao::messages(), $cargaHoraria->messages())
+            );
+        } else {
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(ExtensaoCoordenacao::rules(), CargaHorariaValidation::defaultRules()),
+                array_merge(ExtensaoCoordenacao::messages(), CargaHorariaValidation::defaultMessages())
+            );
+        }
 
         $model = ExtensaoCoordenacao::find($id);
         $model->fill($request->all());
@@ -185,19 +208,28 @@ class ExtensaoCoordenacaoController extends Controller
     }
 
     public function ajaxValidation(Request $request)
-    {   
-        $planejamento = Planejamento::initQuery()->whereCodDimensao('X-1')->first();
-        
-        $ch_min = $planejamento->ch_semanal;
-        $ch_max = $planejamento->ch_maxima;
+    {
+        if($request->cod_dimensao)
+        {   
+            $planejamento = Planejamento::initQuery()->whereCodDimensao($request->cod_dimensao)->first();
+            
+            $ch_min = $planejamento->ch_semanal;
+            $ch_max = $planejamento->ch_maxima;
 
-        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+            $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
 
-        $validator = Validator::make(
-            $request->all(), 
-            array_merge(ExtensaoCoordenacao::rules(), $cargaHoraria->rules()),
-            array_merge(ExtensaoCoordenacao::messages(), $cargaHoraria->messages())
-        );
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(ExtensaoCoordenacao::rules(), $cargaHoraria->rules()),
+                array_merge(ExtensaoCoordenacao::messages(), $cargaHoraria->messages())
+            );
+        } else {
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(ExtensaoCoordenacao::rules(), CargaHorariaValidation::defaultRules()),
+                array_merge(ExtensaoCoordenacao::messages(), CargaHorariaValidation::defaultMessages())
+            );
+        }
 
         if($validator->passes()) {
             return Response::json(['message' => true, 'status' => 200]);

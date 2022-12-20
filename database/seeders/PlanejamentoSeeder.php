@@ -44,9 +44,24 @@ class PlanejamentoSeeder extends Seeder
         ];
 
         $list_extensao = [
-            ['cod_dimensao' => 'X-1', 'dimensao' => Planejamento::EXTENSAO, 'descricao' => 'Coordenação e/ou participação em atividades de Extensão homologadas na PROEC', 'ch_semanal' => null, 'ch_maxima' => 12],
-            ['cod_dimensao' => 'X-2', 'dimensao' => Planejamento::EXTENSAO, 'descricao' => 'Orientação ou acompanhamento de estudantes em atividades de extensão homologados na PROEC', 'ch_semanal' => 2, 'ch_maxima' => 6],
-            ['cod_dimensao' => 'X-3', 'dimensao' => Planejamento::EXTENSAO, 'descricao' => 'Atividades fora dos padrões de preenchimento apresentados anteriormente', 'ch_semanal' => null, 'ch_maxima' => null],
+            // ['cod_dimensao' => 'X-1', 'dimensao' => Planejamento::EXTENSAO, 'descricao' => 'Coordenação e/ou participação em atividades de Extensão homologadas na PROEC', 'ch_semanal' => null, 'ch_maxima' => 12],
+            // ['cod_dimensao' => 'X-2', 'dimensao' => Planejamento::EXTENSAO, 'descricao' => 'Orientação ou acompanhamento de estudantes em atividades de extensão homologados na PROEC', 'ch_semanal' => 2, 'ch_maxima' => 6],
+            // ['cod_dimensao' => 'X-3', 'dimensao' => Planejamento::EXTENSAO, 'descricao' => 'Atividades fora dos padrões de preenchimento apresentados anteriormente', 'ch_semanal' => null, 'ch_maxima' => null],
+
+            ['cod_dimensao' => 'X-4', 'dimensao' => Planejamento::EXTENSAO, 'descricao' => 'Programa: 01h para o mínimo de 2 estudantes participantes da atividade', 'ch_semanal' => 1, 'ch_maxima' => 10],
+            ['cod_dimensao' => 'X-5', 'dimensao' => Planejamento::EXTENSAO, 'descricao' => 'Projeto: 01h para o mínimo de 2 estudantes participantes da atividade', 'ch_semanal' => 1, 'ch_maxima' => 6],
+            ['cod_dimensao' => 'X-6', 'dimensao' => Planejamento::EXTENSAO, 'descricao' => 'Curso: 01h para o mínimo de 2 estudantes participantes da atividade', 'ch_semanal' => 1, 'ch_maxima' => 3],
+            ['cod_dimensao' => 'X-7', 'dimensao' => Planejamento::EXTENSAO, 'descricao' => 'Oficina: 01h para o mínimo de 2 estudantes participantes da atividade', 'ch_semanal' => 1, 'ch_maxima' => 3],
+            ['cod_dimensao' => 'X-8', 'dimensao' => Planejamento::EXTENSAO, 'descricao' => 'Evento: 01h para o mínimo de 2 estudantes participantes da atividade', 'ch_semanal' => 1, 'ch_maxima' => 3],
+            ['cod_dimensao' => 'X-9', 'dimensao' => Planejamento::EXTENSAO, 'descricao' => 'Prestação de Serviço: 01h para o mínimo de 2 estudantes participantes da atividade', 'ch_semanal' => 1, 'ch_maxima' => 4],
+
+
+            ['cod_dimensao' => 'X-10', 'dimensao' => Planejamento::EXTENSAO, 'descricao' => 'Programa: ½ h para o mínimo de 2 estudantes participantes da atividade', 'ch_semanal' => 0.5, 'ch_maxima' => 5],
+            ['cod_dimensao' => 'X-11', 'dimensao' => Planejamento::EXTENSAO, 'descricao' => 'Projeto: ½ h para o mínimo de 2 estudantes participantes da atividade', 'ch_semanal' => 0.5, 'ch_maxima' => 3],
+            ['cod_dimensao' => 'X-12', 'dimensao' => Planejamento::EXTENSAO, 'descricao' => 'Curso: ½ h para o mínimo de 2 estudantes participantes da atividade', 'ch_semanal' => 0.5, 'ch_maxima' => 1.5],
+            ['cod_dimensao' => 'X-13', 'dimensao' => Planejamento::EXTENSAO, 'descricao' => 'Oficina: ½ h para o mínimo de 2 estudantes participantes da atividade', 'ch_semanal' => 0.5, 'ch_maxima' => 1.5],
+            ['cod_dimensao' => 'X-14', 'dimensao' => Planejamento::EXTENSAO, 'descricao' => 'Evento: ½ h para o mínimo de 2 estudantes participantes da atividade', 'ch_semanal' => 0.5, 'ch_maxima' => 1.5],
+            ['cod_dimensao' => 'X-15', 'dimensao' => Planejamento::EXTENSAO, 'descricao' => 'Prestação de Serviço: ½ h para o mínimo de 2 estudantes participantes da atividade', 'ch_semanal' => 0.5, 'ch_maxima' => 2],
         ];
 
         $list_gestao = [
@@ -59,21 +74,21 @@ class PlanejamentoSeeder extends Seeder
             ['cod_dimensao' => 'G-7', 'dimensao' => Planejamento::GESTAO, 'descricao' => 'Atividades fora dos padrões de preenchimento apresentados anteriormente', 'ch_semanal' => null, 'ch_maxima' => null],
         ];
 
-        foreach($list_ensino as $ensino) {
-            Planejamento::create($ensino);
-        }
+        // foreach($list_ensino as $ensino) {
+        //     Planejamento::create($ensino);
+        // }
 
-        foreach($list_pesquisa as $pesquisa) {
-            Planejamento::create($pesquisa);
-        }
+        // foreach($list_pesquisa as $pesquisa) {
+        //     Planejamento::create($pesquisa);
+        // }
 
         foreach($list_extensao as $extensao) {
             Planejamento::create($extensao);
         }
 
-        foreach($list_gestao as $gestao) {
-            Planejamento::create($gestao);
-        }
+        // foreach($list_gestao as $gestao) {
+        //     Planejamento::create($gestao);
+        // }
 
     }
 }

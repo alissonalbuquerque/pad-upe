@@ -28,7 +28,7 @@
             <h2 class="text-center"> <i class="bi bi-mortarboard-fill"></i> </h2>
             <h3 class="text-center">Ensino</h3>
             <a class="stretched-link" href="{{ route('dimensao_ensino', ['user_pad_id' => $user_pad_id]) }}" class="btn-pad-dimensao"></a>
-        </div>
+        </div>     
     </div>
 
     <div class="card mx-2" style="width: 10rem;">

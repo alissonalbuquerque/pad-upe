@@ -42,12 +42,21 @@
                         <input class="form-control @error('cod_atividade') is-invalid @enderror ajax-errors" type="text" name="cod_atividade" id="cod_atividade" readonly>
                     </div>
 
-                    <div class="mb-3 col-sm-6">
+                    <div class="mb-3 col-sm-10">
                         <label class="form-label" for="titulo_projeto">Título do Projeto</label>
                         <input class="form-control @error('titulo_projeto') is-invalid @enderror ajax-errors" type="text" name="titulo_projeto" id="titulo_projeto" value="{{ old('titulo_projeto') }}">
                         
                         @include('components.divs.errors', [
                             'field' => 'titulo_projeto_create'
+                        ])
+                    </div>
+                    
+                    <div class="mb-3 col-sm-8">
+                        <label class="form-label" for="discente">Nome do Orientando</label>
+                        <input class="form-control @error('discente') is-invalid @enderror ajax-errors" type="text" name="discente" id="discente" value="{{ old('discente') }}">
+                        
+                        @include('components.divs.errors', [
+                            'field' => 'discente_create'
                         ])
                     </div>
 
@@ -70,11 +79,20 @@
                     </div>
 
                     <div class="mb-3 col-sm-8">
-                        <label class="form-label" for="discente">Nome do Orientando</label>
-                        <input class="form-control @error('discente') is-invalid @enderror ajax-errors" type="text" name="discente" id="discente" value="{{ old('discente') }}">
-                        
+                        <label class="form-label" for="cod_dimensao">Resolução</label>
+                        <select class="form-select @error('cod_dimensao') is-invalid @enderror ajax-errors" name="cod_dimensao" id="cod_dimensao" value="{{ old('cod_dimensao') }}">
+                            <option value="0">Selecione uma Resolução</option>
+                            @foreach($planejamentos as $value => $cod_dimensao)
+                                @if( $value == old('cod_dimensao') )
+                                    <option selected value="{{$value}}">{{$cod_dimensao}}</option>
+                                @else
+                                    <option value="{{$value}}">{{$cod_dimensao}}</option>
+                                @endif
+                            @endforeach
+                        </select>
+
                         @include('components.divs.errors', [
-                            'field' => 'discente_create'
+                            'field' => 'cod_dimensao_create'
                         ])
                     </div>
 

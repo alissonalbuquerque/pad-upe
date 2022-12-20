@@ -26,7 +26,7 @@ class ExtensaoOutrosController extends Controller
                         ->orderBy('cod_atividade')
                         ->get();
 
-        $divs = PadTables::tablesEnsino($user_pad_id);
+        $divs = PadTables::tablesExtensao($user_pad_id);
 
         return view('pad.components.templates.dimensao.extensao.outros.form_create', [
             'atividades' => $atividades,
