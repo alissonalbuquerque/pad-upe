@@ -21,18 +21,29 @@
 @section('body')
     <div class="d-flex">
         @foreach($userPads as $userPad)
+            @if($userPad->pad->status === Status::ATIVO || $userPad->pad->status === Status::ARQUIVADO)
             <div class="card mx-2" style="width: 12rem;">
-                <div class="card-body">
-                    @if($userPad->pad->status === Status::ATIVO)
+                @if($userPad->pad->status === Status::ATIVO)
+                    <div class="card-body">
+                        <div class="text-end">
+                            <span class="badge bg-primary">{{ $userPad->pad->statusAsString() }}</span>
+                        </div>
                         <h1 class="text-center"> <i class="bi bi-book-half"></i> </h1>
-                    @else
+                        <h5 class="text-center"> PAD: {{ $userPad->pad->nome }} </h4>
+                        <a class="stretched-link" href="{{ route('pad_view', ['id' => $userPad->id]) }}"></a>
+                    </div>
+                @else
+                    <div class="card-body">
+                        <div class="text-end">
+                            <span class="badge bg-secondary">{{ $userPad->pad->statusAsString() }}</span>
+                        </div>
                         <h1 class="text-center"> <i class="bi bi-journal-bookmark-fill"></i> </h1>
-                    @endif
-                    <h5 class="text-center"> PAD: {{ $userPad->pad->nome }} </h4>
-                    <h5 class="text-center"> Status: {{ $userPad->pad->statusAsString() }} </h4>
-                    <a class="stretched-link" href="{{ route('pad_view', ['id' => $userPad->id]) }}"></a>
-                </div>
+                        <h5 class="text-center"> PAD: {{ $userPad->pad->nome }} </h4>
+                        <a class="stretched-link" href="{{ route('pad_view', ['id' => $userPad->id]) }}"></a>
+                    </div>
+                @endif
             </div>
+            @endif
         @endforeach
     </div>
 @endsection

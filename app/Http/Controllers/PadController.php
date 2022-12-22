@@ -39,9 +39,9 @@ class PadController extends Controller
         }
         
         if(Auth::user()->isTypeTeacher())
-        {           
+        {
             $menu = Menu::PADS;
-            $userPads = UserPad::initQuery()->whereUser(Auth::user()->id)->get();
+            $userPads = UserPad::whereUserId(Auth::user()->id)->get();
 
             return view('pad.teacher.index', ['menu' => $menu, 'userPads' => $userPads]);
         }

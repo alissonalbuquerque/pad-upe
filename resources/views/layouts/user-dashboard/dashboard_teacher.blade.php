@@ -1,3 +1,7 @@
+@php
+    use App\Models\Util\Status;
+@endphp
+
 <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Bem Vindo ao PAD</h1>
@@ -9,17 +13,21 @@
         </h3>
     </div>
     <div class="d-flex">
-        @foreach($userPads as $userPad)
-            <div class="card mx-2" style="width: 12rem;">
-                <div class="card-body">
+        @foreach($userPads as $userPad)    
+            @if($userPad->pad->status === Status::ATIVO)
+                <div class="card mx-2" style="width: 12rem;">
+
+                    <div class="card-body">
+                        <div class="text-end">
+                            <span class="badge bg-primary">{{ $userPad->pad->statusAsString() }}</span>
+                        </div>
+                        <h1 class="text-center"> <i class="bi bi-book-half"></i> </h1>
+                        <h5 class="text-center"> PAD: {{ $userPad->pad->nome }} </h4>
+                        <a class="stretched-link" href="{{ route('pad_view', ['id' => $userPad->id]) }}"></a>
+                    </div>
                     
-                    <h3 class="text-center"> <i class="bi bi-book-half"></i> </h3>
-                    
-                    <h5 class="text-center"> PAD: {{ $userPad->pad->nome }} </h4>
-                    <h5 class="text-center"> Status: {{ $userPad->pad->statusAsString() }} </h4>
-                    <a class="stretched-link" href="{{ route('pad_view', ['id' => $userPad->id]) }}"></a>
                 </div>
-            </div>
+            @endif
         @endforeach
     </div>
 </div>
