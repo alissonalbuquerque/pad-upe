@@ -26,7 +26,7 @@ class PesquisaOutrosController extends Controller
                         ->orderBy('cod_atividade')
                         ->get();
 
-        $divs = PadTables::tablesEnsino($user_pad_id);
+        $divs = PadTables::tablesPesquisa($user_pad_id);
 
         return view('pad.components.templates.dimensao.pesquisa.outros.form_create', [
             'atividades' => $atividades,
