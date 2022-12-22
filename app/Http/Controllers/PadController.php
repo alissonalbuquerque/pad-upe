@@ -6,6 +6,30 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Pad;
 use App\Models\Tabelas\Constants;
+use App\Models\Tabelas\Ensino\EnsinoAtendimentoDiscente;
+use App\Models\Tabelas\Ensino\EnsinoAula;
+use App\Models\Tabelas\Ensino\EnsinoCoordenacaoRegencia;
+use App\Models\Tabelas\Ensino\EnsinoMembroDocente;
+use App\Models\Tabelas\Ensino\EnsinoOrientacao;
+use App\Models\Tabelas\Ensino\EnsinoOutros;
+use App\Models\Tabelas\Ensino\EnsinoParticipacao;
+use App\Models\Tabelas\Ensino\EnsinoProjeto;
+use App\Models\Tabelas\Ensino\EnsinoSupervisao;
+use App\Models\Tabelas\Extensao\ExtensaoCoordenacao;
+use App\Models\Tabelas\Extensao\ExtensaoOrientacao;
+use App\Models\Tabelas\Extensao\ExtensaoOutros;
+use App\Models\Tabelas\Gestao\GestaoCoordenacaoLaboratoriosDidaticos;
+use App\Models\Tabelas\Gestao\GestaoCoordenacaoProgramaInstitucional;
+use App\Models\Tabelas\Gestao\GestaoMembroCamaras;
+use App\Models\Tabelas\Gestao\GestaoMembroComissao;
+use App\Models\Tabelas\Gestao\GestaoMembroConselho;
+use App\Models\Tabelas\Gestao\GestaoMembroTitularConselho;
+use App\Models\Tabelas\Gestao\GestaoOutros;
+use App\Models\Tabelas\Gestao\GestaoRepresentanteUnidadeEducacao;
+use App\Models\Tabelas\Pesquisa\PesquisaCoordenacao;
+use App\Models\Tabelas\Pesquisa\PesquisaLideranca;
+use App\Models\Tabelas\Pesquisa\PesquisaOrientacao;
+use App\Models\Tabelas\Pesquisa\PesquisaOutros;
 use App\Models\User;
 use App\Models\UserPad;
 use App\Models\UserType;
@@ -53,9 +77,49 @@ class PadController extends Controller
      */
     public function view($id)
     {   
-        // dd('teste');
+        $ensinoTotalHoras = 
+            EnsinoAtendimentoDiscente::whereUserPadId($id)->sum('ch_semanal')
+            + EnsinoAula::whereUserPadId($id)->sum('ch_semanal')
+            + EnsinoCoordenacaoRegencia::whereUserPadId($id)->sum('ch_semanal')
+            + EnsinoMembroDocente::whereUserPadId($id)->sum('ch_semanal')
+            + EnsinoOrientacao::whereUserPadId($id)->sum('ch_semanal')
+            + EnsinoOutros::whereUserPadId($id)->sum('ch_semanal')
+            + EnsinoParticipacao::whereUserPadId($id)->sum('ch_semanal')
+            + EnsinoProjeto::whereUserPadId($id)->sum('ch_semanal')
+            + EnsinoSupervisao::whereUserPadId($id)->sum('ch_semanal');
+        
+        $gestaoTotalHoras = 
+            GestaoCoordenacaoLaboratoriosDidaticos::whereUserPadId($id)->sum('ch_semanal')
+            + GestaoCoordenacaoProgramaInstitucional::whereUserPadId($id)->sum('ch_semanal')
+            + GestaoMembroCamaras::whereUserPadId($id)->sum('ch_semanal')
+            + GestaoMembroComissao::whereUserPadId($id)->sum('ch_semanal')
+            + GestaoMembroConselho::whereUserPadId($id)->sum('ch_semanal')
+            + GestaoMembroTitularConselho::whereUserPadId($id)->sum('ch_semanal')
+            + GestaoOutros::whereUserPadId($id)->sum('ch_semanal')
+            + GestaoRepresentanteUnidadeEducacao::whereUserPadId($id)->sum('ch_semanal');
+        
+        $pesquisaTotalHoras =
+            PesquisaCoordenacao::whereUserPadId($id)->sum('ch_semanal')
+            + PesquisaLideranca::whereUserPadId($id)->sum('ch_semanal')
+            + PesquisaOrientacao::whereUserPadId($id)->sum('ch_semanal')
+            + PesquisaOutros::whereUserPadId($id)->sum('ch_semanal');
+
+        $extensaoTotalHoras =
+            ExtensaoCoordenacao::whereUserPadId($id)->sum('ch_semanal')
+            + ExtensaoOrientacao::whereUserPadId($id)->sum('ch_semanal')
+            + ExtensaoOutros::whereUserPadId($id)->sum('ch_semanal');
+
+        $padTotalHoras = $gestaoTotalHoras + $ensinoTotalHoras + $pesquisaTotalHoras + $extensaoTotalHoras;
+
         $menu = Menu::PADS;
-        return view('pad.teacher.view', ['user_pad_id' => $id, 'menu' => $menu]);
+        return view('pad.teacher.view', [
+            'menu' => $menu,
+            'user_pad_id' => $id, 
+            'gestaoTotalHoras' => $gestaoTotalHoras,
+            'ensinoTotalHoras' => $ensinoTotalHoras,
+            'pesquisaTotalHoras' => $pesquisaTotalHoras,
+            'extensaoTotalHoras' => $extensaoTotalHoras,
+        ]);
     }
     
     /**
