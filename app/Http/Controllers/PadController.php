@@ -109,8 +109,6 @@ class PadController extends Controller
             + ExtensaoOrientacao::whereUserPadId($id)->sum('ch_semanal')
             + ExtensaoOutros::whereUserPadId($id)->sum('ch_semanal');
 
-        $padTotalHoras = $gestaoTotalHoras + $ensinoTotalHoras + $pesquisaTotalHoras + $extensaoTotalHoras;
-
         $menu = Menu::PADS;
         return view('pad.teacher.view', [
             'menu' => $menu,
