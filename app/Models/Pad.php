@@ -54,40 +54,43 @@ class Pad extends Model
         return Carbon::parse($this->data_fim)->format('d/m/Y');
     }
 
-    public function getTotalHoras()
+    public function totalHoras()
     {
-        $id = $this->id;
+        $ensinoTotalHoras = 
+            EnsinoAtendimentoDiscente::whereUserPadId($this->id)->sum('ch_semanal')
+            + EnsinoAula::whereUserPadId($this->id)->sum('ch_semanal')
+            + EnsinoCoordenacaoRegencia::whereUserPadId($this->id)->sum('ch_semanal')
+            + EnsinoMembroDocente::whereUserPadId($this->id)->sum('ch_semanal')
+            + EnsinoOrientacao::whereUserPadId($this->id)->sum('ch_semanal')
+            + EnsinoOutros::whereUserPadId($this->id)->sum('ch_semanal')
+            + EnsinoParticipacao::whereUserPadId($this->id)->sum('ch_semanal')
+            + EnsinoProjeto::whereUserPadId($this->id)->sum('ch_semanal')
+            + EnsinoSupervisao::whereUserPadId($this->id)->sum('ch_semanal');
         
-        return (
+        $gestaoTotalHoras = 
+            GestaoCoordenacaoLaboratoriosDidaticos::whereUserPadId($this->id)->sum('ch_semanal')
+            + GestaoCoordenacaoProgramaInstitucional::whereUserPadId($this->id)->sum('ch_semanal')
+            + GestaoMembroCamaras::whereUserPadId($this->id)->sum('ch_semanal')
+            + GestaoMembroComissao::whereUserPadId($this->id)->sum('ch_semanal')
+            + GestaoMembroConselho::whereUserPadId($this->id)->sum('ch_semanal')
+            + GestaoMembroTitularConselho::whereUserPadId($this->id)->sum('ch_semanal')
+            + GestaoOutros::whereUserPadId($this->id)->sum('ch_semanal')
+            + GestaoRepresentanteUnidadeEducacao::whereUserPadId($this->id)->sum('ch_semanal');
+        
+        $pesquisaTotalHoras =
+            PesquisaCoordenacao::whereUserPadId($this->id)->sum('ch_semanal')
+            + PesquisaLideranca::whereUserPadId($this->id)->sum('ch_semanal')
+            + PesquisaOrientacao::whereUserPadId($this->id)->sum('ch_semanal')
+            + PesquisaOutros::whereUserPadId($this->id)->sum('ch_semanal');
 
-            EnsinoAtendimentoDiscente::whereUserPadId($id)->sum('ch_semanal')
-            + EnsinoAula::whereUserPadId($id)->sum('ch_semanal')
-            + EnsinoCoordenacaoRegencia::whereUserPadId($id)->sum('ch_semanal')
-            + EnsinoMembroDocente::whereUserPadId($id)->sum('ch_semanal')
-            + EnsinoOrientacao::whereUserPadId($id)->sum('ch_semanal')
-            + EnsinoOutros::whereUserPadId($id)->sum('ch_semanal')
-            + EnsinoParticipacao::whereUserPadId($id)->sum('ch_semanal')
-            + EnsinoProjeto::whereUserPadId($id)->sum('ch_semanal')
-            + EnsinoSupervisao::whereUserPadId($id)->sum('ch_semanal')
-            
-            + GestaoCoordenacaoLaboratoriosDidaticos::whereUserPadId($id)->sum('ch_semanal')
-            + GestaoCoordenacaoProgramaInstitucional::whereUserPadId($id)->sum('ch_semanal')
-            + GestaoMembroCamaras::whereUserPadId($id)->sum('ch_semanal')
-            + GestaoMembroComissao::whereUserPadId($id)->sum('ch_semanal')
-            + GestaoMembroConselho::whereUserPadId($id)->sum('ch_semanal')
-            + GestaoMembroTitularConselho::whereUserPadId($id)->sum('ch_semanal')
-            + GestaoOutros::whereUserPadId($id)->sum('ch_semanal')
-            + GestaoRepresentanteUnidadeEducacao::whereUserPadId($id)->sum('ch_semanal')
-            
-            + PesquisaCoordenacao::whereUserPadId($id)->sum('ch_semanal')
-            + PesquisaLideranca::whereUserPadId($id)->sum('ch_semanal')
-            + PesquisaOrientacao::whereUserPadId($id)->sum('ch_semanal')
-            + PesquisaOutros::whereUserPadId($id)->sum('ch_semanal')
+        $extensaoTotalHoras =
+            ExtensaoCoordenacao::whereUserPadId($this->id)->sum('ch_semanal')
+            + ExtensaoOrientacao::whereUserPadId($this->id)->sum('ch_semanal')
+            + ExtensaoOutros::whereUserPadId($this->id)->sum('ch_semanal');
 
-            + ExtensaoCoordenacao::whereUserPadId($id)->sum('ch_semanal')
-            + ExtensaoOrientacao::whereUserPadId($id)->sum('ch_semanal')
-            + ExtensaoOutros::whereUserPadId($id)->sum('ch_semanal')
-        );
+        $totalHoras = $ensinoTotalHoras + $gestaoTotalHoras + $pesquisaTotalHoras + $extensaoTotalHoras;
+
+        return $totalHoras;
     }
 }
 
