@@ -25,13 +25,32 @@
         <h3 class="h4"> Atualizar - Usuário </h3>
     </div>
 
-    <form action="{{route('user_update', ['id' => $model->id])}}" method="POST">
-        @include('users._form', [
-            'model' => $model,
-            'status' => $status,
-        ])
-    </form>
+    @include('users._form', [
+        'action' => route('user_update', ['id' => $model->id]),
+        'model' => $model,
+        'status' => $status,
+        'profiles' => $profiles,
+    ])
 
+    @include('components.modal', [
+        'size' => 'modal-lg',
+    ])
 </div>
+
+@endsection
+
+@section('scripts')
+
+    @include('pad.components.scripts.dimensao.ensino.show_modal', [
+        'modal_id' => 'modal',
+        'route' => route('user-type_create', ['user_id' => $model->id]),
+        'btn_class' => 'user-type-create',
+    ])
+
+    @include('pad.components.scripts.dimensao.ensino.show_modal', [
+        'modal_id' => 'modal',
+        'route' => route('user-type_edit'),
+        'btn_class' => 'btn-edit_user_type',
+    ])
 
 @endsection

@@ -23,4 +23,14 @@ class Status
     
         return $value !== null? $values[$value] : $values;
     }
+
+    public static function listUserTypeStatus($value = null) {
+    
+        $values = [
+            self::ATIVO => 'Ativo',
+            self::INATIVO => 'Inativo',
+        ];
+    
+        return $value !== null? $values[$value] : $values;
+    }
 }

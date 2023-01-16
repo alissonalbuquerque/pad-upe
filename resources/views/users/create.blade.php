@@ -25,9 +25,10 @@
         <h3 class="h4"> Cadastrar - Usuário </h3>
     </div>
 
-    <form action="{{route('user_store')}}" method="POST">
-        @include('users._form', ['model' => $model])
-    </form>
+    @include('users._form', [
+        'action' => route('user_store'),
+        'model' => $model,
+    ])
 
 </div>
 

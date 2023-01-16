@@ -17,7 +17,7 @@
     }
 
     if(!isset($header)) {
-        $header = 'Modal';
+        $header = '';
     }
 
     if(!isset($title)) {

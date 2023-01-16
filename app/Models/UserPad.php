@@ -38,8 +38,10 @@ class UserPad extends Model
 {
     use HasFactory;
 
+    /** @var string */
     protected $table = 'user_pad';
 
+    /** @var array */
     protected $fillable = ['id', 'user_id', 'pad_id', 'status'];
 
     public function user() {
@@ -56,6 +58,18 @@ class UserPad extends Model
 
     public static function initQuery() {
         return new UserPadQuery(get_called_class());
+    }
+
+    public static function rules() {
+        return [
+
+        ];
+    }
+
+    public static function messages() {
+        return [
+            
+        ];
     }
 
     public function totalHoras()
