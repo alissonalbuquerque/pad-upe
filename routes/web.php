@@ -12,6 +12,8 @@ use App\Http\Controllers\CoordenadorController;
 use App\Http\Controllers\DiretorController;
 use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\AvaliadorController;
+use App\Http\Controllers\UserPadController;
+use App\Http\Controllers\UserTypeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -149,6 +151,27 @@ Route::prefix('/pad/professor')->group(function () {
     Route::get('/view/{id}', [PadController::class, 'view'])->name('pad_view');
     Route::get('/anexo/{id}', [PadController::class, 'anexo'])->name('pad_anexo');
 });
+
+/** UserType */
+Route::prefix('/user-type')->group(function() {
+    Route::get('/create/{user_id?}', [UserTypeController::class, 'actionCreate'])->name('user-type_create');
+    Route::post('/store', [UserTypeController::class, 'actionStore'])->name('user-type_store');
+    Route::get('/edit/{id?}', [UserTypeController::class, 'actionEdit'])->name('user-type_edit');
+    Route::post('/update/{id}', [UserTypeController::class, 'actionUpdate'])->name('user-type_update');
+    Route::delete('/delete/{id}', [UserTypeController::class, 'actionDelete'])->name('user-type_delete');
+    Route::post('/validate', [UserTypeController::class, 'ajaxValidation'])->name('user-type_ajax_validation');
+});
+
+/** UserPad */
+Route::prefix('/user-pad')->group(function() {
+    Route::get('/create/{pad_id?}', [UserPadController::class, 'actionCreate'])->name('user-pad_create');
+    Route::post('/store', [UserPadController::class, 'actionStore'])->name('user-pad_store');
+    Route::get('/edit/{id?}', [UserPadController::class, 'actionEdit'])->name('user-pad_edit');
+    Route::post('/update/{id}', [UserPadController::class, 'actionUpdate'])->name('user-pad_update');
+    Route::delete('/delete/{id}', [UserPadController::class, 'actionDelete'])->name('user-pad_delete');
+    Route::post('/validate', [UserPadController::class, 'ajaxValidation'])->name('user-pad_ajax_validation');
+});
+
 
 // return json
 Route::get('/listar/unidade', [UnidadeController::class, 'getAll'])->name('listar_unidades');

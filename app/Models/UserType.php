@@ -29,11 +29,17 @@ class UserType extends Model
         return $this->belongsTo(Pad::class);
     }
 
+    /**
+     * @return string
+     */
     public function typeAsString()
     {
         return self::listType($this->type);
     }
     
+    /**
+     * @return string
+     */
     public function statusAsString()
     {
         return Status::listStatus($this->status);
@@ -42,6 +48,18 @@ class UserType extends Model
     public static function initQuery()
     {
         return new UserTypeQuery(get_called_class());
+    }
+
+    public static function rules() {
+        return [
+
+        ];
+    }
+
+    public static function messages() {
+        return [
+
+        ];
     }
 
     public static function listType($value = null) {

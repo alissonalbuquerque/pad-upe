@@ -127,10 +127,16 @@ class PadController extends Controller
      */
     public function create()
     {   
+        $menu = Menu::PADS;
+
         $status = [
             Status::ATIVO => Status::listStatus(Status::ATIVO) 
         ];
-        return view('pad.admin.create', ['status' => $status]);
+
+        return view('pad.admin.create', [
+            'menu' => $menu,
+            'status' => $status
+        ]);
     }
 
     /**
@@ -199,10 +205,17 @@ class PadController extends Controller
      */
     public function edit($id)
     {   
+        $menu = Menu::PADS;
         $pad = PAD::find($id);
+        $userPads = $pad->userPads;
         $status = Constants::listStatus();
 
-        return view('pad.admin.edit', ['pad' => $pad, 'status' => $status]);
+        return view('pad.admin.edit', [
+            'pad' => $pad,
+            'menu' => $menu,
+            'status' => $status,
+            'userPads' => $userPads,
+        ]);
     }
 
     /**

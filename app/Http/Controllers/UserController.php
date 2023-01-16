@@ -10,6 +10,7 @@ use App\Models\Util\Status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\HeadingRowImport;
@@ -78,7 +79,11 @@ class UserController extends Controller
 
     public function actionStore(Request $request)
     {   
-        $request->validate(User::ruleDefault(), User::messages());
+        $validator = User::validator($request->all());
+
+        if($validator->fails()) {
+            return redirect()->route('user_create')->withErrors($validator);
+        }
 
         $model = new User();
         $model->fill($request->all());
@@ -88,26 +93,31 @@ class UserController extends Controller
         $password = array_shift($email_splited);
         $model->password = Hash::make($password);
 
-        if($model->save())
-        {
+        if($model->save()) {
             return redirect()->route('user_edit', ['id' => $model->id])->with('success', 'Usuário cadastrado com sucesso!');
         }
 
         return redirect()->with('fail', 'Falha ao cadastrar Usuário!');
     }
 
-    public function actionEdit($id)
+    public function actionEdit(Request $request, $id)
     {
         $model = User::find($id);
+        $profiles = $model->profiles;
         $status = [
             Status::ATIVO => Status::listStatus(Status::ATIVO),
             Status::INATIVO => Status::listStatus(Status::INATIVO)
         ];
-        
+
+        if(count($profiles) <= 0) {
+            Session::flash('warning', 'Não existem papeis cadastrados para esse usuário!');
+        }
+
         return view('users.update', [
             'menu' => Menu::USERS,
             'model' => $model,
             'status' => $status,
+            'profiles' => $profiles,
         ]);
     }
 

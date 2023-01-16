@@ -16,97 +16,138 @@
 <div id="tab-containers" class="tab-content">
 
     <div id="user-container" class="tab-pane fade show active" role="tabpanel" aria-labelledby="user-tab">
-        <div class="border border-rounded mt-2 p-2">
-            <div class="row">
+        <div class="mt-2 px-2">
 
-                @csrf
+            <form action="{{ $action }}" method="POST">
+                <div class="row">
 
-                <div class="mb-4 col-12">
-                    <div class="form-group">
-                        <label class="form-label" for="name"> Nome </label>
-                        <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror" placeholder="Nome" value="{{ $model->exists ? $model->name : old('name') }}">
-                        @include('components.divs.errors', ['field' => 'name'])
-                    </div>
-                </div>
+                    @csrf
 
-                <div class="mb-4 col-12">
-                    <div class="form-group">
-                        <label class="form-label" for="email"> E-Mail </label>
-                        <input type="text" name="email" id="email" class="form-control @error('email') is-invalid @enderror" placeholder="E-Mail" value="{{ $model->exists ? $model->email : old('email') }}">
-                        @include('components.divs.errors', ['field' => 'email'])
-                    </div>
-                </div>
-
-                @if( $model->exists )
                     <div class="mb-4 col-12">
                         <div class="form-group">
-                            <label class="form-label" for="status"> Status </label>
-                            <select class="form-select" name="status" id="status">
-                                @foreach($status as $value => $text)
-                                    @if($model->status == $value)
-                                        <option value="{{ $value }}" selected> {{ $text }} </option>
-                                    @else
-                                        <option value="{{ $value }}"> {{ $text }} </option>
-                                    @endif
-                                @endforeach
-                            </select>
+                            <label class="form-label" for="name"> Nome </label>
+                            <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror" placeholder="Nome" value="{{ $model->exists ? $model->name : old('name') }}">
+                            @include('components.divs.errors', ['field' => 'name'])
                         </div>
                     </div>
-                @endif
-                
-                @if( $model->exists )
-                    <div class="mb-4 col-6">
+
+                    <div class="mb-4 col-12">
                         <div class="form-group">
-                            <label class="form-label" for="curso_id"> Curso </label>
-                            <select class="form-select" name="curso_id" id="curso_id">
-                                <option value="" disabled selected hidden> Selecione... </option>
-                                @foreach([] as $option)
-
-                                @endforeach
-                            </select>
+                            <label class="form-label" for="email"> E-Mail </label>
+                            <input type="text" name="email" id="email" class="form-control @error('email') is-invalid @enderror" placeholder="E-Mail" value="{{ $model->exists ? $model->email : old('email') }}">
+                            @include('components.divs.errors', ['field' => 'email'])
                         </div>
                     </div>
-                @endif
 
-                @if( $model->exists )
-                    <div class="mb-4 col-6">
-                        <div class="form-group">
-                            <label class="form-label" for="campus_id"> Campus </label>
-                            <select class="form-select" name="campus_id" id="campus_id">
-                                <option value="" disabled selected hidden> Selecione... </option>
-                                @foreach([] as $option)
-
-                                @endforeach
-                            </select>
+                    @if( $model->exists )
+                        <div class="mb-4 col-12">
+                            <div class="form-group">
+                                <label class="form-label" for="status"> Status </label>
+                                <select class="form-select" name="status" id="status">
+                                    @foreach($status as $value => $text)
+                                        @if($model->status == $value)
+                                            <option value="{{ $value }}" selected> {{ $text }} </option>
+                                        @else
+                                            <option value="{{ $value }}"> {{ $text }} </option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                @endif
-            </div>
+                    @endif
+                    
+                    @if( $model->exists )
+                        <div class="mb-4 col-6">
+                            <div class="form-group">
+                                <label class="form-label" for="curso_id"> Curso </label>
+                                <select class="form-select" name="curso_id" id="curso_id">
+                                    <option value="" disabled selected hidden> Selecione... </option>
+                                    @foreach([] as $option)
+
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    @endif
+
+                    @if( $model->exists )
+                        <div class="mb-4 col-6">
+                            <div class="form-group">
+                                <label class="form-label" for="campus_id"> Campus </label>
+                                <select class="form-select" name="campus_id" id="campus_id">
+                                    <option value="" disabled selected hidden> Selecione... </option>
+                                    @foreach([] as $option)
+
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+
+                <div class="mt-1 text-end">
+
+                    @php
+                        $btnSaveContent = !$model->exists ? 'Cadastrar' : 'Atualizar';
+                    @endphp
+                    
+                    @include('components.buttons.btn-save', ['content' => $btnSaveContent])
+
+                    @include('components.buttons.btn-cancel', ['content' => 'Cancelar', 'route' => route('user_index')])
+                </div>
+            </form>
+
         </div>
     </div>
 
     @if( $model->exists )
         <div id="paper-container" class="tab-pane fade" role="tabpanel" aria-labelledby="paper-tab">
-            <div class="border border-rounded mt-2 p-2">
-                <div class="row">
 
-                </div>
+            <div class="text-end my-2">
+                <button type="button" class="btn btn-success user-type-create"> Cadastrar Papel </button>
+            </div>
+
+            <div class="border rounded px-2">
+
+                <table id="user_pad-table" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col"> Usuário </th>
+                            <th scope="col"> Papel </th>
+                            <th scope="col"> Status </th>
+                            <th scope="col"> Opções </th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        @foreach($profiles as $profile)
+                        <tr>
+                            <td>{{ $profile->user }}</td>
+                            <td>{{ $profile->typeAsString() }}</td>
+                            <td>{{ $profile->statusAsString() }}</td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <div class="me-1">
+                                        @include('components.buttons.btn-edit-task', [
+                                            'btn_class' => 'btn-edit_user_type',
+                                            'btn_id' => $profile->id,
+                                        ])
+                                    </div>
+                                    <div class="me-1">
+                                        @include('components.buttons.btn-delete', [
+                                            'id' => $profile->id,
+                                            'btn_class' => 'btn btn-danger',
+                                            'route' => route('user-type_delete', ['id' => $profile->id])
+                                        ])
+                                    </div>
+                                </div>    
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+
             </div>
         </div>
     @endif
-
-    <div class="mt-1 text-end">
-        <div class="modal-footer">
-            @if( !$model->exists )
-                @include('components.buttons.btn-save', ['content' => 'Cadastrar'])
-            @endif
-
-            @if( $model->exists )
-                @include('components.buttons.btn-save', ['content' => 'Atualizar'])
-            @endif
-
-            @include('components.buttons.btn-cancel', ['content' => 'Cancelar', 'route' => route('user_index')])
-        </div>
-    </div>
-
 </div>
