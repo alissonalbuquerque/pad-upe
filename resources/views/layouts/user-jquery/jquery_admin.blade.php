@@ -1,6 +1,5 @@
 <script type="text/javascript">
-
-$( document ).ready(() => {
+$(document).ready(() => {
 
     $("#update-perfil-tab").hide()
 
@@ -19,10 +18,10 @@ $( document ).ready(() => {
                 </tr>
             `)
 
-            unidades.forEach( (unidade, index) => {
+            unidades.forEach((unidade, index) => {
                 table_unidades.append(`
                     <tr>
-                        <td scope="row"> ${index+1} <td>  
+                        <td scope="row"> ${index + 1} <td>  
                         <td> ${unidade.name} <td>
                         <td>
                             @include('components.buttons.btn-edit', ['btn_class' => 'btn btn-warning', 'route' => ''])
@@ -50,10 +49,10 @@ $( document ).ready(() => {
                 </tr>
             `)
 
-            campus.forEach( (campi, index) => {
+            campus.forEach((campi, index) => {
                 table.append(`
                     <tr>
-                        <td scope="row"> ${index+1} <td>  
+                        <td scope="row"> ${index + 1} <td>  
                         <td> ${campi.name} <td>
                     </tr>
                 `)
@@ -70,13 +69,11 @@ $("#btn-update-perfil").on('click', () => {
 
 // Update director and coordinators profile from admin page
 $('#alter-password').on('change', function() {
-    if($('#alter-password').is(':checked') ){
-        $("#password").removeAttr('disabled');  
-    }else{
-        $("#password").attr('disabled','disabled');
+    if ($('#alter-password').is(':checked')) {
+        $("#password").removeAttr('disabled');
+    } else {
+        $("#password").attr('disabled', 'disabled');
     }
 });
 // $('#')
 </script>
-
-

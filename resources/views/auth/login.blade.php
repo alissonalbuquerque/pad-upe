@@ -60,6 +60,7 @@
                                 <a href="#" style="color: rgb(22, 21, 21);"></a>
                             </div>
                         </div>
+                        <a href="{{ route('password.request') }}">Esqueci minha senha</a>
                     </div>
                 </form>
             </div>
