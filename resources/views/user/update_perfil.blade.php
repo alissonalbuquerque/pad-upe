@@ -9,15 +9,9 @@
 @endsection
 
 @section('nav')
-<<<<<<< HEAD
-@include('layouts.navigation', [
-'index_menu' => $index_menu,
-])
-=======
     @include('layouts.navigation', [
         'menu' => $menu
     ])
->>>>>>> updates_deploy
 @endsection
 
 @php
@@ -62,10 +56,6 @@
                 </li>
             </ul>
         </div>
-        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-            <form method="post" action="{{ route('update_password') }}">
-                @csrf
-                @method('POST')
 
         <!-- Panels -->
         <div id="tab-containers" class="tab-content">
