@@ -8,11 +8,11 @@
         <div class="col-md-12 col-lg-7">
             <div class="login-wrap">
 
-                <!-- Session Status -->
-                <x-auth-session-status class="mb-4" :status="session('status')" />
-
                 <!-- Validation Errors -->
                 <x-auth-validation-errors class="alert alert-danger mb-2" :errors="$errors" />
+
+                <!-- Session Status -->
+                @include('components.alerts')
 
                 <form action="{{ route('login') }}" method="POST" class="signin-form d-md-flex">
                     @csrf                    
