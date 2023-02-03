@@ -97,9 +97,9 @@ class User extends Authenticatable
         ];
 
         $messages = [
-            'password.required' => 'A "Senha" é obrigatória!',
-            'password.min' => 'A "Senha" deve contér no minímo 8 caracteres!',
-            'password.max' => 'A campo "Senha" deve contér no máximo 255 caracteres!',
+            'password.required' => 'A "senha" é obrigatória!',
+            'password.min' => 'A "senha" deve conter, no mínimo, 8 caracteres!',
+            'password.max' => 'A "senha" deve conter, no máximo, 255 caracteres!',
             'password.confirmed' => 'As senhas devem ser iguais!',
         ];
 
