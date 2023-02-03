@@ -12,10 +12,9 @@
         <!-- Authentication -->
         <form method="POST" action="{{ route('logout') }}">
             @csrf
-            <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault();
-                                this.closest('form').submit();">
-                Sair <i class="bi bi-box-arrow-right"></i>
-            </x-responsive-nav-link>
+            <button class="btn btn-outline-danger btn-sm" type="submit">
+               Sair <i class="bi bi-box-arrow-right"></i>
+            </button>
         </form>
     </div>
 </header>

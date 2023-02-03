@@ -8,50 +8,63 @@
 @endsection
 @section('nav')
     @include('layouts.navigation', [
-        'index_menu' => $index_menu,
+        'menu' => $menu,
     ])
 @endsection
 @section('body')
-    @include('components.alerts')
-    <div class="d-flex justify-content-between align-items-center border-bottom">
-        <h2 class="">TODOS OS CAMPUS</h2>
-        @include('components.buttons.btn-create', [
-            'route' => route('campus_create'),
-            'class' => 'btn btn-success',
-            'content' => 'Novo Campus',
-            'id' => 'campus_create',
-        ])
-    </div>
 
-    <!-- Tabela -->
-    <div class="table-responsive mt-5">
-        <table class="table table-hover table-striped">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Unidade</th>
-                    <th scope="col">Ações</th>
-                </tr>
-            </thead>
+<div>
+    
+    <h3 class="h3"> Campus </h3>
 
-            <tbody>
-                @foreach ($campus as $camp)
+    <div>
+
+        @include('components.alerts')
+
+        <div class="d-flex justify-content-end mb-2">
+            @include('components.buttons.btn-create', [
+                'id' => 'campus_create',
+                'route' => route('campus_create'),
+                'content' => 'Cadastrar',
+            ])
+        </div>
+
+        <div class="border rounded px-4">
+            <table class="table table-hover mt-4">
+                <thead class="thead-dark">
                     <tr>
-                        <td>{{ $camp->name }}</td>
-                        <td>{{ $camp->unidade }}</td>
-                        <td>
-                            @include('components.buttons.btn-edit', [
-                                'route' => route('campus_edit', ['id' => $camp->id]),
-                            ])
-
-                            @include('components.buttons.btn-delete', [
-                                'id' => $camp->id,
-                                'route' => route('campus_delete', ['id' => $camp->id])
-                            ])
-                        </td>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Unidade</th>
+                        <th scope="col">Ações</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+
+                <tbody>
+                    @foreach ($campus as $camp)
+                        <tr>
+                            <td>{{ $camp->name }}</td>
+                            <td>{{ $camp->unidade }}</td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <div class="me-1">
+                                        @include('components.buttons.btn-edit', [
+                                            'route' => route('campus_edit', ['id' => $camp->id]),
+                                        ])
+                                    </div>
+                                    <div class="me-1">
+                                        @include('components.buttons.btn-delete', [
+                                            'id' => $camp->id,
+                                            'route' => route('campus_delete', ['id' => $camp->id])
+                                        ])
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
     </div>
+</div>
 @endsection

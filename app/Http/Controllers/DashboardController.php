@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PAD;
+use App\Models\Pad;
 use App\Models\Tabelas\Constants;
 use App\Models\UserPad;
+use App\Models\UserType;
+use App\Models\Util\Menu;
 use App\Models\Util\MenuItemsAdmin;
 use App\Models\Util\MenuItemsTeacher;
 use App\Models\Util\Status;
@@ -21,28 +23,24 @@ class DashboardController extends Controller
 
         if($user->isTypeAdmin())
         {
-            return view('dashboard',['menu_index' => MenuItemsAdmin::HOME]);
+            return view('dashboard',['menu' => Menu::HOME]);
         }
 
         if($user->isTypeTeacher())
-        {   
-            $userPads = 
-                UserPad::initQuery()
-                    ->whereUser($user->id)
-                    ->wherePadStatus(Status::ATIVO)
-                    ->get();
+        {
+            $userPads = UserPad::whereUserId($user->id)->whereStatus(Status::ATIVO)->get();
 
-            return view('dashboard', ['userPads' => $userPads, 'menu_index'=> MenuItemsTeacher::HOME]);
+            return view('dashboard', ['userPads' => $userPads, 'menu'=> Menu::HOME]);
         }
         
         if($user->isTypeDirector())
         {
-            return view('dashboard', ['PADs' => PAD::all(), 'menu_index'=> 0]);
+            return view('dashboard', ['PADs' => Pad::all(), 'menu'=> Menu::HOME]);
         }
 
         if($user->isTypeCoordinator())
         {
-            return view('dashboard', ['PADs' => PAD::all(), 'menu_index'=> 0]);
+            return view('dashboard', ['PADs' => Pad::all(), 'menu'=> Menu::HOME]);
         } 
 
         if($user->isTypeEvaluator())
@@ -53,7 +51,7 @@ class DashboardController extends Controller
                     ->wherePadStatus(Status::ATIVO)
                     ->get();
 
-            return view('dashboard', ['userPads' => $userPads, 'menu_index'=> MenuItemsTeacher::HOME]);
+            return view('dashboard', ['userPads' => $userPads, 'menu'=> Menu::HOME]);
         }
 
         //return redirect()->route('login');

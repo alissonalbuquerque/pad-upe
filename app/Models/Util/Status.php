@@ -9,6 +9,7 @@ class Status
     const INATIVO = 2;
     const PENDENTE = 3;
     const ARQUIVADO = 4;
+    const FINALIZADO = 5;
     
     public static function listStatus($value = null) {
     
@@ -17,6 +18,17 @@ class Status
             self::INATIVO => 'Inativo',
             self::PENDENTE => 'Pendente',
             self::ARQUIVADO => 'Arquivado',
+            self::FINALIZADO => 'Finalizado',
+        ];
+    
+        return $value !== null? $values[$value] : $values;
+    }
+
+    public static function listUserTypeStatus($value = null) {
+    
+        $values = [
+            self::ATIVO => 'Ativo',
+            self::INATIVO => 'Inativo',
         ];
     
         return $value !== null? $values[$value] : $values;

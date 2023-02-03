@@ -29,6 +29,8 @@ class ExtensaoOrientacaoController extends Controller
 
         $funcoes = Constants::listFuncaoOrientador();
 
+        $planejamentos = ExtensaoOrientacao::listPlanejamentos();
+
         $divs = PadTables::tablesExtensao($user_pad_id);
 
         return view('pad.components.templates.dimensao.extensao.orientacao.form_create', [
@@ -36,6 +38,7 @@ class ExtensaoOrientacaoController extends Controller
 
             'divs' => $divs,
             'funcoes' => $funcoes,
+            'planejamentos' => $planejamentos,
 
             'user_pad_id' => $user_pad_id,
             'index_menu' => MenuItemsTeacher::PAD,
@@ -46,10 +49,13 @@ class ExtensaoOrientacaoController extends Controller
 
         $model = ExtensaoOrientacao::find($id);
         $funcoes = Constants::listFuncaoOrientador();
+        $planejamentos = ExtensaoOrientacao::listPlanejamentos();
+        
         
         return view('pad.components.templates.dimensao.extensao.orientacao.form_update', [
             'model' => $model,
-            'funcoes' => $funcoes
+            'funcoes' => $funcoes,
+            'planejamentos' => $planejamentos
         ]);
     }
 
@@ -66,18 +72,27 @@ class ExtensaoOrientacaoController extends Controller
      */
     public function create(Request $request)
     {    
-        $planejamento = Planejamento::initQuery()->whereCodDimensao('X-2')->first();
-        
-        $ch_min = $planejamento->ch_semanal;
-        $ch_max = $planejamento->ch_maxima;
+        if($request->cod_dimensao)
+        {   
+            $planejamento = Planejamento::initQuery()->whereCodDimensao($request->cod_dimensao)->first();
+            
+            $ch_min = $planejamento->ch_semanal;
+            $ch_max = $planejamento->ch_maxima;
 
-        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+            $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max, [], true);
 
-        $validator = Validator::make(
-            $request->all(), 
-            array_merge(ExtensaoOrientacao::rules(), $cargaHoraria->rules()),
-            array_merge(ExtensaoOrientacao::messages(), $cargaHoraria->messages())
-        );
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(ExtensaoOrientacao::rules(), $cargaHoraria->rules()),
+                array_merge(ExtensaoOrientacao::messages(), $cargaHoraria->messages())
+            );
+        } else {
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(ExtensaoOrientacao::rules(), CargaHorariaValidation::defaultRules()),
+                array_merge(ExtensaoOrientacao::messages(), CargaHorariaValidation::defaultMessages())
+            );
+        }
 
         if($validator->fails())
         {   
@@ -120,18 +135,27 @@ class ExtensaoOrientacaoController extends Controller
     
     public function update($id, Request $request)
     {
-        $planejamento = Planejamento::initQuery()->whereCodDimensao('X-2')->first();
-        
-        $ch_min = $planejamento->ch_semanal;
-        $ch_max = $planejamento->ch_maxima;
+        if($request->cod_dimensao)
+        {   
+            $planejamento = Planejamento::initQuery()->whereCodDimensao($request->cod_dimensao)->first();
+            
+            $ch_min = $planejamento->ch_semanal;
+            $ch_max = $planejamento->ch_maxima;
 
-        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+            $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max, [], true);
 
-        $validator = Validator::make(
-            $request->all(), 
-            array_merge(ExtensaoOrientacao::rules(), $cargaHoraria->rules()),
-            array_merge(ExtensaoOrientacao::messages(), $cargaHoraria->messages())
-        );
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(ExtensaoOrientacao::rules(), $cargaHoraria->rules()),
+                array_merge(ExtensaoOrientacao::messages(), $cargaHoraria->messages())
+            );
+        } else {
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(ExtensaoOrientacao::rules(), CargaHorariaValidation::defaultRules()),
+                array_merge(ExtensaoOrientacao::messages(), CargaHorariaValidation::defaultMessages())
+            );
+        }
 
         $model = ExtensaoOrientacao::find($id);
         $model->fill($request->all());
@@ -186,18 +210,27 @@ class ExtensaoOrientacaoController extends Controller
 
     public function ajaxValidation(Request $request)
     {   
-        $planejamento = Planejamento::initQuery()->whereCodDimensao('X-2')->first();
-        
-        $ch_min = $planejamento->ch_semanal;
-        $ch_max = $planejamento->ch_maxima;
+        if($request->cod_dimensao)
+        {   
+            $planejamento = Planejamento::initQuery()->whereCodDimensao($request->cod_dimensao)->first();
+            
+            $ch_min = $planejamento->ch_semanal;
+            $ch_max = $planejamento->ch_maxima;
 
-        $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max);
+            $cargaHoraria = new CargaHorariaValidation($ch_min, $ch_max, [], true);
 
-        $validator = Validator::make(
-            $request->all(), 
-            array_merge(ExtensaoOrientacao::rules(), $cargaHoraria->rules()),
-            array_merge(ExtensaoOrientacao::messages(), $cargaHoraria->messages())
-        );
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(ExtensaoOrientacao::rules(), $cargaHoraria->rules()),
+                array_merge(ExtensaoOrientacao::messages(), $cargaHoraria->messages())
+            );
+        } else {
+            $validator = Validator::make(
+                $request->all(), 
+                array_merge(ExtensaoOrientacao::rules(), CargaHorariaValidation::defaultRules()),
+                array_merge(ExtensaoOrientacao::messages(), CargaHorariaValidation::defaultMessages())
+            );
+        }
 
         if($validator->passes()) {
             return Response::json(['message' => true, 'status' => 200]);

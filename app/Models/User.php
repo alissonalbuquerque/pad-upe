@@ -2,65 +2,85 @@
 
 namespace App\Models;
 
+use App\Models\Util\Status;
 use App\Queries\UserQuery;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     protected $table = "users";
 
     /**
      * The attributes that are mass assignable.
-     *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'email', 'password', 'document', 'status', 'curso_id', 'campus_id'];
+    protected $fillable = ['name', 'email', 'password', 'status', 'curso_id', 'campus_id'];
 
     /**
      * The attributes that should be hidden for serialization.
-     *
      * @var array<int, string>
      */
     protected $hidden = ['password', 'remember_token'];
 
     /**
      * The attributes that should be cast.
-     *
      * @var array<string, string>
+     * @var boolean $isUpdate
      */
     protected $casts = [
         'email_verified_at' => 'datetime'
     ];
 
-    /** 
-     * Validar os campos de acordo com as regras implementadas
-     * 
-     */
-    public static function validator($attributes, $rule_password = false) {
+    protected $dates = ['deleted_at'];
 
+    public static function validator(array $attributes, $id = null)
+    {   
         $rules = [
-            'email' => ['required', 'email', ],
-            'name' => ['required', ]
+            'name' => ['required', 'min:4'],
+            'email' => ['required', 'email', Rule::unique('users')->ignore($id)],
+            'curso_id' => ['integer'],
+            'campus_id' => ['integer'],
+            'status' => [
+                Rule::requiredIf ( function() use($id)
+                {
+                    return (bool) $id;
+                }),
+                Rule::in([Status::ATIVO, Status::INATIVO]),
+                'required_with:id',
+                'integer',
+            ],
         ];
 
-        if($rule_password) {
-            $rules = [
-                'password' => ['required', 'min:6'],
-                'password_confirmation' => [],
-            ];
-        }
-
         $messages = [
-            // 'unique' => "O :attribute já está registrado no sistema",
-            'required' => "O :attribute precisa ser preenchido",
+            //name
+            'name.min' => 'O campo "Nome" dever ter no mínimo 4 caracteres.',
+            'name.required' => 'O campo "Nome" é obrigatório.',
+
+            //email
+            'email.required' => 'O campo "E-Mail" é obrigatório.',
+            'email.email' => 'O campo "E-Mail" deve conter um e-mail valido.',
+            'email.unique' => 'O "E-Mail" informado já foi cadastrado no sistema.',
+
+            //status
+            'status.required' => 'O campo "Status" é obrigatório.',
+            'status.in' => 'Selecione uma opção da lista de "Status"!',
+            'status.integer' => 'O campo "Status" deve cónter um inteiro!',
+
+            //curso_id
+            'curso_id.integer' => 'O campo "Curso" deve cónter um inteiro!',
+
+            //campus_id
+            'campus_id.integer' => 'O campo "Campus" deve cónter um inteiro!',
         ];
 
         try {
@@ -68,8 +88,58 @@ class User extends Authenticatable
         } catch(ValidationException $exception) {
 
         }
-
     }
+
+    public static function validatorPassword(array $attributes)
+    {
+        $rules = [
+            'password' => ['required', 'min:8', 'max:255', 'confirmed'],
+        ];
+
+        $messages = [
+            'password.required' => 'A "Senha" é obrigatória!',
+            'password.min' => 'A "Senha" deve contér no minímo 8 caracteres!',
+            'password.max' => 'A campo "Senha" deve contér no máximo 255 caracteres!',
+            'password.confirmed' => 'As senhas devem ser iguais!',
+        ];
+
+        try{
+            return Validator::make($attributes, $rules, $messages);
+        } catch(ValidationException $exception) {
+
+        }
+    }
+
+    /** 
+    * Validar os campos de acordo com as regras implementadas
+    * 
+    */
+    // public static function validator($attributes, $rule_password = false) {
+
+    //     $rules = [
+    //         'name' => ['required'],
+    //         'email' => ['required', 'email'],
+    //     ];
+
+    //     if($rule_password) {
+    //         $rules = [
+    //             'password' => ['required', 'min:8'],
+    //             'password_confirmation' => [],
+    //         ];
+    //     }
+
+    //     $messages = [
+    //         // 'unique' => "O :attribute já está registrado no sistema",
+    //         'required' => "O :attribute precisa ser preenchido",
+    //     ];
+
+    //     try {
+    //         return Validator::make($attributes, $rules, $messages);
+    //     } catch(ValidationException $exception) {
+
+    //     }
+
+    // }
 
     /**
      * Get Curso with curso.id = user.curso_id
@@ -91,8 +161,13 @@ class User extends Authenticatable
         return $this->belongsTo(Unidade::class);
     }
 
+    public function profile($type_profile)
+    {
+        return UserType::initQuery()->whereUser($this->id)->whereType($type_profile)->first();
+    }
 
-    public function perfis()
+    /** @return UserType[]|null */
+    public function profiles()
     {
         return $this->hasMany(UserType::class);
     }
@@ -100,9 +175,9 @@ class User extends Authenticatable
     /**
      * @return UserType|Null
      */
-    public function perfilSelected()
+    public function profileSelected()
     {   
-        return $this->perfis()->where('selected', true)->first();
+        return $this->profiles()->where('selected', true)->first();
     }
 
     /**
@@ -110,7 +185,7 @@ class User extends Authenticatable
      */
     public function isTypeAdmin()
     {
-        return $this->perfilSelected()->type === UserType::ADMIN;
+        return $this->profileSelected()->type === UserType::ADMIN;
     }
 
     /**
@@ -118,7 +193,7 @@ class User extends Authenticatable
      */
     public function isTypeTeacher()
     {
-        return $this->perfilSelected()->type === UserType::TEACHER;
+        return $this->profileSelected()->type === UserType::TEACHER;
     }
 
     /**
@@ -126,7 +201,7 @@ class User extends Authenticatable
      */
     public function isTypeDirector()
     {
-        return $this->perfilSelected()->type === UserType::DIRECTOR;
+        return $this->profileSelected()->type === UserType::DIRECTOR;
     }
 
     /**
@@ -134,7 +209,7 @@ class User extends Authenticatable
      */
     public function isTypeCoordinator()
     {
-        return $this->perfilSelected()->type === UserType::COORDINATOR;
+        return $this->profileSelected()->type === UserType::COORDINATOR;
     }
 
     /**
@@ -142,12 +217,28 @@ class User extends Authenticatable
      */
     public function isTypeEvaluator()
     {
-        return $this->perfilSelected()->type === UserType::EVALUATOR;
+        return $this->profileSelected()->type === UserType::EVALUATOR;
     }
 
     public static function initQuery()
     {
         return new UserQuery(get_called_class());
+    }
+
+    public function dashboardName()
+    {
+        $name = $this->name;
+        $split = explode(' ', $name);
+
+        $dashboardName = '';
+
+        if(count($split) >= 2) {
+            $dashboardName = array_shift($split) . ' ' . array_shift($split);
+        } else {
+            $dashboardName = array_shift($split);
+        }
+
+        return $dashboardName;
     }
 
     /**

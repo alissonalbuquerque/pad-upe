@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -19,7 +19,7 @@
 <body>
     <div class="container mt-5">
         <form action="{{route('user_import')}}" method="post" enctype="multipart/form-data">
-          <h3 class="text-center mb-5"> Importar Professores - Dev In Test</h3>
+          <h3 class="text-center mb-5"> Importar Professores </h3>
             @csrf
             @if ($message = Session::get('success'))
             <div class="alert alert-success">
@@ -40,7 +40,7 @@
                 <label class="custom-file-label" for="chooseFile">Select file</label>
             </div>
             <button type="submit" name="submit" class="btn btn-primary btn-block mt-4">
-                Upload Files
+                Importar Arquivo
             </button>
         </form>
     </div>

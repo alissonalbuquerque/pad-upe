@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Curso;
+use App\Models\Util\Menu;
 use App\Models\Util\MenuItemsAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -15,7 +16,7 @@ class ProfessorController extends Controller
     {
         $professores = User::where('type', '=', User::TYPE_TEACHER)->get();
         return view('professor.index', [
-            'index_menu' => MenuItemsAdmin::PROFESSORES,
+            'menu' => Menu::PADS,
             'professores' =>  $professores
         ]);
     }

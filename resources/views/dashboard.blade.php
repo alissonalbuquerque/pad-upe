@@ -1,5 +1,5 @@
 <x-app-layout>
-    @section('title', 'Home')sdfsdfsdfsf
+    @section('title', 'Home')
     <x-slot name="main">
         <div class="tab-content">
             @if(Auth::user()->isTypeAdmin())
@@ -7,7 +7,7 @@
             @endif
 
             @if(Auth::user()->isTypeTeacher())
-                @include('layouts.user-dashboard.dashboard_teacher', ['user' => Auth::user()])
+                @include('layouts.user-dashboard.dashboard_teacher', ['user' => Auth::user(), 'userPads => $userPads'])
             @endif
 
             @if(Auth::user()->isTypeDirector())

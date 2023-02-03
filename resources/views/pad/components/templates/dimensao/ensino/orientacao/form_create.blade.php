@@ -171,15 +171,20 @@
                         <td>{{ $ensinoOrientacao->orientacaoAsString() }}</td>
                         <td>{{ $ensinoOrientacao->chSemanal() }}</td>
                         <td>
-                            @include('components.buttons.btn-edit-task', [
-                                'btn_class' => 'btn-edit_ensino_orientacao',
-                                'btn_id' => $ensinoOrientacao->id,
-                            ])
-
-                            @include('components.buttons.btn-delete', [
-                                'id' => $ensinoOrientacao->id,
-                                'route' => route('ensino_orientacao_delete', ['id' => $ensinoOrientacao->id])
-                            ])
+                            <div class="btn-group" role="group">
+                                <div class="me-1">
+                                    @include('components.buttons.btn-edit-task', [
+                                        'btn_class' => 'btn-edit_ensino_orientacao',
+                                        'btn_id' => $ensinoOrientacao->id,
+                                    ])
+                                </div>
+                                <div class="me-1">
+                                    @include('components.buttons.btn-delete', [
+                                        'id' => $ensinoOrientacao->id,
+                                        'route' => route('ensino_orientacao_delete', ['id' => $ensinoOrientacao->id])
+                                    ])
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     @endforeach

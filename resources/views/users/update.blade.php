@@ -25,13 +25,71 @@
         <h3 class="h4"> Atualizar - Usuário </h3>
     </div>
 
-    <form action="{{route('user_update', ['id' => $model->id])}}" method="POST">
-        @include('users._form', [
-            'model' => $model,
-            'status' => $status,
-        ])
-    </form>
+    @include('users._form', [
+        'action' => route('user_update', ['id' => $model->id]),
+        'model' => $model,
+        'status' => $status,
+        'profiles' => $profiles,
+        'tab_active' => $tab_active,
+    ])
 
+    @include('components.modal', [
+        'size' => 'modal-lg',
+    ])
 </div>
+
+@endsection
+
+@section('scripts')
+
+    @include('pad.components.scripts.dimensao.ensino.show_modal', [
+        'modal_id' => 'modal',
+        'route' => route('user-type_create', ['user_id' => $model->id]),
+        'btn_class' => 'user-type-create',
+    ])
+
+    @include('pad.components.scripts.dimensao.ensino.show_modal', [
+        'modal_id' => 'modal',
+        'route' => route('user-type_edit'),
+        'btn_class' => 'btn-edit_user_type',
+    ])
+
+    <script text="type/javascript">
+
+        $('#campus_id').select2(
+        {   
+            placeholder: "Selecione um Campus",
+            allowClear: true,
+            ajax: {
+                url: '{{ route("campus_search") }}',
+                dataType: 'json'
+            }
+        });
+
+        $('#curso_id').select2(
+        {   
+            placeholder: "Selecione um Curso",
+            allowClear: true,
+            ajax: {
+                url: '{{ route("curso_search") }}',
+                dataType: 'json',
+                data: function(params) {
+                    return {
+                        q: params.terms,
+                        campus_id: $('#campus_id').val(),
+                    }
+                },
+            },
+        });
+
+        $('#status').select2(
+        {   
+            placeholder: "Selecione um Status",
+            allowClear: true,
+            hideSearch: true,
+            minimumResultsForSearch: -1
+        });
+
+    </script>
 
 @endsection

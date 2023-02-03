@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Campus;
 use App\Models\Unidade;
+use App\Models\Util\Menu;
 use App\Queries\CampusQuery;
 use Illuminate\Http\Request;
 use App\Models\Util\MenuItemsAdmin;
 use Illuminate\Log\Logger;
-
+use Illuminate\Support\Facades\Response;
 
 class CampusController extends Controller
 {
@@ -22,7 +23,7 @@ class CampusController extends Controller
         $campus = Campus::all();
         
         return view('campus.index', [
-            'index_menu' => MenuItemsAdmin::CAMPUS,
+            'menu' => Menu::CAMPUS,
             'campus' =>  $campus
         ]);
     }
@@ -36,7 +37,7 @@ class CampusController extends Controller
     {
         return view('campus.create', [
             'unidades' => Unidade::all(),
-            'index_menu' => MenuItemsAdmin::CAMPUS,
+            'menu' => Menu::CAMPUS,
         ]);
     }
 
@@ -82,7 +83,7 @@ class CampusController extends Controller
         $campus = Campus::findOrFail($id);
         return view('campus.update', [
             'unidades' => Unidade::all(),
-            'index_menu' => MenuItemsAdmin::CAMPUS,
+            'menu' => Menu::CAMPUS,
             'campus' => $campus,
         ]);
     }
@@ -124,5 +125,41 @@ class CampusController extends Controller
     public function findByUnidade(int $unidade_id)
     {
         return Campus::initQuery()->whereUnidadeId($unidade_id)->orderBy('name')->get();
+    }
+
+    /**
+     *
+     * @params Illuminate\Http\Request\Request
+     */
+    public function actionSearch(Request $request)
+    {   
+        // QueryParams
+        $q = $request->query('q'); 
+        $id = $request->query('id');
+
+        $campus = Campus::where([]);
+
+        if($id) {
+            $campus = $campus->whereId($id);
+        }
+
+        if($q) {
+            $campus = $campus->where('name', 'like', '%'.$q.'%');
+        }
+
+        $campus = $campus->get();
+
+        $array = 
+            $campus->map(function($campus, $key)
+            {
+                return [
+                    'id' => $campus->id,
+                    'text' => $campus->name,
+                ];
+            });
+
+        $array = ['results' => $array];
+
+        return Response::json($array);
     }
 }

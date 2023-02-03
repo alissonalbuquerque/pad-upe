@@ -30,7 +30,6 @@ class EnsinoAtendimentoDiscenteController extends Controller
                     ->orderBy('cod_atividade')
                     ->get();
         
-        
         $niveis = Nivel::listNivel();
         $modalidades = Modalidade::listModalidade();
         $divs = PadTables::tablesEnsino($user_pad_id);

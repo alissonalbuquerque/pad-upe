@@ -8,7 +8,7 @@
 --}}
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-delete-{{ $id }}">
+<button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modal-delete-{{ $id }}">
     <i class="bi bi-trash"></i>
 </button>
 
@@ -24,7 +24,6 @@
               Você tem certeza que deseja excluir esse item?
         </div>
         <div class="modal-footer">
-            @include('components.buttons.btn-close_modal')
             <form action="{{ $route }}" method="post">
                 @method('DELETE')
                 @csrf
@@ -34,6 +33,7 @@
                   'content' => 'Excluir',
                 ])
             </form>
+            @include('components.buttons.btn-close_modal')
         </div>
     </div>
   </div>

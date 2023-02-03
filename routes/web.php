@@ -12,6 +12,8 @@ use App\Http\Controllers\CoordenadorController;
 use App\Http\Controllers\DiretorController;
 use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\AvaliadorController;
+use App\Http\Controllers\UserPadController;
+use App\Http\Controllers\UserTypeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,6 +49,7 @@ Route::prefix('/campus')->group(function () {
     Route::get('/edit/{id}', [CampusController::class, 'edit'])->name('campus_edit');
     Route::post('/update/{id}', [CampusController::class, 'update'])->name('campus_update');
     Route::delete('/delete/{id}', [CampusController::class, 'destroy'])->name('campus_delete');
+    Route::get('/search', [CampusController::class, 'actionSearch'])->name('campus_search');
 });
 
 Route::prefix('/curso')->group(function () {
@@ -56,6 +59,7 @@ Route::prefix('/curso')->group(function () {
     Route::get('/edit/{id}', [CursoController::class, 'edit'])->name('curso_edit');
     Route::post('/update/{id}', [CursoController::class, 'update'])->name('curso_update');
     Route::delete('/delete/{id}', [CursoController::class, 'destroy'])->name('curso_delete');
+    Route::get('/search', [CursoController::class, 'actionSearch'])->name('curso_search');
 });
 
 Route::prefix('/unidade')->group(function () {
@@ -123,9 +127,21 @@ Route::prefix('/avaliador')->group(function () {
 });
 
 Route::prefix('/user')->group(function () {
-    Route::get('/edit/perfil', [UserController::class, 'editPerfil'])->name('edit_perfil');
+    Route::get('/edit/perfil/{tab?}', [UserController::class, 'editPerfil'])->name('edit_perfil');
     Route::post('/update/perfil', [UserController::class, 'updatePerfil'])->name('update_perfil');
     Route::post('/update/password', [UserController::class, 'updatePassword'])->name('update_password');
+});
+
+Route::prefix('/users')->group(function() {
+    Route::get('/index', [UserController::class, 'actionIndex'])->name('user_index');
+    Route::get('/create', [UserController::class, 'actionCreate'])->name('user_create');
+    Route::post('/store', [UserController::class, 'actionStore'])->name('user_store');
+    Route::get('/edit/{id}', [UserController::class, 'actionEdit'])->name('user_edit');
+    Route::post('/update/{id}', [UserController::class, 'actionUpdate'])->name('user_update');
+    Route::delete('/delete/{id}', [UserController::class, 'actionDelete'])->name('user_delete');
+
+    Route::post('/import', [UserController::class, 'actionImport'])->name('user_import');
+    Route::get('/importView', [UserController::class, 'actionImportView'])->name('user_import_view');
 });
 
 /** json */
@@ -137,6 +153,27 @@ Route::prefix('/pad/professor')->group(function () {
     Route::get('/view/{id}', [PadController::class, 'view'])->name('pad_view');
     Route::get('/anexo/{id}', [PadController::class, 'anexo'])->name('pad_anexo');
 });
+
+/** UserType */
+Route::prefix('/user-type')->group(function() {
+    Route::get('/create/{user_id?}', [UserTypeController::class, 'actionCreate'])->name('user-type_create');
+    Route::post('/store', [UserTypeController::class, 'actionStore'])->name('user-type_store');
+    Route::get('/edit/{id?}', [UserTypeController::class, 'actionEdit'])->name('user-type_edit');
+    Route::post('/update/{id}', [UserTypeController::class, 'actionUpdate'])->name('user-type_update');
+    Route::delete('/delete/{id}', [UserTypeController::class, 'actionDelete'])->name('user-type_delete');
+    Route::post('/validate', [UserTypeController::class, 'ajaxValidation'])->name('user-type_ajax_validation');
+});
+
+/** UserPad */
+Route::prefix('/user-pad')->group(function() {
+    Route::get('/create/{pad_id?}', [UserPadController::class, 'actionCreate'])->name('user-pad_create');
+    Route::post('/store', [UserPadController::class, 'actionStore'])->name('user-pad_store');
+    Route::get('/edit/{id?}', [UserPadController::class, 'actionEdit'])->name('user-pad_edit');
+    Route::post('/update/{id}', [UserPadController::class, 'actionUpdate'])->name('user-pad_update');
+    Route::delete('/delete/{id}', [UserPadController::class, 'actionDelete'])->name('user-pad_delete');
+    Route::post('/validate', [UserPadController::class, 'ajaxValidation'])->name('user-pad_ajax_validation');
+});
+
 
 // return json
 Route::get('/listar/unidade', [UnidadeController::class, 'getAll'])->name('listar_unidades');

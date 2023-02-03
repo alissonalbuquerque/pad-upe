@@ -25,12 +25,52 @@ class UserQuery extends CustomQuery
     }
 
     /**
+     * @param integer $name
+     * @return UserQuery|Builder
+     */
+    public function whereName($name, $operator = 'LIKE')
+    {
+        $this->query = $this->query->where('name', $operator, $name);
+        return self::$instance;
+    }
+
+    /**
      * @param integer $email
      * @return UserQuery|Builder
      */
     public function whereEmail($email, $operator = 'LIKE')
     {   
         $this->query = $this->query->where('email', $operator, $email);
+        return self::$instance;
+    }
+
+    /**
+     * @param integer $status
+     * @return UserQuery|Builder
+     */
+    public function whereStatus($status, $operator = '=')
+    {
+        $this->query = $this->query->where('status', $operator, $status);
+        return self::$instance;
+    }
+
+    /**
+     * @param integer $curso_id
+     * @return UserQuery|Builder
+     */
+    public function whereCurso($curso_id, $operator = '=')
+    {
+        $this->query = $this->query->where('curso_id', $operator, $curso_id);
+        return self::$instance;
+    }
+
+    /**
+     * @param integer $campus_id
+     * @return UserQuery|Builder
+     */
+    public function whereCampus($campus_id, $operator = '=')
+    {
+        $this->query = $this->query->where('campus_id', $operator, $campus_id);
         return self::$instance;
     }
 

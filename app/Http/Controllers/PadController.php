@@ -4,11 +4,37 @@ namespace App\Http\Controllers;
  
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\PAD;
+use App\Models\Pad;
 use App\Models\Tabelas\Constants;
+use App\Models\Tabelas\Ensino\EnsinoAtendimentoDiscente;
+use App\Models\Tabelas\Ensino\EnsinoAula;
+use App\Models\Tabelas\Ensino\EnsinoCoordenacaoRegencia;
+use App\Models\Tabelas\Ensino\EnsinoMembroDocente;
+use App\Models\Tabelas\Ensino\EnsinoOrientacao;
+use App\Models\Tabelas\Ensino\EnsinoOutros;
+use App\Models\Tabelas\Ensino\EnsinoParticipacao;
+use App\Models\Tabelas\Ensino\EnsinoProjeto;
+use App\Models\Tabelas\Ensino\EnsinoSupervisao;
+use App\Models\Tabelas\Extensao\ExtensaoCoordenacao;
+use App\Models\Tabelas\Extensao\ExtensaoOrientacao;
+use App\Models\Tabelas\Extensao\ExtensaoOutros;
+use App\Models\Tabelas\Gestao\GestaoCoordenacaoLaboratoriosDidaticos;
+use App\Models\Tabelas\Gestao\GestaoCoordenacaoProgramaInstitucional;
+use App\Models\Tabelas\Gestao\GestaoMembroCamaras;
+use App\Models\Tabelas\Gestao\GestaoMembroComissao;
+use App\Models\Tabelas\Gestao\GestaoMembroConselho;
+use App\Models\Tabelas\Gestao\GestaoMembroTitularConselho;
+use App\Models\Tabelas\Gestao\GestaoOutros;
+use App\Models\Tabelas\Gestao\GestaoRepresentanteUnidadeEducacao;
+use App\Models\Tabelas\Pesquisa\PesquisaCoordenacao;
+use App\Models\Tabelas\Pesquisa\PesquisaLideranca;
+use App\Models\Tabelas\Pesquisa\PesquisaOrientacao;
+use App\Models\Tabelas\Pesquisa\PesquisaOutros;
 use App\Models\User;
 use App\Models\UserPad;
 use App\Models\UserType;
+use App\Models\UserTypePad;
+use App\Models\Util\Menu;
 use App\Models\Util\MenuItemsAdmin;
 use App\Models\Util\MenuItemsTeacher;
 use App\Models\Util\Status;
@@ -27,19 +53,21 @@ class PadController extends Controller
      * @return \Illuminate\View\View
      */
     public function index()
-    {
-        if(Auth::user()->isTypeAdmin()) {
+    {   
+        if(Auth::user()->isTypeAdmin())
+        {
+            $users = User::initQuery()->whereType(UserType::TEACHER)->get();
             $pads = Pad::all();
-            $index_menu = MenuItemsAdmin::PADS;
-            return view('pad.admin.index', ['index_menu' => $index_menu, 'pads' => $pads]);
+            $menu = Menu::PADS;
+            return view('pad.admin.index', ['menu' => $menu, 'pads' => $pads]);
         }
         
-        if(Auth::user()->isTypeTeacher()) {
+        if(Auth::user()->isTypeTeacher())
+        {
+            $menu = Menu::PADS;
+            $userPads = UserPad::whereUserId(Auth::user()->id)->get();
 
-            $index_menu = MenuItemsTeacher::PAD;
-            $userPads = UserPad::initQuery()->whereUser(Auth::user()->id)->get();
-
-            return view('pad.teacher.index', ['index_menu' => $index_menu, 'userPads' => $userPads]);
+            return view('pad.teacher.index', ['menu' => $menu, 'userPads' => $userPads]);
         }
     }
 
@@ -47,9 +75,49 @@ class PadController extends Controller
      * @param integer $id
      * @return \Illuminate\Http\Response
      */
-    public function view($id) {
-        $index_menu = 1;
-        return view('pad.teacher.view', ['user_pad_id' => $id, 'index_menu' => $index_menu]);
+    public function view($id)
+    {   
+        $ensinoTotalHoras = 
+            EnsinoAtendimentoDiscente::whereUserPadId($id)->sum('ch_semanal')
+            + EnsinoAula::whereUserPadId($id)->sum('ch_semanal')
+            + EnsinoCoordenacaoRegencia::whereUserPadId($id)->sum('ch_semanal')
+            + EnsinoMembroDocente::whereUserPadId($id)->sum('ch_semanal')
+            + EnsinoOrientacao::whereUserPadId($id)->sum('ch_semanal')
+            + EnsinoOutros::whereUserPadId($id)->sum('ch_semanal')
+            + EnsinoParticipacao::whereUserPadId($id)->sum('ch_semanal')
+            + EnsinoProjeto::whereUserPadId($id)->sum('ch_semanal')
+            + EnsinoSupervisao::whereUserPadId($id)->sum('ch_semanal');
+        
+        $gestaoTotalHoras = 
+            GestaoCoordenacaoLaboratoriosDidaticos::whereUserPadId($id)->sum('ch_semanal')
+            + GestaoCoordenacaoProgramaInstitucional::whereUserPadId($id)->sum('ch_semanal')
+            + GestaoMembroCamaras::whereUserPadId($id)->sum('ch_semanal')
+            + GestaoMembroComissao::whereUserPadId($id)->sum('ch_semanal')
+            + GestaoMembroConselho::whereUserPadId($id)->sum('ch_semanal')
+            + GestaoMembroTitularConselho::whereUserPadId($id)->sum('ch_semanal')
+            + GestaoOutros::whereUserPadId($id)->sum('ch_semanal')
+            + GestaoRepresentanteUnidadeEducacao::whereUserPadId($id)->sum('ch_semanal');
+        
+        $pesquisaTotalHoras =
+            PesquisaCoordenacao::whereUserPadId($id)->sum('ch_semanal')
+            + PesquisaLideranca::whereUserPadId($id)->sum('ch_semanal')
+            + PesquisaOrientacao::whereUserPadId($id)->sum('ch_semanal')
+            + PesquisaOutros::whereUserPadId($id)->sum('ch_semanal');
+
+        $extensaoTotalHoras =
+            ExtensaoCoordenacao::whereUserPadId($id)->sum('ch_semanal')
+            + ExtensaoOrientacao::whereUserPadId($id)->sum('ch_semanal')
+            + ExtensaoOutros::whereUserPadId($id)->sum('ch_semanal');
+
+        $menu = Menu::PADS;
+        return view('pad.teacher.view', [
+            'menu' => $menu,
+            'user_pad_id' => $id, 
+            'gestaoTotalHoras' => $gestaoTotalHoras,
+            'ensinoTotalHoras' => $ensinoTotalHoras,
+            'pesquisaTotalHoras' => $pesquisaTotalHoras,
+            'extensaoTotalHoras' => $extensaoTotalHoras,
+        ]);
     }
     
     /**
@@ -59,10 +127,16 @@ class PadController extends Controller
      */
     public function create()
     {   
+        $menu = Menu::PADS;
+
         $status = [
             Status::ATIVO => Status::listStatus(Status::ATIVO) 
         ];
-        return view('pad.admin.create', ['status' => $status]);
+
+        return view('pad.admin.create', [
+            'menu' => $menu,
+            'status' => $status
+        ]);
     }
 
     /**
@@ -85,18 +159,29 @@ class PadController extends Controller
             'data_fim.after_or_equal' => 'A :attribute deve ser uma data posterior ou igual a data de início',
         ]);
 
-        if($validated) {
+        if($validated)
+        {
             $model = new Pad($request->all());
-    
-            if($model->save()) {
 
+            $users = User::initQuery()->whereType(UserType::TEACHER)->get();
+    
+            if($model->save())
+            {
                 $users = User::initQuery()->whereType(UserType::TEACHER)->get();
                 
-                foreach($users as $user) {
-                    $modelUserPad = new UserPad();
-                    $modelUserPad->user_id = $user->id;
-                    $modelUserPad->pad_id = $model->id;
-                    $modelUserPad->save();
+                foreach($users as $user)
+                {   
+                    $profile = $user->profile(UserType::TEACHER);
+
+                    if($profile)
+                    {
+                        $userPad = new UserPad();
+                        $userPad->pad_id = $model->id;
+                        $userPad->user_id = $user->id;
+                        $userPad->status = Status::ATIVO;
+                        
+                        $userPad->save();
+                    }
                 }
 
                 return redirect()->route('pad_index')->with('success', 'PAD cadastrado com sucesso!');
@@ -112,44 +197,6 @@ class PadController extends Controller
         return view('pad.anexo', ['index_menu' => 1 ]);
     }
 
-    // /**
-    //  * Store a newly created resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function store(Request $request)
-    // {
-    //     $rules = [
-	// 		'first_name' => 'required|string|min:3|max:255',
-	// 		'city_name' => 'required|string|min:3|max:255',
-	// 		'email' => 'required|string|email|max:255'
-	// 	];
-	// 	$validator = Validator::make($request->all(),$rules);
-	// 	if ($validator->fails()) {
-	// 		return redirect('insert')
-	// 		->withInput()
-	// 		->withErrors($validator);
-	// 	}
-	// 	else{
-    //         $data = $request->input();
-	// 		try{
-	// 			$student = new StudInsert;
-    //             $student->first_name = $data['first_name'];
-    //             $student->last_name = $data['last_name'];
-	// 			$student->city_name = $data['city_name'];
-	// 			$student->email = $data['email'];
-	// 			$student->save();
-	// 			return redirect('insert')->with('status',"Insert successfully");
-	// 		}
-	// 		catch(Exception $e){
-	// 			return redirect('insert')->with('failed',"operation failed");
-	// 		}
-	// 	}
-        
-    //     return redirect('/dashboard');
-    // }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -158,10 +205,17 @@ class PadController extends Controller
      */
     public function edit($id)
     {   
+        $menu = Menu::PADS;
         $pad = PAD::find($id);
+        $userPads = $pad->userPads;
         $status = Constants::listStatus();
 
-        return view('pad.admin.edit', ['pad' => $pad, 'status' => $status]);
+        return view('pad.admin.edit', [
+            'pad' => $pad,
+            'menu' => $menu,
+            'status' => $status,
+            'userPads' => $userPads,
+        ]);
     }
 
     /**

@@ -77,7 +77,7 @@ class EnsinoAulaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request)
-    {
+    {   
         if($request->cod_dimensao)
         {   
             $planejamento = Planejamento::initQuery()->whereCodDimensao($request->cod_dimensao)->first();
