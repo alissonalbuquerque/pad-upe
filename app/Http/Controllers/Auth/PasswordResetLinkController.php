@@ -28,9 +28,15 @@ class PasswordResetLinkController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'email' => ['required', 'email'],
-        ]);
+        $request->validate(
+            [
+                'email' => ['required', 'email'],
+            ],
+            [
+                'email.email' => 'O "E-mail" deve ser um e-mail válido.',
+                'email.required' => 'O "E-mail" é um campo obrigatório.',
+            ]
+        );
 
         // We will send the password reset link to this user. Once we have attempted
         // to send the link, we will examine the response then see the message we
@@ -40,7 +46,7 @@ class PasswordResetLinkController extends Controller
         );
 
         return $status == Password::RESET_LINK_SENT
-                    ? back()->with('status', __($status))
+                    ? back()->with('success', 'Enviamos seu link de redefinição de senha por e-mail! Verifique a sua inbox!')
                     : back()->withInput($request->only('email'))
                             ->withErrors(['email' => __($status)]);
     }

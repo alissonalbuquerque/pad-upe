@@ -28,6 +28,7 @@
     @include('users._form', [
         'action' => route('user_store'),
         'model' => $model,
+        'tab' => $tab
     ])
 
 </div>

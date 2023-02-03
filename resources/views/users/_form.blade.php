@@ -1,19 +1,19 @@
 @php
 
-    if($tab_active == 'user')
+    $userTabActive = '';
+    $userContainerActive = '';
+
+    $paperTabActive = '';
+    $paperContainerActive = '';
+
+    if($tab == 'user')
     {
         $userTabActive = 'active';
         $userContainerActive = 'show active';
-
-        $paperTabActive = '';
-        $paperContainerActive = '';
     }
 
-    if($tab_active == 'paper')
+    if($tab == 'paper')
     {
-        $userTabActive = '';
-        $userContainerActive = '';
-
         $paperTabActive = 'active';
         $paperContainerActive = 'show active';
     }

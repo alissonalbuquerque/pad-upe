@@ -33,11 +33,22 @@ class NewPasswordController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'token' => ['required'],
-            'email' => ['required', 'email'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+        $request->validate(
+            [
+                'token' => ['required'],
+                'email' => ['required', 'email'],
+                'password' => ['required', 'min:8', 'max:255', 'confirmed'],
+            ],
+            [   
+                'email.email' => 'O "E-mail" deve ser um e-mail válido.',
+                'email.required' => 'O "E-mail" é um campo obrigatório.',
+
+                'password.required' => 'A "Nova Senha" é obrigatória!',
+                'password.min' => 'A "Nova Senha" deve contér no minímo 8 caracteres!',
+                'password.max' => 'A campo "Nova Senha" deve contér no máximo 255 caracteres!',
+                'password.confirmed' => 'As senhas devem ser iguais!',
+            ]
+        );
 
         // Here we will attempt to reset the user's password. If it is successful we
         // will update the password on an actual user model and persist it to the

@@ -30,7 +30,7 @@
         'model' => $model,
         'status' => $status,
         'profiles' => $profiles,
-        'tab_active' => $tab_active,
+        'tab' => $tab,
     ])
 
     @include('components.modal', [

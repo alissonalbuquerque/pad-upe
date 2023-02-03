@@ -78,6 +78,7 @@ class UserController extends Controller
         return view('users.create', [
             'menu' => Menu::USERS,
             'model' => $model,
+            'tab' => 'user',
         ]);
     }
 
@@ -118,14 +119,14 @@ class UserController extends Controller
             Session::flash('warning', 'Não existem papeis cadastrados para esse usuário!');
         }
 
-        $tab_active = $request->query('tab_active') ?? 'user';
+        $tab = $request->query('tab') ?? 'user';
 
         return view('users.update', [
             'menu' => Menu::USERS,
             'model' => $model,
             'status' => $status,
             'profiles' => $profiles,
-            'tab_active' => $tab_active
+            'tab' => $tab
         ]);
     }
 

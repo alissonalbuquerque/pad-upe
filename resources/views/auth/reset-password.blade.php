@@ -14,11 +14,6 @@
                         <h4 class="mb-4">Redefinir senha</h4>
                     </div>
 
-                    <!-- Session Status -->
-                    <x-auth-session-status class="mb-4" :status="session('status')" />
-                    <!-- Validation Errors -->
-                    <x-auth-validation-errors class="mb-4" :errors="$errors" />
-
                     <form method="POST" action="{{ route('password.update') }}">
                         @csrf
                         <!-- Password Reset Token -->
@@ -34,14 +29,14 @@
 
                         <!-- Password -->
                         <div class="form-group mt-3">
-                            <x-label for="password" :value="__('Password')" />
+                            <x-label for="password" :value="__('Nova Senha')" />
 
                             <x-input id="password" class="form-control" type="password" name="password" required />
                         </div>
 
                         <!-- Confirm Password -->
                         <div class="form-group mt-3">
-                            <x-label for="password_confirmation" :value="__('Confirm Password')" />
+                            <x-label for="password_confirmation" :value="__('Confirmar Senha')" />
 
                             <x-input id="password_confirmation" class="form-control" type="password"
                                 name="password_confirmation" required/>

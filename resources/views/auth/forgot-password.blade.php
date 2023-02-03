@@ -11,6 +11,8 @@
                 <!-- Validation Errors -->
                 <x-auth-validation-errors class="alert alert-danger mb-2" :errors="$errors" />
 
+                @include('components.alerts')
+
                 <div class="signin-form d-md-flex">
                     @csrf
 
@@ -25,11 +27,6 @@
                         <div class="w-100">
                             <h4 class="mb-4">Redefinir senha</h4>
                         </div>
-    
-                        <!-- Session Status -->
-                        <x-auth-session-status class="mb-4" :status="session('status')" />
-                        <!-- Validation Errors -->
-                        <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
                         <form method="POST" action="{{ route('password.email') }}">
                             @csrf
