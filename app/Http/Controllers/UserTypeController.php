@@ -13,9 +13,7 @@ class UserTypeController extends Controller
 {   
     public function actionStore(Request $request)
     {   
-        $validator = Validator::make(
-            $request->all(), UserType::rules(), UserType::messages()
-        );
+        $validator = Validator::make($request->all(), UserType::rules(), UserType::messages());
 
         if($validator->fails())
         {
@@ -28,7 +26,7 @@ class UserTypeController extends Controller
         $model->save();
 
         return redirect()
-                ->route('user_edit', ['id' => $request->user_id])
+                ->route('user_edit', ['id' => $request->user_id, 'tab_active' => 'paper'])
                 ->with('success', 'Papel cadastrado com Sucesso!');
     }
 
@@ -39,7 +37,12 @@ class UserTypeController extends Controller
 
     public function actionDelete($id)
     {
-        
+        $model = UserType::find($id);
+        $model->delete();
+
+        return redirect()
+            ->route('user_edit', ['id' => $model->user_id, 'tab_active' => 'paper'])
+            ->with('success', 'Papel removido com Sucesso!');
     }
 
     public function actionCreate($user_id)
@@ -74,8 +77,12 @@ class UserTypeController extends Controller
 
     public function ajaxValidation(Request $request)
     {   
+        $id = $request->id;
+        $user_id = $request->user_id;
+        $type = $request->type;
+        
         $validator = Validator::make(
-            $request->all(), UserType::rules(), UserType::messages()
+            $request->all(), UserType::rules($id, $user_id, $type), UserType::messages()
         );
 
         if($validator->passes()) {

@@ -30,6 +30,7 @@
         'model' => $model,
         'status' => $status,
         'profiles' => $profiles,
+        'tab_active' => $tab_active,
     ])
 
     @include('components.modal', [
@@ -52,5 +53,43 @@
         'route' => route('user-type_edit'),
         'btn_class' => 'btn-edit_user_type',
     ])
+
+    <script text="type/javascript">
+
+        $('#campus_id').select2(
+        {   
+            placeholder: "Selecione um Campus",
+            allowClear: true,
+            ajax: {
+                url: '{{ route("campus_search") }}',
+                dataType: 'json'
+            }
+        });
+
+        $('#curso_id').select2(
+        {   
+            placeholder: "Selecione um Curso",
+            allowClear: true,
+            ajax: {
+                url: '{{ route("curso_search") }}',
+                dataType: 'json',
+                data: function(params) {
+                    return {
+                        q: params.terms,
+                        campus_id: $('#campus_id').val(),
+                    }
+                },
+            },
+        });
+
+        $('#status').select2(
+        {   
+            placeholder: "Selecione um Status",
+            allowClear: true,
+            hideSearch: true,
+            minimumResultsForSearch: -1
+        });
+
+    </script>
 
 @endsection

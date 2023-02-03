@@ -16,6 +16,23 @@
 
 @php
     $user = Auth::user();
+
+    $tabUser = '';
+    $containerUser = '';
+
+    $tabPassword = '';
+    $containerPassword = '';
+
+    if($tab == null || $tab == 'user')
+    {
+        $tabUser = 'active';
+        $containerUser = 'show active';
+
+    } else {
+
+        $tabPassword = 'active';
+        $containerPassword = 'show active';
+    }
 @endphp
 
 @section('body')
@@ -32,18 +49,18 @@
         <div>
             <ul class="nav nav-tabs">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="user-tab" data-bs-toggle="tab" data-bs-target="#user-container" type="button" role="tab" aria-controls="user-container" arial-selected="true"> Usuário </button>
+                    <button class="nav-link {{$tabUser}}" id="user-tab" data-bs-toggle="tab" data-bs-target="#user-container" type="button" role="tab" aria-controls="user-container" arial-selected="true"> Usuário </button>
                 </li>
-                <!-- <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="paper-tab" data-bs-toggle="tab" data-bs-target="#paper-container" type="button" role="tab" aria-controls="paper-container" arial-selected="false"> Papeis </button>
-                </li> -->
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link {{$tabPassword}}" id="password-tab" data-bs-toggle="tab" data-bs-target="#password-container" type="button" role="tab" aria-controls="password-container" arial-selected="false"> Senha </button>
+                </li>
             </ul>
         </div>
 
         <!-- Panels -->
         <div id="tab-containers" class="tab-content">
 
-            <div id="user-container" class="tab-pane fade show active" role="tabpanel" aria-labelledby="user-tab">
+            <div id="user-container" class="tab-pane fade {{$containerUser}}" role="tabpanel" aria-labelledby="user-tab">
 
                 <form class="" method="post" action="{{ route('update_perfil') }}" >    
                     @csrf
@@ -82,7 +99,7 @@
             </div>
 
 
-            <div id="paper-container" class="tab-pane fade" role="tabpanel" aria-labelledby="paper-tab">
+            <div id="password-container" class="tab-pane fade {{$containerPassword}}" role="tabpanel" aria-labelledby="password-tab">
                 <form method="post" action="{{ route('update_password') }}">
                     @csrf
                     @method('POST')
@@ -94,17 +111,18 @@
                                     <div class="form-group">
                                         <label for="password"> Senha </label>
                                         <input type="password" class="form-control" name="password" id="password" placeholder="Senha">
-                                        <small id="password_information" class="form-text text-muted"> {{-- --}} </small>
-                                        @error('password')
-                                            <span class="text-danger"> {{ $message }} </span>
-                                        @enderror
+                                        @include('components.divs.errors', [
+                                            'field' => 'password',
+                                        ])
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label for="password_confirmation"> Confirmar Senha </label>
-                                        <input type="password_confirmation" class="form-control" name="password_confirmation" id="password_confirmation" placeholder="Senha">
-                                        <small id="password_confirmation_information" class="form-text text-muted"> {{-- --}} </small>
+                                        <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" placeholder="Confirmar Senha">
+                                        @include('components.divs.errors', [
+                                            'field' => 'password_confirmation',
+                                        ])
                                         @error('password_confirmation')
                                             <span class="text-danger"> {{ $message }} </span>
                                         @enderror

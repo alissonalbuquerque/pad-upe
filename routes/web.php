@@ -49,6 +49,7 @@ Route::prefix('/campus')->group(function () {
     Route::get('/edit/{id}', [CampusController::class, 'edit'])->name('campus_edit');
     Route::post('/update/{id}', [CampusController::class, 'update'])->name('campus_update');
     Route::delete('/delete/{id}', [CampusController::class, 'destroy'])->name('campus_delete');
+    Route::get('/search', [CampusController::class, 'actionSearch'])->name('campus_search');
 });
 
 Route::prefix('/curso')->group(function () {
@@ -58,6 +59,7 @@ Route::prefix('/curso')->group(function () {
     Route::get('/edit/{id}', [CursoController::class, 'edit'])->name('curso_edit');
     Route::post('/update/{id}', [CursoController::class, 'update'])->name('curso_update');
     Route::delete('/delete/{id}', [CursoController::class, 'destroy'])->name('curso_delete');
+    Route::get('/search', [CursoController::class, 'actionSearch'])->name('curso_search');
 });
 
 Route::prefix('/unidade')->group(function () {
@@ -125,7 +127,7 @@ Route::prefix('/avaliador')->group(function () {
 });
 
 Route::prefix('/user')->group(function () {
-    Route::get('/edit/perfil', [UserController::class, 'editPerfil'])->name('edit_perfil');
+    Route::get('/edit/perfil/{tab?}', [UserController::class, 'editPerfil'])->name('edit_perfil');
     Route::post('/update/perfil', [UserController::class, 'updatePerfil'])->name('update_perfil');
     Route::post('/update/password', [UserController::class, 'updatePassword'])->name('update_password');
 });
@@ -135,7 +137,7 @@ Route::prefix('/users')->group(function() {
     Route::get('/create', [UserController::class, 'actionCreate'])->name('user_create');
     Route::post('/store', [UserController::class, 'actionStore'])->name('user_store');
     Route::get('/edit/{id}', [UserController::class, 'actionEdit'])->name('user_edit');
-    Route::get('/update/{id}', [UserController::class, 'actionUpdate'])->name('user_update');
+    Route::post('/update/{id}', [UserController::class, 'actionUpdate'])->name('user_update');
     Route::delete('/delete/{id}', [UserController::class, 'actionDelete'])->name('user_delete');
 
     Route::post('/import', [UserController::class, 'actionImport'])->name('user_import');

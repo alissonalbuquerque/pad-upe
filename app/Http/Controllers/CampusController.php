@@ -9,7 +9,7 @@ use App\Queries\CampusQuery;
 use Illuminate\Http\Request;
 use App\Models\Util\MenuItemsAdmin;
 use Illuminate\Log\Logger;
-
+use Illuminate\Support\Facades\Response;
 
 class CampusController extends Controller
 {
@@ -125,5 +125,41 @@ class CampusController extends Controller
     public function findByUnidade(int $unidade_id)
     {
         return Campus::initQuery()->whereUnidadeId($unidade_id)->orderBy('name')->get();
+    }
+
+    /**
+     *
+     * @params Illuminate\Http\Request\Request
+     */
+    public function actionSearch(Request $request)
+    {   
+        // QueryParams
+        $q = $request->query('q'); 
+        $id = $request->query('id');
+
+        $campus = Campus::where([]);
+
+        if($id) {
+            $campus = $campus->whereId($id);
+        }
+
+        if($q) {
+            $campus = $campus->where('name', 'like', '%'.$q.'%');
+        }
+
+        $campus = $campus->get();
+
+        $array = 
+            $campus->map(function($campus, $key)
+            {
+                return [
+                    'id' => $campus->id,
+                    'text' => $campus->name,
+                ];
+            });
+
+        $array = ['results' => $array];
+
+        return Response::json($array);
     }
 }

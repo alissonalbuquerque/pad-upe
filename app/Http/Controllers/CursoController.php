@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Campus;
 use App\Models\Curso;
-use App\Models\Unidade;
 use App\Models\Util\Menu;
-use App\Models\Util\MenuItemsAdmin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class CursoController extends Controller
 {
@@ -116,8 +115,9 @@ class CursoController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
+     * 
+     * @param string $q
+     * @param string $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -125,5 +125,46 @@ class CursoController extends Controller
         $model = Curso::find($id);
         $model->delete();
         return redirect()->route('curso_index')->with('success', 'Excluído com sucesso!');
+    }
+
+    /**
+     *
+     * @params Illuminate\Http\Request\Request
+     */
+    public function actionSearch(Request $request)
+    {   
+        // QueryParams
+        $q = $request->query('q'); 
+        $id = $request->query('id');
+        $campus_id = $request->query('campus_id');
+
+        $cursos = Curso::where([]);
+
+        if($campus_id) {
+            $cursos = $cursos->whereId($campus_id);
+        }
+
+        if($id) {
+            $cursos = $cursos->whereId($id);
+        }
+
+        if($q) {
+            $cursos = $cursos->where('name', 'like', '%'.$q.'%');
+        }
+
+        $cursos = $cursos->get();
+
+        $array = 
+            $cursos->map(function($curso, $key)
+            {
+                return [
+                    'id' => $curso->id, 
+                    'text' => $curso->name,
+                ];
+            });
+
+        $array = ['results' => $array];
+
+        return Response::json($array);
     }
 }

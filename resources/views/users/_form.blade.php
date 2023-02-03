@@ -1,12 +1,34 @@
+@php
+
+    if($tab_active == 'user')
+    {
+        $userTabActive = 'active';
+        $userContainerActive = 'show active';
+
+        $paperTabActive = '';
+        $paperContainerActive = '';
+    }
+
+    if($tab_active == 'paper')
+    {
+        $userTabActive = '';
+        $userContainerActive = '';
+
+        $paperTabActive = 'active';
+        $paperContainerActive = 'show active';
+    }
+
+@endphp
+
 <!-- Tabs -->
 <div>
     <ul class="nav nav-tabs">
         <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="user-tab" data-bs-toggle="tab" data-bs-target="#user-container" type="button" role="tab" aria-controls="user-container" arial-selected="true"> Usuário </button>
+            <button class="nav-link {{ $userTabActive }}" id="user-tab" data-bs-toggle="tab" data-bs-target="#user-container" type="button" role="tab" aria-controls="user-container" arial-selected="true"> Usuário </button>
         </li>
         @if( $model->exists )
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="paper-tab" data-bs-toggle="tab" data-bs-target="#paper-container" type="button" role="tab" aria-controls="paper-container" arial-selected="false"> Papeis </button>
+                <button class="nav-link {{ $paperTabActive }}"" id="paper-tab" data-bs-toggle="tab" data-bs-target="#paper-container" type="button" role="tab" aria-controls="paper-container" arial-selected="false"> Papeis </button>
             </li>
         @endif
     </ul>
@@ -15,7 +37,7 @@
 <!-- Panels -->
 <div id="tab-containers" class="tab-content">
 
-    <div id="user-container" class="tab-pane fade show active" role="tabpanel" aria-labelledby="user-tab">
+    <div id="user-container" class="tab-pane fade {{ $userContainerActive }}" role="tabpanel" aria-labelledby="user-tab">
         <div class="mt-2 px-2">
 
             <form action="{{ $action }}" method="POST">
@@ -43,7 +65,7 @@
                         <div class="mb-4 col-12">
                             <div class="form-group">
                                 <label class="form-label" for="status"> Status </label>
-                                <select class="form-select" name="status" id="status">
+                                <select class="form-control" name="status" id="status">
                                     @foreach($status as $value => $text)
                                         @if($model->status == $value)
                                             <option value="{{ $value }}" selected> {{ $text }} </option>
@@ -52,20 +74,8 @@
                                         @endif
                                     @endforeach
                                 </select>
-                            </div>
-                        </div>
-                    @endif
-                    
-                    @if( $model->exists )
-                        <div class="mb-4 col-6">
-                            <div class="form-group">
-                                <label class="form-label" for="curso_id"> Curso </label>
-                                <select class="form-select" name="curso_id" id="curso_id">
-                                    <option value="" disabled selected hidden> Selecione... </option>
-                                    @foreach([] as $option)
-
-                                    @endforeach
-                                </select>
+                                
+                                @include('components.divs.errors', ['field' => 'status'])
                             </div>
                         </div>
                     @endif
@@ -74,12 +84,17 @@
                         <div class="mb-4 col-6">
                             <div class="form-group">
                                 <label class="form-label" for="campus_id"> Campus </label>
-                                <select class="form-select" name="campus_id" id="campus_id">
-                                    <option value="" disabled selected hidden> Selecione... </option>
-                                    @foreach([] as $option)
-
-                                    @endforeach
+                                <select class="form-control" name="campus_id" id="campus_id">
                                 </select>
+                            </div>
+                        </div>
+                    @endif
+
+                    @if( $model->exists )
+                        <div class="mb-4 col-6">
+                            <div class="form-group">
+                                <label class="form-label" for="curso_id"> Curso </label>
+                                <select class="form-control" name="curso_id" id="curso_id"> </select>
                             </div>
                         </div>
                     @endif
@@ -101,7 +116,7 @@
     </div>
 
     @if( $model->exists )
-        <div id="paper-container" class="tab-pane fade" role="tabpanel" aria-labelledby="paper-tab">
+        <div id="paper-container" class="tab-pane fade {{ $paperContainerActive }}" role="tabpanel" aria-labelledby="paper-tab">
 
             <div class="text-end my-2">
                 <button type="button" class="btn btn-success user-type-create"> Cadastrar Papel </button>

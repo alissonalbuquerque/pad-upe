@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Unidade;
 use App\Models\Util\Menu;
 use App\Models\Util\MenuItemsAdmin;
-use App\Queries\UnidadeQuery;
 use Illuminate\Http\Request;
 
 class UnidadeController extends Controller
@@ -121,6 +120,6 @@ class UnidadeController extends Controller
      */
     public function getAll()
     {
-        return UnidadeQuery::all();
+        return Unidade::all();
     }
 }

@@ -1,15 +1,7 @@
-@php
-    function field_validate($field)
-    {
-        $type_form = 'create_and_update';
-
-        return sprintf("%s_%s", $type_form, $field);
-    }
-@endphp
-
 <div class="row">
 
     <input type="hidden" name="user_id" id="user_id" value="{{ $user->id }}">
+    <input type="hidden" name="id" id="id" value="{{ $model !== null? $model->id : null }}">
 
     <div class="mb-3 col-sm-12">
         <label class="form-label" for="user_name"> Usuário </label>
@@ -30,7 +22,7 @@
         </select>
 
         @include('components.divs.errors', [
-            'field' => field_validate('type')
+            'field' => 'type_create_and_update'
         ])
     </div>
 
@@ -48,7 +40,7 @@
         </select>
 
         @include('components.divs.errors', [
-            'field' => field_validate('nivel')
+            'field' => 'status_create_and_update'
         ])
     </div>
 

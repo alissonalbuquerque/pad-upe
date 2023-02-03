@@ -3,7 +3,7 @@
     <h3 class="h3"> Atualizar Papel </h3>
 </div>
 
-<form id="form-user_type" action="{{ route('user-type_update', ['id' => $model->id]) }}" method="post">
+<form id="form-user_type-update" action="{{ route('user-type_update', ['id' => $model->id]) }}" method="post">
     @csrf
     @method('POST')
 
@@ -28,7 +28,7 @@
 
 @include('pad.components.scripts.ajaxValidation', [
     'btn_submit_id' => 'btn_submit',
-    'form_id' => 'form-user_type',
-    'form_type' => 'create_and_update',
+    'form_id' => 'form-user_type-update',
     'route' => route('user-type_ajax_validation'),
+    'form_type' => 'create_and_update',
 ])

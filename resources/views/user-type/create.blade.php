@@ -2,7 +2,7 @@
     <h3 class="h3"> Cadastrar Papel </h3>
 </div>
 
-<form id="form-user_type" action="{{ route('user-type_store') }}" method="post">
+<form id="form-user_type-create" action="{{ route('user-type_store') }}" method="post">
     @csrf
     @method('POST')
 
@@ -27,7 +27,7 @@
 
 @include('pad.components.scripts.ajaxValidation', [
     'btn_submit_id' => 'btn_submit',
-    'form_id' => 'form-user_type',
-    'form_type' => 'create_and_update',
+    'form_id' => 'form-user_type-create',
     'route' => route('user-type_ajax_validation'),
+    'form_type' => 'create_and_update',
 ])

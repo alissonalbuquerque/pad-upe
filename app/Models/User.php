@@ -2,18 +2,21 @@
 
 namespace App\Models;
 
+use App\Models\Util\Status;
 use App\Queries\UserQuery;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     protected $table = "users";
 
@@ -32,16 +35,30 @@ class User extends Authenticatable
     /**
      * The attributes that should be cast.
      * @var array<string, string>
+     * @var boolean $isUpdate
      */
     protected $casts = [
         'email_verified_at' => 'datetime'
     ];
 
-    public static function validator(array $attributes)
-    {
+    protected $dates = ['deleted_at'];
+
+    public static function validator(array $attributes, $id = null)
+    {   
         $rules = [
             'name' => ['required', 'min:4'],
-            'email' => ['required', 'email']
+            'email' => ['required', 'email', Rule::unique('users')->ignore($id)],
+            'curso_id' => ['integer'],
+            'campus_id' => ['integer'],
+            'status' => [
+                Rule::requiredIf ( function() use($id)
+                {
+                    return (bool) $id;
+                }),
+                Rule::in([Status::ATIVO, Status::INATIVO]),
+                'required_with:id',
+                'integer',
+            ],
         ];
 
         $messages = [
@@ -51,7 +68,19 @@ class User extends Authenticatable
 
             //email
             'email.required' => 'O campo "E-Mail" é obrigatório.',
-            'email.email' => 'O campo "E-Mail" deve conter um e-mail valido.'
+            'email.email' => 'O campo "E-Mail" deve conter um e-mail valido.',
+            'email.unique' => 'O "E-Mail" informado já foi cadastrado no sistema.',
+
+            //status
+            'status.required' => 'O campo "Status" é obrigatório.',
+            'status.in' => 'Selecione uma opção da lista de "Status"!',
+            'status.integer' => 'O campo "Status" deve cónter um inteiro!',
+
+            //curso_id
+            'curso_id.integer' => 'O campo "Curso" deve cónter um inteiro!',
+
+            //campus_id
+            'campus_id.integer' => 'O campo "Campus" deve cónter um inteiro!',
         ];
 
         try {
@@ -64,12 +93,14 @@ class User extends Authenticatable
     public static function validatorPassword(array $attributes)
     {
         $rules = [
-            'password' => ['required', 'min:8'],
-            'password_confirmation' => [],
+            'password' => ['required', 'min:8', 'max:255', 'confirmed'],
         ];
 
         $messages = [
-
+            'password.required' => 'A "Senha" é obrigatória!',
+            'password.min' => 'A "Senha" deve contér no minímo 8 caracteres!',
+            'password.max' => 'A campo "Senha" deve contér no máximo 255 caracteres!',
+            'password.confirmed' => 'As senhas devem ser iguais!',
         ];
 
         try{

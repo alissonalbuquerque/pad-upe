@@ -18,9 +18,12 @@ use NunoMaduro\Collision\Adapters\Phpunit\State;
 
 class UserController extends Controller
 {   
-    public function editPerfil()
+    public function editPerfil($tab = null)
     {   
-        return view('user.update_perfil', ['menu' => Menu::USER]);
+        return view('user.update_perfil', [
+            'tab' => $tab,
+            'menu' => Menu::USER,
+        ]);
     }
 
     public function updatePerfil(Request $request)
@@ -42,15 +45,15 @@ class UserController extends Controller
     {
         $validator = User::validatorPassword($request->all());
 
-        // if($validator->fails()) {
-        //     return redirect()->back()->withErrors($validator->errors());
-        // }
+        if($validator->fails()) {
+            return redirect()->route('edit_perfil', ['tab' => 'password'])->withErrors($validator->errors());
+        }
 
-        // $user = User::find(Auth::user()->id);
-        // $user->fill($request->all());
-        // $user->save();
-        
-        // return redirect()->route('edit_perfil')->with('success', 'Salvo com sucesso!');
+        $model = User::find(Auth::user()->id);
+        $model->password = Hash::make($request->password);
+        $model->save();
+
+        return redirect()->route('edit_perfil', ['tab' => 'user'])->with('success', 'Senha salva com sucesso!');
 
     }
 
@@ -67,7 +70,7 @@ class UserController extends Controller
     }
 
     // Admin
-    public function actionCreate(Request $request)
+    public function actionCreate()
     {   
         $model = new User();
 
@@ -82,7 +85,7 @@ class UserController extends Controller
         $validator = User::validator($request->all());
 
         if($validator->fails()) {
-            return redirect()->route('user_create')->withErrors($validator);
+            return redirect()->route('user_create')->withErrors($validator)->withInput();
         }
 
         $model = new User();
@@ -101,7 +104,8 @@ class UserController extends Controller
     }
 
     public function actionEdit(Request $request, $id)
-    {
+    {   
+
         $model = User::find($id);
         $profiles = $model->profiles;
         $status = [
@@ -113,21 +117,39 @@ class UserController extends Controller
             Session::flash('warning', 'Não existem papeis cadastrados para esse usuário!');
         }
 
+        $tab_active = $request->query('tab_active') ?? 'user';
+
         return view('users.update', [
             'menu' => Menu::USERS,
             'model' => $model,
             'status' => $status,
             'profiles' => $profiles,
+            'tab_active' => $tab_active
         ]);
     }
 
-    public function actionUpdate($id, Request $request)
-    {
-        dd($id);
+    public function actionUpdate(Request $request, $id)
+    {   
+        $model = User::find($id);
+
+        $validator = User::validator($request->all(), $model->id);
+
+        if($validator->fails()) {
+            return redirect()->route('user_edit', ['id' => $model->id])->withErrors($validator)->withInput();
+        }
+
+        $model->fill($request->all());
+
+        if($model->save()) {
+            return redirect()->route('user_index')->with('success', 'Usuário atualizado com sucesso!');
+        }
+
+        return redirect()->with('fail', 'Falha ao cadastrar Usuário!');
     }
 
-    public function actionDelete($id) {
-
+    public function actionDelete($id)
+    {
+        dd($id);
     }
 
     public function actionImport(Request $request)
