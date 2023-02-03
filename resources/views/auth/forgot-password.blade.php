@@ -17,9 +17,7 @@
                     <!-- Informações -->
                     <div class="half p-4 py-md-5 bg-primary">
                         <p class="w-100 text-center">&mdash; Esqueceu sua senha? &mdash;</p>
-                        <p class="w-100 text-center">Sem problemas. Basta nos informar seu endereço
-                            de e-mail e enviaremos um e-mail com um link de redefinição de senha que permitirá que você
-                            escolha um novo.</p>
+                        <p class="w-100 text-center">Sem problemas. Basta informar seu endereço de e-mail e enviaremos um e-mail com um link de redefinição de senha.</p>
                     </div>
 
                     <!-- Login -->
@@ -38,14 +36,12 @@
                              <!-- Email Address -->
                             <div class="form-group mt-3">
                             <label class="label" for="name">Endereço de email</label>
-                            <input type="email" name="email" class="form-control" placeholder="ex: nome@upe.br" :value="old('email')" required autofocus />
+                            <input type="email" name="email" class="form-control" placeholder="ex: usuario@upe.br" :value="old('email')" required autofocus />
                             </div>
                             <!-- Email Address -->
 
                             <div class="flex items-center justify-end mt-4">
-                                <button type="submit" class="form-control btn btn-secondary rounded submit px-3">
-                                Link de redefinição de senha de e-mail
-                                </button>
+                                <button type="submit" class="form-control btn btn-secondary rounded submit px-3"> Redefinir Senha </button>
                             </div>
                         </form>
                     </div>

@@ -53,6 +53,9 @@
                         <div class="form-group">
                             <button type="submit" class="form-control btn btn-secondary rounded submit px-3">Entrar</button>
                         </div>
+                        <div>
+                            <a href="{{ route('password.request') }}">Esqueci minha senha</a>
+                        </div>
                     </div>
                 </form>
             </div>
