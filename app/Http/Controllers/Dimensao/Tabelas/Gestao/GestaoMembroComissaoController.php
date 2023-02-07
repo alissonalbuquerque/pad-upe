@@ -22,10 +22,7 @@ class GestaoMembroComissaoController extends Controller
     public function index($user_pad_id)
     {
         $membroComissoes = 
-                GestaoMembroComissao::initQuery()
-                    ->whereUserPad($user_pad_id)
-                    ->orderBy('cod_atividade')
-                    ->get();
+                GestaoMembroComissao::whereUserPadId($user_pad_id)->orderBy('cod_atividade')->get();
 
         $divs = PadTables::tablesGestao($user_pad_id);
 
@@ -92,7 +89,7 @@ class GestaoMembroComissaoController extends Controller
     }
     
     public function update($id, Request $request)
-    {
+    {   
         $planejamento = Planejamento::initQuery()->whereCodDimensao('G-1')->first();
         
         $ch_min = $planejamento->ch_semanal;
@@ -106,9 +103,10 @@ class GestaoMembroComissaoController extends Controller
             array_merge(GestaoMembroComissao::messages(), $cargaHoraria->messages())
         );
 
+
         $model = GestaoMembroComissao::find($id);
         $model->fill($request->all());
-
+        
         $user_pad_id = $model->user_pad_id;
 
         if($validator->fails())

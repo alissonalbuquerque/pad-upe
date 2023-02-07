@@ -8,8 +8,6 @@
             @csrf
         
             <div class="row">
-                    
-                <input type="hidden" id="user_pad_id" name="user_pad_id" value="{{$model->id}}">
 
                 <div class="mb-3 col-sm-3">
                         <label class="form-label" for="cod_atividade">Cód. Atividade</label>
