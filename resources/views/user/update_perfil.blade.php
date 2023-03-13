@@ -79,6 +79,14 @@
 
                             <div class="mb-4 col-12">
                                 <div class="form-group">
+                                    <label class="form-label" for="document"> CPF </label>
+                                    <input type="text" name="document" id="document" class="form-control @error('document') is-invalid @enderror" placeholder="###.###.###-##" value="{{ $user->document }}">
+                                    @include('components.divs.errors', ['field' => 'document'])
+                                </div>
+                            </div>
+
+                            <div class="mb-4 col-12">
+                                <div class="form-group">
                                     <label class="form-label" for="email"> E-Mail </label>
                                     <input type="text" name="email" id="email" class="form-control @error('email') is-invalid @enderror" placeholder="E-Mail" value="{{ $user->email }}">
                                     @include('components.divs.errors', ['field' => 'email'])
@@ -90,7 +98,7 @@
 
                     <div class="mt-1 text-end">
                         <div class="modal-footer">
-                            @include('components.buttons.btn-save', ['content' => 'Atualizar'])
+                            @include('components.buttons.btn-save', ['id' => 'submit_perfil', 'content' => 'Atualizar'])
 
                             @include('components.buttons.btn-cancel', ['content' => 'Cancelar', 'route' => route('dashboard')])
                         </div>
@@ -134,7 +142,7 @@
 
                     <div class="mt-1 text-end">
                         <div class="modal-footer">
-                            @include('components.buttons.btn-save', ['content' => 'Atualizar'])
+                            @include('components.buttons.btn-save', ['id' => 'submit_password', 'content' => 'Atualizar'])
 
                             @include('components.buttons.btn-cancel', ['content' => 'Cancelar', 'route' => route('dashboard')])
                         </div>
@@ -147,3 +155,12 @@
     </div>
 
 @endsection 
+
+@section('scripts')
+    <script type="text/javascript">
+        $('#document').mask('000.000.000-00')
+        $('#document').keypress(function() {
+            $(this).mask('000.000.000-00')
+        })
+    </script>               
+@endsection

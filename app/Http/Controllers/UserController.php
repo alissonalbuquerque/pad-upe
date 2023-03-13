@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Imports\UsersImport;
 use App\Models\User;
 use App\Models\UserType;
+use App\Models\Util\MaskHelper;
 use App\Models\Util\Menu;
 use App\Models\Util\Status;
 use Illuminate\Http\Request;
@@ -29,14 +30,16 @@ class UserController extends Controller
 
     public function updatePerfil(Request $request)
     {   
-        $validator = User::validator($request->all());
+        $user_id = Auth::user()->id;
+        $validator = User::validator($request->all(), $user_id);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->errors());
         }
 
-        $user = User::find(Auth::user()->id);
+        $user = User::find($user_id);
         $user->fill($request->all());
+        $user->document = MaskHelper::documentOnlyNumber($user->document);
         $user->save();
 
         return redirect()->route('edit_perfil')->with('success', 'Salvo com sucesso!');
@@ -107,7 +110,6 @@ class UserController extends Controller
 
     public function actionEdit(Request $request, $id)
     {   
-
         $model = User::find($id);
         $profiles = $model->profiles;
         $status = [
@@ -152,6 +154,21 @@ class UserController extends Controller
     public function actionDelete($id)
     {
         dd($id);
+    }
+
+    public function actionChangeProfile($user_id, $user_type_id)
+    {   
+        $profiles = UserType::whereUserId($user_id)->whereStatus(Status::ATIVO)->get();
+        $profiles->each(function(UserType $model) {
+            $model->selected = false;
+            $model->save();
+        });
+
+        $profile = UserType::whereId($user_type_id)->first();
+        $profile->selected = true;
+        $profile->save();
+
+        return redirect('dashboard');
     }
 
     public function actionImport(Request $request)

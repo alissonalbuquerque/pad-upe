@@ -24,7 +24,7 @@ class User extends Authenticatable
      * The attributes that are mass assignable.
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'email', 'password', 'status', 'curso_id', 'campus_id'];
+    protected $fillable = ['name', 'email', 'password', 'status', 'curso_id', 'campus_id', 'document'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -43,7 +43,7 @@ class User extends Authenticatable
 
     protected $dates = ['deleted_at'];
 
-    public static function validator(array $attributes, $id = null)
+    public static function validator(array $attributes, $id = null, $ignoreStatus = true)
     {   
         $rules = [
             'name' => ['required', 'min:4'],
@@ -51,9 +51,9 @@ class User extends Authenticatable
             'curso_id' => ['integer'],
             'campus_id' => ['integer'],
             'status' => [
-                Rule::requiredIf ( function() use($id)
+                Rule::requiredIf ( function() use($ignoreStatus)
                 {
-                    return (bool) $id;
+                    return !$ignoreStatus;
                 }),
                 Rule::in([Status::ATIVO, Status::INATIVO]),
                 'required_with:id',
@@ -161,15 +161,21 @@ class User extends Authenticatable
         return $this->belongsTo(Unidade::class);
     }
 
+    /**
+     * Return UserType
+     *
+     * @param integer $type_profile
+     * @return UserType
+     */
     public function profile($type_profile)
-    {
-        return UserType::initQuery()->whereUser($this->id)->whereType($type_profile)->first();
+    {   
+        return UserType::whereUserId($this->id)->whereType($type_profile)->first();
     }
 
     /** @return UserType[]|null */
     public function profiles()
-    {
-        return $this->hasMany(UserType::class);
+    {   
+        return $this->hasMany(UserType::class)->whereStatus(Status::ATIVO);
     }
 
     /**
@@ -177,7 +183,7 @@ class User extends Authenticatable
      */
     public function profileSelected()
     {   
-        return $this->profiles()->where('selected', true)->first();
+        return $this->profiles()->whereSelected(true)->first();
     }
 
     /**

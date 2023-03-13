@@ -11,6 +11,7 @@
         'model' => $model,
         'types' => $types,
         'status' => $status,
+        'operation' => $operation
     ])
 
     <div class="mt-1 text-end">

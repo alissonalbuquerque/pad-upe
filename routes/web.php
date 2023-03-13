@@ -13,7 +13,6 @@ use App\Http\Controllers\DiretorController;
 use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\AvaliadorController;
 use App\Http\Controllers\UserPadController;
-use App\Http\Controllers\UserTypeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +27,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 require __DIR__ . '/auth.php';
+
+require __DIR__ . '/profile.php';
+
+require __DIR__ . '/anexo.php';
+
+require __DIR__ . '/users.php';
+
+require __DIR__ . '/user_type.php';
 
 require __DIR__ . '/dimensao/dimensao.php';
 
@@ -132,18 +139,6 @@ Route::prefix('/user')->group(function () {
     Route::post('/update/password', [UserController::class, 'updatePassword'])->name('update_password');
 });
 
-Route::prefix('/users')->group(function() {
-    Route::get('/index', [UserController::class, 'actionIndex'])->name('user_index');
-    Route::get('/create', [UserController::class, 'actionCreate'])->name('user_create');
-    Route::post('/store', [UserController::class, 'actionStore'])->name('user_store');
-    Route::get('/edit/{id}', [UserController::class, 'actionEdit'])->name('user_edit');
-    Route::post('/update/{id}', [UserController::class, 'actionUpdate'])->name('user_update');
-    Route::delete('/delete/{id}', [UserController::class, 'actionDelete'])->name('user_delete');
-
-    Route::post('/import', [UserController::class, 'actionImport'])->name('user_import');
-    Route::get('/importView', [UserController::class, 'actionImportView'])->name('user_import_view');
-});
-
 /** json */
 Route::get('/disciplina/{curso_id}', [DisciplinaController::class, 'getDisciplinaByCurso'])->name('get_disciplina_by_curso');
 
@@ -152,16 +147,6 @@ Route::prefix('/pad/professor')->group(function () {
     Route::get('/index', [PadController::class, 'index'])->name('pad_index');
     Route::get('/view/{id}', [PadController::class, 'view'])->name('pad_view');
     Route::get('/anexo/{id}', [PadController::class, 'anexo'])->name('pad_anexo');
-});
-
-/** UserType */
-Route::prefix('/user-type')->group(function() {
-    Route::get('/create/{user_id?}', [UserTypeController::class, 'actionCreate'])->name('user-type_create');
-    Route::post('/store', [UserTypeController::class, 'actionStore'])->name('user-type_store');
-    Route::get('/edit/{id?}', [UserTypeController::class, 'actionEdit'])->name('user-type_edit');
-    Route::post('/update/{id}', [UserTypeController::class, 'actionUpdate'])->name('user-type_update');
-    Route::delete('/delete/{id}', [UserTypeController::class, 'actionDelete'])->name('user-type_delete');
-    Route::post('/validate', [UserTypeController::class, 'ajaxValidation'])->name('user-type_ajax_validation');
 });
 
 /** UserPad */

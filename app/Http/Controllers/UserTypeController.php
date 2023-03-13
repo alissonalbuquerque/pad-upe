@@ -15,9 +15,24 @@ class UserTypeController extends Controller
     {   
         $validator = Validator::make($request->all(), UserType::rules(), UserType::messages());
 
-        if($validator->fails())
-        {
+        $profiles = UserType::whereUserId($request->user_id)->get();
+        $profiles->each(function(UserType $model) {
+            $model->selected = false;
+            $model->save();
+        });
 
+        $modelDeleted = UserType::whereUserId($request->user_id)->whereType($request->type)->onlyTrashed()->first();
+
+        if($modelDeleted)
+        {   
+            $modelDeleted->restore();
+            $modelDeleted->status = $request->status;
+            $modelDeleted->selected = true;
+            $modelDeleted->save();
+
+            return redirect()
+                ->route('user_edit', ['id' => $request->user_id, 'tab_active' => 'paper'])
+                ->with('success', 'Papel cadastrado com Sucesso!');
         }
 
         $model = new UserType();
@@ -31,13 +46,24 @@ class UserTypeController extends Controller
     }
 
     public function actionUpdate(Request $request, $id)
-    {
+    {   
+        $model = UserType::find($id);
+        $model->status = $request->status;
+        //voltar e corrigir expressao logica
+        if($model->status == Status::INATIVO) {
+            $model->selected = false;
+        }
+        $model->save();
 
+        return redirect()
+                ->route('user_edit', ['id' => $request->user_id, 'tab_active' => 'paper'])
+                ->with('success', 'Papel atualizado com Sucesso!');
     }
 
     public function actionDelete($id)
     {
         $model = UserType::find($id);
+        $model->selected = false;
         $model->delete();
 
         return redirect()
@@ -57,6 +83,7 @@ class UserTypeController extends Controller
             'model' => $model,
             'types' => $types,
             'status' => $status,
+            'operation' => 'create'
         ]);
     }
 
@@ -72,6 +99,7 @@ class UserTypeController extends Controller
             'model' => $model,
             'types' => $types,
             'status' => $status,
+            'operation' => 'update',
         ]);
     }
 
@@ -80,9 +108,10 @@ class UserTypeController extends Controller
         $id = $request->id;
         $user_id = $request->user_id;
         $type = $request->type;
+        $operation = $request->operation;
         
         $validator = Validator::make(
-            $request->all(), UserType::rules($id, $user_id, $type), UserType::messages()
+            $request->all(), UserType::rules($id, $user_id, $type, $operation), UserType::messages()
         );
 
         if($validator->passes()) {

@@ -21,6 +21,9 @@ class UserType extends Model
     const COORDINATOR = 4; // Coordenador
     const EVALUATOR = 5;   // Avaliador
 
+    /** @var string with "create", "update" */
+    public $operation = 'create';
+
     protected $table = 'user_type';
 
     protected $fillable = ['user_id', 'pad_id', 'type', 'status', 'selected'];
@@ -58,21 +61,25 @@ class UserType extends Model
         return new UserTypeQuery(get_called_class());
     }
     
-    public static function rules($id = null, $user_id = null, $type = null) {
+    public static function rules($id = null, $user_id = null, $type = null, $operation = 'create')
+    {   
+        $typeRules = ['integer', Rule::in(array_keys(self::listType()))];
+
+        if($operation === 'create')
+        {   
+            array_push($typeRules, 'required');
+
+            array_push($typeRules,
+                Rule::unique('user_type')->where(function($query) use ($user_id, $type) {
+                    return $query->where('user_id', $user_id)->where('type', $type)->where('deleted_at', NULL);
+                })
+            );
+        }
+
         return [
-            //add migration with deleted_at column
             'user_id' => ['required', 'integer'],
             'status' => ['required', 'integer', Rule::in([Status::ATIVO, Status::INATIVO])],
-            // 'selected' => []
-            'type' => [
-                'required',
-                'integer',
-                Rule::in(array_keys(self::listType())),
-                Rule::unique('user_type')->where(function($query) use($id, $user_id, $type)
-                {   
-                    return $query->where('user_id', '=', $user_id)->where('type', '=', $type);
-                })->ignore($id)
-            ],
+            'type' => $typeRules  
         ];
     }
 
@@ -90,10 +97,6 @@ class UserType extends Model
             'status.required' => 'O campo "Status" é obrigatório!',
             'status.in' => 'Selecione uma opção da lista de "Status"!',
             'status.integer' => 'O campo "Status" deve cónter um inteiro!',
-
-            
-
-            //selected
         ];
     }
 
@@ -101,10 +104,10 @@ class UserType extends Model
     
         $values = [
             self::ADMIN => 'Administrador',
-            self::TEACHER => 'Professor',
-            self::DIRECTOR => 'Diretor',
+            self::EVALUATOR => 'Avaliador',
             self::COORDINATOR => 'Coordenador',
-            self::EVALUATOR => 'Evaluator',
+            self::DIRECTOR => 'Diretor',
+            self::TEACHER => 'Professor',
         ];
         
         return $value !== null? $values[$value] : $values;

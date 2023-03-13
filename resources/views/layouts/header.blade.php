@@ -9,12 +9,29 @@
     </div>
     <div class="header-divider"></div>
     <div class="mt-3 space-y-1 header-right-side">
-        <!-- Authentication -->
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button class="btn btn-outline-danger btn-sm" type="submit">
-               Sair <i class="bi bi-box-arrow-right"></i>
-            </button>
-        </form>
+        <div class="btn-group" role="group">
+            {{-- Profiles --}}
+            <div class="me-1">
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary btn-sm" type="button" id="dropdown-profiles" data-bs-toggle="dropdown" aria-expanded="false">
+                        Papeis <i class="bi bi-file-earmark"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdown-profiles">
+                        @foreach (Auth::user()->profiles as $profile)
+                            <li><a class="dropdown-item" href="{{ route('change_profile', ['user_id' => Auth::user()->id, 'user_type_id' => $profile->id]) }}">{{ $profile->typeAsString() }}</a></li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+            {{-- Logout --}}
+            <div class="me-1">
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button class="btn btn-outline-danger btn-sm" type="submit">
+                       Sair <i class="bi bi-box-arrow-right"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
 </header>
