@@ -58,18 +58,7 @@ class CampusController extends Controller
 
         $model->fill($request->all());
         $model->save();
-        return redirect()->route('campus_index')->with('success', 'Salvo com sucesso!');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return redirect()->route('campus_index')->with('success', 'Campus salvo com sucesso!');
     }
 
     /**
@@ -106,25 +95,20 @@ class CampusController extends Controller
 
         $model->fill($request->all());
         $model->save();
-        return redirect()->route('campus_index')->with('success', 'Atualizado com sucesso!');
+        return redirect()->route('campus_index')->with('success', 'Campus atualizado com sucesso!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($id)
     {
         $model = Campus::find($id);
         $model->delete();
-        return redirect()->route('campus_index')->with('success', 'Excluído com sucesso!');
-    }
-
-    public function findByUnidade(int $unidade_id)
-    {
-        return Campus::initQuery()->whereUnidadeId($unidade_id)->orderBy('name')->get();
+        return redirect()->route('campus_index')->with('success', 'Campus excluído com sucesso!');
     }
 
     /**

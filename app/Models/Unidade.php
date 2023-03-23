@@ -67,20 +67,19 @@ class Unidade extends Model
         return $value != null ? $values[$value] : $values;
     }
 
-    public static function validator($attributes, $rule_password = false) {
+    public static function validator($attributes) {
 
         $rules = [
-            'name' => ['min:3', 'max:255'],
+            'name' => ['required', 'min:3', 'max:255'],
         ];
 
         $messages = [
-            // 'unique' => "O :attribute já está registrado no sistema",
-            'name.min' => "O campo não tem o mínimo de caracteres permitido",
-            'name.max' => "O campo atingiu o máximo de caracteres permitido",
+            'name.required' => 'O campo "Nome da Unidade" é obrigatório.',
+            'name.min' => 'O campo "Nome da Unidade" deve ter no minímo 3 (três) caracteres.',
+            'name.max' => 'O campo "Nome da Unidade" deve ter no máximo 255 (duzentos e cinquenta e cinco) caracteres.',
         ];
 
         try {
-            //return  $request->validate()
             return Validator::make($attributes, $rules, $messages);
         } catch(ValidationException $exception) {
 

@@ -49,15 +49,19 @@ class Campus extends Model
     public static function validator($attributes, $rule_password = false) {
 
         $rules = [
-            'name' => ['min:8', 'max:255'],
-            'unidade_id' => ['required']
+            'name' => ['required', 'min:8', 'max:255'],
+            'unidade_id' => ['required', 'integer', ]
         ];
 
         $messages = [
-            // 'unique' => "O :attribute já está registrado no sistema",
-            'name.min' => "O campo não tem o mínimo de caracteres permitido",
-            'name.max' => "O campo atingiu o máximo de caracteres permitido",
-            'required' => "O campo precisa ser preenchido",
+            //name
+            'name.required' => 'O campo "Nome do Campus" é obrigatório.',
+            'name.min' => 'O campo "Nome do Campus" deve ter no minímo 8 (oito) caracteres.',
+            'name.max' => 'O campo "Nome do Campus" deve ter no máximo 255 (duzentos e cinquenta e cinco) caracteres.',
+            
+            //unidade_id
+            'unidade_id.required' => 'O campo "Unidade" é obrigatório.',
+            'unidade_id.integer' => 'O campo "Unidade" deve ser um inteiro.',
         ];
 
         try {

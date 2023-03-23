@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Unidade;
 use Illuminate\Database\Seeder;
-use SebastianBergmann\CodeCoverage\Report\Xml\Unit;
 
 class UnidadeSeeder extends Seeder
 {
@@ -15,9 +14,20 @@ class UnidadeSeeder extends Seeder
      */
     public function run()
     {
-        $unidades = ['Arcoverde', 'Caruaru', 'Garanhuns', 'Nazaré da Mata', 'Palmares', 'Petrolina', 'Recife', 'Região Metropolitana', 'Salgueiro', 'Serra Talhada', ];
+        $unidades = [
+            'ARCOVERDE',
+            'CARUARU',
+            'GARANHUNS',
+            'NAZARÉ DA MATA',
+            'PALMARES',
+            'PETROLINA',
+            'RECIFE',
+            'SALGUEIRO',
+            'SERRA TALHADA',
+        ];
+
         foreach($unidades as $unidade)
-        {
+        {   
             Unidade::create(['name' => $unidade]);
         }
     }

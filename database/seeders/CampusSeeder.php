@@ -8,24 +8,35 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class CampusSeeder extends Seeder
-{
+{   
+
     /**
      * Run the database seeds.
      *
      * @return void
      */
     public function run()
-    {   
-        $unidades = Unidade::all();
-        $campus_ids = range(1, 5);
-        
-        foreach($unidades as $unidade)
+    {
+        $campus = [
+            'ARCOVERDE' => ['ARCOVERDE'],
+            'CARUARU' => ['CARUARU'],
+            'GARANHUNS' => ['GARANHUNS'],
+            'NAZARÉ DA MATA' => ['MATA NORTE'],
+            'PALMARES' => ['MATA SUL'],
+            'PETROLINA' => ['PETROLINA'],
+            'RECIFE' =>  ['EAD', 'BENFICA (POLI)', 'SANTO AMARO'],
+            'SALGUEIRO' => ['SALGUEIRO'],
+            'SERRA TALHADA' => ['SERRA TALHADA']
+        ];
+
+        foreach($campus as $name => $array)
         {   
-            foreach($campus_ids as $campus_id)
-            {   
+            $unidade = Unidade::whereName($name)->first();
+            foreach($array as $item)
+            {
                 Campus::create([
-                    'name' => "{$unidade->name} - Campus {$campus_id}",
-                    'unidade_id' => $unidade->id,
+                    'name' => $item,
+                    'unidade_id' => $unidade->id
                 ]);
             }
         }

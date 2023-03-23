@@ -6,6 +6,7 @@ use App\Models\Unidade;
 use App\Models\Util\Menu;
 use App\Models\Util\MenuItemsAdmin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class UnidadeController extends Controller
 {
@@ -28,7 +29,7 @@ class UnidadeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
+    {   
         return view('unidade.create', [
             'unidades' => Unidade::all(),
             'menu' => Menu::UNIDADES,
@@ -52,18 +53,7 @@ class UnidadeController extends Controller
 
         $model->fill($request->all());
         $model->save();
-        return redirect()->route('unidade_index')->with('success', 'Salvo com sucesso!');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return redirect()->route('unidade_index')->with('success', 'Unidade salva com sucesso!');
     }
 
     /**
@@ -99,7 +89,7 @@ class UnidadeController extends Controller
 
         $model->fill($request->all());
         $model->save();
-        return redirect()->route('unidade_index')->with('success', 'Atualizado com sucesso!');
+        return redirect()->route('unidade_index')->with('success', 'Unidade atualizada com sucesso!');
     }
 
     /**
@@ -108,18 +98,46 @@ class UnidadeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function delete($id)
+    {   
         $model = Unidade::find($id);
         $model->delete();
-        return redirect()->route('unidade_index')->with('success', 'Excluído com sucesso!');
+        return redirect()->route('unidade_index')->with('success', 'Unidade excluída com sucesso!');
     }
 
     /**
-     * @return array
+     *
+     * @params Illuminate\Http\Request\Request
      */
-    public function getAll()
-    {
-        return Unidade::all();
+    public function search(Request $request)
+    {   
+        // QueryParams
+        $q = $request->query('q'); 
+        $id = $request->query('id');
+
+        $unidade = Unidade::where([]);
+
+        if($id) {
+            $unidade = $unidade->whereId($id);
+        }
+
+        if($q) {
+            $unidade = $unidade->where('name', 'like', '%'.$q.'%');
+        }
+
+        $unidade = $unidade->get();
+
+        $array = 
+            $unidade->map(function($unidade, $key)
+            {
+                return [
+                    'id' => $unidade->id,
+                    'text' => $unidade->name,
+                ];
+            });
+
+        $array = ['results' => $array];
+
+        return Response::json($array);
     }
 }

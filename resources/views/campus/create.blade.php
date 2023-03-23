@@ -8,17 +8,15 @@
 @endsection
 @section('nav')
     @include('layouts.navigation', [
-        'index_menu' => $index_menu,
+        'menu' => $menu,
     ])
 @endsection
 @section('body')
-    <div class="content mx-auto">
-        <h1 class="titulo pt-4 pb-4 mb-3 border-bottom">CADASTRO CAMPUS</h1>
-        <p class="pb-4 mb-3 text-center text-muted align-items-center">
-            Insira os dados correspondentes nos campos exibidos abaixo
-        </p>
-     
-        <!-- Formulario -->
+    <div class="mb-3">
+        <h3 class="h4"> Cadastrar Campus </h3>
+    </div>
+        
+    <div>
         <form action="{{ route('campus_store') }}" method="post">
             @csrf
             @method('POST')
@@ -36,21 +34,21 @@
                     </div>
                 </div>
 
-                <div class='mb-3 col-sm-6'>
-                    <div class="form-group">
-                        <label for="unidade_id">Unidade</label>
-                        <select class="form-select" name="unidade_id" id="unidade_id">
-                            <option value="" disabled selected hidden> selecione... </option>
-                            @foreach ($unidades as $unidade)
-                                <option value="{{ $unidade->id }}" {{ old('unidade_id') == $unidade->id ? 'selected' : '' }}>
-                                    {{ $unidade->name }} </option>
-                            @endforeach
-                        </select>
-                        @error('unidade_id')
-                            <span class="text-danger"> {{ $message }} </span>
-                        @enderror
-                    </div>
-                </div>
+                [<div class='mb-3 col-sm-6'>]
+                [    <div class="form-group">]
+                [        <label for="unidade_id">Unidade</label>]
+                [        <select class="form-select" name="unidade_id" id="unidade_id">]
+                [            <option value="" disabled selected hidden> Selecione... </option>]
+                [            @foreach ($unidades as $unidade)]
+                [                <option value="{{ $unidade->id }}" {{ old('unidade_id') == $unidade->id ? 'selected' : '' }}>]
+                [                    {{ $unidade->name }} </option>]
+                [            @endforeach]
+                [        </select>]
+                [        @error('unidade_id')]
+                [            <span class="text-danger"> {{ $message }} </span>]
+                [        @enderror]
+                [    </div>]
+                [</div>]
 
                 <div class='mt-1 text-end'>
                     @include('components.buttons.btn-cancel', [
@@ -66,6 +64,21 @@
             </div>
 
         </form>
-
     </div>
+@endsection
+
+@section('scripts')
+    <script type="text/javascript">
+
+        $('#unidade_id').select2(
+        {   
+            placeholder: 'Unidade...',
+            allowClear: true,
+            ajax: {
+                url: '{{ route("unidade_search") }}',
+                dataType: 'json'
+            }
+        });
+        
+    </script>
 @endsection

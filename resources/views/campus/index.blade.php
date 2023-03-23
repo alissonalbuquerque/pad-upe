@@ -33,8 +33,8 @@
             <table class="table table-hover mt-4">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Unidade</th>
+                        <th class="w-50" scope="col">Nome</th>
+                        <th class="w-50" scope="col">Unidade</th>
                         <th scope="col">Ações</th>
                     </tr>
                 </thead>
