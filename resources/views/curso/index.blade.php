@@ -41,28 +41,26 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($campusWithCursos as $campusWithCurso)
-                        @foreach ($campusWithCurso->cursos as $curso)
-                            <tr>
-                                <td>{{ $curso->name }}</td>
-                                <td>{{ $curso->campus }}</td>
-                                <td>
-                                    <div class="btn-group" role="group">
-                                        <div class="me-1">
-                                            @include('components.buttons.btn-edit', [
-                                                'route' => route('curso_edit', ['id' => $curso->id]),
-                                            ])
-                                        </div>
-                                        <div class="me-1">
-                                            @include('components.buttons.btn-delete', [
-                                                'id' => $curso->id,
-                                                'route' => route('curso_delete', ['id' => $curso->id]),
-                                            ])
-                                        </div>
+                    @foreach ($cursos as $curso)
+                        <tr>
+                            <td>{{ $curso->name }}</td>
+                            <td>{{ $curso->campus }}</td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <div class="me-1">
+                                        @include('components.buttons.btn-edit', [
+                                            'route' => route('curso_edit', ['id' => $curso->id]),
+                                        ])
                                     </div>
-                                </td>
-                            </tr>
-                        @endforeach
+                                    <div class="me-1">
+                                        @include('components.buttons.btn-delete', [
+                                            'id' => $curso->id,
+                                            'route' => route('curso_delete', ['id' => $curso->id]),
+                                        ])
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>

@@ -17,15 +17,10 @@ class CursoController extends Controller
      */
     public function index()
     {
-        $campusWithCursos = [];
-        $allCampus = Campus::all();
-        foreach($allCampus as $campus){
-            $campus->cursos = Curso::where('campus_id', '=', $campus->id)->get();
-            array_push($campusWithCursos, $campus);
-        }
-
+        $cursos = Curso::orderBy('campus_id')->orderBy('name')->get();
+        
         return view('curso.index', [
-            'campusWithCursos' => $campusWithCursos,
+            'cursos' => $cursos,
             'menu' => Menu::CURSOS
         ]);
     }
@@ -62,18 +57,7 @@ class CursoController extends Controller
 
         $model->fill($request->all());
         $model->save();
-        return redirect()->route('curso_index')->with('success', 'Salvo com sucesso!');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return redirect()->route('curso_index')->with('success', 'Curso salvo com sucesso!');
     }
 
     /**
@@ -110,7 +94,7 @@ class CursoController extends Controller
 
         $model->fill($request->all());
         $model->save();
-        return redirect()->route('curso_index')->with('success', 'Atualizado com sucesso!');
+        return redirect()->route('curso_index')->with('success', 'Curso atualizado com sucesso!');
     }
 
     /**
@@ -120,11 +104,11 @@ class CursoController extends Controller
      * @param string $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($id)
     {
         $model = Curso::find($id);
         $model->delete();
-        return redirect()->route('curso_index')->with('success', 'Excluído com sucesso!');
+        return redirect()->route('curso_index')->with('success', 'Curso excluído com sucesso!');
     }
 
     /**

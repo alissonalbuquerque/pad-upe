@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Campus')
+@section('title', 'Cursos')
 @section('header')
     @include('layouts.header', [
         'user' => Auth::user(),
@@ -8,17 +8,15 @@
 @endsection
 @section('nav')
     @include('layouts.navigation', [
-        'index_menu' => $index_menu,
+        'menu' => $menu,
     ])
 @endsection
 @section('body')
-    <div class="content mx-auto">
-        <h1 class="titulo pt-4 pb-4 mb-3 border-bottom">CADASTRO CURSO</h1>
-        <p class="pb-4 mb-3 text-center text-muted align-items-center">
-            Insira os dados correspondentes nos campos exibidos abaixo
-        </p>
+    <div class="mb-3">
+        <h3 class="h4"> Atualizar Curso </h3>
+    </div>
 
-        <!-- Formulario -->
+    <div>
         <form action="{{ route('curso_update', $curso->id ) }}" method="post">
             @csrf
             @method('POST')
@@ -71,4 +69,20 @@
 
         </form>
     </div>
+@endsection
+
+@section('scripts')
+    <script type="text/javascript">
+
+        $('#campus_id').select2(
+        {   
+            placeholder: 'Unidade...',
+            allowClear: true,
+            ajax: {
+                url: '{{ route("campus_search") }}',
+                dataType: 'json'
+            }
+        });
+        
+    </script>
 @endsection

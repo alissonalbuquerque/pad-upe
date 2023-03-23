@@ -41,14 +41,19 @@ class Curso extends Model
     {
 
         $rules = [
-            'name' => ['min:8', 'max:255'],
-            'campus_id' => ['required']
+            'name' => ['required', 'min:8', 'max:255'],
+            'campus_id' => ['required', 'integer']
         ];
 
         $messages = [
-            'min' => "O campo não tem o mínimo de caracteres permitido",
-            'max' => "O campo atingiu o máximo de caracteres permitido",
-            'required' => "O campo precisa ser preenchido",
+            //name
+            'name.required' => 'O campo "Nome do Campus" é obrigatório.',
+            'name.min' => 'O campo "Nome do Campus" deve ter no minímo 8 (oito) caracteres.',
+            'name.max' => 'O campo "Nome do Campus" deve ter no máximo 255 (duzentos e cinquenta e cinco) caracteres.',
+            
+            //campus_id
+            'campus_id.required' => 'O campo "Campus" é obrigatório.',
+            'campus_id.integer' => 'O campo "Campus" deve ser um inteiro.',
         ];
 
         try {
