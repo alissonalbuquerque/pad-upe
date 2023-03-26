@@ -3,7 +3,6 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Dimensao\EnsinoController;
 use App\Http\Controllers\DisciplinaController;
-use App\Http\Controllers\PadController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CoordenadorController;
 use App\Http\Controllers\DiretorController;
@@ -88,15 +87,15 @@ Route::prefix('/professor')->group(function () {
     Route::delete('/delete/{id}', [ProfessorController::class, 'destroy'])->name('professor_delete');
 });
 
-Route::prefix('/avaliador')->group(function () {
-    Route::get('/index', [AvaliadorController::class, 'index'])->name('avaliador_index');
-    Route::get('/avaliar', [AvaliadorController::class, 'avaliar'])->name('avaliador_avaliar');
-    Route::get('/create', [AvaliadorController::class, 'create'])->name('avaliador_create');
-    Route::post('/store', [AvaliadorController::class, 'store'])->name('avaliador_store');
-    Route::get('/edit/{id}', [AvaliadorController::class, 'edit'])->name('avaliador_edit');
-    Route::post('/update/{id}', [AvaliadorController::class, 'update'])->name('avaliador_update');
-    Route::delete('/delete/{id}', [AvaliadorController::class, 'destroy'])->name('avaliador_delete');
-});
+// Route::prefix('/avaliador')->group(function () {
+//     Route::get('/index', [AvaliadorController::class, 'index'])->name('avaliador_index');
+//     Route::get('/avaliar', [AvaliadorController::class, 'avaliar'])->name('avaliador_avaliar');
+//     Route::get('/create', [AvaliadorController::class, 'create'])->name('avaliador_create');
+//     Route::post('/store', [AvaliadorController::class, 'store'])->name('avaliador_store');
+//     Route::get('/edit/{id}', [AvaliadorController::class, 'edit'])->name('avaliador_edit');
+//     Route::post('/update/{id}', [AvaliadorController::class, 'update'])->name('avaliador_update');
+//     Route::delete('/delete/{id}', [AvaliadorController::class, 'destroy'])->name('avaliador_delete');
+// });
 
 Route::prefix('/user')->group(function () {
     Route::get('/edit/perfil/{tab?}', [UserController::class, 'editPerfil'])->name('edit_perfil');
@@ -107,12 +106,7 @@ Route::prefix('/user')->group(function () {
 /** json */
 Route::get('/disciplina/{curso_id}', [DisciplinaController::class, 'getDisciplinaByCurso'])->name('get_disciplina_by_curso');
 
-/** PadProfessor */
-Route::prefix('/pad/professor')->group(function () {
-    Route::get('/index', [PadController::class, 'index'])->name('pad_index');
-    Route::get('/view/{id}', [PadController::class, 'view'])->name('pad_view');
-    Route::get('/anexo/{id}', [PadController::class, 'anexo'])->name('pad_anexo');
-});
+
 
 /** UserPad */
 Route::prefix('/user-pad')->group(function() {
