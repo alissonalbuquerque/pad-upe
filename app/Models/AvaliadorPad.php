@@ -25,4 +25,13 @@ class AvaliadorPad extends Model
     public static function find() {
         return new UserPadQuery(get_called_class());
     }
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
+    public function dimensions() {
+        return $this->hasMany(Dimension::class);
+    }
+
 }

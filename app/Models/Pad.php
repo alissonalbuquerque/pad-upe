@@ -49,5 +49,13 @@ class Pad extends Model
     public function userPads() {
         return $this->hasMany(UserPad::class);
     }
+
+    /**
+     * @return Illuminate\Database\Eloquent\Collection
+     * @return Collection<AvaliadorPad>
+     */
+    public function avaliadorPads(){
+        return $this->hasMany(AvaliadorPad::class);
+    }
 }
 

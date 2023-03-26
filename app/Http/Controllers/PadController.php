@@ -1,7 +1,7 @@
 <?php
- 
+
 namespace App\Http\Controllers;
- 
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Pad;
@@ -53,7 +53,7 @@ class PadController extends Controller
      * @return \Illuminate\View\View
      */
     public function index()
-    {   
+    {
         if(Auth::user()->isTypeAdmin())
         {
             $users = User::initQuery()->whereType(UserType::TEACHER)->get();
@@ -61,7 +61,7 @@ class PadController extends Controller
             $menu = Menu::PADS;
             return view('pad.admin.index', ['menu' => $menu, 'pads' => $pads]);
         }
-        
+
         if(Auth::user()->isTypeTeacher())
         {
             $menu = Menu::PADS;
@@ -76,8 +76,8 @@ class PadController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function view($id)
-    {   
-        $ensinoTotalHoras = 
+    {
+        $ensinoTotalHoras =
             EnsinoAtendimentoDiscente::whereUserPadId($id)->sum('ch_semanal')
             + EnsinoAula::whereUserPadId($id)->sum('ch_semanal')
             + EnsinoCoordenacaoRegencia::whereUserPadId($id)->sum('ch_semanal')
@@ -87,8 +87,8 @@ class PadController extends Controller
             + EnsinoParticipacao::whereUserPadId($id)->sum('ch_semanal')
             + EnsinoProjeto::whereUserPadId($id)->sum('ch_semanal')
             + EnsinoSupervisao::whereUserPadId($id)->sum('ch_semanal');
-        
-        $gestaoTotalHoras = 
+
+        $gestaoTotalHoras =
             GestaoCoordenacaoLaboratoriosDidaticos::whereUserPadId($id)->sum('ch_semanal')
             + GestaoCoordenacaoProgramaInstitucional::whereUserPadId($id)->sum('ch_semanal')
             + GestaoMembroCamaras::whereUserPadId($id)->sum('ch_semanal')
@@ -97,7 +97,7 @@ class PadController extends Controller
             + GestaoMembroTitularConselho::whereUserPadId($id)->sum('ch_semanal')
             + GestaoOutros::whereUserPadId($id)->sum('ch_semanal')
             + GestaoRepresentanteUnidadeEducacao::whereUserPadId($id)->sum('ch_semanal');
-        
+
         $pesquisaTotalHoras =
             PesquisaCoordenacao::whereUserPadId($id)->sum('ch_semanal')
             + PesquisaLideranca::whereUserPadId($id)->sum('ch_semanal')
@@ -112,25 +112,25 @@ class PadController extends Controller
         $menu = Menu::PADS;
         return view('pad.teacher.view', [
             'menu' => $menu,
-            'user_pad_id' => $id, 
+            'user_pad_id' => $id,
             'gestaoTotalHoras' => $gestaoTotalHoras,
             'ensinoTotalHoras' => $ensinoTotalHoras,
             'pesquisaTotalHoras' => $pesquisaTotalHoras,
             'extensaoTotalHoras' => $extensaoTotalHoras,
         ]);
     }
-    
+
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {   
+    {
         $menu = Menu::PADS;
 
         $status = [
-            Status::ATIVO => Status::listStatus(Status::ATIVO) 
+            Status::ATIVO => Status::listStatus(Status::ATIVO)
         ];
 
         return view('pad.admin.create', [
@@ -144,7 +144,7 @@ class PadController extends Controller
      * @param  \Illuminate\Http\Request $request
      */
     public function store(Request $request)
-    {   
+    {
         $validated = $request->validate([
             'nome' => ['required', 'string', 'min:6', 'max:255'],
             'status' => ['required', 'integer'],
@@ -164,13 +164,13 @@ class PadController extends Controller
             $model = new Pad($request->all());
 
             $users = User::initQuery()->whereType(UserType::TEACHER)->get();
-    
+
             if($model->save())
             {
                 $users = User::initQuery()->whereType(UserType::TEACHER)->get();
-                
+
                 foreach($users as $user)
-                {   
+                {
                     $profile = $user->profile(UserType::TEACHER);
 
                     if($profile)
@@ -179,7 +179,7 @@ class PadController extends Controller
                         $userPad->pad_id = $model->id;
                         $userPad->user_id = $user->id;
                         $userPad->status = Status::ATIVO;
-                        
+
                         $userPad->save();
                     }
                 }
@@ -204,17 +204,21 @@ class PadController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {   
+    {
         $menu = Menu::PADS;
         $pad = PAD::find($id);
         $userPads = $pad->userPads;
+        $avaliatorsPads = $pad->avaliadorPads;
         $status = Constants::listStatus();
+
+
 
         return view('pad.admin.edit', [
             'pad' => $pad,
             'menu' => $menu,
             'status' => $status,
             'userPads' => $userPads,
+            'avaliatorsPads' => $avaliatorsPads
         ]);
     }
 
@@ -226,7 +230,7 @@ class PadController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {   
+    {
         $validated = $request->validate([
             'nome' => ['required', 'string', 'min:6', 'max:255'],
             'status' => ['required', 'integer'],
@@ -244,7 +248,7 @@ class PadController extends Controller
         if($validated) {
             $model = Pad::find($id);
             $model->fill($request->all());
-            
+
             if($model->save()) {
                 return redirect()->route('pad_index')->with('success', 'PAD atualizado com sucesso!');
             } else {
@@ -253,7 +257,7 @@ class PadController extends Controller
         }
     }
 
-    
+
     public function delete($id) {
         $model = Pad::find($id);
 
