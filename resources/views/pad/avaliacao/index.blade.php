@@ -15,7 +15,6 @@
     @include('components.alerts')
     <div class="d-flex justify-content-between align-items-center border-bottom">
         <h2 class="">PADs</h2>
-
     </div>
 
     <!-- Tabela -->
@@ -253,7 +252,7 @@
                                 'modal_id' => $camp->id, 'route' => route('campus_delete', ['id' => $camp->id])
                             ])
                         </td>
-                    </tr> 
+                    </tr>
                 @endforeach  --}}
             </tbody>
         </table>

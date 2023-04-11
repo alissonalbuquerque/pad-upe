@@ -1,4 +1,4 @@
-{{-- 
+{{--
     @include('components.cards.avaliador_pad', ['userPad' => $userPad])
 --}}
 

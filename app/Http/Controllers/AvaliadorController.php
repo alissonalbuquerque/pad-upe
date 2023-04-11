@@ -1,5 +1,5 @@
 <?php
- 
+
 namespace App\Http\Controllers;
 
 use App\Models\User;
@@ -17,7 +17,7 @@ class AvaliadorController extends Controller
      */
     public function index()
     {
-       // $professores = User::where('type', '=', User::->isTypeTeacher())->get();
+        // $professores = User::where('type', '=', User::->isTypeTeacher())->get();
         return view('pad.avaliacao.index', [
             'index_menu' => MenuItemsAvaliador::PADs,
             'professores' =>  null
@@ -26,7 +26,7 @@ class AvaliadorController extends Controller
 
     public function avaliar()
     {
-       // $professores = User::where('type', '=', User::->isTypeTeacher())->get();
+        // $professores = User::where('type', '=', User::->isTypeTeacher())->get();
         return view('pad.avaliacao.dimensao.ensino', [
             'index_menu' => MenuItemsAvaliador::PADs,
             'user_pad_id' =>  1
@@ -37,18 +37,17 @@ class AvaliadorController extends Controller
      * @param integer $id
      * @return \Illuminate\Http\Response
      */
-    public function view($id) {
-
+    public function view($id)
+    {
     }
-    
+
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {   
-
+    {
     }
 
     /**
@@ -56,13 +55,12 @@ class AvaliadorController extends Controller
      * @param  \Illuminate\Http\Request $request
      */
     public function store(Request $request)
-    {   
- 
+    {
     }
 
     public function anexo()
     {
-        return view('pad.anexo', ['index_menu' => 1 ]);
+        return view('pad.anexo', ['index_menu' => 1]);
     }
 
     /**
@@ -72,7 +70,7 @@ class AvaliadorController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {   
+    {
     }
 
     /**
@@ -83,12 +81,12 @@ class AvaliadorController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {   
+    {
     }
 
-    
-    public function delete($id) {
-       
+
+    public function delete($id)
+    {
     }
 
     /**
@@ -99,6 +97,5 @@ class AvaliadorController extends Controller
      */
     public function destroy($id)
     {
-       
     }
 }
