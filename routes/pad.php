@@ -12,6 +12,7 @@ Route::prefix('/pad')->group(function () {
     Route::get('/edit/{id}', [PadController::class, 'edit'])->name('pad_edit');
     Route::put('/update/{id}', [PadController::class, 'update'])->name('pad_update');
     Route::delete('/delete/{id}', [PadController::class, 'delete'])->name('pad_delete');
+    Route::get('/{id}/avaliar/professores', [PadController::class, 'professores'])->name('pad_professores');
 });
 
 /** PadProfessor */

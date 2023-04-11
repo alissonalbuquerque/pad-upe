@@ -54,16 +54,14 @@ class PadController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->isTypeAdmin())
-        {
+        if (Auth::user()->isTypeAdmin()) {
             $users = User::initQuery()->whereType(UserType::TEACHER)->get();
             $pads = Pad::all();
             $menu = Menu::PADS;
             return view('pad.admin.index', ['menu' => $menu, 'pads' => $pads]);
         }
 
-        if(Auth::user()->isTypeTeacher())
-        {
+        if (Auth::user()->isTypeTeacher()) {
             $menu = Menu::PADS;
             $userPads = UserPad::whereUserId(Auth::user()->id)->get();
 
@@ -145,36 +143,34 @@ class PadController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'nome' => ['required', 'string', 'min:6', 'max:255'],
-            'status' => ['required', 'integer'],
-            'data_inicio' => ['required', 'date', 'before_or_equal:data_fim'],
-            'data_fim' => ['required', 'date', 'after_or_equal:data_inicio'],
-        ],
-        [
-            'required' => 'O campo de :attribute é obrigatório',
-            'nome.min' => 'O campo de :attribute deve ter no mínimo 6 letras',
-            'nome.max' => 'O campo de :attribute deve ter no máximo 255 letras',
-            'data_inicio.before_or_equal' => 'A :attribute deve ser uma data anterior ou igual a data de fim',
-            'data_fim.after_or_equal' => 'A :attribute deve ser uma data posterior ou igual a data de início',
-        ]);
+        $validated = $request->validate(
+            [
+                'nome' => ['required', 'string', 'min:6', 'max:255'],
+                'status' => ['required', 'integer'],
+                'data_inicio' => ['required', 'date', 'before_or_equal:data_fim'],
+                'data_fim' => ['required', 'date', 'after_or_equal:data_inicio'],
+            ],
+            [
+                'required' => 'O campo de :attribute é obrigatório',
+                'nome.min' => 'O campo de :attribute deve ter no mínimo 6 letras',
+                'nome.max' => 'O campo de :attribute deve ter no máximo 255 letras',
+                'data_inicio.before_or_equal' => 'A :attribute deve ser uma data anterior ou igual a data de fim',
+                'data_fim.after_or_equal' => 'A :attribute deve ser uma data posterior ou igual a data de início',
+            ]
+        );
 
-        if($validated)
-        {
+        if ($validated) {
             $model = new Pad($request->all());
 
             $users = User::initQuery()->whereType(UserType::TEACHER)->get();
 
-            if($model->save())
-            {
+            if ($model->save()) {
                 $users = User::initQuery()->whereType(UserType::TEACHER)->get();
 
-                foreach($users as $user)
-                {
+                foreach ($users as $user) {
                     $profile = $user->profile(UserType::TEACHER);
 
-                    if($profile)
-                    {
+                    if ($profile) {
                         $userPad = new UserPad();
                         $userPad->pad_id = $model->id;
                         $userPad->user_id = $user->id;
@@ -189,12 +185,11 @@ class PadController extends Controller
                 return redirect()->route('pad_index')->with('success', 'Erro ao cadastrar o PAD!');
             }
         }
-
     }
 
     public function anexo()
     {
-        return view('pad.anexo', ['index_menu' => 1 ]);
+        return view('pad.anexo', ['index_menu' => 1]);
     }
 
     /**
@@ -230,25 +225,27 @@ class PadController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'nome' => ['required', 'string', 'min:6', 'max:255'],
-            'status' => ['required', 'integer'],
-            'data_inicio' => ['required', 'date', 'before_or_equal:data_fim'],
-            'data_fim' => ['required', 'date', 'after_or_equal:data_inicio'],
-        ],
-        [
-            'required' => 'O campo de :attribute é obrigatório',
-            'nome.min' => 'O campo de :attribute deve ter no mínimo 6 letras',
-            'nome.max' => 'O campo de :attribute deve ter no máximo 255 letras',
-            'data_inicio.before_or_equal' => 'A :attribute deve ser uma data anterior ou igual a data de fim',
-            'data_fim.after_or_equal' => 'A :attribute deve ser uma data posterior ou igual a data de início',
-        ]);
+        $validated = $request->validate(
+            [
+                'nome' => ['required', 'string', 'min:6', 'max:255'],
+                'status' => ['required', 'integer'],
+                'data_inicio' => ['required', 'date', 'before_or_equal:data_fim'],
+                'data_fim' => ['required', 'date', 'after_or_equal:data_inicio'],
+            ],
+            [
+                'required' => 'O campo de :attribute é obrigatório',
+                'nome.min' => 'O campo de :attribute deve ter no mínimo 6 letras',
+                'nome.max' => 'O campo de :attribute deve ter no máximo 255 letras',
+                'data_inicio.before_or_equal' => 'A :attribute deve ser uma data anterior ou igual a data de fim',
+                'data_fim.after_or_equal' => 'A :attribute deve ser uma data posterior ou igual a data de início',
+            ]
+        );
 
-        if($validated) {
+        if ($validated) {
             $model = Pad::find($id);
             $model->fill($request->all());
 
-            if($model->save()) {
+            if ($model->save()) {
                 return redirect()->route('pad_index')->with('success', 'PAD atualizado com sucesso!');
             } else {
                 return redirect()->route('pad_index')->with('success', 'Erro ao atualizar o PAD!');
@@ -257,10 +254,11 @@ class PadController extends Controller
     }
 
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $model = Pad::find($id);
 
-        if($model->delete()) {
+        if ($model->delete()) {
             return redirect()->route('pad_index')->with('success', 'PAD removido com sucesso!');
         } else {
             return redirect()->route('pad_index')->with('fail', 'Não foi possível remover o PAD!');
@@ -279,5 +277,22 @@ class PadController extends Controller
         $model->delete();
 
         return redirect('/pad/index');
+    }
+
+    public function professores($id)
+    {
+        $user = Auth::user();
+        $professores = User::join('user_pad', 'user_pad.user_id', '=', 'users.id')
+            ->join('pad', 'user_pad.pad_id', '=', 'pad.id')
+            ->where(function ($query) use ($user, $id) {
+                $query->where('pad.status', '=', Status::ATIVO);
+                $query->where('users.campus_id', '=', $user->campus_id);
+                $query->where('users.id', '!=', $user->id);
+                $query->where('pad.id', '=', $id);
+            })
+            ->select('users.id', 'users.name')
+            ->get();
+
+        dd($professores);
     }
 }

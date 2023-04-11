@@ -103,4 +103,3 @@ Route::prefix('/user')->group(function () {
     Route::post('/update/perfil', [UserController::class, 'updatePerfil'])->name('update_perfil');
     Route::post('/update/password', [UserController::class, 'updatePassword'])->name('update_password');
 });
-
