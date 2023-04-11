@@ -7,6 +7,7 @@ Route::prefix('/users')->group(function() {
     Route::get('/index', [UserController::class, 'actionIndex'])->name('user_index');
     Route::get('/create', [UserController::class, 'actionCreate'])->name('user_create');
     Route::post('/store', [UserController::class, 'actionStore'])->name('user_store');
+    Route::get('/search', [UserController::class, 'actionSearch'])->name('user_search');
     Route::get('/edit/{id}', [UserController::class, 'actionEdit'])->name('user_edit');
     Route::post('/update/{id}', [UserController::class, 'actionUpdate'])->name('user_update');
     Route::delete('/delete/{id}', [UserController::class, 'actionDelete'])->name('user_delete');

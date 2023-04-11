@@ -106,7 +106,6 @@
             </div>
         </div>
 
-
         <div id="user_pad-container" class="tab-pane fade" role="tabpanel" aria-labelledby="user_pad-tab">
 
             <div class="border rounded px-2">
@@ -145,13 +144,13 @@
             <div class="border rounded px-2">
 
                 <div class="text-end my-2">
-                    <button type="button" class="btn btn-success valiator-pad-create"> Cadastrar Avaliador </button>
+                    <button type="button" class="btn btn-success avaliator-pad-create"> Cadastrar Avaliador </button>
                 </div>
 
                 <table id="avaliator_pad-table" class="table table-hover">
                     <thead>
                     <tr>
-                        <th scope="col"> Professor </th>
+                        <th scope="col"> Avaliador </th>
                         <th scope="col"> PAD </th>
                         <th scope="col"> Dimensão </th>
                         <th scope="col"> Opções </th>
@@ -199,7 +198,7 @@
 
     @include('pad.components.scripts.dimensao.ensino.show_modal', [
         'modal_id' => 'modal',
-        'route' => route('user-pad_create', ['pad_id' => $pad->id]),
-        'btn_class' => 'valiator-pad-create',
+        'route' => route('avaliator-pad_create', ['pad_id' => $pad->id]),
+        'btn_class' => 'avaliator-pad-create',
     ])
 @endsection

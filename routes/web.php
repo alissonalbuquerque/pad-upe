@@ -2,13 +2,12 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Dimensao\EnsinoController;
-use App\Http\Controllers\DisciplinaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CoordenadorController;
 use App\Http\Controllers\DiretorController;
 use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\AvaliadorController;
-use App\Http\Controllers\UserPadController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,6 +26,8 @@ require __DIR__ . '/auth.php';
 require __DIR__ . '/profile.php';
 
 require __DIR__ . '/pad.php';
+require __DIR__ . '/avaliador_pad.php';
+require __DIR__ . '/professor_pad.php';
 
 require __DIR__ . '/unidade.php';
 require __DIR__ . '/campus.php';
@@ -87,15 +88,15 @@ Route::prefix('/professor')->group(function () {
     Route::delete('/delete/{id}', [ProfessorController::class, 'destroy'])->name('professor_delete');
 });
 
-// Route::prefix('/avaliador')->group(function () {
-//     Route::get('/index', [AvaliadorController::class, 'index'])->name('avaliador_index');
-//     Route::get('/avaliar', [AvaliadorController::class, 'avaliar'])->name('avaliador_avaliar');
-//     Route::get('/create', [AvaliadorController::class, 'create'])->name('avaliador_create');
-//     Route::post('/store', [AvaliadorController::class, 'store'])->name('avaliador_store');
-//     Route::get('/edit/{id}', [AvaliadorController::class, 'edit'])->name('avaliador_edit');
-//     Route::post('/update/{id}', [AvaliadorController::class, 'update'])->name('avaliador_update');
-//     Route::delete('/delete/{id}', [AvaliadorController::class, 'destroy'])->name('avaliador_delete');
-// });
+Route::prefix('/avaliador')->group(function () {
+    Route::get('/index', [AvaliadorController::class, 'index'])->name('avaliador_index');
+    Route::get('/avaliar', [AvaliadorController::class, 'avaliar'])->name('avaliador_avaliar');
+    Route::get('/create', [AvaliadorController::class, 'create'])->name('avaliador_create');
+    Route::post('/store', [AvaliadorController::class, 'store'])->name('avaliador_store');
+    Route::get('/edit/{id}', [AvaliadorController::class, 'edit'])->name('avaliador_edit');
+    Route::post('/update/{id}', [AvaliadorController::class, 'update'])->name('avaliador_update');
+    Route::delete('/delete/{id}', [AvaliadorController::class, 'destroy'])->name('avaliador_delete');
+});
 
 Route::prefix('/user')->group(function () {
     Route::get('/edit/perfil/{tab?}', [UserController::class, 'editPerfil'])->name('edit_perfil');
@@ -103,17 +104,3 @@ Route::prefix('/user')->group(function () {
     Route::post('/update/password', [UserController::class, 'updatePassword'])->name('update_password');
 });
 
-/** json */
-Route::get('/disciplina/{curso_id}', [DisciplinaController::class, 'getDisciplinaByCurso'])->name('get_disciplina_by_curso');
-
-
-
-/** UserPad */
-Route::prefix('/user-pad')->group(function() {
-    Route::get('/create/{pad_id?}', [UserPadController::class, 'actionCreate'])->name('user-pad_create');
-    Route::post('/store', [UserPadController::class, 'actionStore'])->name('user-pad_store');
-    Route::get('/edit/{id?}', [UserPadController::class, 'actionEdit'])->name('user-pad_edit');
-    Route::post('/update/{id}', [UserPadController::class, 'actionUpdate'])->name('user-pad_update');
-    Route::delete('/delete/{id}', [UserPadController::class, 'actionDelete'])->name('user-pad_delete');
-    Route::post('/validate', [UserPadController::class, 'ajaxValidation'])->name('user-pad_ajax_validation');
-});

@@ -1,13 +1,13 @@
 
 <div class="mb-3">
-    <h3 class="h3"> Cadastrar Professor (PAD) </h3>
+    <h3 class="h3"> Cadastrar Avaliador (PAD) </h3>
 </div>
 
-<form id="form-user_pad" action="{{ route('user-pad_store') }}" method="post">
+<form id="form-user_pad" action="{{ route('avaliator-pad_store') }}" method="post">
     @csrf
     @method('POST')
 
-    @include('user-pad.form', [
+    @include('avaliator-pad.form', [
         'pad' => $pad,
         'model' => $model,
         'users' => $users,
@@ -27,9 +27,9 @@
 
 </form>
 
-@include('pad.components.scripts.ajaxValidation', [
+@include('pad.components.scripts.ajaxValidationById', [
     'btn_submit_id' => 'btn_submit',
     'form_id' => 'form-user_pad',
     'form_type' => 'create_and_update',
-    'route' => route('user-pad_ajax_validation'),
+    'route' => route('avaliador-pad_ajax_validation'),
 ])

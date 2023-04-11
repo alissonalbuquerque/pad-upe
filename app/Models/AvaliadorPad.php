@@ -5,16 +5,22 @@ namespace App\Models;
 use App\Queries\UserPadQuery;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AvaliadorPad extends Model
 {
     use HasFactory;
+    use SoftDeletes;
+
+    public $dimensoes_multiples = [];
 
     protected $table = 'avaliador_pad';
 
-    protected $fillable = ['id', 'dimensao', 'user_id', 'pad_id'];
+    protected $fillable = ['user_id' , 'pad_id', 'status'];
 
-    public function Avaliador() {
+    protected $dates = ['deleted_at'];
+
+    public function avaliador() {
         return $this->belongsTo(User::class);
     }
 
@@ -34,4 +40,17 @@ class AvaliadorPad extends Model
         return $this->hasMany(Dimension::class);
     }
 
+    public static function rules()
+    {
+        return [
+
+        ];
+    }
+
+    public static function messages()
+    {
+        return  [
+
+        ];
+    }
 }

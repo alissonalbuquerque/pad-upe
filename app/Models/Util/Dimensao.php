@@ -18,7 +18,6 @@ class Dimensao
             self::PESQUISA => 'Pesquisa',
             self::EXTENSAO => 'Extensão',
             self::GESTAO => 'Gestão',
-            self::ANEXO => 'Anexo',
         ];
     
         return $value !== null? $values[$value] : $values;

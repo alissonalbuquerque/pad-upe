@@ -212,7 +212,6 @@ class PadController extends Controller
         $status = Constants::listStatus();
 
 
-
         return view('pad.admin.edit', [
             'pad' => $pad,
             'menu' => $menu,

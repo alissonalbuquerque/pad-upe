@@ -11,7 +11,7 @@ use App\Models\Util\Status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
@@ -232,5 +232,41 @@ class UserController extends Controller
     public function actionImportView()
     {
         return view('users.importView');   
+    }
+
+    /**
+     *
+     * @params Illuminate\Http\Request\Request
+     */
+    public function actionSearch(Request $request)
+    {   
+        // QueryParams
+        $q = $request->query('q'); 
+        $id = $request->query('id');
+
+        $user = User::where([]);
+
+        if($id) {
+            $user = $user->whereId($id);
+        }
+
+        if($q) {
+            $user = $user->where('name', 'like', '%'.$q.'%');
+        }
+
+        $users = $user->get();
+
+        $array = 
+            $users->map(function($user, $key)
+            {
+                return [
+                    'id' => $user->id,
+                    'text' => $user->name,
+                ];
+            });
+
+        $array = ['results' => $array];
+
+        return Response::json($array);
     }
 }

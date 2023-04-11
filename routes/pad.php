@@ -22,8 +22,8 @@ Route::prefix('/pad/professor')->group(function () {
 });
 
 /** PadAvaliador */
-Route::prefix('/pad/avaliador')->group(function () {
-    Route::get('/index', [PadAvaliadorController::class, 'index'])->name('pad_index');
-    // Route::get('/view/{id}', [PadAvaliadorController::class, 'view'])->name('pad_view');
-    // Route::get('/anexo/{id}', [PadAvaliadorController::class, 'anexo'])->name('pad_anexo');
-});
+// Route::prefix('/pad/avaliador')->group(function () {
+//     Route::get('/index', [PadAvaliadorController::class, 'index'])->name('pad_index');
+//     // Route::get('/view/{id}', [PadAvaliadorController::class, 'view'])->name('pad_view');
+//     // Route::get('/anexo/{id}', [PadAvaliadorController::class, 'anexo'])->name('pad_anexo');
+// });
