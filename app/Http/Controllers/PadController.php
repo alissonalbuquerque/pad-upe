@@ -38,6 +38,7 @@ use App\Models\Util\Menu;
 use App\Models\Util\MenuItemsAdmin;
 use App\Models\Util\MenuItemsTeacher;
 use App\Models\Util\Status;
+use App\Models\Util\MenuItemsAvaliador;
 use Database\Seeders\PadSeeder;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -282,6 +283,8 @@ class PadController extends Controller
     public function professores($id)
     {
         $user = Auth::user();
+        $pad = Pad::find($id);
+        $index_menu = MenuItemsAvaliador::HOME;
         $professores = User::join('user_pad', 'user_pad.user_id', '=', 'users.id')
             ->join('pad', 'user_pad.pad_id', '=', 'pad.id')
             ->where(function ($query) use ($user, $id) {
@@ -293,6 +296,6 @@ class PadController extends Controller
             ->select('users.id', 'users.name')
             ->get();
 
-        dd($professores);
+        return view("pad.avaliacao.professores", compact('professores', 'pad', 'index_menu'));
     }
 }
