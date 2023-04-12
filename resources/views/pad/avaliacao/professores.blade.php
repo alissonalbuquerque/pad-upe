@@ -34,7 +34,7 @@
                         <td>
 
                             @include('components.buttons.btn-avaliar', [
-                                'route' => route('avaliador_avaliar'),
+                                'route' => url("/pad/$pad->id/professor/$professor->id/atividades"), #avaliador_avaliar
                                 'class' => '',
                                 'content' => 'Avaliar',
                                 'id' => '',

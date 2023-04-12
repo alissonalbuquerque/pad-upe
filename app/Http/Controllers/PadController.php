@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\AvaliadorPad;
+use App\Models\AvaliadorPadDimensao;
 use Illuminate\Http\Request;
 use App\Models\Pad;
 use App\Models\Tabelas\Constants;
@@ -34,6 +36,7 @@ use App\Models\User;
 use App\Models\UserPad;
 use App\Models\UserType;
 use App\Models\UserTypePad;
+use App\Models\Util\Dimensao;
 use App\Models\Util\Menu;
 use App\Models\Util\MenuItemsAdmin;
 use App\Models\Util\MenuItemsTeacher;
@@ -297,5 +300,72 @@ class PadController extends Controller
             ->get();
 
         return view("pad.avaliacao.professores", compact('professores', 'pad', 'index_menu'));
+    }
+
+    public function professor_atividades($id, $professor_id)
+    {
+        $pad = Pad::find($id);
+        $user = Auth::user();
+        $avaliador_pad = AvaliadorPad::where(function ($query) use ($pad, $user) {
+            $query->where('user_id', '=', $user->id);
+            $query->where('pad_id', '=', $pad->id);
+        })->first();
+
+        $dimensoes_permitidas = AvaliadorPadDimensao::where('avaliador_pad_id', '=', $avaliador_pad->id)
+            ->select('avaliador_pad_dimensao.dimensao')->get();
+        $dimensoes = [];
+        foreach ($dimensoes_permitidas as $dimensao) {
+            array_push($dimensoes, $dimensao->dimensao);
+        }
+
+        $professor = User::find($professor_id);
+        $user_pad = UserPad::where(function ($query) use ($pad, $professor) {
+            $query->where('user_id', '=', $professor->id);
+            $query->where('pad_id', '=', $pad->id);
+        })->first();
+
+
+        $ensino = [];
+        $pesquisa = [];
+        $extensao = [];
+        $gestao = [];
+
+        if (in_array(Dimensao::ENSINO, $dimensoes)) {
+            $ensino = array_merge($ensino, EnsinoAtendimentoDiscente::where('user_pad_id', '=', $user_pad->id)->get()->toArray());
+            $ensino = array_merge($ensino, EnsinoAula::where('user_pad_id', '=', $user_pad->id)->get()->toArray());
+            $ensino = array_merge($ensino, EnsinoCoordenacaoRegencia::where('user_pad_id', '=', $user_pad->id)->get()->toArray());
+            $ensino = array_merge($ensino, EnsinoMembroDocente::where('user_pad_id', '=', $user_pad->id)->get()->toArray());
+            $ensino = array_merge($ensino, EnsinoOrientacao::where('user_pad_id', '=', $user_pad->id)->get()->toArray());
+            $ensino = array_merge($ensino, EnsinoOutros::where('user_pad_id', '=', $user_pad->id)->get()->toArray());
+            $ensino = array_merge($ensino, EnsinoParticipacao::where('user_pad_id', '=', $user_pad->id)->get()->toArray());
+            $ensino = array_merge($ensino, EnsinoProjeto::where('user_pad_id', '=', $user_pad->id)->get()->toArray());
+            $ensino = array_merge($ensino, EnsinoSupervisao::where('user_pad_id', '=', $user_pad->id)->get()->toArray());
+        }
+
+        if (in_array(Dimensao::PESQUISA, $dimensoes)) {
+            $pesquisa = array_merge($pesquisa, PesquisaCoordenacao::where('user_pad_id', '=', $user_pad->id)->get()->toArray());
+            $pesquisa = array_merge($pesquisa, PesquisaLideranca::where('user_pad_id', '=', $user_pad->id)->get()->toArray());
+            $pesquisa = array_merge($pesquisa, PesquisaOrientacao::where('user_pad_id', '=', $user_pad->id)->get()->toArray());
+            $pesquisa = array_merge($pesquisa, PesquisaOutros::where('user_pad_id', '=', $user_pad->id)->get()->toArray());
+        }
+
+        if (in_array(Dimensao::EXTENSAO, $dimensoes)) {
+            $extensao = array_merge($extensao, ExtensaoCoordenacao::where('user_pad_id', '=', $user_pad->id)->get()->toArray());
+            $extensao = array_merge($extensao, ExtensaoOrientacao::where('user_pad_id', '=', $user_pad->id)->get()->toArray());
+            $extensao = array_merge($extensao, ExtensaoOutros::where('user_pad_id', '=', $user_pad->id)->get()->toArray());
+        }
+
+        if (in_array(Dimensao::GESTAO, $dimensoes)) {
+            $gestao = array_merge($gestao, GestaoCoordenacaoLaboratoriosDidaticos::where('user_pad_id', '=', $user_pad->id)->get()->toArray());
+            $gestao = array_merge($gestao, GestaoCoordenacaoProgramaInstitucional::where('user_pad_id', '=', $user_pad->id)->get()->toArray());
+            $gestao = array_merge($gestao, GestaoMembroCamaras::where('user_pad_id', '=', $user_pad->id)->get()->toArray());
+            $gestao = array_merge($gestao, GestaoMembroComissao::where('user_pad_id', '=', $user_pad->id)->get()->toArray());
+            $gestao = array_merge($gestao, GestaoMembroConselho::where('user_pad_id', '=', $user_pad->id)->get()->toArray());
+            $gestao = array_merge($gestao, GestaoMembroTitularConselho::where('user_pad_id', '=', $user_pad->id)->get()->toArray());
+            $gestao = array_merge($gestao, GestaoOutros::where('user_pad_id', '=', $user_pad->id)->get()->toArray());
+            $gestao = array_merge($gestao, GestaoRepresentanteUnidadeEducacao::where('user_pad_id', '=', $user_pad->id)->get()->toArray());
+        }
+
+        dd($extensao);
     }
 }
