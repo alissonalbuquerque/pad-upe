@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Avaliacao;
 use App\Models\User;
 use App\Models\Curso;
 use App\Models\Util\MenuItemsAvaliador;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AvaliadorController extends Controller
@@ -24,13 +26,47 @@ class AvaliadorController extends Controller
         ]);
     }
 
-    public function avaliar()
+    public function avaliar(Request $req)
     {
-        // $professores = User::where('type', '=', User::->isTypeTeacher())->get();
-        return view('pad.avaliacao.taferas_professor', [ //pad.avaliacao.dimensao.ensino
-            'index_menu' => MenuItemsAvaliador::PADs,
-            'user_pad_id' =>  1
-        ]);
+        $validated = $req->validate(
+            [
+                'tarefa_id' => ['required', 'integer'],
+                'status' => ['required', 'integer'],
+                'professor_id' => ['required', 'integer'],
+                'atividade_type' => ['required', 'integer'],
+                'descricao' => ['nullable', 'string'],
+                'hora_reajuste' => ['nullable', 'double'],
+            ],
+            [
+                'required' => 'O campo de :attribute é obrigatório',
+            ]
+        );
+
+        if ($validated) {
+            $user = Auth::user();
+            $avaliacao = Avaliacao::where(function ($query) use ($req) {
+                $query->where('tarefa_id', '=', $req->tarefa_id);
+                $query->where('type', '=', $req->atividade_type);
+            })->first();
+
+            if (!$avaliacao) {
+                dd('Avaliação não encontrada');
+            }
+
+            $avaliacao->status = $req->status;
+            $avaliacao->avaliador_id = $user->id;
+            $avaliacao->descricao = $req->descricao ? $req->descricao : NULL;
+            $avaliacao->hora_reajuste = $req->hora_reajuste;
+
+            if ($avaliacao->save()) {
+
+                dd($avaliacao);
+                //return view('pad.avaliacao.dimensao.ensino', [
+                //    'index_menu' => MenuItemsAvaliador::PADs,
+                //    'user_pad_id' =>  1
+                //]);
+            }
+        }
     }
 
     /**
