@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Validator;
 class AvaliadorPadController extends Controller
 {
     public function actionStore(Request $request)
-    {   
+    {
         dd($request->all());
 
         // $validator = Validator::make(
@@ -39,16 +39,14 @@ class AvaliadorPadController extends Controller
 
     public function actionUpdate(Request $request, $id)
     {
-
     }
 
     public function actionDelete($id)
     {
-        
     }
 
     public function actionCreate($pad_id)
-    {   
+    {
         $pad = Pad::find($pad_id);
         $model = new AvaliadorPad();
 
@@ -67,18 +65,19 @@ class AvaliadorPadController extends Controller
 
     public function actionEdit($id)
     {
-
     }
 
     public function ajaxValidation(Request $request)
-    {   
+    {
         return Response::json(['message' => true, 'status' => 200]);
-        
+
         $validator = Validator::make(
-            $request->all(), AvaliadorPad::rules(), AvaliadorPad::messages()
+            $request->all(),
+            AvaliadorPad::rules(),
+            AvaliadorPad::messages()
         );
 
-        if($validator->passes()) {
+        if ($validator->passes()) {
             return Response::json(['message' => true, 'status' => 200]);
         }
 
