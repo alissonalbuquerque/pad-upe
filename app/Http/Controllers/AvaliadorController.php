@@ -27,7 +27,7 @@ class AvaliadorController extends Controller
     public function avaliar()
     {
         // $professores = User::where('type', '=', User::->isTypeTeacher())->get();
-        return view('pad.avaliacao.dimensao.ensino', [
+        return view('pad.avaliacao.taferas_professor', [ //pad.avaliacao.dimensao.ensino
             'index_menu' => MenuItemsAvaliador::PADs,
             'user_pad_id' =>  1
         ]);

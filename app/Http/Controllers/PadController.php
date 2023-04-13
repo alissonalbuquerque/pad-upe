@@ -306,6 +306,7 @@ class PadController extends Controller
     {
         $pad = Pad::find($id);
         $user = Auth::user();
+        $index_menu = MenuItemsAvaliador::HOME;
         $avaliador_pad = AvaliadorPad::where(function ($query) use ($pad, $user) {
             $query->where('user_id', '=', $user->id);
             $query->where('pad_id', '=', $pad->id);
@@ -324,6 +325,9 @@ class PadController extends Controller
             $query->where('pad_id', '=', $pad->id);
         })->first();
 
+        $niveis = Constants::listNivel();
+        $modalidades = Constants::listModalidade();
+        $status = Status::listStatus();
 
         $ensino = [];
         $pesquisa = [];
@@ -366,6 +370,6 @@ class PadController extends Controller
             $gestao = array_merge($gestao, GestaoRepresentanteUnidadeEducacao::where('user_pad_id', '=', $user_pad->id)->get()->toArray());
         }
 
-        dd($extensao);
+        return view('pad.avaliacao.taferas_professor', compact('pad', 'index_menu', 'professor', 'ensino', 'pesquisa', 'extensao', 'gestao', 'niveis', 'modalidades'));
     }
 }
