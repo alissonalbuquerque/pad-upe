@@ -35,7 +35,7 @@ class AvaliadorController extends Controller
                 'professor_id' => ['required', 'integer'],
                 'atividade_type' => ['required', 'integer'],
                 'descricao' => ['nullable', 'string'],
-                'hora_reajuste' => ['nullable', 'double'],
+                'hora_reajuste' => ['nullable', 'integer'],
             ],
             [
                 'required' => 'O campo de :attribute é obrigatório',
@@ -56,15 +56,10 @@ class AvaliadorController extends Controller
             $avaliacao->status = $req->status;
             $avaliacao->avaliador_id = $user->id;
             $avaliacao->descricao = $req->descricao ? $req->descricao : NULL;
-            $avaliacao->hora_reajuste = $req->hora_reajuste;
+            $avaliacao->horas_reajuste = $req->hora_reajuste;
 
             if ($avaliacao->save()) {
-
-                dd($avaliacao);
-                //return view('pad.avaliacao.dimensao.ensino', [
-                //    'index_menu' => MenuItemsAvaliador::PADs,
-                //    'user_pad_id' =>  1
-                //]);
+                return redirect()->back();
             }
         }
     }

@@ -11,7 +11,7 @@ class Avaliacao extends Model
 
     protected $table = 'avaliacao';
 
-    protected $fillable = ['tarefa_id', 'avaliador_id', 'type', 'status', 'descricao', 'ch_semanal'];
+    protected $fillable = ['tarefa_id', 'avaliador_id', 'type', 'status', 'descricao', 'ch_semanal', 'hora_reajuste'];
 
 
     public function tarefa() {

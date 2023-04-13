@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddFeedbackAvaliacaoCampos extends Migration
+class AddColumnHorasReajusteInTableAvaliacao extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddFeedbackAvaliacaoCampos extends Migration
     public function up()
     {
         Schema::table('avaliacao', function (Blueprint $table) {
-            $table->double('horas_reajuste')->nullable(true);
+            $table->integer('horas_reajuste')->nullable(true);
         });
     }
 

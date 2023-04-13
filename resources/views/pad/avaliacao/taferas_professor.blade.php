@@ -31,18 +31,21 @@
                         <span class="fw-bold ">CH. Semanal: </span><span class="card-text">{{isset($tarefa["ch_semanal"])?$tarefa["ch_semanal"]:"--"}}</span><br>
 
                         <div style="width: 100%; " class="btns-avaliar mt-5 d-flex justify-content-end">
-                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modal_avaliacao" onclick="setaDadosModalAvaliacao($tarefa['id'], $professor['id'], 6, )">
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modal_avaliacao" style="height: 38px;" onclick='setaDadosModalAvaliacao("{{$tarefa["id"]}}", "{{$professor["id"]}}", "6", "{{$tarefa["tipo_atividade"]}}")'>
                                 Reprovar
                             </button>
 
                             <span>&nbsp;&nbsp;</span>
-                            @include('components.buttons.btn-aprovar', [
-                                'route' => route('avaliador_avaliar'),
-                                'class' => 'ml-2',
-                                'content' => 'Aprovar',
-                                'id' => '',
-                            ])
 
+                            <form action="{{route('avaliador_avaliar')}}" method="POST">
+                                @csrf
+                                @method("PUT")
+                                <input type="hidden" name="tarefa_id" id="tarefa_id_aprovar" value="{{$tarefa["id"]}}">
+                                <input type="hidden" name="professor_id" id="professor_id_aprovar" value="{{$professor["id"]}}">
+                                <input type="hidden" name="status" id="status_aprovar" value='7'>
+                                <input type="hidden" name="atividade_type" id="atividade_type_aprovar" value="{{$tarefa["tipo_atividade"]}}">
+                                <input type="submit" class="btn btn-primary" value="Aprovar">
+                            </form>
                         </div>
                     </div>
                 </div><br>
@@ -66,17 +69,21 @@
                         <span class="fw-bold ">CH. Semanal: </span><span class="card-text">{{isset($tarefa["ch_semanal"])?$tarefa["ch_semanal"]:"--"}}</span><br>
 
                         <div style="width: 100%; " class="btns-avaliar mt-5 d-flex justify-content-end">
-                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modal_avaliacao" onclick="setaDadosModalAvaliacao('a', 'b')">
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modal_avaliacao" onclick='setaDadosModalAvaliacao("{{$tarefa["id"]}}", "{{$professor["id"]}}", "6", "{{$tarefa["tipo_atividade"]}}")'>
                                 Reprovar
                             </button>
 
                             <span>&nbsp;&nbsp;</span>
-                            @include('components.buttons.btn-aprovar', [
-                                'route' => route('avaliador_avaliar'),
-                                'class' => 'ml-2',
-                                'content' => 'Aprovar',
-                                'id' => '',
-                            ])
+
+                            <form action="{{route('avaliador_avaliar')}}" method="POST">
+                                @csrf
+                                @method("PUT")
+                                <input type="hidden" name="tarefa_id" id="tarefa_id_aprovar" value="{{$tarefa["id"]}}">
+                                <input type="hidden" name="professor_id" id="professor_id_aprovar" value="{{$professor["id"]}}">
+                                <input type="hidden" name="status" id="status_aprovar" value='7'>
+                                <input type="hidden" name="atividade_type" id="atividade_type_aprovar" value="{{$tarefa["tipo_atividade"]}}">
+                                <input type="submit" class="btn btn-primary" value="Aprovar">
+                            </form>
 
                         </div>
                     </div>
@@ -101,17 +108,21 @@
                         <span class="fw-bold ">CH. Semanal: </span><span class="card-text">{{isset($tarefa["ch_semanal"])?$tarefa["ch_semanal"]:"--"}}</span><br>
 
                         <div style="width: 100%; " class="btns-avaliar mt-5 d-flex justify-content-end">
-                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modal_avaliacao" onclick="setaDadosModalAvaliacao('a', 'b')">
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modal_avaliacao" onclick='setaDadosModalAvaliacao("{{$tarefa["id"]}}", "{{$professor["id"]}}", "6", "{{$tarefa["tipo_atividade"]}}")'>
                                 Reprovar
                             </button>
 
                             <span>&nbsp;&nbsp;</span>
-                            @include('components.buttons.btn-aprovar', [
-                                'route' => route('avaliador_avaliar'),
-                                'class' => 'ml-2',
-                                'content' => 'Aprovar',
-                                'id' => '',
-                            ])
+
+                            <form action="{{route('avaliador_avaliar')}}" method="POST">
+                                @csrf
+                                @method("PUT")
+                                <input type="hidden" name="tarefa_id" id="tarefa_id_aprovar" value="{{$tarefa["id"]}}">
+                                <input type="hidden" name="professor_id" id="professor_id_aprovar" value="{{$professor["id"]}}">
+                                <input type="hidden" name="status" id="status_aprovar" value='7'>
+                                <input type="hidden" name="atividade_type" id="atividade_type_aprovar" value="{{$tarefa["tipo_atividade"]}}">
+                                <input type="submit" class="btn btn-primary" value="Aprovar">
+                            </form>
 
                         </div>
                     </div>
@@ -136,17 +147,21 @@
                         <span class="fw-bold ">CH. Semanal: </span><span class="card-text">{{isset($tarefa["ch_semanal"])?$tarefa["ch_semanal"]:"--"}}</span><br>
 
                         <div style="width: 100%; " class="btns-avaliar mt-5 d-flex justify-content-end">
-                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modal_avaliacao" onclick="setaDadosModalAvaliacao('a', 'b')">
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modal_avaliacao" onclick='setaDadosModalAvaliacao("{{$tarefa["id"]}}", "{{$professor["id"]}}", "6", "{{$tarefa["tipo_atividade"]}}")'>
                                 Reprovar
                             </button>
 
                             <span>&nbsp;&nbsp;</span>
-                            @include('components.buttons.btn-aprovar', [
-                                'route' => route('avaliador_avaliar'),
-                                'class' => 'ml-2',
-                                'content' => 'Aprovar',
-                                'id' => '',
-                            ])
+
+                            <form action="{{route('avaliador_avaliar')}}" method="POST">
+                                @csrf
+                                @method("PUT")
+                                <input type="hidden" name="tarefa_id" id="tarefa_id_aprovar" value="{{$tarefa["id"]}}">
+                                <input type="hidden" name="professor_id" id="professor_id_aprovar" value="{{$professor["id"]}}">
+                                <input type="hidden" name="status" id="status_aprovar" value='7'>
+                                <input type="hidden" name="atividade_type" id="atividade_type_aprovar" value="{{$tarefa["tipo_atividade"]}}">
+                                <input type="submit" class="btn btn-primary" value="Aprovar">
+                            </form>
 
                         </div>
                     </div>
@@ -164,7 +179,9 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form action="#" method="POST">
+            <form action="{{route('avaliador_avaliar')}}" method="POST">
+                @csrf
+                @method("PUT")
                 <input type="hidden" name="tarefa_id" id="tarefa_id">
                 <input type="hidden" name="professor_id" id="professor_id">
                 <input type="hidden" name="status" id="status">
@@ -180,7 +197,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-danger">Reprovar</button>
+                    <input type="submit" class="btn btn-outline-danger" value="Reprovar">
                 </div>
             </form>
           </div>
@@ -190,9 +207,10 @@
 @endsection
 
 <script>
-    function setaDadosModalAvaliacao(a, b){
-        document.getElementById('a').value = a;
-        document.getElementById('b').value = b;
-
+    function setaDadosModalAvaliacao(tarefa_id, professor_id, status, atividade_type){
+        document.getElementById('tarefa_id').value = tarefa_id;
+        document.getElementById('professor_id').value = professor_id;
+        document.getElementById('status').value = status;
+        document.getElementById('atividade_type').value = atividade_type;
     }
 </script>
