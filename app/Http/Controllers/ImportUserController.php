@@ -39,10 +39,15 @@ class ImportUserController extends Controller
         foreach($with_emails as $data)
         {   
             $user = User::whereEmail($data[2])->first();
-            $user->campus_id = 3;
-            if(!$user->save()) {
-                dd('errors');
+
+            if($user === null) {
+                dd($user, $data[2]);
             }
+
+            // $user->campus_id = 3;
+            // if(!$user->save()) {
+            //     dd('errors');
+            // }
         }
 
         fclose($handle);
