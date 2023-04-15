@@ -110,10 +110,13 @@
 
             <div class="border rounded px-2">
 
+                {{-- Create Professor --}}
                 <div class="text-end my-2">
                     <button type="button" class="btn btn-success user-pad-create"> Cadastrar Professor </button>
                 </div>
+                {{-- Create Professor --}}
 
+                {{-- Table --}}
                 <table id="user_pad-table" class="table table-hover">
                     <thead>
                         <tr>
@@ -134,6 +137,21 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{-- Table --}}
+
+                {{-- Pagination --}}
+                <ul class="pagination justify-content-end">
+
+                </ul>
+
+                <ul class="pagination justify-content-end">
+                    <li class="page-item"> <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a> </li>
+                    <li class="page-item"><a class="page-link" href="">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"> <a class="page-link" href="#">Próximo</a> </li>
+                </ul>
+                {{-- Pagination --}}
 
             </div>
 
@@ -163,11 +181,26 @@
                         <td>{{ $avaliatorPad->user->name }}</td>
                         <td>{{ $avaliatorPad->pad->nome }}</td>
                         <td>
-{{--                          @foreach($avaliatorPad->dimensions as $dimension)
-                                <span class="badge bg-primary">{{ $dimension->nome }}</span>
-                            @endforeach --}}
+                            @foreach($avaliatorPad->dimensions as $dimension)
+                                <span class="badge bg-primary">{{ $dimension }}</span>
+                            @endforeach
                         </td>
-                        <td>{{ $avaliatorPad->dimensao }}</td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <div class="me-1">
+                                    @include('components.buttons.btn-edit-task', [
+                                        'btn_class' => 'btn-edit_avaliador_pad',
+                                        'btn_id' => $avaliatorPad->id,
+                                    ])
+                                </div>
+                                <div class="me-1">
+                                    @include('components.buttons.btn-delete', [
+                                        'id' => $avaliatorPad->id,
+                                        'route' => route('avaliador-pad_delete', ['id' => $avaliatorPad->id])
+                                    ])
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                     @endforeach
                     </tbody>
@@ -178,11 +211,7 @@
 
         </div>
 
-
     </div>
-
-
-
 
     @include('components.modal', ['size' => 'modal-lg'])
 
@@ -200,5 +229,11 @@
         'modal_id' => 'modal',
         'route' => route('avaliator-pad_create', ['pad_id' => $pad->id]),
         'btn_class' => 'avaliator-pad-create',
+    ])
+
+    @include('pad.components.scripts.dimensao.ensino.show_modal', [
+        'modal_id' => 'modal',
+        'route' => route('avaliador-pad_edit'),
+        'btn_class' => 'btn-edit_avaliador_pad',
     ])
 @endsection

@@ -67,6 +67,10 @@
 
 </div>
 
+@php
+    $dimensoes_multiples = json_encode($model->dimensoes_multiples);
+@endphp
+
 <script type="text/javascript">
 
     $('#user_id').select2(
@@ -75,6 +79,7 @@
         allowClear: true,
         ajax: {
             url: '{{ route("user_search") }}',
+            data: {remove_avaliators_by_pad_id : {{$pad->id}}},
             dataType: 'json'
         },
         dropdownParent: $('#modal')
@@ -84,5 +89,7 @@
     {
         dropdownParent: $('#modal')
     });
+    
+    $('#dimensoes_multiples').val({!! $dimensoes_multiples !!}).trigger('change')
     
 </script>

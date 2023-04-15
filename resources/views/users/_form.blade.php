@@ -85,6 +85,9 @@
                             <div class="form-group">
                                 <label class="form-label" for="campus_id"> Campus </label>
                                 <select class="form-control" name="campus_id" id="campus_id">
+                                    @if($model->campus_id) 
+                                        <option value="{{$model->campus_id}}" selected> {{$model->campus}} </option>
+                                    @endif
                                 </select>
                             </div>
                         </div>
@@ -94,7 +97,11 @@
                         <div class="mb-4 col-6">
                             <div class="form-group">
                                 <label class="form-label" for="curso_id"> Curso </label>
-                                <select class="form-control" name="curso_id" id="curso_id"> </select>
+                                <select class="form-control" name="curso_id" id="curso_id">
+                                    @if($model->curso_id) 
+                                        <option value="{{$model->curso_id}}" selected> {{$model->curso}} </option>
+                                    @endif
+                                </select>
                             </div>
                         </div>
                     @endif

@@ -72,13 +72,13 @@
             allowClear: true,
             ajax: {
                 url: '{{ route("curso_search") }}',
-                dataType: 'json',
                 data: function(params) {
                     return {
-                        q: params.terms,
-                        campus_id: $('#campus_id').val(),
+                        q: params.term,
+                        campus_id: $('#campus_id').val()
                     }
                 },
+                dataType: 'json'
             },
         });
 

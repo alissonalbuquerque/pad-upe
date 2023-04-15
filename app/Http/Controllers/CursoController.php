@@ -124,16 +124,16 @@ class CursoController extends Controller
 
         $cursos = Curso::where([]);
 
-        if($campus_id) {
-            $cursos = $cursos->whereId($campus_id);
+        if($q) {
+            $cursos = $cursos->where('name', 'like', '%'.$q.'%');
         }
 
         if($id) {
             $cursos = $cursos->whereId($id);
         }
 
-        if($q) {
-            $cursos = $cursos->where('name', 'like', '%'.$q.'%');
+        if($campus_id) {
+            $cursos = $cursos->whereCampusId($campus_id);
         }
 
         $cursos = $cursos->get();

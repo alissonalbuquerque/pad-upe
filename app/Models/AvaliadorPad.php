@@ -28,16 +28,12 @@ class AvaliadorPad extends Model
         return $this->belongsTo(PAD::class);
     }
 
-    public static function find() {
-        return new UserPadQuery(get_called_class());
-    }
-
     public function user() {
         return $this->belongsTo(User::class);
     }
 
     public function dimensions() {
-        return $this->hasMany(Dimension::class);
+        return $this->hasMany(AvaliadorPadDimensao::class);
     }
 
     public static function rules()

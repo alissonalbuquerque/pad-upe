@@ -207,10 +207,17 @@ class PadController extends Controller
     {
         $menu = Menu::PADS;
         $pad = PAD::find($id);
-        $userPads = $pad->userPads;
+        $userPads = $pad->userPads()->paginate(50);
         $avaliatorsPads = $pad->avaliadorPads;
         $status = Constants::listStatus();
 
+        //Se a página atual for 1 remova o previous
+        //Se a página atual for lastPage remova o next
+        //Se houver um page="" no query selecionar a opção de professor por padrão [list]
+        //Criar variavel para retornar o active tab selecionado
+
+        // dd($pad->id);
+        // dd($userPads, $userPads->links());
 
         return view('pad.admin.edit', [
             'pad' => $pad,

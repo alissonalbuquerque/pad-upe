@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Imports\UsersImport;
+use App\Models\AvaliadorPad;
+use App\Models\Pad;
 use App\Models\User;
 use App\Models\UserType;
 use App\Models\Util\MaskHelper;
@@ -243,6 +245,7 @@ class UserController extends Controller
         // QueryParams
         $q = $request->query('q'); 
         $id = $request->query('id');
+        $remove_avaliators_by_pad_id = $request->query('remove_avaliators_by_pad_id');
 
         $user = User::where([]);
 
@@ -252,6 +255,13 @@ class UserController extends Controller
 
         if($q) {
             $user = $user->where('name', 'like', '%'.$q.'%');
+        }
+
+        if($remove_avaliators_by_pad_id) {
+            $avaliadorPad = AvaliadorPad::wherePadId($remove_avaliators_by_pad_id);
+            $avaliadorPadIds = $avaliadorPad->get()->pluck('user_id')->toArray();
+
+            $user = $user->whereNotIn('id', $avaliadorPadIds);
         }
 
         $users = $user->get();

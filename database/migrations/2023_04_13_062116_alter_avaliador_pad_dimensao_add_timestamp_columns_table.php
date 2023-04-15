@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAvaliadorPadDimensaoTable extends Migration
+class AlterAvaliadorPadDimensaoAddTimestampColumnsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateAvaliadorPadDimensaoTable extends Migration
      */
     public function up()
     {
-        Schema::create('avaliador_pad_dimensao', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('avaliador_pad_id')->constrained('avaliador_pad');
-            $table->tinyInteger('dimensao');
+        Schema::table('avaliador_pad_dimensao', function (Blueprint $table) {
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -29,6 +25,8 @@ class CreateAvaliadorPadDimensaoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('avaliador_pad_dimensao');
+        Schema::table('avaliador_pad_dimensao', function (Blueprint $table) {
+            $table->dropColumn(['created_at', 'updated_at']);
+        });
     }
 }

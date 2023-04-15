@@ -6,7 +6,7 @@ use App\Models\Util\Status;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\AvaliadorPad;
 
 class Pad extends Model
 {
@@ -55,7 +55,7 @@ class Pad extends Model
      * @return Collection<AvaliadorPad>
      */
     public function avaliadorPads(){
-        return $this->hasMany(AvaliadorPad::class);
+        return $this->hasMany(AvaliadorPad::class, 'pad_id');
     }
 }
 

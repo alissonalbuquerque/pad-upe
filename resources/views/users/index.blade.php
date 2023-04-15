@@ -34,8 +34,11 @@
             <table class="table table-hover mt-4">
                 <thead>
                     <tr>
-                        <th class="w-50" scole="col">Nome</th>
-                        <th class="w-50" scole="col">Email</th>
+                        <th scole="col">Nome</th>
+                        <th scole="col">Email</th>
+                        <th scole="col">Status</th>
+                        <th scole="col">Campus</th>
+                        <th scole="col">Curso</th>
                         <th scole="col">Opções</th>
                     </tr>
                 </thead>
@@ -44,6 +47,9 @@
                         <tr>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
+                            <td>{{ $user->statusAsText() }}</td>
+                            <td>{{ $user->campus }}</td>
+                            <td>{{ $user->curso }}</td>
                             <td>
                                 <div class="btn-group" role="group">
                                     <div class="me-1">

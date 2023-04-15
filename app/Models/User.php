@@ -43,6 +43,10 @@ class User extends Authenticatable
 
     protected $dates = ['deleted_at'];
 
+    public function statusAsText() {
+        return $this->status !== null ? Status::listStatus($this->status) : '-';
+    }
+
     public static function validator(array $attributes, $id = null, $ignoreStatus = true)
     {   
         $rules = [
@@ -142,6 +146,16 @@ class User extends Authenticatable
     // }
 
     /**
+     * Get Curso with campus.id = user.campus_id
+     * 
+     * @return Campus|null
+     */
+    public function campus()
+    {
+        return $this->belongsTo(Campus::class);
+    }
+
+    /**
      * Get Curso with curso.id = user.curso_id
      * 
      * @return Curso|null
@@ -149,16 +163,6 @@ class User extends Authenticatable
     public function curso()
     {
         return $this->belongsTo(Curso::class);
-    }
-
-    /**
-     * Get Unidade with unidade.id = user.unidade_id
-     * 
-     * @return Unidade|null
-     */
-    public function unidade()
-    {
-        return $this->belongsTo(Unidade::class);
     }
 
     /**
