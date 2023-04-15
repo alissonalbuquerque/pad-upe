@@ -53,7 +53,7 @@ class ImportUserController extends Controller
 
         fclose($handle);
 
-        dd($count, $list);
+        dd($count, $list, $less_emails);
 
         return redirect()->route('import_index');
     }
