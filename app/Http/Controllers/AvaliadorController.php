@@ -1,11 +1,13 @@
 <?php
- 
+
 namespace App\Http\Controllers;
 
+use App\Models\Avaliacao;
 use App\Models\User;
 use App\Models\Curso;
 use App\Models\Util\MenuItemsAvaliador;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AvaliadorController extends Controller
@@ -17,38 +19,66 @@ class AvaliadorController extends Controller
      */
     public function index()
     {
-       // $professores = User::where('type', '=', User::->isTypeTeacher())->get();
+        // $professores = User::where('type', '=', User::->isTypeTeacher())->get();
         return view('pad.avaliacao.index', [
             'index_menu' => MenuItemsAvaliador::PADs,
             'professores' =>  null
         ]);
     }
 
-    public function avaliar()
+    public function avaliar(Request $req)
     {
-       // $professores = User::where('type', '=', User::->isTypeTeacher())->get();
-        return view('pad.avaliacao.dimensao.ensino', [
-            'index_menu' => MenuItemsAvaliador::PADs,
-            'user_pad_id' =>  1
-        ]);
+        $validated = $req->validate(
+            [
+                'tarefa_id' => ['required', 'integer'],
+                'status' => ['required', 'integer'],
+                'professor_id' => ['required', 'integer'],
+                'atividade_type' => ['required', 'integer'],
+                'descricao' => ['nullable', 'string'],
+                'hora_reajuste' => ['nullable', 'integer'],
+            ],
+            [
+                'required' => 'O campo de :attribute é obrigatório',
+            ]
+        );
+
+        if ($validated) {
+            $user = Auth::user();
+            $avaliacao = Avaliacao::where(function ($query) use ($req) {
+                $query->where('tarefa_id', '=', $req->tarefa_id);
+                $query->where('type', '=', $req->atividade_type);
+            })->first();
+
+            if (!$avaliacao) {
+                dd('Avaliação não encontrada');
+            }
+
+            $avaliacao->status = $req->status;
+            $avaliacao->avaliador_id = $user->id;
+            $avaliacao->descricao = $req->descricao ? $req->descricao : NULL;
+            $avaliacao->horas_reajuste = $req->hora_reajuste;
+
+            if ($avaliacao->save()) {
+                return redirect()->back();
+            }
+        }
     }
 
     /**
      * @param integer $id
      * @return \Illuminate\Http\Response
      */
-    public function view($id) {
-
+    public function view($id)
+    {
     }
-    
+
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {   
-
+    {
     }
 
     /**
@@ -56,13 +86,12 @@ class AvaliadorController extends Controller
      * @param  \Illuminate\Http\Request $request
      */
     public function store(Request $request)
-    {   
- 
+    {
     }
 
     public function anexo()
     {
-        return view('pad.anexo', ['index_menu' => 1 ]);
+        return view('pad.anexo', ['index_menu' => 1]);
     }
 
     /**
@@ -72,7 +101,7 @@ class AvaliadorController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {   
+    {
     }
 
     /**
@@ -83,12 +112,12 @@ class AvaliadorController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {   
+    {
     }
 
-    
-    public function delete($id) {
-       
+
+    public function delete($id)
+    {
     }
 
     /**
@@ -99,6 +128,5 @@ class AvaliadorController extends Controller
      */
     public function destroy($id)
     {
-       
     }
 }

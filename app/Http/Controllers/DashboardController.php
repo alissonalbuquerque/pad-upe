@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AvaliadorPad;
 use App\Models\Pad;
 use App\Models\Tabelas\Constants;
 use App\Models\UserPad;
@@ -17,41 +18,37 @@ use Illuminate\Support\Facades\Auth;
 class DashboardController extends Controller
 {
 
-    public function index() {
+    public function index()
+    {
 
         $user = Auth::user();
 
-        if($user->isTypeAdmin())
-        {
-            return view('dashboard',['menu' => Menu::HOME]);
+        if ($user->isTypeAdmin()) {
+            return view('dashboard', ['menu' => Menu::HOME]);
         }
 
-        if($user->isTypeTeacher())
-        {
+        if ($user->isTypeTeacher()) {
             $userPads = UserPad::whereUserId($user->id)->whereStatus(Status::ATIVO)->get();
 
-            return view('dashboard', ['userPads' => $userPads, 'menu'=> Menu::HOME]);
-        }
-        
-        if($user->isTypeDirector())
-        {
-            return view('dashboard', ['PADs' => Pad::all(), 'menu'=> Menu::HOME]);
+            return view('dashboard', ['userPads' => $userPads, 'menu' => Menu::HOME]);
         }
 
-        if($user->isTypeCoordinator())
-        {
-            return view('dashboard', ['PADs' => Pad::all(), 'menu'=> Menu::HOME]);
-        } 
+        if ($user->isTypeDirector()) {
+            return view('dashboard', ['PADs' => Pad::all(), 'menu' => Menu::HOME]);
+        }
 
-        if($user->isTypeEvaluator())
-        {   
-            $userPads = 
-                UserPad::initQuery()
-                    ->whereUser($user->id)
-                    ->wherePadStatus(Status::ATIVO)
-                    ->get();
+        if ($user->isTypeCoordinator()) {
+            return view('dashboard', ['PADs' => Pad::all(), 'menu' => Menu::HOME]);
+        }
 
-            return view('dashboard', ['userPads' => $userPads, 'menu'=> Menu::HOME]);
+        if ($user->isTypeEvaluator()) {
+            $userPads =
+                AvaliadorPad::where('user_id', '=', $user->id)
+                ->join('pad', 'avaliador_pad.pad_id', '=', 'pad.id')
+                ->where('pad.status', '=', Status::ATIVO)
+                ->get();
+
+            return view('dashboard', ['userPads' => $userPads, 'menu' => Menu::HOME]);
         }
 
         //return redirect()->route('login');

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\AvaliadorPad;
+use App\Models\AvaliadorPadDimensao;
 use Illuminate\Http\Request;
 use App\Models\Pad;
 use App\Models\Tabelas\Constants;
@@ -34,10 +36,13 @@ use App\Models\User;
 use App\Models\UserPad;
 use App\Models\UserType;
 use App\Models\UserTypePad;
+use App\Models\Util\Avaliacao as AvaliacaoUtil;
+use App\Models\Util\Dimensao;
 use App\Models\Util\Menu;
 use App\Models\Util\MenuItemsAdmin;
 use App\Models\Util\MenuItemsTeacher;
 use App\Models\Util\Status;
+use App\Models\Util\MenuItemsAvaliador;
 use Database\Seeders\PadSeeder;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -54,16 +59,14 @@ class PadController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->isTypeAdmin())
-        {
+        if (Auth::user()->isTypeAdmin()) {
             $users = User::initQuery()->whereType(UserType::TEACHER)->get();
             $pads = Pad::all();
             $menu = Menu::PADS;
             return view('pad.admin.index', ['menu' => $menu, 'pads' => $pads]);
         }
 
-        if(Auth::user()->isTypeTeacher())
-        {
+        if (Auth::user()->isTypeTeacher()) {
             $menu = Menu::PADS;
             $userPads = UserPad::whereUserId(Auth::user()->id)->get();
 
@@ -145,36 +148,34 @@ class PadController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'nome' => ['required', 'string', 'min:6', 'max:255'],
-            'status' => ['required', 'integer'],
-            'data_inicio' => ['required', 'date', 'before_or_equal:data_fim'],
-            'data_fim' => ['required', 'date', 'after_or_equal:data_inicio'],
-        ],
-        [
-            'required' => 'O campo de :attribute é obrigatório',
-            'nome.min' => 'O campo de :attribute deve ter no mínimo 6 letras',
-            'nome.max' => 'O campo de :attribute deve ter no máximo 255 letras',
-            'data_inicio.before_or_equal' => 'A :attribute deve ser uma data anterior ou igual a data de fim',
-            'data_fim.after_or_equal' => 'A :attribute deve ser uma data posterior ou igual a data de início',
-        ]);
+        $validated = $request->validate(
+            [
+                'nome' => ['required', 'string', 'min:6', 'max:255'],
+                'status' => ['required', 'integer'],
+                'data_inicio' => ['required', 'date', 'before_or_equal:data_fim'],
+                'data_fim' => ['required', 'date', 'after_or_equal:data_inicio'],
+            ],
+            [
+                'required' => 'O campo de :attribute é obrigatório',
+                'nome.min' => 'O campo de :attribute deve ter no mínimo 6 letras',
+                'nome.max' => 'O campo de :attribute deve ter no máximo 255 letras',
+                'data_inicio.before_or_equal' => 'A :attribute deve ser uma data anterior ou igual a data de fim',
+                'data_fim.after_or_equal' => 'A :attribute deve ser uma data posterior ou igual a data de início',
+            ]
+        );
 
-        if($validated)
-        {
+        if ($validated) {
             $model = new Pad($request->all());
 
             $users = User::initQuery()->whereType(UserType::TEACHER)->get();
 
-            if($model->save())
-            {
+            if ($model->save()) {
                 $users = User::initQuery()->whereType(UserType::TEACHER)->get();
 
-                foreach($users as $user)
-                {
+                foreach ($users as $user) {
                     $profile = $user->profile(UserType::TEACHER);
 
-                    if($profile)
-                    {
+                    if ($profile) {
                         $userPad = new UserPad();
                         $userPad->pad_id = $model->id;
                         $userPad->user_id = $user->id;
@@ -189,12 +190,11 @@ class PadController extends Controller
                 return redirect()->route('pad_index')->with('success', 'Erro ao cadastrar o PAD!');
             }
         }
-
     }
 
     public function anexo()
     {
-        return view('pad.anexo', ['index_menu' => 1 ]);
+        return view('pad.anexo', ['index_menu' => 1]);
     }
 
     /**
@@ -237,25 +237,27 @@ class PadController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'nome' => ['required', 'string', 'min:6', 'max:255'],
-            'status' => ['required', 'integer'],
-            'data_inicio' => ['required', 'date', 'before_or_equal:data_fim'],
-            'data_fim' => ['required', 'date', 'after_or_equal:data_inicio'],
-        ],
-        [
-            'required' => 'O campo de :attribute é obrigatório',
-            'nome.min' => 'O campo de :attribute deve ter no mínimo 6 letras',
-            'nome.max' => 'O campo de :attribute deve ter no máximo 255 letras',
-            'data_inicio.before_or_equal' => 'A :attribute deve ser uma data anterior ou igual a data de fim',
-            'data_fim.after_or_equal' => 'A :attribute deve ser uma data posterior ou igual a data de início',
-        ]);
+        $validated = $request->validate(
+            [
+                'nome' => ['required', 'string', 'min:6', 'max:255'],
+                'status' => ['required', 'integer'],
+                'data_inicio' => ['required', 'date', 'before_or_equal:data_fim'],
+                'data_fim' => ['required', 'date', 'after_or_equal:data_inicio'],
+            ],
+            [
+                'required' => 'O campo de :attribute é obrigatório',
+                'nome.min' => 'O campo de :attribute deve ter no mínimo 6 letras',
+                'nome.max' => 'O campo de :attribute deve ter no máximo 255 letras',
+                'data_inicio.before_or_equal' => 'A :attribute deve ser uma data anterior ou igual a data de fim',
+                'data_fim.after_or_equal' => 'A :attribute deve ser uma data posterior ou igual a data de início',
+            ]
+        );
 
-        if($validated) {
+        if ($validated) {
             $model = Pad::find($id);
             $model->fill($request->all());
 
-            if($model->save()) {
+            if ($model->save()) {
                 return redirect()->route('pad_index')->with('success', 'PAD atualizado com sucesso!');
             } else {
                 return redirect()->route('pad_index')->with('success', 'Erro ao atualizar o PAD!');
@@ -264,10 +266,11 @@ class PadController extends Controller
     }
 
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $model = Pad::find($id);
 
-        if($model->delete()) {
+        if ($model->delete()) {
             return redirect()->route('pad_index')->with('success', 'PAD removido com sucesso!');
         } else {
             return redirect()->route('pad_index')->with('fail', 'Não foi possível remover o PAD!');
@@ -286,5 +289,104 @@ class PadController extends Controller
         $model->delete();
 
         return redirect('/pad/index');
+    }
+
+    public function professores($id)
+    {
+        $user = Auth::user();
+        $pad = Pad::find($id);
+        $index_menu = MenuItemsAvaliador::HOME;
+        $professores = User::join('user_pad', 'user_pad.user_id', '=', 'users.id')
+            ->join('pad', 'user_pad.pad_id', '=', 'pad.id')
+            ->where(function ($query) use ($user, $id) {
+                $query->where('pad.status', '=', Status::ATIVO);
+                $query->where('users.campus_id', '=', $user->campus_id);
+                $query->where('users.id', '!=', $user->id);
+                $query->where('pad.id', '=', $id);
+            })
+            ->select('users.id', 'users.name')
+            ->get();
+
+        return view("pad.avaliacao.professores", compact('professores', 'pad', 'index_menu'));
+    }
+
+    public function professor_atividades($id, $professor_id)
+    {
+        $pad = Pad::find($id);
+        $user = Auth::user();
+        $index_menu = MenuItemsAvaliador::HOME;
+        $avaliador_pad = AvaliadorPad::where(function ($query) use ($pad, $user) {
+            $query->where('user_id', '=', $user->id);
+            $query->where('pad_id', '=', $pad->id);
+        })->first();
+
+        $dimensoes_permitidas = AvaliadorPadDimensao::where('avaliador_pad_id', '=', $avaliador_pad->id)
+            ->select('avaliador_pad_dimensao.dimensao')->get();
+        $dimensoes = [];
+        foreach ($dimensoes_permitidas as $dimensao) {
+            array_push($dimensoes, $dimensao->dimensao);
+        }
+
+        $professor = User::find($professor_id);
+        $user_pad = UserPad::where(function ($query) use ($pad, $professor) {
+            $query->where('user_id', '=', $professor->id);
+            $query->where('pad_id', '=', $pad->id);
+        })->first();
+
+        $niveis = Constants::listNivel();
+        $modalidades = Constants::listModalidade();
+        $status = Status::listStatus();
+
+        $ensino = [];
+        $pesquisa = [];
+        $extensao = [];
+        $gestao = [];
+
+        if (in_array(Dimensao::ENSINO, $dimensoes)) {
+            $ensino = array_merge($ensino, self::add_tipo_atividade(EnsinoAtendimentoDiscente::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::ENSINO_ATENDIMENTO_DISCENTE)->toArray());
+            $ensino = array_merge($ensino, self::add_tipo_atividade(EnsinoAula::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::ENSINO_AULA)->toArray());
+            $ensino = array_merge($ensino, self::add_tipo_atividade(EnsinoCoordenacaoRegencia::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::ENSINO_COORDENACAO_REGENCIA)->toArray());
+            $ensino = array_merge($ensino, self::add_tipo_atividade(EnsinoMembroDocente::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::ENSINO_MEMBRO_DOCENTE)->toArray());
+            $ensino = array_merge($ensino, self::add_tipo_atividade(EnsinoOrientacao::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::ENSINO_ORIENTACAO)->toArray());
+            $ensino = array_merge($ensino, self::add_tipo_atividade(EnsinoOutros::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::ENSINO_OUTROS)->toArray());
+            $ensino = array_merge($ensino, self::add_tipo_atividade(EnsinoParticipacao::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::ENSINO_PARTICIPACAO)->toArray());
+            $ensino = array_merge($ensino, self::add_tipo_atividade(EnsinoProjeto::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::ENSINO_PROJETO)->toArray());
+            $ensino = array_merge($ensino, self::add_tipo_atividade(EnsinoSupervisao::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::ENSINO_SUPERVISAO)->toArray());
+        }
+
+        if (in_array(Dimensao::PESQUISA, $dimensoes)) {
+            $pesquisa = array_merge($pesquisa, self::add_tipo_atividade(PesquisaCoordenacao::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::PESQUISA_COORDENACAO)->toArray());
+            $pesquisa = array_merge($pesquisa, self::add_tipo_atividade(PesquisaLideranca::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::PESQUISA_LIDERANCA)->toArray());
+            $pesquisa = array_merge($pesquisa, self::add_tipo_atividade(PesquisaOrientacao::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::PESQUISA_ORIENTACAO)->toArray());
+            $pesquisa = array_merge($pesquisa, self::add_tipo_atividade(PesquisaOutros::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::PESQUISA_OUTROS)->toArray());
+        }
+
+        if (in_array(Dimensao::EXTENSAO, $dimensoes)) {
+            $extensao = array_merge($extensao, self::add_tipo_atividade(ExtensaoCoordenacao::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::EXTENSAO_COORDENACAO)->toArray());
+            $extensao = array_merge($extensao, self::add_tipo_atividade(ExtensaoOrientacao::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::EXTENSAO_ORIENTACAO)->toArray());
+            $extensao = array_merge($extensao, self::add_tipo_atividade(ExtensaoOutros::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::EXTENSAO_OUTROS)->toArray());
+        }
+
+        if (in_array(Dimensao::GESTAO, $dimensoes)) {
+            $gestao = array_merge($gestao, self::add_tipo_atividade(GestaoCoordenacaoLaboratoriosDidaticos::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::GESTAO_COORDENACAO_LABORATORIOS_DIDATICOS)->toArray());
+            $gestao = array_merge($gestao, self::add_tipo_atividade(GestaoCoordenacaoProgramaInstitucional::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::GESTAO_COORDENACAO_PROGRAMA_INSTITUCIONAL)->toArray());
+            $gestao = array_merge($gestao, self::add_tipo_atividade(GestaoMembroCamaras::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::GESTAO_MEMBRO_CAMARAS)->toArray());
+            $gestao = array_merge($gestao, self::add_tipo_atividade(GestaoMembroComissao::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::GESTAO_MEMBRO_COMISSAO)->toArray());
+            $gestao = array_merge($gestao, self::add_tipo_atividade(GestaoMembroConselho::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::GESTAO_MEMBRO_CONSELHO)->toArray());
+            $gestao = array_merge($gestao, self::add_tipo_atividade(GestaoMembroTitularConselho::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::GESTAO_MEMBRO_TITULAR_CONSELHO)->toArray());
+            $gestao = array_merge($gestao, self::add_tipo_atividade(GestaoOutros::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::GESTAO_OUTROS)->toArray());
+            $gestao = array_merge($gestao, self::add_tipo_atividade(GestaoRepresentanteUnidadeEducacao::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::GESTAO_REPRESENTANTE_UNIDADE_EDUCACAO)->toArray());
+        }
+
+        return view('pad.avaliacao.taferas_professor', compact('pad', 'index_menu', 'professor', 'ensino', 'pesquisa', 'extensao', 'gestao', 'niveis', 'modalidades'));
+    }
+
+    private function add_tipo_atividade($query, $type)
+    {
+        foreach ($query as &$atividade) {
+            $atividade['tipo_atividade'] = $type;
+        }
+
+        return $query;
     }
 }
