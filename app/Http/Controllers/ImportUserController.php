@@ -43,7 +43,7 @@ class ImportUserController extends Controller
             $count = 0;
             $list = [];
             if($user === null) {
-                array_push($list, $data[2]);
+                array_push($list, $data);
                 $count++;
             } else {
                 $user->campus_id = 3;
