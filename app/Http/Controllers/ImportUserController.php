@@ -40,19 +40,20 @@ class ImportUserController extends Controller
         {   
             $user = User::whereEmail($data[2])->first();
 
+            $count = 0;
+            $list = [];
             if($user === null) {
-                dd($user, $data[2]);
+                array_push($list, $data[2]);
+                $count++;
+            } else {
+                $user->campus_id = 3;
+                $user->save();
             }
-
-            // $user->campus_id = 3;
-            // if(!$user->save()) {
-            //     dd('errors');
-            // }
         }
 
         fclose($handle);
 
-        dd(3, $with_emails, $less_emails);
+        dd($count, $list);
 
         return redirect()->route('import_index');
     }
