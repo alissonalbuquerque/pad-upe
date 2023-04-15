@@ -46,6 +46,8 @@ require __DIR__ . '/dimensao/gestao.php';
 require __DIR__ . '/dimensao/pesquisa.php';
 require __DIR__ . '/dimensao/extensao.php';
 
+require __DIR__ . '/import/update_user.php';
+
 Route::get('/', function () {
     return redirect()->route('login');
 });
