@@ -36,12 +36,10 @@ class ImportUserController extends Controller
         $with_emails = array_filter($lines, function($array) { return $array[2] !== '-'; });
         $less_emails = array_filter($lines, function($array) { return $array[2] === '-'; });
 
-        $campus_garanhuns = Campus::whereId(3)->first();
-
         foreach($with_emails as $data)
         {   
             $user = User::whereEmail($data[2])->first();
-            $user->campus_id = $campus_garanhuns->id;
+            $user->campus_id = 3;
             if(!$user->save()) {
                 dd('errors');
             }
@@ -49,7 +47,7 @@ class ImportUserController extends Controller
 
         fclose($handle);
 
-        dd($campus_garanhuns, $with_emails, $less_emails);
+        dd(3, $with_emails, $less_emails);
 
         return redirect()->route('import_index');
     }
