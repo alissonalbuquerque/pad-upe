@@ -46,11 +46,10 @@ class ImportUserController extends Controller
                 dd('errors');
             }
         }
-        
-
-        dd($campus_garanhuns, $with_emails, $less_emails);
 
         fclose($handle);
+
+        dd($campus_garanhuns, $with_emails, $less_emails);
 
         return redirect()->route('import_index');
     }
