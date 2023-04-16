@@ -79,7 +79,12 @@
         allowClear: true,
         ajax: {
             url: '{{ route("user_search") }}',
-            data: {remove_avaliators_by_pad_id : {{$pad->id}}},
+            data: function(params) {
+                return {
+                    q: params.term,
+                    remove_avaliators_by_pad_id : {{$pad->id}}
+                }
+            },
             dataType: 'json'
         },
         dropdownParent: $('#modal')
