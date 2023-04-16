@@ -25,7 +25,7 @@ class AvaliadorPad extends Model
     }
 
     public function pad() {
-        return $this->belongsTo(PAD::class);
+        return $this->belongsTo(Pad::class);
     }
 
     public function user() {
