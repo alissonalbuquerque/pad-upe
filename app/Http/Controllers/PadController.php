@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Avaliacao;
 use App\Models\AvaliadorPad;
 use App\Models\AvaliadorPadDimensao;
 use Illuminate\Http\Request;
@@ -311,7 +312,7 @@ class PadController extends Controller
     }
 
     public function professor_atividades($id, $professor_id)
-    {
+    {   
         $pad = Pad::find($id);
         $user = Auth::user();
         $index_menu = MenuItemsAvaliador::HOME;
@@ -340,7 +341,7 @@ class PadController extends Controller
         $ensino = [];
         $pesquisa = [];
         $extensao = [];
-        $gestao = [];
+        $avaliacoes_gestao = [];
 
         if (in_array(Dimensao::ENSINO, $dimensoes)) {
             $ensino = array_merge($ensino, self::add_tipo_atividade(EnsinoAtendimentoDiscente::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::ENSINO_ATENDIMENTO_DISCENTE)->toArray());
@@ -368,17 +369,54 @@ class PadController extends Controller
         }
 
         if (in_array(Dimensao::GESTAO, $dimensoes)) {
-            $gestao = array_merge($gestao, self::add_tipo_atividade(GestaoCoordenacaoLaboratoriosDidaticos::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::GESTAO_COORDENACAO_LABORATORIOS_DIDATICOS)->toArray());
-            $gestao = array_merge($gestao, self::add_tipo_atividade(GestaoCoordenacaoProgramaInstitucional::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::GESTAO_COORDENACAO_PROGRAMA_INSTITUCIONAL)->toArray());
-            $gestao = array_merge($gestao, self::add_tipo_atividade(GestaoMembroCamaras::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::GESTAO_MEMBRO_CAMARAS)->toArray());
-            $gestao = array_merge($gestao, self::add_tipo_atividade(GestaoMembroComissao::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::GESTAO_MEMBRO_COMISSAO)->toArray());
-            $gestao = array_merge($gestao, self::add_tipo_atividade(GestaoMembroConselho::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::GESTAO_MEMBRO_CONSELHO)->toArray());
-            $gestao = array_merge($gestao, self::add_tipo_atividade(GestaoMembroTitularConselho::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::GESTAO_MEMBRO_TITULAR_CONSELHO)->toArray());
-            $gestao = array_merge($gestao, self::add_tipo_atividade(GestaoOutros::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::GESTAO_OUTROS)->toArray());
-            $gestao = array_merge($gestao, self::add_tipo_atividade(GestaoRepresentanteUnidadeEducacao::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::GESTAO_REPRESENTANTE_UNIDADE_EDUCACAO)->toArray());
+
+            $gestao_grouped_ids = [
+                [
+                    'ids' => GestaoCoordenacaoLaboratoriosDidaticos::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::GESTAO_COORDENACAO_LABORATORIOS_DIDATICOS,
+                ],
+                [
+                    'ids' => GestaoCoordenacaoProgramaInstitucional::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::GESTAO_COORDENACAO_PROGRAMA_INSTITUCIONAL
+                ],
+                [
+                    'ids' => GestaoMembroCamaras::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::GESTAO_MEMBRO_CAMARAS
+                ],
+                [
+                    'ids' => GestaoMembroComissao::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::GESTAO_MEMBRO_COMISSAO
+                ],
+                [
+                    'ids' => GestaoMembroConselho::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::GESTAO_MEMBRO_CONSELHO
+                ],
+                [
+                    'ids' => GestaoMembroTitularConselho::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::GESTAO_MEMBRO_TITULAR_CONSELHO
+                ],
+                [
+                    'ids' => GestaoOutros::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::GESTAO_OUTROS
+                ],
+                [
+                    'ids' => GestaoRepresentanteUnidadeEducacao::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::GESTAO_REPRESENTANTE_UNIDADE_EDUCACAO
+                ]
+            ];
+
+            $avaliacoes_gestao_ids = [];
+            foreach($gestao_grouped_ids as $gestao_group)
+            {
+                $avaliacao_ids = Avaliacao::whereIn('tarefa_id', $gestao_group['ids'])->whereType($gestao_group['type'])->pluck('id')->toArray();
+
+                $avaliacoes_gestao_ids = array_merge($avaliacoes_gestao_ids, $avaliacao_ids);
+            }
+            
+            $avaliacoes_gestao = Avaliacao::whereIn('id', $avaliacoes_gestao_ids)->get();            
         }
 
-        return view('pad.avaliacao.taferas_professor', compact('pad', 'index_menu', 'professor', 'ensino', 'pesquisa', 'extensao', 'gestao', 'niveis', 'modalidades'));
+        return view('pad.avaliacao.taferas_professor', compact('pad', 'index_menu', 'professor', 'ensino', 'pesquisa', 'extensao', 'avaliacoes_gestao', 'niveis', 'modalidades'));
     }
 
     private function add_tipo_atividade($query, $type)

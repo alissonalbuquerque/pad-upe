@@ -3,6 +3,7 @@
 namespace App\Models\Tabelas\Gestao;
 
 use App\Models\Planejamento;
+use App\Models\UserPad;
 use App\Queries\Tabelas\Gestao\GestaoMembroComissaoQuery;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,6 +12,9 @@ class GestaoMembroComissao extends Model
     protected $table = 'gestao_membro_comissao';
 
     protected $fillable = ['user_pad_id', 'dimensao', 'cod_atividade', 'nome', 'documento', 'ch_semanal'];
+
+    // Array de strings para preenchimento de campos de avaliação
+    public $avaliable_attributes = ['nome', 'documento', 'ch_semanal'];
 
     public static function getPlanejamentos()
     {   
@@ -39,6 +43,10 @@ class GestaoMembroComissao extends Model
             //documento
             'documento.required' => 'O campo "Documento que o Designa" é obrigatório!',
         ];
+    }
+
+    public function userPad() {
+        return $this->belongsTo(UserPad::class);
     }
 
     public static function initQuery()

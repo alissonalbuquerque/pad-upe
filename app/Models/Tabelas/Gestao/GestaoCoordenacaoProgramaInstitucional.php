@@ -3,6 +3,7 @@
 namespace App\Models\Tabelas\Gestao;
 
 use App\Models\Planejamento;
+use App\Models\UserPad;
 use App\Queries\Tabelas\Gestao\GestaoCoordenacaoProgramaInstitucionalQuery;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,6 +22,9 @@ class GestaoCoordenacaoProgramaInstitucional extends Model
      * @var array
      */
     protected $fillable = ['orientacao_id', 'user_pad_id', 'dimensao', 'cod_atividade', 'nome', 'documento', 'ch_semanal',];
+
+    // Array de strings para preenchimento de campos de avaliação
+    public $avaliable_attributes = ['nome', 'documento', 'ch_semanal'];
 
     public static function rules()
     {
@@ -53,7 +57,10 @@ class GestaoCoordenacaoProgramaInstitucional extends Model
         return Planejamento::initQuery()->whereInCodDimensao($codes)->get();
     }
 
-
+    public function userPad() {
+        return $this->belongsTo(UserPad::class);
+    }
+    
     public static function initQuery()
     {
         return new GestaoCoordenacaoProgramaInstitucionalQuery(get_called_class());

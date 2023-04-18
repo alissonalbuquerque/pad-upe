@@ -131,41 +131,51 @@
 
         @endif
 
-        @if (isset($gestao) && !empty($gestao))
+        @if (isset($avaliacoes_gestao) && !empty($avaliacoes_gestao))
+
             <h4><strong>Gestão</strong></h4>
 
-            @foreach ($gestao as $tarefa)
-                <div class="card">
-                    <h5 class="card-header">Cód. Atividade - {{$tarefa["cod_atividade"]}}</h5>
-                    <div class="card-body">
-                        <span class="fw-bold ">Título do Projeto: </span><span class="card-text">{{isset($tarefa["titulo_projeto"])?$tarefa["titulo_projeto"]:"--"}}</span><br>
-                        <span class="fw-bold ">Componente Curricular: </span><span class="card-text">{{isset($tarefa["componente_curricular"])?$tarefa["componente_curricular"]:"--"}}</span><br>
-                        <span class="fw-bold ">Curso: </span><span class="card-text">{{isset($tarefa["curso"])?$tarefa["curso"]:"--"}}</span><br>
-                        <span class="fw-bold ">Nível: </span><span class="card-text">{{isset($tarefa["nivel"])?$niveis[$tarefa["nivel"]]:"--"}}</span><br>
-                        <span class="fw-bold ">Modalidade: </span><span class="card-text">{{isset($tarefa["modalidade"])?$modalidades[$tarefa["modalidade"]]:"--"}}</span><br>
-                        <span class="fw-bold ">Resolução: </span><span class="card-text">{{isset($tarefa["resolucao"])?$tarefa["resolucao"]:"--"}}</span><br>
-                        <span class="fw-bold ">CH. Semanal: </span><span class="card-text">{{isset($tarefa["ch_semanal"])?$tarefa["ch_semanal"]:"--"}}</span><br>
+            @foreach ($avaliacoes_gestao as $avaliacao)
+                <div class="mb-4">
+                    <div class="card">
+                        <h5 class="card-header"> Cód. Atividade - {{$avaliacao->tarefa->cod_atividade}} </h5>
 
-                        <div style="width: 100%; " class="btns-avaliar mt-5 d-flex justify-content-end">
-                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modal_avaliacao" onclick='setaDadosModalAvaliacao("{{$tarefa["id"]}}", "{{$professor["id"]}}", "6", "{{$tarefa["tipo_atividade"]}}")'>
-                                Reprovar
-                            </button>
+                        <div class="card-body">
 
-                            <span>&nbsp;&nbsp;</span>
+                            <ul>
+                                <li> <span class="fw-bold ">Nome: </span><span class="card-text">{{ $avaliacao->tarefa->nome }}</span><br> </li>
+                                <li> <span class="fw-bold ">Documento: </span><span class="card-text">{{ $avaliacao->tarefa->documento }}</span><br> </li>
+                                <li> <span class="fw-bold ">Status: </span><span class="card-text">{{ $avaliacao->getStatusAsText() }} </span><br> </li>
+                                <li> <span class="fw-bold ">Carga Horária Semanal: </span><span class="card-text">{{ $avaliacao->tarefa->ch_semanal }} Hora(s) </span><br> </li>
+                            </ul>                        
+                            
+                            <div class="btns-avaliar mt-4 d-flex justify-content-end">
+                                <button 
+                                    type="button"
+                                    class="btn btn-outline-danger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modal_avaliacao"
+                                    onclick=" setaDadosModalAvaliacao('{{$avaliacao->tarefa->id}}', '{{$avaliacao->tarefa->userPad->user->id}}', '6', '{{$avaliacao->type}}') ">
+                                    Reprovar
+                                </button>
 
-                            <form action="{{route('avaliador_avaliar')}}" method="POST">
-                                @csrf
-                                @method("PUT")
-                                <input type="hidden" name="tarefa_id" id="tarefa_id_aprovar" value="{{$tarefa["id"]}}">
-                                <input type="hidden" name="professor_id" id="professor_id_aprovar" value="{{$professor["id"]}}">
-                                <input type="hidden" name="status" id="status_aprovar" value='7'>
-                                <input type="hidden" name="atividade_type" id="atividade_type_aprovar" value="{{$tarefa["tipo_atividade"]}}">
-                                <input type="submit" class="btn btn-primary" value="Aprovar">
-                            </form>
+                                <span>&nbsp;&nbsp;</span>
+
+                                <form action="{{route('avaliador_avaliar')}}" method="POST">
+                                    @csrf
+                                    @method("PUT")
+                                    <input type="hidden" name="tarefa_id" id="tarefa_id_aprovar" value="{{$avaliacao->tarefa->id}}">
+                                    <input type="hidden" name="professor_id" id="professor_id_aprovar" value="{{$avaliacao->tarefa->userPad->user->id}}">
+                                    <input type="hidden" name="status" id="status_aprovar" value='7'>
+                                    <input type="hidden" name="atividade_type" id="atividade_type_aprovar" value="{{$avaliacao->type}}">
+                                    <input type="submit" class="btn btn-primary" value="Aprovar">
+                                </form>
+
+                            </div>
 
                         </div>
                     </div>
-                </div><br>
+                </div>
             @endforeach
 
         @endif
