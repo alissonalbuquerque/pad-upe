@@ -3,6 +3,7 @@
 namespace App\Models\Tabelas\Extensao;
 
 use App\Models\Planejamento;
+use App\Models\UserPad;
 use App\Queries\Tabelas\Extensao\ExtensaoOutrosQuery;
 use Illuminate\Database\Eloquent\Model;
 

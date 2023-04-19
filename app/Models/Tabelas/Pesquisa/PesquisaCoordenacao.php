@@ -3,6 +3,7 @@
 namespace App\Models\Tabelas\Pesquisa;
 
 use App\Models\Planejamento;
+use App\Models\UserPad;
 use App\Models\Tabelas\Constants;
 use App\Queries\Tabelas\Pesquisa\PesquisaCoordenacaoQuery;
 use Illuminate\Database\Eloquent\Model;

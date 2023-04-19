@@ -3,6 +3,7 @@
 namespace App\Models\Tabelas\Ensino;
 
 use App\Models\Planejamento;
+use App\Models\UserPad;
 use App\Models\Util\Modalidade;
 use App\Models\Util\Nivel;
 use App\Queries\Tabelas\Ensino\EnsinoAulaQuery;
