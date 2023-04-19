@@ -26,6 +26,9 @@ class EnsinoAtendimentoDiscente extends Model
      */
     protected $fillable = ['orientacao_id', 'user_pad_id', 'dimensao', 'cod_atividade', 'componente_curricular', 'curso', 'nivel', 'ch_semanal'];
 
+    // Array de strings para preenchimento de campos de avaliação
+    public $avaliable_attributes = ['Componente Curricular:' => 'componente_curricular', 'Curso:' => 'curso', 'Carga Horária:' => 'ch_semanal'];
+
     public function nivelAsString()
     {
         return Nivel::listNivel($this->nivel);
@@ -68,6 +71,9 @@ class EnsinoAtendimentoDiscente extends Model
         return Planejamento::initQuery()->whereInCodDimensao($codes)->get();
     }
 
+    public function userPad() {
+        return $this->belongsTo(UserPad::class);
+    }
 
     public static function initQuery()
     {

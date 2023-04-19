@@ -338,34 +338,123 @@ class PadController extends Controller
         $modalidades = Constants::listModalidade();
         $status = Status::listStatus();
 
-        $ensino = [];
-        $pesquisa = [];
-        $extensao = [];
+        $avaliacoes_ensino = [];
+        $avaliacoes_pesquisa = [];
+        $avaliacoes_extensao = [];
         $avaliacoes_gestao = [];
 
         if (in_array(Dimensao::ENSINO, $dimensoes)) {
-            $ensino = array_merge($ensino, self::add_tipo_atividade(EnsinoAtendimentoDiscente::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::ENSINO_ATENDIMENTO_DISCENTE)->toArray());
-            $ensino = array_merge($ensino, self::add_tipo_atividade(EnsinoAula::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::ENSINO_AULA)->toArray());
-            $ensino = array_merge($ensino, self::add_tipo_atividade(EnsinoCoordenacaoRegencia::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::ENSINO_COORDENACAO_REGENCIA)->toArray());
-            $ensino = array_merge($ensino, self::add_tipo_atividade(EnsinoMembroDocente::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::ENSINO_MEMBRO_DOCENTE)->toArray());
-            $ensino = array_merge($ensino, self::add_tipo_atividade(EnsinoOrientacao::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::ENSINO_ORIENTACAO)->toArray());
-            $ensino = array_merge($ensino, self::add_tipo_atividade(EnsinoOutros::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::ENSINO_OUTROS)->toArray());
-            $ensino = array_merge($ensino, self::add_tipo_atividade(EnsinoParticipacao::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::ENSINO_PARTICIPACAO)->toArray());
-            $ensino = array_merge($ensino, self::add_tipo_atividade(EnsinoProjeto::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::ENSINO_PROJETO)->toArray());
-            $ensino = array_merge($ensino, self::add_tipo_atividade(EnsinoSupervisao::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::ENSINO_SUPERVISAO)->toArray());
+
+            $ensino_grouped_ids = [
+                [
+                    'ids' => EnsinoAtendimentoDiscente::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::ENSINO_ATENDIMENTO_DISCENTE
+                ],
+                [
+                    'ids' => EnsinoAula::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::ENSINO_AULA
+                ],
+                [
+                    'ids' => EnsinoCoordenacaoRegencia::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::ENSINO_COORDENACAO_REGENCIA
+                ],
+                [
+                    'ids' => EnsinoMembroDocente::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::ENSINO_MEMBRO_DOCENTE
+                ],
+                [
+                    'ids' => EnsinoOrientacao::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::ENSINO_ORIENTACAO
+                ],
+                [
+                    'ids' => EnsinoOutros::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::ENSINO_OUTROS
+                ],
+                [
+                    'ids' => EnsinoParticipacao::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::ENSINO_PARTICIPACAO
+                ],
+                [
+                    'ids' => EnsinoProjeto::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::ENSINO_PROJETO
+                ],
+                [
+                    'ids' => EnsinoSupervisao::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::ENSINO_SUPERVISAO
+                ],
+            ];
+
+            //
+            $avaliacoes_ensino_ids = [];
+            foreach($ensino_grouped_ids as $ensino_group)
+            {
+                $avaliacao_ids = Avaliacao::whereIn('tarefa_id', $ensino_group['ids'])->whereType($ensino_group['type'])->pluck('id')->toArray();
+
+                $avaliacoes_ensino_ids = array_merge($avaliacoes_ensino_ids, $avaliacao_ids);
+            }
+                        
+            $avaliacoes_ensino = Avaliacao::whereIn('id', $avaliacoes_ensino_ids)->get();
+            //
         }
 
         if (in_array(Dimensao::PESQUISA, $dimensoes)) {
-            $pesquisa = array_merge($pesquisa, self::add_tipo_atividade(PesquisaCoordenacao::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::PESQUISA_COORDENACAO)->toArray());
-            $pesquisa = array_merge($pesquisa, self::add_tipo_atividade(PesquisaLideranca::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::PESQUISA_LIDERANCA)->toArray());
-            $pesquisa = array_merge($pesquisa, self::add_tipo_atividade(PesquisaOrientacao::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::PESQUISA_ORIENTACAO)->toArray());
-            $pesquisa = array_merge($pesquisa, self::add_tipo_atividade(PesquisaOutros::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::PESQUISA_OUTROS)->toArray());
+
+            $pesquisa_grouped_ids = [
+                [
+                    'ids' => PesquisaCoordenacao::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::PESQUISA_COORDENACAO
+                ],
+                [
+                    'ids' => PesquisaLideranca::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::PESQUISA_LIDERANCA
+                ],
+                [
+                    'ids' => PesquisaOrientacao::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::PESQUISA_ORIENTACAO
+                ],
+                [
+                    'ids' => PesquisaOutros::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::PESQUISA_OUTROS
+                ],
+            ];
+
+            $avaliacoes_pesquisa_ids = [];
+            foreach($pesquisa_grouped_ids as $pesquisa_group)
+            {
+                $avaliacao_ids = Avaliacao::whereIn('tarefa_id', $pesquisa_group['ids'])->whereType($pesquisa_group['type'])->pluck('id')->toArray();
+
+                $avaliacoes_pesquisa_ids = array_merge($avaliacoes_pesquisa_ids, $avaliacao_ids);
+            }
+                        
+            $avaliacoes_pesquisa = Avaliacao::whereIn('id', $avaliacoes_pesquisa_ids)->get();
         }
 
         if (in_array(Dimensao::EXTENSAO, $dimensoes)) {
-            $extensao = array_merge($extensao, self::add_tipo_atividade(ExtensaoCoordenacao::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::EXTENSAO_COORDENACAO)->toArray());
-            $extensao = array_merge($extensao, self::add_tipo_atividade(ExtensaoOrientacao::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::EXTENSAO_ORIENTACAO)->toArray());
-            $extensao = array_merge($extensao, self::add_tipo_atividade(ExtensaoOutros::where('user_pad_id', '=', $user_pad->id)->get(), AvaliacaoUtil::EXTENSAO_OUTROS)->toArray());
+
+            $extensao_grouped_ids = [
+                [
+                    'ids' => ExtensaoCoordenacao::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::EXTENSAO_COORDENACAO
+                ],
+                [   
+                    'ids' => ExtensaoOrientacao::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::EXTENSAO_ORIENTACAO
+                ],
+                [
+                    'ids' => ExtensaoOutros::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::EXTENSAO_OUTROS
+                ]
+            ];
+            
+            $avaliacoes_extensao_ids = [];
+            foreach($extensao_grouped_ids as $extensao_group)
+            {
+                $avaliacao_ids = Avaliacao::whereIn('tarefa_id', $extensao_group['ids'])->whereType($extensao_group['type'])->pluck('id')->toArray();
+
+                $avaliacoes_extensao_ids = array_merge($avaliacoes_extensao_ids, $avaliacao_ids);
+            }
+                        
+            $avaliacoes_extensao = Avaliacao::whereIn('id', $avaliacoes_extensao_ids)->get();
         }
 
         if (in_array(Dimensao::GESTAO, $dimensoes)) {
@@ -413,10 +502,10 @@ class PadController extends Controller
                 $avaliacoes_gestao_ids = array_merge($avaliacoes_gestao_ids, $avaliacao_ids);
             }
             
-            $avaliacoes_gestao = Avaliacao::whereIn('id', $avaliacoes_gestao_ids)->get();            
+            $avaliacoes_gestao = Avaliacao::whereIn('id', $avaliacoes_gestao_ids)->get();
         }
 
-        return view('pad.avaliacao.taferas_professor', compact('pad', 'index_menu', 'professor', 'ensino', 'pesquisa', 'extensao', 'avaliacoes_gestao', 'niveis', 'modalidades'));
+        return view('pad.avaliacao.taferas_professor', compact('pad', 'index_menu', 'professor', 'avaliacoes_ensino', 'avaliacoes_pesquisa', 'avaliacoes_extensao', 'avaliacoes_gestao', 'niveis', 'modalidades'));
     }
 
     private function add_tipo_atividade($query, $type)

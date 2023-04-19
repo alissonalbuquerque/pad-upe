@@ -19,6 +19,9 @@ class PesquisaOrientacao extends Model
 
     protected $dates = ['deleted_at'];
 
+    // Array de strings para preenchimento de campos de avaliação
+    public $avaliable_attributes = ['Título do Projeto:' => 'titulo_projeto', 'Nome do Orientando:' => 'nome_orientando', 'Carga Horária:' => 'ch_semanal'];
+
     // public function orientacao()
     // {
     //     return $this->hasOne(Orientacao::class);
@@ -69,6 +72,10 @@ class PesquisaOrientacao extends Model
     public static function getPlanejamentos() {
         $codes = ['P-3'];
         return Planejamento::initQuery()->whereInCodDimensao($codes)->get();
+    }
+
+    public function userPad() {
+        return $this->belongsTo(UserPad::class);
     }
 
     public static function initQuery()

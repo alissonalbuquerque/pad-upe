@@ -24,7 +24,7 @@ class GestaoOutros extends Model
     protected $fillable = ['orientacao_id', 'user_pad_id', 'dimensao', 'cod_atividade', 'atividade', 'descricao', 'ch_semanal'];
 
     // Array de strings para preenchimento de campos de avaliação
-    public $avaliable_attributes = ['nome', 'documento', 'ch_semanal'];
+    public $avaliable_attributes = ['Atividade:' => 'atividade', 'Descrição:' => 'descricao', 'Carga Horária:' => 'ch_semanal'];
 
     public static function rules()
     {

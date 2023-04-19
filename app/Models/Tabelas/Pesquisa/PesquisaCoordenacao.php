@@ -19,6 +19,9 @@ class PesquisaCoordenacao extends Model
 
     protected $dates = ['deleted_at'];
 
+    // Array de strings para preenchimento de campos de avaliação
+    public $avaliable_attributes = ['Título do Projeto:' => 'titulo_projeto', 'Linha ou Grupo Pesquisa:' => 'linha_grupo_pesquisa', 'Carga Horária:' => 'ch_semanal'];
+
     // public function orientacao()
     // {
     //     return $this->hasOne(Orientacao::class);
@@ -89,6 +92,10 @@ class PesquisaCoordenacao extends Model
         }
 
         return $cod_dimensao !== null? $values[$cod_dimensao] : $values;
+    }
+
+    public function userPad() {
+        return $this->belongsTo(UserPad::class);
     }
 
     public static function initQuery()

@@ -19,6 +19,9 @@ class PesquisaLideranca extends Model
 
     protected $dates = ['deleted_at'];
 
+    // Array de strings para preenchimento de campos de avaliação
+    public $avaliable_attributes = ['Grupo de Pesquisa:' => 'grupo_pesquisa', 'Carga Horária:' => 'ch_semanal'];
+
     // public function orientacao()
     // {
     //     return $this->hasOne(Orientacao::class);
@@ -65,6 +68,10 @@ class PesquisaLideranca extends Model
     public static function getPlanejamentos() {
         $codes = ['P-1'];
         return Planejamento::initQuery()->whereInCodDimensao($codes)->get();
+    }
+
+    public function userPad() {
+        return $this->belongsTo(UserPad::class);
     }
 
     public static function initQuery()

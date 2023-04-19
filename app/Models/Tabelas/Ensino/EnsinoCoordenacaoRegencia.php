@@ -25,6 +25,9 @@ class EnsinoCoordenacaoRegencia extends Model
      */
     protected $fillable = ['orientacao_id', 'cod_dimensao', 'user_pad_id', 'dimensao', 'cod_atividade', 'componente_curricular', 'curso', 'nivel', 'modalidade', 'ch_semanal'];
 
+    // Array de strings para preenchimento de campos de avaliação
+    public $avaliable_attributes = ['Componente Curricular:' => 'componente_curricular', 'Curso:' => 'curso', 'Carga Horária:' => 'ch_semanal'];
+
     /**
      * @return string
      */
@@ -104,6 +107,10 @@ class EnsinoCoordenacaoRegencia extends Model
         }
 
         return $cod_dimensao !== null? $values[$cod_dimensao] : $values;
+    }
+
+    public function userPad() {
+        return $this->belongsTo(UserPad::class);
     }
 
     public static function initQuery() {

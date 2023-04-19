@@ -23,6 +23,9 @@ class ExtensaoOrientacao extends Model
      */
     protected $fillable = ['orientacao_id', 'user_pad_id', 'dimensao', 'cod_atividade', 'titulo_projeto', 'discente', 'funcao', 'ch_semanal', 'cod_dimensao'];
 
+    // Array de strings para preenchimento de campos de avaliação
+    public $avaliable_attributes = ['Título do Projeto:' => 'titulo_projeto', 'Discente:' => 'discente', 'Carga Horária:' => 'ch_semanal'];
+
     // public function orientacao()
     // {
     //     return $this->hasOne(Orientacao::class);
@@ -95,6 +98,9 @@ class ExtensaoOrientacao extends Model
         return Constants::listFuncaoOrientador($this->funcao);
     }
 
+    public function userPad() {
+        return $this->belongsTo(UserPad::class);
+    }
 
     public static function initQuery()
     {

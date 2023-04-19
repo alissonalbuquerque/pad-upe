@@ -24,6 +24,8 @@ class EnsinoMembroDocente extends Model
      */
     protected $fillable = ['orientacao_id', 'user_pad_id', 'dimensao', 'cod_atividade', 'nucleo', 'documento', 'funcao', 'ch_semanal'];
 
+    // Array de strings para preenchimento de campos de avaliação
+    public $avaliable_attributes = ['Núcleo:' => 'nucleo', 'Documento:' => 'documento', 'Carga Horária:' => 'ch_semanal'];
 
     public function funcaoAsString()
     {
@@ -66,6 +68,9 @@ class EnsinoMembroDocente extends Model
         return Planejamento::initQuery()->whereInCodDimensao($codes)->get();
     }
 
+    public function userPad() {
+        return $this->belongsTo(UserPad::class);
+    }
 
     public static function initQuery()
     {

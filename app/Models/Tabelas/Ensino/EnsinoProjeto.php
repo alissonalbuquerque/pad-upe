@@ -25,6 +25,9 @@ class EnsinoProjeto extends Model
      */
     protected $fillable = ['orientacao_id', 'user_pad_id', 'dimensao', 'cod_atividade', 'titulo', 'curso', 'natureza', 'funcao', 'ch_semanal'];
 
+    // Array de strings para preenchimento de campos de avaliação
+    public $avaliable_attributes = ['Título:' => 'titulo', 'Curso:' => 'curso', 'Carga Horária:' => 'ch_semanal'];
+
     /** @return string|array */
     public function naturezaAsString()
     {
@@ -80,6 +83,9 @@ class EnsinoProjeto extends Model
         return Planejamento::initQuery()->whereInCodDimensao($codes)->get();
     }
 
+    public function userPad() {
+        return $this->belongsTo(UserPad::class);
+    }
 
     public static function initQuery()
     {

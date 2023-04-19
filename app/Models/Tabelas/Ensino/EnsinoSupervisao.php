@@ -25,6 +25,9 @@ class EnsinoSupervisao extends Model
      */
     protected $fillable = ['orientacao_id', 'cod_dimensao', 'user_pad_id', 'dimensao', 'cod_atividade', 'atividade', 'curso', 'nivel', 'type_supervisao', 'numero_orientandos', 'ch_semanal'];
 
+    // Array de strings para preenchimento de campos de avaliação
+    public $avaliable_attributes = ['Atividade:' => 'atividade', 'Curso:' => 'curso', 'Carga Horária:' => 'ch_semanal'];
+
     /** @return string */
     public function nivelAsString()
     {
@@ -117,6 +120,10 @@ class EnsinoSupervisao extends Model
         }
 
         return $cod_dimensao !== null? $values[$cod_dimensao] : $values;
+    }
+
+    public function userPad() {
+        return $this->belongsTo(UserPad::class);
     }
 
     public static function initQuery()

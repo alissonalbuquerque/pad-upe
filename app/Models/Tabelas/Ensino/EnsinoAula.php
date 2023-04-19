@@ -25,6 +25,9 @@ class EnsinoAula extends Model
      */
     protected $fillable = ['orientacao_id', 'user_pad_id', 'cod_dimensao', 'dimensao', 'cod_atividade', 'componente_curricular', 'curso', 'nivel', 'modalidade', 'ch_semanal', 'ch_total'];
 
+    // Array de strings para preenchimento de campos de avaliação
+    public $avaliable_attributes = ['Componente Curricular:' => 'componente_curricular', 'Curso:' => 'curso', 'Carga Horária:' => 'ch_semanal'];
+
     public static function rules()
     {
         return [
@@ -96,6 +99,10 @@ class EnsinoAula extends Model
         }
 
         return $cod_dimensao !== null? $values[$cod_dimensao] : $values;
+    }
+
+    public function userPad() {
+        return $this->belongsTo(UserPad::class);
     }
 
     public static function initQuery()
