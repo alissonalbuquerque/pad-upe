@@ -107,8 +107,8 @@
             @endforeach
 
         @endif
-
-        @if (isset($avaliacoes_extensao) && !empty($extensao))
+        
+        @if (isset($avaliacoes_extensao) && !empty($avaliacoes_extensao))
             <h4><strong>Extensão</strong></h4>
 
             @foreach ($avaliacoes_extensao as $avaliacao)
