@@ -20,7 +20,7 @@ class CampusController extends Controller
      */
     public function index()
     {
-        $campus = Campus::all();
+        $campus = Campus::orderBy('unidade_id', 'asc')->get();
         
         return view('campus.index', [
             'menu' => Menu::CAMPUS,
@@ -131,7 +131,7 @@ class CampusController extends Controller
             $campus = $campus->where('name', 'like', '%'.$q.'%');
         }
 
-        $campus = $campus->get();
+        $campus = $campus->orderBy('unidade_id', 'asc')->get();
 
         $array = 
             $campus->map(function($campus, $key)

@@ -136,7 +136,7 @@ class CursoController extends Controller
             $cursos = $cursos->whereCampusId($campus_id);
         }
 
-        $cursos = $cursos->get();
+        $cursos = $cursos->orderBy('campus_id', 'asc')->get();
 
         $array = 
             $cursos->map(function($curso, $key)

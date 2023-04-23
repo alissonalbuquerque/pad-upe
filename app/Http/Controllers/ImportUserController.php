@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Campus;
+use App\Models\Curso;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -15,6 +16,8 @@ class ImportUserController extends Controller
     public function actionStore(Request $request)
     {   
         $file = $request->file('uploadFile');
+        $campus = Campus::whereId($request->campus_id)->first();
+        $curso = Curso::whereCampusId($campus->id)->whereName('GERAL (TEMP)')->first();
 
         $handle = fopen($file, 'r');
         $lines = [];
@@ -46,7 +49,8 @@ class ImportUserController extends Controller
                 array_push($list, $data);
                 $count++;
             } else {
-                $user->campus_id = 3;
+                $user->campus_id = $campus->id;
+                $user->curso_id = $curso->id;
                 $user->save();
             }
         }
