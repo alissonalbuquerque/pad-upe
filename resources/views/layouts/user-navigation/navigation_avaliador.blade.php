@@ -14,7 +14,7 @@
         </a>
     </li>
 
-    <li class="nav-item">
+    {{-- <li class="nav-item">
         <a class="custom-nav-link {{ ((!empty($index_menu) ? $index_menu : 0) == 1? "active": "") }}" id="pad-tab" href="{{ route('avaliador_index') }}"
             aria-controls="pad" aria-selected="false">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book-half"
@@ -24,7 +24,7 @@
             </svg>
             PADs
         </a>
-    </li>
+    </li> --}}
 
     <li class="nav-item">
         <a class="custom-nav-link" id="update-perfil-tab" data-toggle="tab" href="#update-perfil" role="tab"
