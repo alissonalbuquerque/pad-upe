@@ -20,6 +20,11 @@
         @endif
 
         <h3>{{$professor->name}}</h3><br><br>
+        <div class="row justify-content-end">
+            <div class="col-1">
+                <a href='{{route("pad_professores", ["id" => $pad->id])}}' class='btn btn-outline-primary' >Voltar</a>
+            </div>
+        </div>
 
         @if (isset($avaliacoes_ensino) && !empty($avaliacoes_ensino))
             <h4><strong>Ensino</strong></h4>
