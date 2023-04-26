@@ -85,6 +85,7 @@
                                 class="btn btn-outline-danger"
                                 data-bs-toggle="modal"
                                 data-bs-target="#modal_avaliacao"
+                                style="height: 38px;"
                                 onclick=" setaDadosModalAvaliacao('{{$avaliacao->tarefa->id}}', '{{$avaliacao->tarefa->userPad->user->id}}', '6', '{{$avaliacao->type}}') ">
                                 Reprovar
                             </button>
@@ -130,6 +131,7 @@
                                 type="button" class="btn btn-outline-danger" 
                                 data-bs-toggle="modal"
                                 data-bs-target="#modal_avaliacao" 
+                                style="height: 38px;"
                                 onclick=" setaDadosModalAvaliacao('{{$avaliacao->tarefa->id}}', '{{$avaliacao->tarefa->userPad->user->id}}', '6', '{{$avaliacao->type}}') ">
                                 Reprovar
                             </button>
@@ -178,6 +180,7 @@
                                     class="btn btn-outline-danger"
                                     data-bs-toggle="modal"
                                     data-bs-target="#modal_avaliacao"
+                                    style="height: 38px;"
                                     onclick=" setaDadosModalAvaliacao('{{$avaliacao->tarefa->id}}', '{{$avaliacao->tarefa->userPad->user->id}}', '6', '{{$avaliacao->type}}') ">
                                     Reprovar
                                 </button>
