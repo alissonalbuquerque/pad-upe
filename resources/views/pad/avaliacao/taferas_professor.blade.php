@@ -13,6 +13,11 @@
 @endsection
 @section('body')
     <div class="container">
+        @if(session('mensage'))    
+        <div class="alert alert-success">
+            {{session('mensage')}}
+        </div>
+        @endif
 
         <h3>{{$professor->name}}</h3><br><br>
 
