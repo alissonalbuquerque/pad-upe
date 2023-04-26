@@ -32,7 +32,8 @@
                         </ul>
 
                         <p> <span class="fw-bold ">Status: </span> {{$avaliacao->getStatusAsText()}} </p>
-
+                        
+                        @if($avaliacao->status == 3)
                         <div style="width: 100%; " class="btns-avaliar mt-5 d-flex justify-content-end">
                             <button
                                 type="button"
@@ -56,6 +57,8 @@
                                 <input type="submit" class="btn btn-primary" value="Aprovar">
                             </form>
                         </div>
+                        @endif
+
                     </div>
                 </div><br>
             @endforeach
@@ -78,7 +81,8 @@
                         </ul>
 
                         <p> <span class="fw-bold ">Status: </span> {{$avaliacao->getStatusAsText()}} </p>
-
+                        
+                        @if($avaliacao->status == 3)
                         <div style="width: 100%; " class="btns-avaliar mt-5 d-flex justify-content-end">
                             <button
                                 type="button"
@@ -103,6 +107,8 @@
                             </form>
 
                         </div>
+                        @endif
+
                     </div>
                 </div><br>
             @endforeach
@@ -125,7 +131,8 @@
                         </ul>
                         
                         <p> <span class="fw-bold ">Status: </span> {{$avaliacao->getStatusAsText()}} </p>
-
+                            
+                        @if($avaliacao->status == 3)
                         <div style="width: 100%; " class="btns-avaliar mt-5 d-flex justify-content-end">
                             <button
                                 type="button" class="btn btn-outline-danger" 
@@ -149,6 +156,8 @@
                             </form>
 
                         </div>
+                        @endif
+
                     </div>
                 </div><br>
             @endforeach
@@ -174,6 +183,7 @@
 
                             <p> <span class="fw-bold ">Status: </span> {{$avaliacao->getStatusAsText()}} </p>
                             
+                            @if($avaliacao->status == 3)
                             <div class="btns-avaliar mt-4 d-flex justify-content-end">
                                 <button 
                                     type="button"
@@ -198,6 +208,7 @@
                                 </form>
 
                             </div>
+                            @endif
 
                         </div>
                     </div>
