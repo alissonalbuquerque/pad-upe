@@ -59,7 +59,7 @@ class AvaliadorController extends Controller
             $avaliacao->horas_reajuste = $req->hora_reajuste;
 
             if ($avaliacao->save()) {
-                return redirect()->back();
+                return redirect()->back()->with(['mensage'=>'Atividade aprovada!']);
             }
         }
     }
