@@ -393,7 +393,7 @@ class PadController extends Controller
                 $avaliacoes_ensino_ids = array_merge($avaliacoes_ensino_ids, $avaliacao_ids);
             }
                         
-            $avaliacoes_ensino = Avaliacao::whereIn('id', $avaliacoes_ensino_ids)->get();
+            $avaliacoes_ensino = Avaliacao::whereIn('id', $avaliacoes_ensino_ids)->orderBy('status')->paginate(5);
             //
         }
 
@@ -426,7 +426,7 @@ class PadController extends Controller
                 $avaliacoes_pesquisa_ids = array_merge($avaliacoes_pesquisa_ids, $avaliacao_ids);
             }
                         
-            $avaliacoes_pesquisa = Avaliacao::whereIn('id', $avaliacoes_pesquisa_ids)->get();
+            $avaliacoes_pesquisa = Avaliacao::whereIn('id', $avaliacoes_pesquisa_ids)->orderBy('status')->paginate(5);
         }
 
         if (in_array(Dimensao::EXTENSAO, $dimensoes)) {
@@ -454,7 +454,7 @@ class PadController extends Controller
                 $avaliacoes_extensao_ids = array_merge($avaliacoes_extensao_ids, $avaliacao_ids);
             }
                         
-            $avaliacoes_extensao = Avaliacao::whereIn('id', $avaliacoes_extensao_ids)->get();
+            $avaliacoes_extensao = Avaliacao::whereIn('id', $avaliacoes_extensao_ids)->orderBy('status')->paginate(5);
         }
 
         if (in_array(Dimensao::GESTAO, $dimensoes)) {
@@ -502,7 +502,7 @@ class PadController extends Controller
                 $avaliacoes_gestao_ids = array_merge($avaliacoes_gestao_ids, $avaliacao_ids);
             }
             
-            $avaliacoes_gestao = Avaliacao::whereIn('id', $avaliacoes_gestao_ids)->get();
+            $avaliacoes_gestao = Avaliacao::whereIn('id', $avaliacoes_gestao_ids)->orderBy('status')->paginate(5);
         }
 
         return view('pad.avaliacao.taferas_professor', compact('pad', 'index_menu', 'professor', 'avaliacoes_ensino', 'avaliacoes_pesquisa', 'avaliacoes_extensao', 'avaliacoes_gestao', 'niveis', 'modalidades'));
