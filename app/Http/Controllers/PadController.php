@@ -306,6 +306,7 @@ class PadController extends Controller
                 $query->where('pad.id', '=', $id);
             })
             ->select('users.id', 'users.name')
+            ->orderBy('name')
             ->get();
 
         return view("pad.avaliacao.professores", compact('professores', 'pad', 'index_menu'));
