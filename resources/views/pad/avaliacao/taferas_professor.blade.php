@@ -87,6 +87,19 @@
                                         <input type="submit" class="btn btn-primary" value="Aprovar">
                                     </form>
                                 </div>
+                                @else
+                                <div class="btns-avaliar mt-4 d-flex justify-content-end">
+                                    <form action="{{route('avaliador_avaliar')}}" method="POST">
+                                        @csrf
+                                        @method("PUT")
+                                        <input type="hidden" name="avaliacao_id" id="avaliacao_id_cancelar" value="{{$avaliacao->id}}">
+                                        <input type="hidden" name="tarefa_id" id="tarefa_id_cancelar" value="{{$avaliacao->tarefa->id}}">
+                                        <input type="hidden" name="professor_id" id="professor_id_cancelar" value="{{$avaliacao->tarefa->userPad->user->id}}">
+                                        <input type="hidden" name="status" id="status_cancelar" value='3'>
+                                        <input type="hidden" name="atividade_type" id="atividade_type_cancelar" value="{{$avaliacao->type}}">
+                                        <input type="submit" class="btn btn-secondary" value="Cancelar Avaliação">
+                                    </form>
+                                </div>
                                 @endif
 
                             </div>
@@ -146,6 +159,19 @@
                                     </form>
 
                                 </div>
+                                @else
+                                <div class="btns-avaliar mt-4 d-flex justify-content-end">
+                                    <form action="{{route('avaliador_avaliar')}}" method="POST">
+                                        @csrf
+                                        @method("PUT")
+                                        <input type="hidden" name="avaliacao_id" id="avaliacao_id_cancelar" value="{{$avaliacao->id}}">
+                                        <input type="hidden" name="tarefa_id" id="tarefa_id_cancelar" value="{{$avaliacao->tarefa->id}}">
+                                        <input type="hidden" name="professor_id" id="professor_id_cancelar" value="{{$avaliacao->tarefa->userPad->user->id}}">
+                                        <input type="hidden" name="status" id="status_cancelar" value='3'>
+                                        <input type="hidden" name="atividade_type" id="atividade_type_cancelar" value="{{$avaliacao->type}}">
+                                        <input type="submit" class="btn btn-secondary" value="Cancelar Avaliação">
+                                    </form>
+                                </div>
                                 @endif
 
                             </div>
@@ -203,6 +229,19 @@
                                     </form>
 
                                 </div>
+                                @else
+                                <div class="btns-avaliar mt-4 d-flex justify-content-end">
+                                    <form action="{{route('avaliador_avaliar')}}" method="POST">
+                                        @csrf
+                                        @method("PUT")
+                                        <input type="hidden" name="avaliacao_id" id="avaliacao_id_cancelar" value="{{$avaliacao->id}}">
+                                        <input type="hidden" name="tarefa_id" id="tarefa_id_cancelar" value="{{$avaliacao->tarefa->id}}">
+                                        <input type="hidden" name="professor_id" id="professor_id_cancelar" value="{{$avaliacao->tarefa->userPad->user->id}}">
+                                        <input type="hidden" name="status" id="status_cancelar" value='3'>
+                                        <input type="hidden" name="atividade_type" id="atividade_type_cancelar" value="{{$avaliacao->type}}">
+                                        <input type="submit" class="btn btn-secondary" value="Cancelar Avaliação">
+                                    </form>
+                                </div>
                                 @endif
 
                             </div>
@@ -218,7 +257,7 @@
 
             </div>
 
-
+            <!-- Gestão -->
             <div class="tab-pane fade" id="gestao" role="tabpanel" aria-labelledby="gestao-tab">
 
                 @if (isset($avaliacoes_gestao) && !empty($avaliacoes_gestao))
@@ -263,6 +302,19 @@
                                             <input type="submit" class="btn btn-primary" value="Aprovar">
                                         </form>
 
+                                    </div>
+                                    @else
+                                    <div class="btns-avaliar mt-4 d-flex justify-content-end">
+                                        <form action="{{route('avaliador_avaliar')}}" method="POST">
+                                            @csrf
+                                            @method("PUT")
+                                            <input type="hidden" name="avaliacao_id" id="avaliacao_id_cancelar" value="{{$avaliacao->id}}">
+                                            <input type="hidden" name="tarefa_id" id="tarefa_id_cancelar" value="{{$avaliacao->tarefa->id}}">
+                                            <input type="hidden" name="professor_id" id="professor_id_cancelar" value="{{$avaliacao->tarefa->userPad->user->id}}">
+                                            <input type="hidden" name="status" id="status_cancelar" value='3'>
+                                            <input type="hidden" name="atividade_type" id="atividade_type_cancelar" value="{{$avaliacao->type}}">
+                                            <input type="submit" class="btn btn-secondary" value="Cancelar Avaliação">
+                                        </form>
                                     </div>
                                     @endif
 
