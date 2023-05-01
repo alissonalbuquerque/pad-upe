@@ -44,10 +44,11 @@ class AvaliadorController extends Controller
 
         if ($validated) {
             $user = Auth::user();
-            $avaliacao = Avaliacao::where(function ($query) use ($req) {
-                $query->where('tarefa_id', '=', $req->tarefa_id);
-                $query->where('type', '=', $req->atividade_type);
-            })->first();
+            $avaliacao = Avaliacao::find($req->avaliacao_id);
+            // $avaliacao = Avaliacao::where(function ($query) use ($req) {
+            //     $query->where('tarefa_id', '=', $req->tarefa_id);
+            //     $query->where('type', '=', $req->atividade_type);
+            // })->first();
 
             if (!$avaliacao) {
                 dd('Avaliação não encontrada');
@@ -59,7 +60,7 @@ class AvaliadorController extends Controller
             $avaliacao->horas_reajuste = $req->hora_reajuste;
 
             if ($avaliacao->save()) {
-                return redirect()->back()->with(['mensage'=>'Atividade aprovada!']);
+                return redirect()->back()->with(['mensage'=>'Atividade avaliada!']);
             }
         }
     }
