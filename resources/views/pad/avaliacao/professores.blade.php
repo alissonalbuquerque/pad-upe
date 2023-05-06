@@ -24,7 +24,7 @@
                 <tr>
                     <th scope="col">Professor</th>
                     <th scope="col">Status</th>
-                    
+                    <th scope="col">CH</th>
                     <th scope="col">Opções</th>
                 </tr>
             </thead>
@@ -38,6 +38,7 @@
                         @else
                             <td style="color:green;">{{$professor->status}}</td>
                         @endif
+                        <td>@if($professor->ch > 0) {{$professor->ch}}H @endif</td>
                         <td>
 
                             @include('components.buttons.btn-avaliar', [

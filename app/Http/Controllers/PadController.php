@@ -326,9 +326,15 @@ class PadController extends Controller
             $avaliacoes_extensao = $avaliacoes['extensao'];
             $avaliacoes_gestao   = $avaliacoes['gestao'];
 
-            if($avaliacoes_ensino->all() != null){
-                $professor->status = "Enviado";
+            if( $avaliacoes_ensino->all() != null || 
+                $avaliacoes_pesquisa->all() != null || 
+                $avaliacoes_extensao->all() != null || 
+                $avaliacoes_gestao->all() != null){
+                
+                    $professor->status = "Enviado";
             }
+
+            $professor->ch = $this->get_carga_horaria_total($avaliacoes);
 
         }
 
@@ -561,6 +567,41 @@ class PadController extends Controller
             'extensao' => $avaliacoes_extensao, 
             'gestao'   => $avaliacoes_gestao
         ];
+    }
+
+    private function get_carga_horaria_total($avaliacoes)
+    {
+        $ch = 0;
+        $avaliacoes_ensino   = $avaliacoes['ensino'];
+        $avaliacoes_pesquisa = $avaliacoes['pesquisa'];
+        $avaliacoes_extensao = $avaliacoes['extensao'];
+        $avaliacoes_gestao   = $avaliacoes['gestao'];
+
+        foreach($avaliacoes_ensino->all() as $avaliacao){
+            foreach($avaliacao->tarefa()->get() as $tarefa){
+                $ch += $tarefa->ch_semanal;
+            }
+        }
+
+        foreach($avaliacoes_pesquisa->all() as $avaliacao){
+            foreach($avaliacao->tarefa()->get() as $tarefa){
+                $ch += $tarefa->ch_semanal;
+            }
+        }
+
+        foreach($avaliacoes_extensao->all() as $avaliacao){
+            foreach($avaliacao->tarefa()->get() as $tarefa){
+                $ch += $tarefa->ch_semanal;
+            }
+        }
+
+        foreach($avaliacoes_gestao->all() as $avaliacao){
+            foreach($avaliacao->tarefa()->get() as $tarefa){
+                $ch += $tarefa->ch_semanal;
+            }
+        }
+        
+        return $ch;
     }
 
 }
