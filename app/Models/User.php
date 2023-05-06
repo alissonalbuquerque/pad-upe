@@ -258,4 +258,12 @@ class User extends Authenticatable
     {
         return $this->name;
     }
+
+    /**
+     * @return Illuminate\Database\Eloquent\Collection
+     * @return Collection<UserPad>
+     */
+    public function userPads() {
+        return $this->hasMany(UserPad::class);
+    }
 }

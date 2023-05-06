@@ -309,6 +309,29 @@ class PadController extends Controller
             ->orderBy('name')
             ->get();
 
+        //Informando se o PAD foi enviado ou não
+        $avaliador_pad = AvaliadorPad::where(function ($query) use ($pad, $user) {
+            $query->where('user_id', '=', $user->id);
+            $query->where('pad_id', '=', $pad->id);
+        })->first();
+
+
+        foreach ($professores as $professor){
+            $professor->status = "Pendente";
+            $userPad = $professor->userPads()->where('pad_id', '=', $pad->id)->first();
+
+            $avaliacoes = $this->get_avaliacoes($userPad, $avaliador_pad); 
+            $avaliacoes_ensino   = $avaliacoes['ensino'];
+            $avaliacoes_pesquisa = $avaliacoes['pesquisa'];
+            $avaliacoes_extensao = $avaliacoes['extensao'];
+            $avaliacoes_gestao   = $avaliacoes['gestao'];
+
+            if($avaliacoes_ensino->all() != null){
+                $professor->status = "Enviado";
+            }
+
+        }
+
         return view("pad.avaliacao.professores", compact('professores', 'pad', 'index_menu'));
     }
 
@@ -322,13 +345,6 @@ class PadController extends Controller
             $query->where('pad_id', '=', $pad->id);
         })->first();
 
-        $dimensoes_permitidas = AvaliadorPadDimensao::where('avaliador_pad_id', '=', $avaliador_pad->id)
-            ->select('avaliador_pad_dimensao.dimensao')->get();
-        $dimensoes = [];
-        foreach ($dimensoes_permitidas as $dimensao) {
-            array_push($dimensoes, $dimensao->dimensao);
-        }
-
         $professor = User::find($professor_id);
         $user_pad = UserPad::where(function ($query) use ($pad, $professor) {
             $query->where('user_id', '=', $professor->id);
@@ -339,10 +355,42 @@ class PadController extends Controller
         $modalidades = Constants::listModalidade();
         $status = Status::listStatus();
 
+        $avaliacoes = $this->get_avaliacoes($user_pad, $avaliador_pad); 
+        $avaliacoes_ensino   = $avaliacoes['ensino'];
+        $avaliacoes_pesquisa = $avaliacoes['pesquisa'];
+        $avaliacoes_extensao = $avaliacoes['extensao'];
+        $avaliacoes_gestao   = $avaliacoes['gestao'];
+
+        return view('pad.avaliacao.taferas_professor', compact('pad', 'index_menu', 'professor', 'avaliacoes_ensino', 'avaliacoes_pesquisa', 'avaliacoes_extensao', 'avaliacoes_gestao', 'niveis', 'modalidades'));
+    }
+
+    private function add_tipo_atividade($query, $type)
+    {
+        foreach ($query as &$atividade) {
+            $atividade['tipo_atividade'] = $type;
+        }
+
+        return $query;
+    }
+
+    private function get_avaliacoes($user_pad, $avaliador_pad)
+    {
         $avaliacoes_ensino = [];
         $avaliacoes_pesquisa = [];
         $avaliacoes_extensao = [];
         $avaliacoes_gestao = [];
+
+        $dimensoes_permitidas = AvaliadorPadDimensao::where(
+            'avaliador_pad_id', '=', $avaliador_pad->id)
+            ->select('avaliador_pad_dimensao.dimensao')
+            ->get();
+
+        $dimensoes = [];
+
+        foreach ($dimensoes_permitidas as $dimensao) {
+            array_push($dimensoes, $dimensao->dimensao);
+        }
+
 
         if (in_array(Dimensao::ENSINO, $dimensoes)) {
 
@@ -505,16 +553,14 @@ class PadController extends Controller
             
             $avaliacoes_gestao = Avaliacao::whereIn('id', $avaliacoes_gestao_ids)->orderBy('status')->paginate(5);
         }
-
-        return view('pad.avaliacao.taferas_professor', compact('pad', 'index_menu', 'professor', 'avaliacoes_ensino', 'avaliacoes_pesquisa', 'avaliacoes_extensao', 'avaliacoes_gestao', 'niveis', 'modalidades'));
+        
+        
+        return [
+            'ensino'   => $avaliacoes_ensino,
+            'pesquisa' => $avaliacoes_pesquisa, 
+            'extensao' => $avaliacoes_extensao, 
+            'gestao'   => $avaliacoes_gestao
+        ];
     }
 
-    private function add_tipo_atividade($query, $type)
-    {
-        foreach ($query as &$atividade) {
-            $atividade['tipo_atividade'] = $type;
-        }
-
-        return $query;
-    }
 }
