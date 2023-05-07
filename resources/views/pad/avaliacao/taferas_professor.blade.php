@@ -47,7 +47,7 @@
         <div class="tab-content" id="myTabContent">
             <!-- Ensino -->
             <div class="tab-pane fade show active" id="ensino" role="tabpanel" aria-labelledby="ensino-tab">       
-                @if (isset($avaliacoes_ensino) && !empty($avaliacoes_ensino))
+                @if (isset($avaliacoes_ensino) && !empty($avaliacoes_ensino[0]))
                     @foreach ($avaliacoes_ensino as $avaliacao)
                         <div class="card">
                             <h5 class="card-header">Cód. Atividade - {{$avaliacao->tarefa->cod_atividade}}</h5>
@@ -111,13 +111,23 @@
                             {{ $avaliacoes_ensino->links() }}
                         </ul>                    
                     </div>
-
+                @else
+                    <div class="container col-sm-6">
+                        <div class="card">
+                            <div class="card-header" style="height:40px;"></div>
+                            <div class="card-body" style="margin-top:10px;">
+                                <div class="row justify-content-center">
+                                    <h4 style="text-align:center;">Não existem atividades desta categoria cadastradas! </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 @endif
             </div>
 
             <!-- Pesquisa -->
             <div class="tab-pane fade" id="pesquisa" role="tabpanel" aria-labelledby="pesquisa-tab">          
-                @if (isset($avaliacoes_pesquisa) && !empty($avaliacoes_pesquisa))
+                @if (isset($avaliacoes_pesquisa) && !empty($avaliacoes_pesquisa[0]))
 
                     @foreach ($avaliacoes_pesquisa as $avaliacao)
                         <div class="card">
@@ -182,14 +192,27 @@
                             {{ $avaliacoes_pesquisa->links() }}
                         </ul>                    
                     </div>
-                @endif
+                
 
+                @else
+                
+                    <div class="container col-sm-6">
+                        <div class="card">
+                            <div class="card-header" style="height:40px;"></div>
+                            <div class="card-body" style="margin-top:10px;">
+                                <div class="row justify-content-center">
+                                    <h4 style="text-align:center;">Não existem atividades desta categoria cadastradas! </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                @endif
             </div>
             
             <!-- Extensão -->
             <div class="tab-pane fade" id="extensao" role="tabpanel" aria-labelledby="extensao-tab">
-                @if (isset($avaliacoes_extensao) && !empty($avaliacoes_extensao))
-
+                @if ( isset($avaliacoes_extensao) && !empty($avaliacoes_extensao[0] ))
                     @foreach ($avaliacoes_extensao as $avaliacao)
                         <div class="card">
                             <h5 class="card-header">Cód. Atividade - {{$avaliacao->tarefa->cod_atividade}}</h5>
@@ -252,15 +275,24 @@
                             {{ $avaliacoes_extensao->links() }}
                         </ul>                    
                     </div>
-
+                @else
+                    <div class="container col-sm-6">
+                        <div class="card">
+                            <div class="card-header" style="height:40px;"></div>
+                            <div class="card-body" style="margin-top:10px;">
+                                <div class="row justify-content-center">
+                                    <h4 style="text-align:center;">Não existem atividades desta categoria cadastradas! </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 @endif
-
             </div>
 
             <!-- Gestão -->
             <div class="tab-pane fade" id="gestao" role="tabpanel" aria-labelledby="gestao-tab">
 
-                @if (isset($avaliacoes_gestao) && !empty($avaliacoes_gestao))
+                @if (isset($avaliacoes_gestao) && !empty($avaliacoes_gestao[0]))
 
                     @foreach ($avaliacoes_gestao as $avaliacao)
                         <div class="mb-4">
@@ -326,6 +358,19 @@
                         <ul class="col-4 pagination pagination-sm ">
                             {{ $avaliacoes_gestao->links() }}
                         </ul>                    
+                    </div>
+                
+                @else
+
+                    <div class="container col-sm-6">
+                        <div class="card">
+                            <div class="card-header" style="height:40px;"></div>
+                            <div class="card-body" style="margin-top:10px;">
+                                <div class="row justify-content-center">
+                                    <h4 style="text-align:center;">Não existem atividades desta categoria cadastradas! </h4>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 @endif
