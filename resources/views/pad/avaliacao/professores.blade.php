@@ -23,6 +23,8 @@
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">Professor</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">CH</th>
                     <th scope="col">Opções</th>
                 </tr>
             </thead>
@@ -31,6 +33,12 @@
                 @foreach ($professores as $professor)
                     <tr>
                         <td>{{$professor->name}}</td>
+                        @if($professor->status === 'Pendente')
+                            <td style="color:red;">{{$professor->status}}</td>
+                        @else
+                            <td style="color:green;">{{$professor->status}}</td>
+                        @endif
+                        <td>@if($professor->ch > 0) {{$professor->ch}}H @endif</td>
                         <td>
 
                             @include('components.buttons.btn-avaliar', [

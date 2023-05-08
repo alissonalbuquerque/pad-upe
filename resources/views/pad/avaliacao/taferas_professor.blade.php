@@ -45,6 +45,7 @@
         </ul>
 
         <div class="tab-content" id="myTabContent">
+            <!-- Ensino -->
             <div class="tab-pane fade show active" id="ensino" role="tabpanel" aria-labelledby="ensino-tab">       
                 @if (isset($avaliacoes_ensino) && !empty($avaliacoes_ensino))
                     @foreach ($avaliacoes_ensino as $avaliacao)
@@ -69,7 +70,7 @@
                                         data-bs-toggle="modal"
                                         data-bs-target="#modal_avaliacao"
                                         style="height: 38px;"
-                                        onclick=" setaDadosModalAvaliacao('{{$avaliacao->tarefa->id}}', '{{$avaliacao->tarefa->userPad->user->id}}', '6', '{{$avaliacao->type}}') ">
+                                        onclick=" setaDadosModalAvaliacao('{{$avaliacao->tarefa->id}}', '{{$avaliacao->tarefa->userPad->user->id}}', '6', '{{$avaliacao->type}}', '{{$avaliacao->id}}') ">
                                         Reprovar
                                     </button>
 
@@ -78,11 +79,25 @@
                                     <form action="{{route('avaliador_avaliar')}}" method="POST">
                                         @csrf
                                         @method("PUT")
+                                        <input type="hidden" name="avaliacao_id" id="avaliacao_id" value="{{$avaliacao->id}}">
                                         <input type="hidden" name="tarefa_id" id="tarefa_id_aprovar" value="{{$avaliacao->tarefa->id}}">
                                         <input type="hidden" name="professor_id" id="professor_id_aprovar" value="{{$avaliacao->tarefa->userPad->user->id}}">
                                         <input type="hidden" name="status" id="status_aprovar" value='7'>
                                         <input type="hidden" name="atividade_type" id="atividade_type_aprovar" value="{{$avaliacao->type}}">
                                         <input type="submit" class="btn btn-primary" value="Aprovar">
+                                    </form>
+                                </div>
+                                @else
+                                <div class="btns-avaliar mt-4 d-flex justify-content-end">
+                                    <form action="{{route('avaliador_avaliar')}}" method="POST">
+                                        @csrf
+                                        @method("PUT")
+                                        <input type="hidden" name="avaliacao_id" id="avaliacao_id_cancelar" value="{{$avaliacao->id}}">
+                                        <input type="hidden" name="tarefa_id" id="tarefa_id_cancelar" value="{{$avaliacao->tarefa->id}}">
+                                        <input type="hidden" name="professor_id" id="professor_id_cancelar" value="{{$avaliacao->tarefa->userPad->user->id}}">
+                                        <input type="hidden" name="status" id="status_cancelar" value='3'>
+                                        <input type="hidden" name="atividade_type" id="atividade_type_cancelar" value="{{$avaliacao->type}}">
+                                        <input type="submit" class="btn btn-secondary" value="Cancelar Avaliação">
                                     </form>
                                 </div>
                                 @endif
@@ -100,7 +115,7 @@
                 @endif
             </div>
 
-
+            <!-- Pesquisa -->
             <div class="tab-pane fade" id="pesquisa" role="tabpanel" aria-labelledby="pesquisa-tab">          
                 @if (isset($avaliacoes_pesquisa) && !empty($avaliacoes_pesquisa))
 
@@ -126,7 +141,7 @@
                                         data-bs-toggle="modal"
                                         data-bs-target="#modal_avaliacao"
                                         style="height: 38px;"
-                                        onclick=" setaDadosModalAvaliacao('{{$avaliacao->tarefa->id}}', '{{$avaliacao->tarefa->userPad->user->id}}', '6', '{{$avaliacao->type}}') ">
+                                        onclick=" setaDadosModalAvaliacao('{{$avaliacao->tarefa->id}}', '{{$avaliacao->tarefa->userPad->user->id}}', '6', '{{$avaliacao->type}}', '{{$avaliacao->id}}') ">
                                         Reprovar
                                     </button>
 
@@ -135,6 +150,7 @@
                                     <form action="{{route('avaliador_avaliar')}}" method="POST">
                                         @csrf
                                         @method("PUT")
+                                        <input type="hidden" name="avaliacao_id" id="avaliacao_id" value="{{$avaliacao->id}}">
                                         <input type="hidden" name="tarefa_id" id="tarefa_id_aprovar" value="{{$avaliacao->tarefa->id}}">
                                         <input type="hidden" name="professor_id" id="professor_id_aprovar" value="{{$avaliacao->tarefa->userPad->user->id}}">
                                         <input type="hidden" name="status" id="status_aprovar" value='7'>
@@ -142,6 +158,19 @@
                                         <input type="submit" class="btn btn-primary" value="Aprovar">
                                     </form>
 
+                                </div>
+                                @else
+                                <div class="btns-avaliar mt-4 d-flex justify-content-end">
+                                    <form action="{{route('avaliador_avaliar')}}" method="POST">
+                                        @csrf
+                                        @method("PUT")
+                                        <input type="hidden" name="avaliacao_id" id="avaliacao_id_cancelar" value="{{$avaliacao->id}}">
+                                        <input type="hidden" name="tarefa_id" id="tarefa_id_cancelar" value="{{$avaliacao->tarefa->id}}">
+                                        <input type="hidden" name="professor_id" id="professor_id_cancelar" value="{{$avaliacao->tarefa->userPad->user->id}}">
+                                        <input type="hidden" name="status" id="status_cancelar" value='3'>
+                                        <input type="hidden" name="atividade_type" id="atividade_type_cancelar" value="{{$avaliacao->type}}">
+                                        <input type="submit" class="btn btn-secondary" value="Cancelar Avaliação">
+                                    </form>
                                 </div>
                                 @endif
 
@@ -157,7 +186,7 @@
 
             </div>
             
-            
+            <!-- Extensão -->
             <div class="tab-pane fade" id="extensao" role="tabpanel" aria-labelledby="extensao-tab">
                 @if (isset($avaliacoes_extensao) && !empty($avaliacoes_extensao))
 
@@ -182,7 +211,7 @@
                                         data-bs-toggle="modal"
                                         data-bs-target="#modal_avaliacao" 
                                         style="height: 38px;"
-                                        onclick=" setaDadosModalAvaliacao('{{$avaliacao->tarefa->id}}', '{{$avaliacao->tarefa->userPad->user->id}}', '6', '{{$avaliacao->type}}') ">
+                                        onclick=" setaDadosModalAvaliacao('{{$avaliacao->tarefa->id}}', '{{$avaliacao->tarefa->userPad->user->id}}', '6', '{{$avaliacao->type}}', '{{$avaliacao->id}}') ">
                                         Reprovar
                                     </button>
 
@@ -191,6 +220,7 @@
                                     <form action="{{route('avaliador_avaliar')}}" method="POST">
                                         @csrf
                                         @method("PUT")
+                                        <input type="hidden" name="avaliacao_id" id="avaliacao_id" value="{{$avaliacao->id}}">
                                         <input type="hidden" name="tarefa_id" id="tarefa_id_aprovar" value="{{$avaliacao->tarefa->id}}">
                                         <input type="hidden" name="professor_id" id="professor_id_aprovar" value="{{$avaliacao->tarefa->userPad->user->id}}">
                                         <input type="hidden" name="status" id="status_aprovar" value='7'>
@@ -198,6 +228,19 @@
                                         <input type="submit" class="btn btn-primary" value="Aprovar">
                                     </form>
 
+                                </div>
+                                @else
+                                <div class="btns-avaliar mt-4 d-flex justify-content-end">
+                                    <form action="{{route('avaliador_avaliar')}}" method="POST">
+                                        @csrf
+                                        @method("PUT")
+                                        <input type="hidden" name="avaliacao_id" id="avaliacao_id_cancelar" value="{{$avaliacao->id}}">
+                                        <input type="hidden" name="tarefa_id" id="tarefa_id_cancelar" value="{{$avaliacao->tarefa->id}}">
+                                        <input type="hidden" name="professor_id" id="professor_id_cancelar" value="{{$avaliacao->tarefa->userPad->user->id}}">
+                                        <input type="hidden" name="status" id="status_cancelar" value='3'>
+                                        <input type="hidden" name="atividade_type" id="atividade_type_cancelar" value="{{$avaliacao->type}}">
+                                        <input type="submit" class="btn btn-secondary" value="Cancelar Avaliação">
+                                    </form>
                                 </div>
                                 @endif
 
@@ -214,7 +257,7 @@
 
             </div>
 
-
+            <!-- Gestão -->
             <div class="tab-pane fade" id="gestao" role="tabpanel" aria-labelledby="gestao-tab">
 
                 @if (isset($avaliacoes_gestao) && !empty($avaliacoes_gestao))
@@ -242,7 +285,7 @@
                                             data-bs-toggle="modal"
                                             data-bs-target="#modal_avaliacao"
                                             style="height: 38px;"
-                                            onclick=" setaDadosModalAvaliacao('{{$avaliacao->tarefa->id}}', '{{$avaliacao->tarefa->userPad->user->id}}', '6', '{{$avaliacao->type}}') ">
+                                            onclick=" setaDadosModalAvaliacao('{{$avaliacao->tarefa->id}}', '{{$avaliacao->tarefa->userPad->user->id}}', '6', '{{$avaliacao->type}}', '{{$avaliacao->id}}') ">
                                             Reprovar
                                         </button>
 
@@ -251,6 +294,7 @@
                                         <form action="{{route('avaliador_avaliar')}}" method="POST">
                                             @csrf
                                             @method("PUT")
+                                            <input type="hidden" name="avaliacao_id" id="avaliacao_id" value="{{$avaliacao->id}}">
                                             <input type="hidden" name="tarefa_id" id="tarefa_id_aprovar" value="{{$avaliacao->tarefa->id}}">
                                             <input type="hidden" name="professor_id" id="professor_id_aprovar" value="{{$avaliacao->tarefa->userPad->user->id}}">
                                             <input type="hidden" name="status" id="status_aprovar" value='7'>
@@ -258,6 +302,19 @@
                                             <input type="submit" class="btn btn-primary" value="Aprovar">
                                         </form>
 
+                                    </div>
+                                    @else
+                                    <div class="btns-avaliar mt-4 d-flex justify-content-end">
+                                        <form action="{{route('avaliador_avaliar')}}" method="POST">
+                                            @csrf
+                                            @method("PUT")
+                                            <input type="hidden" name="avaliacao_id" id="avaliacao_id_cancelar" value="{{$avaliacao->id}}">
+                                            <input type="hidden" name="tarefa_id" id="tarefa_id_cancelar" value="{{$avaliacao->tarefa->id}}">
+                                            <input type="hidden" name="professor_id" id="professor_id_cancelar" value="{{$avaliacao->tarefa->userPad->user->id}}">
+                                            <input type="hidden" name="status" id="status_cancelar" value='3'>
+                                            <input type="hidden" name="atividade_type" id="atividade_type_cancelar" value="{{$avaliacao->type}}">
+                                            <input type="submit" class="btn btn-secondary" value="Cancelar Avaliação">
+                                        </form>
                                     </div>
                                     @endif
 
@@ -294,6 +351,7 @@
                         <input type="hidden" name="professor_id" id="professor_id">
                         <input type="hidden" name="status" id="status">
                         <input type="hidden" name="atividade_type" id="atividade_type">
+                        <input type="hidden" name="avaliacao_id" id="avaliacao_id_reprovar">
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="hora_reajuste">Hora de reajuste:</label>
@@ -316,10 +374,14 @@
 @endsection
 
 <script>
-    function setaDadosModalAvaliacao(tarefa_id, professor_id, status, atividade_type){
+    function setaDadosModalAvaliacao(tarefa_id, professor_id, status, atividade_type, avaliacao_id){
+        console.log(document.getElementById('avaliacao_id_reprovar'));
         document.getElementById('tarefa_id').value = tarefa_id;
         document.getElementById('professor_id').value = professor_id;
         document.getElementById('status').value = status;
         document.getElementById('atividade_type').value = atividade_type;
+        document.getElementById('avaliacao_id_reprovar').value = avaliacao_id;
+        console.log(document.getElementById('avaliacao_id_reprovar'));
+
     }
 </script>

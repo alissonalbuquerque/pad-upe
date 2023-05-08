@@ -26,6 +26,21 @@ class AvaliadorController extends Controller
         ]);
     }
 
+    //Retorna uma mensagem de acordo com o status da avaliação
+    private function msg($status)
+    {
+        switch ($status) {
+            case 3:
+                return "Avaliação cancelada!";
+            case 6:
+                return "Atividade reprovada!";
+            case 7:
+                return "Atividade aprovada!";
+            default:
+                break;
+        }
+    }
+
     public function avaliar(Request $req)
     {
         $validated = $req->validate(
@@ -44,10 +59,11 @@ class AvaliadorController extends Controller
 
         if ($validated) {
             $user = Auth::user();
-            $avaliacao = Avaliacao::where(function ($query) use ($req) {
-                $query->where('tarefa_id', '=', $req->tarefa_id);
-                $query->where('type', '=', $req->atividade_type);
-            })->first();
+            $avaliacao = Avaliacao::find($req->avaliacao_id);
+            // $avaliacao = Avaliacao::where(function ($query) use ($req) {
+            //     $query->where('tarefa_id', '=', $req->tarefa_id);
+            //     $query->where('type', '=', $req->atividade_type);
+            // })->first();
 
             if (!$avaliacao) {
                 dd('Avaliação não encontrada');
@@ -57,9 +73,8 @@ class AvaliadorController extends Controller
             $avaliacao->avaliador_id = $user->id;
             $avaliacao->descricao = $req->descricao ? $req->descricao : NULL;
             $avaliacao->horas_reajuste = $req->hora_reajuste;
-
             if ($avaliacao->save()) {
-                return redirect()->back()->with(['mensage'=>'Atividade aprovada!']);
+                return redirect()->back()->with(['mensage'=> $this->msg($req->status)]);
             }
         }
     }
