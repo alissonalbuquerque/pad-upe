@@ -22,4 +22,18 @@ class Dimensao
     
         return $value !== null? $values[$value] : $values;
     }
+
+    public static function getDimensaoToRoute($dimensoes){
+        switch (Dimensao::listDimensao($dimensoes)) {
+            case 'Ensino':
+                return "ensino";
+            case 'Pesquisa':
+                return "pesquisa";
+            case 'Extensão':
+                return "extensao";
+            case 'Gestão':
+                return "gestao";
+                break;
+        }
+    }
 }

@@ -321,11 +321,11 @@ class PadController extends Controller
             $userPad = $professor->userPads()->where('pad_id', '=', $pad->id)->first();
 
             $avaliacoes = $this->get_avaliacoes($userPad, $avaliador_pad); 
-            $avaliacoes_ensino   = $avaliacoes['ensino'];
-            $avaliacoes_pesquisa = $avaliacoes['pesquisa'];
-            $avaliacoes_extensao = $avaliacoes['extensao'];
-            $avaliacoes_gestao   = $avaliacoes['gestao'];
-
+            $avaliacoes_ensino   = $avaliacoes['ensino']->get();
+            $avaliacoes_pesquisa = $avaliacoes['pesquisa']->get();
+            $avaliacoes_extensao = $avaliacoes['extensao']->get();
+            $avaliacoes_gestao   = $avaliacoes['gestao']->get();
+            
             if( $avaliacoes_ensino->all() != null || 
                 $avaliacoes_pesquisa->all() != null || 
                 $avaliacoes_extensao->all() != null || 
@@ -335,13 +335,12 @@ class PadController extends Controller
             }
 
             $professor->ch = $this->get_carga_horaria_total($avaliacoes);
-
         }
 
         return view("pad.avaliacao.professores", compact('professores', 'pad', 'index_menu'));
     }
 
-    public function professor_atividades($id, $professor_id)
+    public function professor_atividades($id, $professor_id, $aba=null)
     {   
         $pad = Pad::find($id);
         $user = Auth::user();
@@ -362,12 +361,26 @@ class PadController extends Controller
         $status = Status::listStatus();
 
         $avaliacoes = $this->get_avaliacoes($user_pad, $avaliador_pad); 
-        $avaliacoes_ensino   = $avaliacoes['ensino'];
-        $avaliacoes_pesquisa = $avaliacoes['pesquisa'];
-        $avaliacoes_extensao = $avaliacoes['extensao'];
-        $avaliacoes_gestao   = $avaliacoes['gestao'];
+        $avaliacoes_ensino   = $avaliacoes['ensino']->paginate(5);
+        $avaliacoes_pesquisa = $avaliacoes['pesquisa']->paginate(5);
+        $avaliacoes_extensao = $avaliacoes['extensao']->paginate(5);
+        $avaliacoes_gestao   = $avaliacoes['gestao']->paginate(5);
+        
+        //Informando quais tipos (ensino, pesquisa, extensão ou gestão) de atividades podem ser avaliadas pelo usuário logado.
+        $avalPad = $user->avaliadorPad()->first();
 
-        return view('pad.avaliacao.taferas_professor', compact('pad', 'index_menu', 'professor', 'avaliacoes_ensino', 'avaliacoes_pesquisa', 'avaliacoes_extensao', 'avaliacoes_gestao', 'niveis', 'modalidades'));
+        $dimensoes = [];
+        foreach ($avalPad->dimensions()->get() as $dimensao){
+            array_push($dimensoes, $dimensao->dimensao);
+        }
+        // dd($aba);
+        if($aba == null){
+            $caminho = 'pad.avaliacao.tarefas_'.Dimensao::getDimensaoToRoute($dimensoes[0]);
+        } else {
+            $caminho = 'pad.avaliacao.tarefas_'.$aba;
+        }
+        
+        return view($caminho, compact('pad', 'index_menu', 'professor', 'avaliacoes_ensino', 'avaliacoes_pesquisa', 'avaliacoes_extensao', 'avaliacoes_gestao', 'niveis', 'modalidades'));
     }
 
     private function add_tipo_atividade($query, $type)
@@ -448,7 +461,7 @@ class PadController extends Controller
                 $avaliacoes_ensino_ids = array_merge($avaliacoes_ensino_ids, $avaliacao_ids);
             }
                         
-            $avaliacoes_ensino = Avaliacao::whereIn('id', $avaliacoes_ensino_ids)->orderBy('status')->paginate(5);
+            $avaliacoes_ensino = Avaliacao::whereIn('id', $avaliacoes_ensino_ids)->orderBy('status');
             //
         }
 
@@ -481,7 +494,7 @@ class PadController extends Controller
                 $avaliacoes_pesquisa_ids = array_merge($avaliacoes_pesquisa_ids, $avaliacao_ids);
             }
                         
-            $avaliacoes_pesquisa = Avaliacao::whereIn('id', $avaliacoes_pesquisa_ids)->orderBy('status')->paginate(5);
+            $avaliacoes_pesquisa = Avaliacao::whereIn('id', $avaliacoes_pesquisa_ids)->orderBy('status');
         }
 
         if (in_array(Dimensao::EXTENSAO, $dimensoes)) {
@@ -509,7 +522,7 @@ class PadController extends Controller
                 $avaliacoes_extensao_ids = array_merge($avaliacoes_extensao_ids, $avaliacao_ids);
             }
                         
-            $avaliacoes_extensao = Avaliacao::whereIn('id', $avaliacoes_extensao_ids)->orderBy('status')->paginate(5);
+            $avaliacoes_extensao = Avaliacao::whereIn('id', $avaliacoes_extensao_ids)->orderBy('status');
         }
 
         if (in_array(Dimensao::GESTAO, $dimensoes)) {
@@ -557,7 +570,7 @@ class PadController extends Controller
                 $avaliacoes_gestao_ids = array_merge($avaliacoes_gestao_ids, $avaliacao_ids);
             }
             
-            $avaliacoes_gestao = Avaliacao::whereIn('id', $avaliacoes_gestao_ids)->orderBy('status')->paginate(5);
+            $avaliacoes_gestao = Avaliacao::whereIn('id', $avaliacoes_gestao_ids)->orderBy('status');
         }
         
         
@@ -572,33 +585,25 @@ class PadController extends Controller
     private function get_carga_horaria_total($avaliacoes)
     {
         $ch = 0;
-        $avaliacoes_ensino   = $avaliacoes['ensino'];
-        $avaliacoes_pesquisa = $avaliacoes['pesquisa'];
-        $avaliacoes_extensao = $avaliacoes['extensao'];
-        $avaliacoes_gestao   = $avaliacoes['gestao'];
+        $avaliacoes_ensino   = $avaliacoes['ensino']->get();
+        $avaliacoes_pesquisa = $avaliacoes['pesquisa']->get();
+        $avaliacoes_extensao = $avaliacoes['extensao']->get();
+        $avaliacoes_gestao   = $avaliacoes['gestao']->get();
 
-        foreach($avaliacoes_ensino->all() as $avaliacao){
-            foreach($avaliacao->tarefa()->get() as $tarefa){
-                $ch += $tarefa->ch_semanal;
-            }
+        for ($i = 0; $i < count($avaliacoes_ensino->all()); $i++){
+            $ch += $avaliacoes_ensino[$i]->tarefa()->first()->ch_semanal;
+        }
+        
+        for ($i = 0; $i < count($avaliacoes_pesquisa->all()); $i++){
+            $ch += $avaliacoes_pesquisa[$i]->tarefa()->first()->ch_semanal;
         }
 
-        foreach($avaliacoes_pesquisa->all() as $avaliacao){
-            foreach($avaliacao->tarefa()->get() as $tarefa){
-                $ch += $tarefa->ch_semanal;
-            }
+        for ($i = 0; $i < count($avaliacoes_extensao->all()); $i++){
+            $ch += $avaliacoes_extensao[$i]->tarefa()->first()->ch_semanal;
         }
 
-        foreach($avaliacoes_extensao->all() as $avaliacao){
-            foreach($avaliacao->tarefa()->get() as $tarefa){
-                $ch += $tarefa->ch_semanal;
-            }
-        }
-
-        foreach($avaliacoes_gestao->all() as $avaliacao){
-            foreach($avaliacao->tarefa()->get() as $tarefa){
-                $ch += $tarefa->ch_semanal;
-            }
+        for ($i = 0; $i < count($avaliacoes_gestao->all()); $i++){
+            $ch += $avaliacoes_gestao[$i]->tarefa()->first()->ch_semanal;
         }
         
         return $ch;
