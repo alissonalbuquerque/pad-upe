@@ -341,7 +341,7 @@ class PadController extends Controller
         return view("pad.avaliacao.professores", compact('professores', 'pad', 'index_menu'));
     }
 
-    public function professor_atividades($id, $professor_id)
+    public function professor_atividades($id, $professor_id, $aba=null)
     {   
         $pad = Pad::find($id);
         $user = Auth::user();
@@ -367,7 +367,21 @@ class PadController extends Controller
         $avaliacoes_extensao = $avaliacoes['extensao'];
         $avaliacoes_gestao   = $avaliacoes['gestao'];
 
-        return view('pad.avaliacao.taferas_professor', compact('pad', 'index_menu', 'professor', 'avaliacoes_ensino', 'avaliacoes_pesquisa', 'avaliacoes_extensao', 'avaliacoes_gestao', 'niveis', 'modalidades'));
+        //Informando quais tipos (ensino, pesquisa, extensão ou gestão) de atividades podem ser avaliadas pelo usuário logado.
+        $avalPad = $user->avaliadorPad()->first();
+
+        $dimensoes = [];
+        foreach ($avalPad->dimensions()->get() as $dimensao){
+            array_push($dimensoes, $dimensao->dimensao);
+        }
+        // dd($aba);
+        if($aba == null){
+            $caminho = 'pad.avaliacao.tarefas_'.Dimensao::getDimensaoToRoute($dimensoes[0]);
+        } else {
+            $caminho = 'pad.avaliacao.tarefas_'.$aba;
+        }
+        
+        return view($caminho, compact('pad', 'index_menu', 'professor', 'avaliacoes_ensino', 'avaliacoes_pesquisa', 'avaliacoes_extensao', 'avaliacoes_gestao', 'niveis', 'modalidades'));
     }
 
     private function add_tipo_atividade($query, $type)
@@ -576,29 +590,21 @@ class PadController extends Controller
         $avaliacoes_pesquisa = $avaliacoes['pesquisa'];
         $avaliacoes_extensao = $avaliacoes['extensao'];
         $avaliacoes_gestao   = $avaliacoes['gestao'];
-
-        foreach($avaliacoes_ensino->all() as $avaliacao){
-            foreach($avaliacao->tarefa()->get() as $tarefa){
-                $ch += $tarefa->ch_semanal;
-            }
+        
+        for ($i = 0; $i < count($avaliacoes_ensino->all()); $i++){
+            $ch += $avaliacoes_ensino[$i]->tarefa()->first()->ch_semanal;
         }
 
-        foreach($avaliacoes_pesquisa->all() as $avaliacao){
-            foreach($avaliacao->tarefa()->get() as $tarefa){
-                $ch += $tarefa->ch_semanal;
-            }
+        for ($i = 0; $i < count($avaliacoes_pesquisa->all()); $i++){
+            $ch += $avaliacoes_pesquisa[$i]->tarefa()->first()->ch_semanal;
         }
 
-        foreach($avaliacoes_extensao->all() as $avaliacao){
-            foreach($avaliacao->tarefa()->get() as $tarefa){
-                $ch += $tarefa->ch_semanal;
-            }
+        for ($i = 0; $i < count($avaliacoes_extensao->all()); $i++){
+            $ch += $avaliacoes_extensao[$i]->tarefa()->first()->ch_semanal;
         }
 
-        foreach($avaliacoes_gestao->all() as $avaliacao){
-            foreach($avaliacao->tarefa()->get() as $tarefa){
-                $ch += $tarefa->ch_semanal;
-            }
+        for ($i = 0; $i < count($avaliacoes_gestao->all()); $i++){
+            $ch += $avaliacoes_gestao[$i]->tarefa()->first()->ch_semanal;
         }
         
         return $ch;
