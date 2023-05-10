@@ -178,7 +178,7 @@
                     <tbody>
                     @foreach($avaliatorsPads as $avaliatorPad)
                     <tr>
-                        <td>{{ $avaliatorPad->user->name ?? 'sem nome' }}</td>
+                        <td>{{ $avaliatorPad->user->name ?? 'UserID não selecionado!' }}</td>
                         <td>{{ $avaliatorPad->pad->nome }}</td>
                         <td>
                             @foreach($avaliatorPad->dimensions as $dimension)
