@@ -66,4 +66,9 @@ class PesquisaOutros extends Model
         return new PesquisaOutrosQuery(get_called_class());
     }
 
+    //retorna a atividade correspondente ao código
+    public function getDescricaoAtividade(){
+        return "Outros";
+    }
+
 }

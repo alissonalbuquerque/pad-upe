@@ -65,4 +65,9 @@ class GestaoCoordenacaoLaboratoriosDidaticos extends Model
     {
         return new GestaoCoordenacaoLaboratoriosDidaticosQuery(get_called_class());
     }
+
+    //retorna a atividade correspondente ao código
+    public function getDescricaoAtividade(){
+        return "Coordenação de Laboratórios Didático, de Informática ou de Ensino";
+    }
 }

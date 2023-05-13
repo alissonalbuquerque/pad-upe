@@ -111,4 +111,8 @@ class EnsinoAula extends Model
         return new EnsinoAulaQuery(get_called_class());
     }
 
+    //retorna a atividade correspondente ao código
+    public function getDescricaoAtividade(){
+        return "Aula";
+    }
 }

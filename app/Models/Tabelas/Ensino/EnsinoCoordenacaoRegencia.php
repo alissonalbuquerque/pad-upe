@@ -117,4 +117,9 @@ class EnsinoCoordenacaoRegencia extends Model
     public static function initQuery() {
         return new EnsinoCoordenacaoRegenciaQuery(get_called_class());
     }
+
+    //retorna a atividade correspondente ao código
+    public function getDescricaoAtividade(){
+        return "Coordenacao/Regência Componentes Curriculares";
+    }
 }

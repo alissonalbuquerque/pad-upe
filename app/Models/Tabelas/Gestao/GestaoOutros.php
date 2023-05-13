@@ -66,4 +66,8 @@ class GestaoOutros extends Model
         return new GestaoOutrosQuery(get_called_class());
     }
 
+    //retorna a atividade correspondente ao código
+    public function getDescricaoAtividade(){
+        return "Outros";
+    }
 }

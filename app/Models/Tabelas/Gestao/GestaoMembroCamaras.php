@@ -65,4 +65,9 @@ class GestaoMembroCamaras extends Model
     {
         return new GestaoMembroCamarasQuery(get_called_class());
     }
+
+    //retorna a atividade correspondente ao código
+    public function getDescricaoAtividade(){
+        return "Participação Como Membro nas Câmaras Consultivas dos Conselhos Superiores";
+    }
 }

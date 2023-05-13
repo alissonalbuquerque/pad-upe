@@ -65,4 +65,9 @@ class GestaoMembroTitularConselho extends Model
     {
         return new GestaoMembroTitularConselhoQuery(get_called_class());
     }
+
+    //retorna a atividade correspondente ao código
+    public function getDescricaoAtividade(){
+        return "Membro Titular dos Conselhos da UPE (CEPE, CONSUN OU CGA)";
+    }
 }

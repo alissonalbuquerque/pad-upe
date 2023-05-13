@@ -93,4 +93,9 @@ class EnsinoProjeto extends Model
         return new EnsinoProjetoQuery(get_called_class());
     }
 
+    //retorna a atividade correspondente ao código
+    public function getDescricaoAtividade(){
+        return "Projeto";
+    }
+
 }

@@ -80,5 +80,10 @@ class EnsinoAtendimentoDiscente extends Model
     {
         return new EnsinoAtendimentoDiscenteQuery(get_called_class());
     }
+
+     //retorna a atividade correspondente ao código
+     public function getDescricaoAtividade(){
+        return "Atendimento ao Discente";
+    }
    
 }

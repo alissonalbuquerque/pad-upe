@@ -76,4 +76,9 @@ class EnsinoParticipacao extends Model
         return new EnsinoParticipacaoQuery(get_called_class());
     }
 
+    //retorna a atividade correspondente ao código
+    public function getDescricaoAtividade(){
+        return "Participação";
+    }
+
 }

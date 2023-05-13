@@ -77,5 +77,10 @@ class EnsinoMembroDocente extends Model
     {
         return new EnsinoMembroDocenteQuery(get_called_class());
     }
+
+    //retorna a atividade correspondente ao código
+    public function getDescricaoAtividade(){
+        return "Membro Docente";
+    }
     
 }

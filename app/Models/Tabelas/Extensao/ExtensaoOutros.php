@@ -66,4 +66,8 @@ class ExtensaoOutros extends Model
         return new ExtensaoOutrosQuery(get_called_class());
     }
 
+    //retorna a atividade correspondente ao código
+    public function getDescricaoAtividade(){
+        return "Outros";
+    }
 }

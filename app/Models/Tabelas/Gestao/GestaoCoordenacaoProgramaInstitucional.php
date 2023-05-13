@@ -65,4 +65,9 @@ class GestaoCoordenacaoProgramaInstitucional extends Model
     {
         return new GestaoCoordenacaoProgramaInstitucionalQuery(get_called_class());
     }
+
+    //retorna a atividade correspondente ao código
+    public function getDescricaoAtividade(){
+        return "Coordenação de Programa Institucional";
+    }
 }

@@ -66,4 +66,9 @@ class EnsinoOutros extends Model
         return new EnsinoOutrosQuery(get_called_class());
     }
 
+    //retorna a atividade correspondente ao código
+    public function getDescricaoAtividade(){
+        return "Outros";
+    }
+
 }

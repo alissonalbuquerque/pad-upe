@@ -74,7 +74,7 @@
                 @if (isset($avaliacoes_extensao) && !empty($avaliacoes_extensao[0]))
                     @foreach ($avaliacoes_extensao as $avaliacao)
                         <div class="card">
-                            <h5 class="card-header">Cód. Atividade - {{$avaliacao->tarefa->cod_atividade}}</h5>
+                            <h5 class="card-header">{{$avaliacao->tarefa->getDescricaoAtividade()}}  ({{$avaliacao->tarefa->cod_atividade}})</h5>
 
                             <div class="card-body">
                                 

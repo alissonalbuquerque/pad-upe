@@ -65,4 +65,9 @@ class GestaoMembroConselho extends Model
     {
         return new GestaoMembroConselhoQuery(get_called_class());
     }
+
+    //retorna a atividade correspondente ao código
+    public function getDescricaoAtividade(){
+        return "Membro de Conselho/Comissão/Comitê/Núcleo, Formalmente Designado(a) para a Representação da UPE";
+    }
 }

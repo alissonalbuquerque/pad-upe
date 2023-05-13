@@ -83,4 +83,9 @@ class PesquisaOrientacao extends Model
     {
         return new PesquisaOrientacaoQuery(get_called_class());
     }
+
+    //retorna a atividade correspondente ao código
+    public function getDescricaoAtividade(){
+        return "Orientação";
+    }
 }

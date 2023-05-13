@@ -53,4 +53,9 @@ class GestaoMembroComissao extends Model
     {
         return new GestaoMembroComissaoQuery(get_called_class());
     }
+
+    //retorna a atividade correspondente ao código
+    public function getDescricaoAtividade(){
+        return " Membro de Comissão/Comitê/Núcleo, Formalmente Designado(a) no Âmbito da UPE";
+    }
 }
