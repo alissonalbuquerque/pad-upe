@@ -208,4 +208,9 @@ class EnsinoAtendimentoDiscenteController extends Controller
 
         return Response::json(['errors' => $validator->errors(), 'status' => 400]);
     }
+
+    //retorna a atividade correspondente ao código
+    public function getDescricaoAtividade(){
+        return "Atendimento ao Discente";
+    }
 }

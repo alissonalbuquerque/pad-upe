@@ -108,4 +108,8 @@ class ExtensaoOrientacao extends Model
         return new ExtensaoOrientacaoQuery(get_called_class());
     }
 
+    //retorna a atividade correspondente ao código
+    public function getDescricaoAtividade(){
+        return "Orientação";
+    }
 }

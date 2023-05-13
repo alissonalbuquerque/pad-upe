@@ -104,4 +104,8 @@ class PesquisaCoordenacao extends Model
         return new PesquisaCoordenacaoQuery(get_called_class());
     }
     
+    //retorna a atividade correspondente ao código
+    public function getDescricaoAtividade(){
+        return "Coordenação";
+    }
 }

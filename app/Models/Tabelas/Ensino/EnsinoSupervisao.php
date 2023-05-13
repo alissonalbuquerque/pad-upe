@@ -132,4 +132,9 @@ class EnsinoSupervisao extends Model
         return new EnsinoSupervisaoQuery(get_called_class());
     }
 
+    //retorna a atividade correspondente ao código
+    public function getDescricaoAtividade(){
+        return "Supervisões";
+    }
+
 }

@@ -65,4 +65,9 @@ class GestaoRepresentanteUnidadeEducacao extends Model
     {
         return new GestaoRepresentanteUnidadeEducacaoQuery(get_called_class());
     }
+
+    //retorna a atividade correspondente ao código
+    public function getDescricaoAtividade(){
+        return "Representante nas Unidades de Educação ou de Educação e Saúde Formalmente Designado(a) pela Entidade Sindical";
+    }
 }

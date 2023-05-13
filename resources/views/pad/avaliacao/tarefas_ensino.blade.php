@@ -74,10 +74,8 @@
                 @if (isset($avaliacoes_ensino) && !empty($avaliacoes_ensino[0]))
                     @foreach ($avaliacoes_ensino as $avaliacao)
                         <div class="card">
-                            <h5 class="card-header">Cód. Atividade - {{$avaliacao->tarefa->cod_atividade}}</h5>
-
+                            <h5 class="card-header">{{$avaliacao->tarefa->getDescricaoAtividade()}}  ({{$avaliacao->tarefa->cod_atividade}})</h5>
                             <div class="card-body">
-                                
                                 <ul>
                                     @foreach($avaliacao->tarefa->avaliable_attributes as $key => $attribute)
                                         <li> <span class="fw-bold ">{{ $key }} </span><span class="card-text">{{ $avaliacao->tarefa->$attribute }}</span><br> </li>

@@ -79,4 +79,9 @@ class PesquisaLideranca extends Model
     {
         return new PesquisaLiderancaQuery(get_called_class());
     }
+
+    //retorna a atividade correspondente ao código
+    public function getDescricaoAtividade(){
+        return "Liderança";
+    }
 }
