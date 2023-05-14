@@ -610,7 +610,9 @@ class PadController extends Controller
     }
 
     public function relatorio($id){
-        dd("Pagina do relatório");
+        $menu =  MenuItemsAvaliador::REPORT;
+        $pad = Pad::find($id);
+        return view('pad.relatorio.relatorio', ['pad' => $pad, 'index_menu' => $menu]);
     }
 
 }
