@@ -98,6 +98,7 @@ Route::prefix('/avaliador')->group(function () {
     Route::get('/edit/{id}', [AvaliadorController::class, 'edit'])->name('avaliador_edit');
     Route::post('/update/{id}', [AvaliadorController::class, 'update'])->name('avaliador_update');
     Route::delete('/delete/{id}', [AvaliadorController::class, 'destroy'])->name('avaliador_delete');
+    Route::get('/relatorio', [AvaliadorController::class, 'relatorio'])->name('avaliador_relatorio');
 });
 
 Route::prefix('/user')->group(function () {
