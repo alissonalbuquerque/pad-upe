@@ -609,4 +609,8 @@ class PadController extends Controller
         return $ch;
     }
 
+    public function relatorio($id){
+        dd("Pagina do relatório");
+    }
+
 }

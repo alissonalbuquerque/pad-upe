@@ -26,7 +26,7 @@
                 <div class="d-flex">
                     {{-- Lista de pads onde o meu usuário é avaliador naquele pad --}}
                     @foreach($userPads as $userPad)
-                        @include('components.cards.avaliador_pad', ['userPad' => $userPad])
+                        @include('components.cards.relatorio_pad', ['userPad' => $userPad])
                     @endforeach
                 </div>
             </div>
