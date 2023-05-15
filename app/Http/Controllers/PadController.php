@@ -463,23 +463,6 @@ class PadController extends Controller
                         
             $avaliacoes_ensino = Avaliacao::whereIn('id', $avaliacoes_ensino_ids)->orderBy('status');
             //
-
-            //- - - Correção - - -
-            $tarefaIds = Avaliacao::whereType(AvaliacaoUtil::ENSINO_AULA)->get()->map(function($model) {
-                return $model->tarefa_id;
-            });
-
-            foreach($tarefaIds as $tarefaId)
-            {
-                $avas = Avaliacao::whereType(AvaliacaoUtil::ENSINO_AULA)->whereTarefaId($tarefaId)->get();
-
-                if(count($avas) == 2) {
-                    $ava = Avaliacao::whereType(AvaliacaoUtil::ENSINO_AULA)->whereTarefaId($tarefaId)->first();
-                    $ava->type = 23;
-                    $ava->save();
-                }
-            }
-            //- - - Correção - - -
         }
 
         if (in_array(Dimensao::PESQUISA, $dimensoes)) {
