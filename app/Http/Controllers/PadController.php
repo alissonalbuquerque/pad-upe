@@ -609,4 +609,10 @@ class PadController extends Controller
         return $ch;
     }
 
+    public function relatorio($id){
+        $menu =  MenuItemsAvaliador::REPORT;
+        $pad = Pad::find($id);
+        return view('pad.relatorio.relatorio', ['pad' => $pad, 'index_menu' => $menu]);
+    }
+
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AvaliadorPad;
 use App\Models\Avaliacao;
 use App\Models\User;
 use App\Models\Curso;
@@ -143,5 +144,17 @@ class AvaliadorController extends Controller
      */
     public function destroy($id)
     {
+    }
+
+
+    public function relatorio(){
+        $menu =  MenuItemsAvaliador::REPORT;
+        $user = Auth::user();
+        $userPads =
+                AvaliadorPad::where('user_id', '=', $user->id)
+                ->join('pad', 'avaliador_pad.pad_id', '=', 'pad.id')
+                ->get();
+
+        return view('pad.relatorio.index', ['userPads' => $userPads, 'index_menu' => $menu]);
     }
 }

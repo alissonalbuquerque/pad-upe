@@ -7,6 +7,7 @@ use App\Http\Controllers\CoordenadorController;
 use App\Http\Controllers\DiretorController;
 use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\AvaliadorController;
+use App\Http\Controllers\PadController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -98,6 +99,9 @@ Route::prefix('/avaliador')->group(function () {
     Route::get('/edit/{id}', [AvaliadorController::class, 'edit'])->name('avaliador_edit');
     Route::post('/update/{id}', [AvaliadorController::class, 'update'])->name('avaliador_update');
     Route::delete('/delete/{id}', [AvaliadorController::class, 'destroy'])->name('avaliador_delete');
+    Route::get('/relatorio', [AvaliadorController::class, 'relatorio'])->name('avaliador_relatorio');
+    Route::get('/relatorio/{id}', [PadController::class, 'relatorio'])->name('pad_relatório');
+
 });
 
 Route::prefix('/user')->group(function () {
