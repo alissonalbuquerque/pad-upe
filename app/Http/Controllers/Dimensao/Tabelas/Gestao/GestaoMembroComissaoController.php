@@ -36,7 +36,7 @@ class GestaoMembroComissaoController extends Controller
     }
     
     public function create(Request $request)
-    {
+    {   
         $planejamento = Planejamento::initQuery()->whereCodDimensao('G-1')->first();
         
         $ch_min = $planejamento->ch_semanal;
@@ -67,7 +67,7 @@ class GestaoMembroComissaoController extends Controller
         {
             $avaliacao = new Avaliacao([
                 'tarefa_id' => $model->id,
-                'type' => UtilAvaliacao::ENSINO_AULA,
+                'type' => UtilAvaliacao::GESTAO_MEMBRO_COMISSAO,
                 'status' => Status::PENDENTE,
             ]);
 

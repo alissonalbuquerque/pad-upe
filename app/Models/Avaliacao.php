@@ -158,15 +158,3 @@ class Avaliacao extends Model
         return Status::listStatus($this->status);
     }
 }
-
-
-/**
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- */

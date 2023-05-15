@@ -13,7 +13,7 @@
         </h3>
     </div>
     <div class="d-flex">
-        @foreach($userPads as $userPad)    
+        @foreach($userPads as $userPad)
             @if($userPad->pad->status === Status::ATIVO)
                 <div class="card mx-2" style="width: 12rem;">
 

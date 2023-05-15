@@ -47,7 +47,7 @@
         <div class="col-sm-4">
             <div class="mb-3">
                 <label for="matricula"> MATRÍCULA </label>
-                <input type="text" id="matricula" name="matricula" class="form-control" value="">
+                <input type="text" id="matricula" name="matricula" class="form-control" value="" disabled>
             </div>
         </div>
 
@@ -145,21 +145,20 @@
 
     $('#document').mask('###.###.###-##')
 
-    $('#carga_horaria').mask('')
-    $('#carga_horaria').keypress(() => {
-        $('#carga_horaria').mask('')
-    })
+    $('#carga_horaria').mask('000:00');
     
     //Config : select2
 
     $('#campus_id').select2(
-    {   
+    {
         placeholder: 'Unidade - Campus',
         allowClear: true,
         ajax: {
             url: '{{ route("campus_search") }}',
             dataType: 'json'
         }
+    }).on('change', () => {
+        $('#curso_id').empty()
     });
 
     $('#curso_id').select2(
