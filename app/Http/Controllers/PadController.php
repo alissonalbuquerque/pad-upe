@@ -465,20 +465,20 @@ class PadController extends Controller
             //
 
             //- - - Correção - - -
-            // $tarefaIds = Avaliacao::whereType(AvaliacaoUtil::ENSINO_AULA)->get()->map(function($model) {
-            //     return $model->tarefa_id;
-            // });
+            $tarefaIds = Avaliacao::whereType(AvaliacaoUtil::ENSINO_AULA)->get()->map(function($model) {
+                return $model->tarefa_id;
+            });
 
-            // foreach($tarefaIds as $tarefaId)
-            // {
-            //     $avas = Avaliacao::whereType(AvaliacaoUtil::ENSINO_AULA)->whereTarefaId($tarefaId)->get();
+            foreach($tarefaIds as $tarefaId)
+            {
+                $avas = Avaliacao::whereType(AvaliacaoUtil::ENSINO_AULA)->whereTarefaId($tarefaId)->get();
 
-            //     if(count($avas) == 2) {
-            //         $ava = Avaliacao::whereType(AvaliacaoUtil::ENSINO_AULA)->whereTarefaId($tarefaId)->first();
-            //         $ava->type = 23;
-            //         $ava->save();
-            //     }
-            // }
+                if(count($avas) == 2) {
+                    $ava = Avaliacao::whereType(AvaliacaoUtil::ENSINO_AULA)->whereTarefaId($tarefaId)->first();
+                    $ava->type = 23;
+                    $ava->save();
+                }
+            }
             //- - - Correção - - -
         }
 
