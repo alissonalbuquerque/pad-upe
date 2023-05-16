@@ -609,10 +609,54 @@ class PadController extends Controller
         return $ch;
     }
 
+
     public function relatorio($id){
-        $menu =  MenuItemsAvaliador::REPORT;
+        $user = Auth::user();
         $pad = Pad::find($id);
-        return view('pad.relatorio.relatorio', ['pad' => $pad, 'index_menu' => $menu]);
+        $index_menu = MenuItemsAvaliador::REPORT;
+        $professores = User::join('user_pad', 'user_pad.user_id', '=', 'users.id')
+            ->join('pad', 'user_pad.pad_id', '=', 'pad.id')
+            ->where(function ($query) use ($user, $id) {
+                $query->where('pad.status', '=', Status::ATIVO);
+                $query->where('users.campus_id', '=', $user->campus_id);
+                $query->where('users.id', '!=', $user->id);
+                $query->where('pad.id', '=', $id);
+            })
+            ->select('users.id', 'users.name', 'users.curso_id', 'users.campus_id')
+            ->orderBy('name')
+            ->get();
+
+        //Informando se o PAD foi enviado ou não
+        $avaliador_pad = AvaliadorPad::where(function ($query) use ($pad, $user) {
+            $query->where('user_id', '=', $user->id);
+            $query->where('pad_id', '=', $pad->id);
+        })->first();
+
+
+        foreach ($professores as $professor){
+            $professor->status = "Pendente";
+            $userPad = $professor->userPads()->where('pad_id', '=', $pad->id)->first();
+
+            $avaliacoes = $this->get_avaliacoes($userPad, $avaliador_pad); 
+            $avaliacoes_ensino   = $avaliacoes['ensino']->get();
+            $avaliacoes_pesquisa = $avaliacoes['pesquisa']->get();
+            $avaliacoes_extensao = $avaliacoes['extensao']->get();
+            $avaliacoes_gestao   = $avaliacoes['gestao']->get();
+            
+            if( $avaliacoes_ensino->all() != null || 
+                $avaliacoes_pesquisa->all() != null || 
+                $avaliacoes_extensao->all() != null || 
+                $avaliacoes_gestao->all() != null){
+                
+                    $professor->status = "Enviado";
+            }
+        }
+        
+        // dd($professores[1]->status);
+        return view('pad.relatorio.relatorio', [
+                    'pad' => $pad, 
+                    'index_menu' => $index_menu,
+                    'professores' => $professores]);
     }
 
 }

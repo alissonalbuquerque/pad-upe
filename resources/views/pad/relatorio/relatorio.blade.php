@@ -11,44 +11,53 @@
 @endsection
 @section('title', 'Relatórios')
 @section('body')
-        <div class="tab-content">
+
             
-            <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Relatórios</h1>
-                </div>
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-                    <h3>
-                        <i class="bi bi-exclamation-octagon-fill"></i>
-                        Relatório pad {{$pad->nome}}
-                    </h3>
-                </div>
+                
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+        <h3>
+            <i class="bi bi-exclamation-octagon-fill"></i>
+            Relatório pad {{$pad->nome}}
+        </h3>
+    </div>
+    <div class="card d-flex">
+        <div class="card-head d-flex justify-content-center" style="background-color:#dfdfdf; padding-top:10px;">
+            <h6 class="card-title" style="font-weight:bold;">PROFESSORES QUE NÃO ENVIARAM O PAD</h6>
+        </div>
+        <div class="card-body">
 
-                <table class="table">
+                <table class="table table-hover table-striped table-striped">
                     <thead>
+                    <tr>
+                        <th scope='col'></th>
                         <th scope='col'>Professor</th>
-                        <th scope='col'>Ch Ensino</th>
-                        <th scope='col'>Ch Pesqiosa</th>
-                        <th scope='col'>Ch Extensão</th>
-                        <th scope='col'>Ch Gestão</th>
                         <th scope='col'>Curso</th>
+                        <th scope='col'>Campus</th>
+                    </tr>
                     </thead>
-
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-
+                    
                     <tbody>
-
+                        @php $index = 1; @endphp
+                        @foreach($professores as $professor)
+                            @if($professor->status == "Pendente")
+                            <tr scope='row'>
+                                <td>{{$index}}</td>
+                                <td>{{$professor->name}}</td>
+                                <td>{{$professor->curso}}</td>
+                                <td>{{$professor->campus}}</td>
+                            </tr>
+                            @php $index += 1 @endphp
+                            @endif
+                        @endforeach
                     </tbody>
+                    
                 </table>
-            </div>
-
 
         </div>
+    </div>
+                
+
+
 
 
 @endsection
