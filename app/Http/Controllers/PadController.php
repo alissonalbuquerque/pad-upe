@@ -638,25 +638,36 @@ class PadController extends Controller
             $userPad = $professor->userPads()->where('pad_id', '=', $pad->id)->first();
 
             $avaliacoes = $this->get_avaliacoes($userPad, $avaliador_pad); 
-            $avaliacoes_ensino   = $avaliacoes['ensino']->get();
-            $avaliacoes_pesquisa = $avaliacoes['pesquisa']->get();
-            $avaliacoes_extensao = $avaliacoes['extensao']->get();
-            $avaliacoes_gestao   = $avaliacoes['gestao']->get();
+            $professor->ch_ensino   = $this->get_carga_horaria($avaliacoes['ensino']->get());
+            $professor->ch_pesquisa = $this->get_carga_horaria($avaliacoes['pesquisa']->get());
+            $professor->ch_extensao = $this->get_carga_horaria($avaliacoes['extensao']->get());
+            $professor->ch_gestao   = $this->get_carga_horaria($avaliacoes['gestao']->get());
             
-            if( $avaliacoes_ensino->all() != null || 
-                $avaliacoes_pesquisa->all() != null || 
-                $avaliacoes_extensao->all() != null || 
-                $avaliacoes_gestao->all() != null){
+            if( $professor->ch_ensino   > 0 || 
+                $professor->ch_pesquisa > 0 || 
+                $professor->ch_extensao > 0 || 
+                $professor->ch_gestao   > 0){
                 
                     $professor->status = "Enviado";
             }
+            
         }
         
-        // dd($professores[1]->status);
         return view('pad.relatorio.relatorio', [
                     'pad' => $pad, 
                     'index_menu' => $index_menu,
                     'professores' => $professores]);
+    }
+
+
+    private function get_carga_horaria($avaliacoes){
+        $ch = 0;
+
+        foreach ($avaliacoes as $avaliacao){
+            $ch += $avaliacao->tarefa->ch_semanal;
+        }
+        
+        return $ch;
     }
 
 }
