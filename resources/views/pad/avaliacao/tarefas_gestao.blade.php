@@ -94,7 +94,7 @@
                                         data-bs-toggle="modal"
                                         data-bs-target="#modal_avaliacao"
                                         style="height: 38px;"
-                                        onclick=" setaDadosModalAvaliacao('{{$avaliacao->tarefa->id}}', '{{$avaliacao->tarefa->userPad->user->id}}', '6', '{{$avaliacao->type}}', '{{$avaliacao->id}}') ">
+                                        onclick="setaDadosModalAvaliacao('{{$avaliacao->tarefa->id}}', '{{$avaliacao->tarefa->userPad->user->id}}', '6', '{{$avaliacao->type}}', '{{$avaliacao->id}}') ">
                                         Reprovar
                                     </button>
 
@@ -190,3 +190,15 @@
 
     </div>
 @endsection
+
+<script>
+    function setaDadosModalAvaliacao(tarefa_id, professor_id, status, atividade_type, avaliacao_id){
+        console.log(document.getElementById('avaliacao_id_reprovar'));
+        document.getElementById('tarefa_id').value = tarefa_id;
+        document.getElementById('professor_id').value = professor_id;
+        document.getElementById('status').value = status;
+        document.getElementById('atividade_type').value = atividade_type;
+        document.getElementById('avaliacao_id_reprovar').value = avaliacao_id;
+        console.log(document.getElementById('avaliacao_id_reprovar'));
+    }
+</script>
