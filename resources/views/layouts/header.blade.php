@@ -1,10 +1,11 @@
 <header class="navbar p-0">
     <div class="header-left-side">
         <a class="navbar-brand p-3" href="#">
-            <img src="http://www.avaliacaodocente.upe.br/assets/img/logo-upe.png" class="img-fluid mr-3" width="128"
+            {{-- <img src="http://www.avaliacaodocente.upe.br/assets/img/logo-upe.png" class="img-fluid mr-3" width="128"
                 height="93" alt="" />
             <img src="https://www.gestaododesempenho.pe.gov.br/AvaliacaoDesempenho/public/resources/images/logos-direita.png"
-                class="img-fluid" width="268" height="100" alt="" />
+                class="img-fluid" width="268" height="100" alt="" /> --}}
+            <img src="{{url('images/estado_pe_logo.png')}}" alt="Logo do Estado" class="img-fluid" width="300" height="100" alt="" />
         </a>
     </div>
     <div class="header-divider"></div>
