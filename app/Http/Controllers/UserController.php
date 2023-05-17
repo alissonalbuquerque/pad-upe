@@ -280,17 +280,4 @@ class UserController extends Controller
         return Response::json($array);
     }
 
-    public function showUsers(){
-        $user = User::all();
-        return view('index', compact('user'));
-    }
-
-    public function createPDF() {
-        $data = User::all();
-        // share data to view
-        view()->share('user',$data);
-        $pdf = PDF::loadView('pdf_view', $data);
-        return $pdf->download('pdf_file.pdf');
-    }
-
 }

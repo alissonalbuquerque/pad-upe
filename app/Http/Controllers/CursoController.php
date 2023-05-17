@@ -7,6 +7,7 @@ use App\Models\Curso;
 use App\Models\Util\Menu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use PDF;
 
 class CursoController extends Controller
 {
@@ -151,4 +152,16 @@ class CursoController extends Controller
 
         return Response::json($array);
     }
+
+    public function createPDF() {
+        $data = Curso::all();
+        // $view = view('curso\index_pdf');
+        // dd($view);
+        // ---------
+        // share data to view
+        view()->share('curso',$data);
+        $pdf = PDF::loadView('curso\index_pdf' ,compact('data'));
+        return $pdf->download('pdf_file.pdf');
+    }
+
 }
