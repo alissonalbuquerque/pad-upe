@@ -9,6 +9,8 @@ use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\AvaliadorController;
 use App\Http\Controllers\PadController;
 
+use App\Http\Controllers\PDFController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -108,4 +110,9 @@ Route::prefix('/user')->group(function () {
     Route::get('/edit/perfil/{tab?}', [UserController::class, 'editPerfil'])->name('edit_perfil');
     Route::post('/update/perfil', [UserController::class, 'updatePerfil'])->name('update_perfil');
     Route::post('/update/password', [UserController::class, 'updatePassword'])->name('update_password');
+    Route::get('/users', [EmployeeController::class, 'showUsers']);
+    Route::get('/users/pdf', [EmployeeController::class, 'createPDF']);
 });
+
+// Simple concept test of creating a LOREM IPSUM With Barryvdh-DomPDF
+Route::get('generate-pdf',[PDFController::class, 'generatePDF']);
