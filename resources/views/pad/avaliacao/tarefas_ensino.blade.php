@@ -171,11 +171,11 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="hora_reajuste">Hora de reajuste:</label>
-                                <input class="form-control" type="number" name="hora_reajuste" id="hora_reajuste"><br>
+                                <input class="form-control" type="number" name="hora_reajuste" id="hora_reajuste" required><br>
                             </div>
                             <div class="form-group">
                                 <label for="descricao">Descrição:</label>
-                                <input class="form-control" type="textarea" name="descricao" id="descricao">
+                                <input class="form-control" type="textarea" name="descricao" id="descricao" required>
                             </div>
                         </div>
                         <div class="modal-footer">
