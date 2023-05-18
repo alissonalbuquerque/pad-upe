@@ -11,5 +11,6 @@ Route::prefix('/curso')->group(function () {
     Route::post('/update/{id}', [CursoController::class, 'update'])->name('curso_update');
     Route::delete('/delete/{id}', [CursoController::class, 'delete'])->name('curso_delete');
     Route::get('/search', [CursoController::class, 'actionSearch'])->name('curso_search');
+    Route::get('/viewPDF', [CursoController::class, 'pdfVisualizer'])->name('view_pdf');
     Route::get('/pdf', [CursoController::class, 'createPDF'])->name('cursos_print');
 });

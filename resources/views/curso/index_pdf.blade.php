@@ -1,51 +1,37 @@
-<div>
-    <h3 class="h3"> Cursos </h3>
+{{-- @extends('layouts.main') --}}
+<body>
+    @section('header')
+    @show
 
-    <div>   
-        @include('components.alerts')
+    <div class="flex items-center justify-center h-screen">
+        <h3> Cursos </h3>
 
-        <div class="d-flex justify-content-end mb-2">
-            @include('components.buttons.btn-create', [
-                'route' => route('curso_create'),
-                'content' => 'Cadastrar',
-                'id' => '',
-                'class' => '',
-            ])
-        </div>
-
-        <div class="border rounded px-4">
-            <table class="table table-hover mt-4">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Campus</th>
-                        <th scope="col">Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($curso as $curso)
+        <div>   
+            <div class="border rounded px-4">
+                <table class="table table-hover mt-4">
+                    
+                    <thead class="thead-dark">
                         <tr>
-                            <td>{{ $curso->name }}</td>
-                            <td>{{ $curso->campus }}</td>
-                            <td>
-                                <div class="btn-group" role="group">
-                                    <div class="me-1">
-                                        @include('components.buttons.btn-edit', [
-                                            'route' => route('curso_edit', ['id' => $curso->id]),
-                                        ])
-                                    </div>
-                                    <div class="me-1">
-                                        @include('components.buttons.btn-delete', [
-                                            'id' => $curso->id,
-                                            'route' => route('curso_delete', ['id' => $curso->id]),
-                                        ])
-                                    </div>
-                                </div>
-                            </td>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Campus</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    
+                    <tbody>
+                        
+                        @foreach ($cursos as $curso)
+                            <tr>
+                                <td style="border-top: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">{{ $curso->name }}</td>
+                                <td style="border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">{{ $curso->campus }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
+
+    <footer class="pt-3 my-3 text-center text-muted align-items-center border-top">
+        Copyright &copy;2022. Universidade de Pernambuco - Todos os direitos reservados
+    </footer>
+</body>

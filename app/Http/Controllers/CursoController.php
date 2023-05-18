@@ -159,9 +159,14 @@ class CursoController extends Controller
         // dd($view);
         // ---------
         // share data to view
-        view()->share('curso',$data);
+        view()->share('cursos',$data);
         $pdf = PDF::loadView('curso\index_pdf' ,compact('data'));
         return $pdf->download('pdf_file.pdf');
+    }
+
+    public function pdfVisualizer() {
+        // dd([$this->index()->getData()['cursos']]);
+        return view('curso.index_pdf', ['cursos' => $this->index()->getData()['cursos']]);
     }
 
 }
