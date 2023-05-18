@@ -161,6 +161,7 @@ class CursoController extends Controller
         // share data to view
         view()->share('cursos',$data);
         $pdf = PDF::loadView('curso\index_pdf' ,compact('data'));
+        set_time_limit(300);
         return $pdf->download('pdf_file.pdf');
     }
 
