@@ -2,7 +2,7 @@
     <header style="display: flex; direction: rtl">
         <div>
             <a>
-                <img src="{{url('images/estado_pe_logo.png')}}" style="width: 600px" />
+                <img src="{{url('images/estado_pe_logo.png')}}"/>
             </a>
         </div>
     </header>
