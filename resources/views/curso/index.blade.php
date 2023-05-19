@@ -22,7 +22,13 @@
     <div>   
         @include('components.alerts')
 
-        <div class="d-flex justify-content-end mb-2">
+        <div class="d-flex justify-content-end mb-2 gap-3">
+            @include('components.buttons.btn-download', [
+                'route' => route('cursos_print'),
+                'content' => 'Baixar Tabela',
+                'id' => '',
+                'class' => '',
+            ])
             @include('components.buttons.btn-create', [
                 'route' => route('curso_create'),
                 'content' => 'Cadastrar',
