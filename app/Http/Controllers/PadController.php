@@ -321,17 +321,21 @@ class PadController extends Controller
             $userPad = $professor->userPads()->where('pad_id', '=', $pad->id)->first();
 
             $avaliacoes = $this->get_avaliacoes($userPad, $avaliador_pad); 
-            $avaliacoes_ensino   = $avaliacoes['ensino']->get();
-            $avaliacoes_pesquisa = $avaliacoes['pesquisa']->get();
-            $avaliacoes_extensao = $avaliacoes['extensao']->get();
-            $avaliacoes_gestao   = $avaliacoes['gestao']->get();
+
+            $avaliacoes_ensino = !empty($avaliacoes['ensino']) ? $avaliacoes['ensino']->get() : null;
+            $avaliacoes_pesquisa = !empty($avaliacoes['pesquisa']) ? $avaliacoes['pesquisa']->get() : null;
+            $avaliacoes_extensao = !empty($avaliacoes['extensao']) ? $avaliacoes['extensao']->get() : null;
+            $avaliacoes_gestao = !empty($avaliacoes['gestao']) ? $avaliacoes['gestao']->get() : null;
+
+
+            $avaliacoes_ensino_all = $avaliacoes_ensino? $avaliacoes_ensino->all() : null;
+            $avaliacoes_pesquisa_all = $avaliacoes_pesquisa? $avaliacoes_pesquisa->all() : null;
+            $avaliacoes_extensao_all = $avaliacoes_extensao? $avaliacoes_extensao->all() : null;
+            $avaliacoes_gestao_all = $avaliacoes_gestao? $avaliacoes_gestao->all() : null;
+
             
-            if( $avaliacoes_ensino->all() != null || 
-                $avaliacoes_pesquisa->all() != null || 
-                $avaliacoes_extensao->all() != null || 
-                $avaliacoes_gestao->all() != null){
-                
-                    $professor->status = "Enviado";
+            if($avaliacoes_ensino_all || $avaliacoes_pesquisa_all || $avaliacoes_extensao_all || $avaliacoes_gestao_all) {
+                $professor->status = "Enviado";
             }
 
             $professor->ch = $this->get_carga_horaria_total($avaliacoes);
@@ -583,27 +587,36 @@ class PadController extends Controller
     }
 
     private function get_carga_horaria_total($avaliacoes)
-    {
+    {   
+        //
         $ch = 0;
-        $avaliacoes_ensino   = $avaliacoes['ensino']->get();
-        $avaliacoes_pesquisa = $avaliacoes['pesquisa']->get();
-        $avaliacoes_extensao = $avaliacoes['extensao']->get();
-        $avaliacoes_gestao   = $avaliacoes['gestao']->get();
+        $avaliacoes_ensino = !empty($avaliacoes['ensino']) ? $avaliacoes['ensino']->get() : null;
+        $avaliacoes_pesquisa = !empty($avaliacoes['pesquisa']) ? $avaliacoes['pesquisa']->get() : null;
+        $avaliacoes_extensao = !empty($avaliacoes['extensao']) ? $avaliacoes['extensao']->get() : null;
+        $avaliacoes_gestao = !empty($avaliacoes['gestao']) ? $avaliacoes['gestao']->get() : null;
 
-        for ($i = 0; $i < count($avaliacoes_ensino->all()); $i++){
-            $ch += $avaliacoes_ensino[$i]->tarefa()->first()->ch_semanal;
-        }
-        
-        for ($i = 0; $i < count($avaliacoes_pesquisa->all()); $i++){
-            $ch += $avaliacoes_pesquisa[$i]->tarefa()->first()->ch_semanal;
+        if($avaliacoes_ensino) {
+            for ($i = 0; $i < count($avaliacoes_ensino->all()); $i++){
+                $ch += $avaliacoes_ensino[$i]->tarefa()->first()->ch_semanal;
+            }
         }
 
-        for ($i = 0; $i < count($avaliacoes_extensao->all()); $i++){
-            $ch += $avaliacoes_extensao[$i]->tarefa()->first()->ch_semanal;
+        if($avaliacoes_pesquisa) {
+            for ($i = 0; $i < count($avaliacoes_pesquisa->all()); $i++){
+                $ch += $avaliacoes_pesquisa[$i]->tarefa()->first()->ch_semanal;
+            }
         }
 
-        for ($i = 0; $i < count($avaliacoes_gestao->all()); $i++){
-            $ch += $avaliacoes_gestao[$i]->tarefa()->first()->ch_semanal;
+        if($avaliacoes_extensao) {
+            for ($i = 0; $i < count($avaliacoes_extensao->all()); $i++){
+                $ch += $avaliacoes_extensao[$i]->tarefa()->first()->ch_semanal;
+            }
+        }
+
+        if($avaliacoes_gestao) {
+            for ($i = 0; $i < count($avaliacoes_gestao->all()); $i++){
+                $ch += $avaliacoes_gestao[$i]->tarefa()->first()->ch_semanal;
+            }
         }
         
         return $ch;
