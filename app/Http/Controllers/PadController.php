@@ -364,11 +364,12 @@ class PadController extends Controller
         $modalidades = Constants::listModalidade();
         $status = Status::listStatus();
 
-        $avaliacoes = $this->get_avaliacoes($user_pad, $avaliador_pad); 
-        $avaliacoes_ensino   = $avaliacoes['ensino']->paginate(5);
-        $avaliacoes_pesquisa = $avaliacoes['pesquisa']->paginate(5);
-        $avaliacoes_extensao = $avaliacoes['extensao']->paginate(5);
-        $avaliacoes_gestao   = $avaliacoes['gestao']->paginate(5);
+        $avaliacoes = $this->get_avaliacoes($user_pad, $avaliador_pad);
+
+        $avaliacoes_ensino   = !empty($avaliacoes['ensino'])   ? $avaliacoes['ensino']->paginate(5)   : [];
+        $avaliacoes_pesquisa = !empty($avaliacoes['pesquisa']) ? $avaliacoes['pesquisa']->paginate(5) : [];
+        $avaliacoes_extensao = !empty($avaliacoes['extensao']) ? $avaliacoes['extensao']->paginate(5) : [];
+        $avaliacoes_gestao   = !empty($avaliacoes['gestao'])   ? $avaliacoes['gestao']->paginate(5)   : [];
         
         //Informando quais tipos (ensino, pesquisa, extensão ou gestão) de atividades podem ser avaliadas pelo usuário logado.
         $avalPad = $user->avaliadorPad()->first();
