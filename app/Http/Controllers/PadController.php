@@ -652,17 +652,13 @@ class PadController extends Controller
             $userPad = $professor->userPads()->where('pad_id', '=', $pad->id)->first();
 
             $avaliacoes = $this->get_avaliacoes($userPad, $avaliador_pad); 
-            $professor->ch_ensino   = $this->get_carga_horaria($avaliacoes['ensino']->get());
-            $professor->ch_pesquisa = $this->get_carga_horaria($avaliacoes['pesquisa']->get());
-            $professor->ch_extensao = $this->get_carga_horaria($avaliacoes['extensao']->get());
-            $professor->ch_gestao   = $this->get_carga_horaria($avaliacoes['gestao']->get());
+            $professor->ch_ensino   = $this->get_carga_horaria($avaliacoes['ensino'])? $this->get_carga_horaria($avaliacoes['ensino']->get()) : 0;
+            $professor->ch_pesquisa = $this->get_carga_horaria($avaliacoes['pesquisa'])? $this->get_carga_horaria($avaliacoes['pesquisa']->get()) : 0;
+            $professor->ch_extensao = $this->get_carga_horaria($avaliacoes['extensao'])? $this->get_carga_horaria($avaliacoes['extensao']->get()) : 0;
+            $professor->ch_gestao   = $this->get_carga_horaria($avaliacoes['gestao'])? $this->get_carga_horaria($avaliacoes['gestao']->get()) : 0;
             
-            if( $professor->ch_ensino   > 0 || 
-                $professor->ch_pesquisa > 0 || 
-                $professor->ch_extensao > 0 || 
-                $professor->ch_gestao   > 0){
-                
-                    $professor->status = "Enviado";
+            if($professor->ch_ensino || $professor->ch_pesquisa || $professor->ch_extensao || $professor->ch_gestao ) {
+                $professor->status = "Enviado";
             }
             
         }
