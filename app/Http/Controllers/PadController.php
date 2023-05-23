@@ -322,10 +322,10 @@ class PadController extends Controller
 
             $avaliacoes = $this->get_avaliacoes($userPad, $avaliador_pad); 
 
-            $avaliacoes_ensino = !empty($avaliacoes['ensino']) ? $avaliacoes['ensino']->get() : null;
-            $avaliacoes_pesquisa = !empty($avaliacoes['pesquisa']) ? $avaliacoes['pesquisa']->get() : null;
-            $avaliacoes_extensao = !empty($avaliacoes['extensao']) ? $avaliacoes['extensao']->get() : null;
-            $avaliacoes_gestao = !empty($avaliacoes['gestao']) ? $avaliacoes['gestao']->get() : null;
+            $avaliacoes_ensino = !empty($avaliacoes['ensino']) ? $avaliacoes['ensino'] : null;
+            $avaliacoes_pesquisa = !empty($avaliacoes['pesquisa']) ? $avaliacoes['pesquisa'] : null;
+            $avaliacoes_extensao = !empty($avaliacoes['extensao']) ? $avaliacoes['extensao'] : null;
+            $avaliacoes_gestao = !empty($avaliacoes['gestao']) ? $avaliacoes['gestao'] : null;
 
 
             $avaliacoes_ensino_all = $avaliacoes_ensino? $avaliacoes_ensino->all() : null;
@@ -466,7 +466,7 @@ class PadController extends Controller
                 $avaliacoes_ensino_ids = array_merge($avaliacoes_ensino_ids, $avaliacao_ids);
             }
                         
-            $avaliacoes_ensino = Avaliacao::whereIn('id', $avaliacoes_ensino_ids)->orderBy('status');
+            $avaliacoes_ensino = Avaliacao::whereIn('id', $avaliacoes_ensino_ids)->orderBy('status')->get();
             //
         }
 
@@ -499,7 +499,7 @@ class PadController extends Controller
                 $avaliacoes_pesquisa_ids = array_merge($avaliacoes_pesquisa_ids, $avaliacao_ids);
             }
                         
-            $avaliacoes_pesquisa = Avaliacao::whereIn('id', $avaliacoes_pesquisa_ids)->orderBy('status');
+            $avaliacoes_pesquisa = Avaliacao::whereIn('id', $avaliacoes_pesquisa_ids)->orderBy('status')->get();
         }
 
         if (in_array(Dimensao::EXTENSAO, $dimensoes)) {
@@ -527,7 +527,7 @@ class PadController extends Controller
                 $avaliacoes_extensao_ids = array_merge($avaliacoes_extensao_ids, $avaliacao_ids);
             }
                         
-            $avaliacoes_extensao = Avaliacao::whereIn('id', $avaliacoes_extensao_ids)->orderBy('status');
+            $avaliacoes_extensao = Avaliacao::whereIn('id', $avaliacoes_extensao_ids)->orderBy('status')->get();
         }
 
         if (in_array(Dimensao::GESTAO, $dimensoes)) {
@@ -575,7 +575,7 @@ class PadController extends Controller
                 $avaliacoes_gestao_ids = array_merge($avaliacoes_gestao_ids, $avaliacao_ids);
             }
             
-            $avaliacoes_gestao = Avaliacao::whereIn('id', $avaliacoes_gestao_ids)->orderBy('status');
+            $avaliacoes_gestao = Avaliacao::whereIn('id', $avaliacoes_gestao_ids)->orderBy('status')->get();
         }
         
         
@@ -591,10 +591,10 @@ class PadController extends Controller
     {   
         //
         $ch = 0;
-        $avaliacoes_ensino = !empty($avaliacoes['ensino']) ? $avaliacoes['ensino']->get() : null;
-        $avaliacoes_pesquisa = !empty($avaliacoes['pesquisa']) ? $avaliacoes['pesquisa']->get() : null;
-        $avaliacoes_extensao = !empty($avaliacoes['extensao']) ? $avaliacoes['extensao']->get() : null;
-        $avaliacoes_gestao = !empty($avaliacoes['gestao']) ? $avaliacoes['gestao']->get() : null;
+        $avaliacoes_ensino = !empty($avaliacoes['ensino']) ? $avaliacoes['ensino'] : null;
+        $avaliacoes_pesquisa = !empty($avaliacoes['pesquisa']) ? $avaliacoes['pesquisa'] : null;
+        $avaliacoes_extensao = !empty($avaliacoes['extensao']) ? $avaliacoes['extensao'] : null;
+        $avaliacoes_gestao = !empty($avaliacoes['gestao']) ? $avaliacoes['gestao'] : null;
 
         if($avaliacoes_ensino) {
             for ($i = 0; $i < count($avaliacoes_ensino->all()); $i++){
@@ -652,10 +652,11 @@ class PadController extends Controller
             $userPad = $professor->userPads()->where('pad_id', '=', $pad->id)->first();
 
             $avaliacoes = $this->get_avaliacoes($userPad, $avaliador_pad); 
-            $professor->ch_ensino   = $this->get_carga_horaria($avaliacoes['ensino'])? $this->get_carga_horaria($avaliacoes['ensino']->get()) : 0;
-            $professor->ch_pesquisa = $this->get_carga_horaria($avaliacoes['pesquisa'])? $this->get_carga_horaria($avaliacoes['pesquisa']->get()) : 0;
-            $professor->ch_extensao = $this->get_carga_horaria($avaliacoes['extensao'])? $this->get_carga_horaria($avaliacoes['extensao']->get()) : 0;
-            $professor->ch_gestao   = $this->get_carga_horaria($avaliacoes['gestao'])? $this->get_carga_horaria($avaliacoes['gestao']->get()) : 0;
+
+            $professor->ch_ensino   = $this->get_carga_horaria($avaliacoes['ensino'])? $this->get_carga_horaria($avaliacoes['ensino']) : 0;
+            $professor->ch_pesquisa = $this->get_carga_horaria($avaliacoes['pesquisa'])? $this->get_carga_horaria($avaliacoes['pesquisa']) : 0;
+            $professor->ch_extensao = $this->get_carga_horaria($avaliacoes['extensao'])? $this->get_carga_horaria($avaliacoes['extensao']) : 0;
+            $professor->ch_gestao   = $this->get_carga_horaria($avaliacoes['gestao'])? $this->get_carga_horaria($avaliacoes['gestao']) : 0;
             
             if($professor->ch_ensino || $professor->ch_pesquisa || $professor->ch_extensao || $professor->ch_gestao ) {
                 $professor->status = "Enviado";
@@ -672,11 +673,11 @@ class PadController extends Controller
 
     private function get_carga_horaria($avaliacoes){
         $ch = 0;
-
+        
         foreach ($avaliacoes as $avaliacao){
             $ch += $avaliacao->tarefa->ch_semanal;
         }
-        
+
         return $ch;
     }
 
