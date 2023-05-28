@@ -339,6 +339,7 @@ class PadController extends Controller
             }
 
             $professor->ch = $this->get_carga_horaria_total($avaliacoes);
+            $professor->ch_corrigida = $this->get_carga_horaria_corrigida($avaliacoes_ensino, $avaliacoes_pesquisa, $avaliacoes_extensao, $avaliacoes_gestao);
         }
 
         return view("pad.avaliacao.professores", compact('professores', 'pad', 'index_menu'));
@@ -623,6 +624,45 @@ class PadController extends Controller
         return $ch;
     }
 
+
+    private function get_carga_horaria_corrigida($ensino, $pesquisa, $extensao, $gestao)
+    {
+        $ch = 0;
+
+        if($ensino) {
+            for ($i = 0; $i < count($ensino->all()); $i++){
+                if($ensino[$i]->status != Status::REPROVADO){
+                    $ch += $ensino[$i]->tarefa()->first()->ch_semanal;
+                }
+            }
+        }
+
+        if($pesquisa) {
+            for ($i = 0; $i < count($pesquisa->all()); $i++){
+                if($pesquisa[$i]->status != Status::REPROVADO){
+                    $ch += $pesquisa[$i]->tarefa()->first()->ch_semanal;
+                }
+            }
+        }
+
+        if($extensao) {
+            for ($i = 0; $i < count($extensao->all()); $i++){
+                if($extensao[$i]->status != Status::REPROVADO){
+                    $ch += $extensao[$i]->tarefa()->first()->ch_semanal;
+                }
+            }
+        }
+
+        if($gestao) {
+            for ($i = 0; $i < count($gestao->all()); $i++){
+                if($gestao[$i]->status != Status::REPROVADO){
+                    $ch += $gestao[$i]->tarefa()->first()->ch_semanal;
+                }
+            }
+        }
+
+        return $ch;
+    }
 
     public function relatorio($id){
         $user = Auth::user();
