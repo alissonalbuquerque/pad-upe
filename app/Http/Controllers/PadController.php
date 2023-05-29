@@ -322,10 +322,10 @@ class PadController extends Controller
 
             $avaliacoes = $this->get_avaliacoes($userPad, $avaliador_pad); 
 
-            $avaliacoes_ensino = !empty($avaliacoes['ensino']) ? $avaliacoes['ensino']->get() : null;
-            $avaliacoes_pesquisa = !empty($avaliacoes['pesquisa']) ? $avaliacoes['pesquisa']->get() : null;
-            $avaliacoes_extensao = !empty($avaliacoes['extensao']) ? $avaliacoes['extensao']->get() : null;
-            $avaliacoes_gestao = !empty($avaliacoes['gestao']) ? $avaliacoes['gestao']->get() : null;
+            $avaliacoes_ensino = !empty($avaliacoes['ensino']) ? $avaliacoes['ensino'] : null;
+            $avaliacoes_pesquisa = !empty($avaliacoes['pesquisa']) ? $avaliacoes['pesquisa'] : null;
+            $avaliacoes_extensao = !empty($avaliacoes['extensao']) ? $avaliacoes['extensao'] : null;
+            $avaliacoes_gestao = !empty($avaliacoes['gestao']) ? $avaliacoes['gestao'] : null;
 
 
             $avaliacoes_ensino_all = $avaliacoes_ensino? $avaliacoes_ensino->all() : null;
@@ -339,6 +339,7 @@ class PadController extends Controller
             }
 
             $professor->ch = $this->get_carga_horaria_total($avaliacoes);
+            $professor->ch_corrigida = $this->get_carga_horaria_corrigida($avaliacoes_ensino, $avaliacoes_pesquisa, $avaliacoes_extensao, $avaliacoes_gestao);
         }
 
         return view("pad.avaliacao.professores", compact('professores', 'pad', 'index_menu'));
@@ -364,11 +365,11 @@ class PadController extends Controller
         $modalidades = Constants::listModalidade();
         $status = Status::listStatus();
 
-        $avaliacoes = $this->get_avaliacoes($user_pad, $avaliador_pad); 
-        $avaliacoes_ensino   = $avaliacoes['ensino']->paginate(5);
-        $avaliacoes_pesquisa = $avaliacoes['pesquisa']->paginate(5);
-        $avaliacoes_extensao = $avaliacoes['extensao']->paginate(5);
-        $avaliacoes_gestao   = $avaliacoes['gestao']->paginate(5);
+        $avaliacoes = $this->get_avaliacoes_with_pagination($user_pad, $avaliador_pad);
+        $avaliacoes_ensino   = !empty($avaliacoes['ensino']) && $avaliacoes['ensino']->count()     ? $avaliacoes['ensino']->paginate(5)   : [];
+        $avaliacoes_pesquisa = !empty($avaliacoes['pesquisa']) && $avaliacoes['pesquisa']->count() ? $avaliacoes['pesquisa']->paginate(5) : [];
+        $avaliacoes_extensao = !empty($avaliacoes['extensao']) && $avaliacoes['extensao']->count() ? $avaliacoes['extensao']->paginate(5) : [];
+        $avaliacoes_gestao   = !empty($avaliacoes['gestao'])   && $avaliacoes['gestao']->count()   ? $avaliacoes['gestao']->paginate(5)   : [];
         
         //Informando quais tipos (ensino, pesquisa, extensão ou gestão) de atividades podem ser avaliadas pelo usuário logado.
         $avalPad = $user->avaliadorPad()->first();
@@ -414,6 +415,195 @@ class PadController extends Controller
             array_push($dimensoes, $dimensao->dimensao);
         }
 
+
+        if (in_array(Dimensao::ENSINO, $dimensoes)) {
+
+            $ensino_grouped_ids = [
+                [
+                    'ids' => EnsinoAtendimentoDiscente::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::ENSINO_ATENDIMENTO_DISCENTE
+                ],
+                [
+                    'ids' => EnsinoAula::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::ENSINO_AULA
+                ],
+                [
+                    'ids' => EnsinoCoordenacaoRegencia::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::ENSINO_COORDENACAO_REGENCIA
+                ],
+                [
+                    'ids' => EnsinoMembroDocente::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::ENSINO_MEMBRO_DOCENTE
+                ],
+                [
+                    'ids' => EnsinoOrientacao::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::ENSINO_ORIENTACAO
+                ],
+                [
+                    'ids' => EnsinoOutros::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::ENSINO_OUTROS
+                ],
+                [
+                    'ids' => EnsinoParticipacao::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::ENSINO_PARTICIPACAO
+                ],
+                [
+                    'ids' => EnsinoProjeto::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::ENSINO_PROJETO
+                ],
+                [
+                    'ids' => EnsinoSupervisao::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::ENSINO_SUPERVISAO
+                ],
+            ];
+
+            //
+            $avaliacoes_ensino_ids = [];
+            foreach($ensino_grouped_ids as $ensino_group)
+            {
+                $avaliacao_ids = Avaliacao::whereIn('tarefa_id', $ensino_group['ids'])->whereType($ensino_group['type'])->pluck('id')->toArray();
+
+                $avaliacoes_ensino_ids = array_merge($avaliacoes_ensino_ids, $avaliacao_ids);
+            }
+                        
+            $avaliacoes_ensino = Avaliacao::whereIn('id', $avaliacoes_ensino_ids)->orderBy('status')->get();
+            //
+        }
+
+        if (in_array(Dimensao::PESQUISA, $dimensoes)) {
+
+            $pesquisa_grouped_ids = [
+                [
+                    'ids' => PesquisaCoordenacao::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::PESQUISA_COORDENACAO
+                ],
+                [
+                    'ids' => PesquisaLideranca::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::PESQUISA_LIDERANCA
+                ],
+                [
+                    'ids' => PesquisaOrientacao::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::PESQUISA_ORIENTACAO
+                ],
+                [
+                    'ids' => PesquisaOutros::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::PESQUISA_OUTROS
+                ],
+            ];
+
+            $avaliacoes_pesquisa_ids = [];
+            foreach($pesquisa_grouped_ids as $pesquisa_group)
+            {
+                $avaliacao_ids = Avaliacao::whereIn('tarefa_id', $pesquisa_group['ids'])->whereType($pesquisa_group['type'])->pluck('id')->toArray();
+
+                $avaliacoes_pesquisa_ids = array_merge($avaliacoes_pesquisa_ids, $avaliacao_ids);
+            }
+                        
+            $avaliacoes_pesquisa = Avaliacao::whereIn('id', $avaliacoes_pesquisa_ids)->orderBy('status')->get();
+        }
+
+        if (in_array(Dimensao::EXTENSAO, $dimensoes)) {
+
+            $extensao_grouped_ids = [
+                [
+                    'ids' => ExtensaoCoordenacao::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::EXTENSAO_COORDENACAO
+                ],
+                [   
+                    'ids' => ExtensaoOrientacao::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::EXTENSAO_ORIENTACAO
+                ],
+                [
+                    'ids' => ExtensaoOutros::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::EXTENSAO_OUTROS
+                ]
+            ];
+            
+            $avaliacoes_extensao_ids = [];
+            foreach($extensao_grouped_ids as $extensao_group)
+            {
+                $avaliacao_ids = Avaliacao::whereIn('tarefa_id', $extensao_group['ids'])->whereType($extensao_group['type'])->pluck('id')->toArray();
+
+                $avaliacoes_extensao_ids = array_merge($avaliacoes_extensao_ids, $avaliacao_ids);
+            }
+                        
+            $avaliacoes_extensao = Avaliacao::whereIn('id', $avaliacoes_extensao_ids)->orderBy('status')->get();
+        }
+
+        if (in_array(Dimensao::GESTAO, $dimensoes)) {
+
+            $gestao_grouped_ids = [
+                [
+                    'ids' => GestaoCoordenacaoLaboratoriosDidaticos::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::GESTAO_COORDENACAO_LABORATORIOS_DIDATICOS,
+                ],
+                [
+                    'ids' => GestaoCoordenacaoProgramaInstitucional::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::GESTAO_COORDENACAO_PROGRAMA_INSTITUCIONAL
+                ],
+                [
+                    'ids' => GestaoMembroCamaras::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::GESTAO_MEMBRO_CAMARAS
+                ],
+                [
+                    'ids' => GestaoMembroComissao::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::GESTAO_MEMBRO_COMISSAO
+                ],
+                [
+                    'ids' => GestaoMembroConselho::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::GESTAO_MEMBRO_CONSELHO
+                ],
+                [
+                    'ids' => GestaoMembroTitularConselho::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::GESTAO_MEMBRO_TITULAR_CONSELHO
+                ],
+                [
+                    'ids' => GestaoOutros::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::GESTAO_OUTROS
+                ],
+                [
+                    'ids' => GestaoRepresentanteUnidadeEducacao::whereUserPadId($user_pad->id)->pluck('id')->toArray(),
+                    'type' => AvaliacaoUtil::GESTAO_REPRESENTANTE_UNIDADE_EDUCACAO
+                ]
+            ];
+
+            $avaliacoes_gestao_ids = [];
+            foreach($gestao_grouped_ids as $gestao_group)
+            {
+                $avaliacao_ids = Avaliacao::whereIn('tarefa_id', $gestao_group['ids'])->whereType($gestao_group['type'])->pluck('id')->toArray();
+
+                $avaliacoes_gestao_ids = array_merge($avaliacoes_gestao_ids, $avaliacao_ids);
+            }
+            
+            $avaliacoes_gestao = Avaliacao::whereIn('id', $avaliacoes_gestao_ids)->orderBy('status')->get();
+        }
+        
+        
+        return [
+            'ensino'   => $avaliacoes_ensino,
+            'pesquisa' => $avaliacoes_pesquisa, 
+            'extensao' => $avaliacoes_extensao, 
+            'gestao'   => $avaliacoes_gestao
+        ];
+    }
+    	
+    private function get_avaliacoes_with_pagination($user_pad, $avaliador_pad)
+    {
+        $avaliacoes_ensino = [];
+        $avaliacoes_pesquisa = [];
+        $avaliacoes_extensao = [];
+        $avaliacoes_gestao = [];
+
+        $dimensoes_permitidas = AvaliadorPadDimensao::where(
+            'avaliador_pad_id', '=', $avaliador_pad->id)
+            ->select('avaliador_pad_dimensao.dimensao')
+            ->get();
+
+        $dimensoes = [];
+
+        foreach ($dimensoes_permitidas as $dimensao) {
+            array_push($dimensoes, $dimensao->dimensao);
+        }
 
         if (in_array(Dimensao::ENSINO, $dimensoes)) {
 
@@ -577,7 +767,6 @@ class PadController extends Controller
             $avaliacoes_gestao = Avaliacao::whereIn('id', $avaliacoes_gestao_ids)->orderBy('status');
         }
         
-        
         return [
             'ensino'   => $avaliacoes_ensino,
             'pesquisa' => $avaliacoes_pesquisa, 
@@ -590,10 +779,10 @@ class PadController extends Controller
     {   
         //
         $ch = 0;
-        $avaliacoes_ensino = !empty($avaliacoes['ensino']) ? $avaliacoes['ensino']->get() : null;
-        $avaliacoes_pesquisa = !empty($avaliacoes['pesquisa']) ? $avaliacoes['pesquisa']->get() : null;
-        $avaliacoes_extensao = !empty($avaliacoes['extensao']) ? $avaliacoes['extensao']->get() : null;
-        $avaliacoes_gestao = !empty($avaliacoes['gestao']) ? $avaliacoes['gestao']->get() : null;
+        $avaliacoes_ensino = !empty($avaliacoes['ensino']) ? $avaliacoes['ensino'] : null;
+        $avaliacoes_pesquisa = !empty($avaliacoes['pesquisa']) ? $avaliacoes['pesquisa'] : null;
+        $avaliacoes_extensao = !empty($avaliacoes['extensao']) ? $avaliacoes['extensao'] : null;
+        $avaliacoes_gestao = !empty($avaliacoes['gestao']) ? $avaliacoes['gestao'] : null;
 
         if($avaliacoes_ensino) {
             for ($i = 0; $i < count($avaliacoes_ensino->all()); $i++){
@@ -623,6 +812,45 @@ class PadController extends Controller
     }
 
 
+    private function get_carga_horaria_corrigida($ensino, $pesquisa, $extensao, $gestao)
+    {
+        $ch = 0;
+
+        if($ensino) {
+            for ($i = 0; $i < count($ensino->all()); $i++){
+                if($ensino[$i]->status != Status::REPROVADO){
+                    $ch += $ensino[$i]->tarefa()->first()->ch_semanal;
+                }
+            }
+        }
+
+        if($pesquisa) {
+            for ($i = 0; $i < count($pesquisa->all()); $i++){
+                if($pesquisa[$i]->status != Status::REPROVADO){
+                    $ch += $pesquisa[$i]->tarefa()->first()->ch_semanal;
+                }
+            }
+        }
+
+        if($extensao) {
+            for ($i = 0; $i < count($extensao->all()); $i++){
+                if($extensao[$i]->status != Status::REPROVADO){
+                    $ch += $extensao[$i]->tarefa()->first()->ch_semanal;
+                }
+            }
+        }
+
+        if($gestao) {
+            for ($i = 0; $i < count($gestao->all()); $i++){
+                if($gestao[$i]->status != Status::REPROVADO){
+                    $ch += $gestao[$i]->tarefa()->first()->ch_semanal;
+                }
+            }
+        }
+
+        return $ch;
+    }
+
     public function relatorio($id){
         $user = Auth::user();
         $pad = Pad::find($id);
@@ -651,17 +879,14 @@ class PadController extends Controller
             $userPad = $professor->userPads()->where('pad_id', '=', $pad->id)->first();
 
             $avaliacoes = $this->get_avaliacoes($userPad, $avaliador_pad); 
-            $professor->ch_ensino   = $this->get_carga_horaria($avaliacoes['ensino']->get());
-            $professor->ch_pesquisa = $this->get_carga_horaria($avaliacoes['pesquisa']->get());
-            $professor->ch_extensao = $this->get_carga_horaria($avaliacoes['extensao']->get());
-            $professor->ch_gestao   = $this->get_carga_horaria($avaliacoes['gestao']->get());
+
+            $professor->ch_ensino   = $this->get_carga_horaria($avaliacoes['ensino'])? $this->get_carga_horaria($avaliacoes['ensino']) : 0;
+            $professor->ch_pesquisa = $this->get_carga_horaria($avaliacoes['pesquisa'])? $this->get_carga_horaria($avaliacoes['pesquisa']) : 0;
+            $professor->ch_extensao = $this->get_carga_horaria($avaliacoes['extensao'])? $this->get_carga_horaria($avaliacoes['extensao']) : 0;
+            $professor->ch_gestao   = $this->get_carga_horaria($avaliacoes['gestao'])? $this->get_carga_horaria($avaliacoes['gestao']) : 0;
             
-            if( $professor->ch_ensino   > 0 || 
-                $professor->ch_pesquisa > 0 || 
-                $professor->ch_extensao > 0 || 
-                $professor->ch_gestao   > 0){
-                
-                    $professor->status = "Enviado";
+            if($professor->ch_ensino || $professor->ch_pesquisa || $professor->ch_extensao || $professor->ch_gestao ) {
+                $professor->status = "Enviado";
             }
             
         }
@@ -675,11 +900,11 @@ class PadController extends Controller
 
     private function get_carga_horaria($avaliacoes){
         $ch = 0;
-
+        
         foreach ($avaliacoes as $avaliacao){
             $ch += $avaliacao->tarefa->ch_semanal;
         }
-        
+
         return $ch;
     }
 
