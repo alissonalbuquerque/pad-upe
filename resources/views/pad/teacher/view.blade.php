@@ -77,10 +77,10 @@
 
     <div class="card mx-2" style="width: 10rem;">
         <div class="card-body bg-primary">
-            <h1 class="text-center"> <i class="bi bi-cloud-arrow-down"></i> </h1>
-            <h5 class="text-center"> Baixar PAD </h4>
+            <h1 class="text-center"> <i class="bi bi-cloud-arrow-down-fill" style="color: #F1F1F1"></i> </h1>
+            <h5 class="text-center text-white"> Baixar PAD </h4>
             <div class="text-center">
-                <h4 class="h5"> <span class="badge bg-warning">Horas: {{ $ensinoTotalHoras + $gestaoTotalHoras + $pesquisaTotalHoras + $extensaoTotalHoras }}</span> </h4>
+                <h4 class="h5"> <span class="badge" style="color: #32415c;background-color: #fd9d0d">Horas: {{ $ensinoTotalHoras + $gestaoTotalHoras + $pesquisaTotalHoras + $extensaoTotalHoras }}</span> </h4>
             </div>
             <a class="stretched-link" href="{{ route('cursos_print') }}"></a>
         </div>
