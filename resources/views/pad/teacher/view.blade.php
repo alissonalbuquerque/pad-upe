@@ -17,8 +17,14 @@
 @endsection
 @section('body')
 
-<div class="mx-2">
+<div class="mx-2 d-flex  justify-content-between">
     <h3 class="h3"> DIMENSÕES </h3>
+    <div style="margin-right: 1.2rem">
+        <a class="btn btn-outline-success btn-m " href="{{ route('edit_perfil') }}">
+            <i class="bi bi-check-square"></i>
+            Salvar PAD
+        </a>
+    </div>
 </div>
 
 <div class="d-flex my-3">
