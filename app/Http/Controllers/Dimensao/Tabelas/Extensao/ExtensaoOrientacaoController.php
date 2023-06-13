@@ -27,8 +27,6 @@ class ExtensaoOrientacaoController extends Controller
                         ->orderBy('cod_atividade')
                         ->get();
 
-        $funcoes = Constants::listFuncaoOrientador();
-
         $planejamentos = ExtensaoOrientacao::listPlanejamentos();
 
         $divs = PadTables::tablesExtensao($user_pad_id);
@@ -37,7 +35,6 @@ class ExtensaoOrientacaoController extends Controller
             'atividades' => $atividades,
 
             'divs' => $divs,
-            'funcoes' => $funcoes,
             'planejamentos' => $planejamentos,
 
             'user_pad_id' => $user_pad_id,
@@ -48,13 +45,11 @@ class ExtensaoOrientacaoController extends Controller
     public function edit($id) {
 
         $model = ExtensaoOrientacao::find($id);
-        $funcoes = Constants::listFuncaoOrientador();
         $planejamentos = ExtensaoOrientacao::listPlanejamentos();
         
         
         return view('pad.components.templates.dimensao.extensao.orientacao.form_update', [
             'model' => $model,
-            'funcoes' => $funcoes,
             'planejamentos' => $planejamentos
         ]);
     }

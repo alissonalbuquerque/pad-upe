@@ -22,7 +22,7 @@ class ExtensaoCoordenacao extends Model
      * 
      * @var array
      */
-    protected $fillable = ['orientacao_id', 'user_pad_id', 'dimensao', 'cod_atividade', 'titulo_projeto', 'programa_extensao', 'funcao', 'ch_semanal', 'atividade', 'cod_dimensao'];
+    protected $fillable = ['orientacao_id', 'user_pad_id', 'dimensao', 'cod_atividade', 'titulo_projeto', 'programa_extensao', 'ch_semanal', 'atividade', 'cod_dimensao'];
 
     // Array de strings para preenchimento de campos de avaliação
     public $avaliable_attributes = ['Título do Projeto:' => 'titulo_projeto', 'Programa de Extensão:' => 'programa_extensao', 'Atividade:' => 'atividade', 'Carga Horária:' => 'ch_semanal'];
@@ -38,7 +38,6 @@ class ExtensaoCoordenacao extends Model
             'cod_atividade' => ['required', 'string', 'max:255'],
             'titulo_projeto' => ['required', 'string', 'max:255'],
             'programa_extensao' => ['required', 'string', 'max:255'],
-            'funcao' => ['required', 'integer', Rule::in(array_keys(Constants::listModalidade()))],
             'atividade' => ['string', 'nullable'],
             'cod_dimensao' => ['required', 'string', Rule::in(array_keys(self::listPlanejamentos()))],
         ];
@@ -55,11 +54,6 @@ class ExtensaoCoordenacao extends Model
 
             //programa_extensao
             'programa_extensao.required' => 'O campo "Programa de Extensão" é obrigatório!',
-
-            //funcao
-            'funcao.required' => 'O campo "Função" é obrigatório!',
-            'funcao.in' => 'Selecione uma opção da lista de "Função"!',
-            'funcao.integer' => 'O campo "Função" deve ser um inteiro!',
 
             //'cod_dimensao'
             'cod_dimensao.required' => 'O campo "Resolução" é obrigatório',
@@ -89,14 +83,6 @@ class ExtensaoCoordenacao extends Model
         }
 
         return $cod_dimensao !== null? $values[$cod_dimensao] : $values;
-    }
-
-    /**
-     * @return string
-     */
-    public function funcaoAsString()
-    {
-        return Constants::listFuncaoProjeto($this->funcao);
     }
 
     public function userPad() {

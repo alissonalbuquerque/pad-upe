@@ -22,7 +22,7 @@ class ExtensaoOrientacao extends Model
      * 
      * @var array
      */
-    protected $fillable = ['orientacao_id', 'user_pad_id', 'dimensao', 'cod_atividade', 'titulo_projeto', 'discente', 'funcao', 'ch_semanal', 'cod_dimensao'];
+    protected $fillable = ['orientacao_id', 'user_pad_id', 'dimensao', 'cod_atividade', 'titulo_projeto', 'discente', 'ch_semanal', 'cod_dimensao'];
 
     // Array de strings para preenchimento de campos de avaliação
     public $avaliable_attributes = ['Título do Projeto:' => 'titulo_projeto', 'Discente:' => 'discente', 'Carga Horária:' => 'ch_semanal'];
@@ -38,7 +38,6 @@ class ExtensaoOrientacao extends Model
             'cod_atividade' => ['required', 'string', 'max:255'],
             'titulo_projeto' => ['required', 'string', 'max:255'],
             'discente' => ['required', 'string', 'max:255'],
-            'funcao' => ['required', 'integer', Rule::in(array_keys(Constants::listFuncaoOrientador()))],
             'cod_dimensao' => ['required', 'string', Rule::in(array_keys(self::listPlanejamentos()))],
         ];
     }
@@ -54,11 +53,6 @@ class ExtensaoOrientacao extends Model
 
             //discente
             'discente.required' => 'O campo "Nome do Orientando" é obrigatório!',
-
-            //funcao
-            'funcao.required' => 'O campo "Função" é obrigatório!',
-            'funcao.in' => 'Selecione uma opção da lista de "Função"!',
-            'funcao.integer' => 'O campo "Função" deve ser um inteiro!',
 
             //'cod_dimensao'
             'cod_dimensao.required' => 'O campo "Resolução" é obrigatório',
@@ -88,15 +82,6 @@ class ExtensaoOrientacao extends Model
         }
 
         return $cod_dimensao !== null? $values[$cod_dimensao] : $values;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function funcaoAsString()
-    {
-        return Constants::listFuncaoOrientador($this->funcao);
     }
 
     public function userPad() {

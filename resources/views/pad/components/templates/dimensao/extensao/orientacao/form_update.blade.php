@@ -23,30 +23,12 @@
                     ])
                 </div>
 
-                <div class="mb-3 col-sm-8">
+                <div class="mb-3 col-sm-12">
                     <label class="form-label" for="discente">Nome do Orientando</label>
                     <input class="form-control @error('discente') is-invalid @enderror ajax-errors" type="text" name="discente" id="discente" value="{{ $model->discente }}">
                     
                     @include('components.divs.errors', [
                         'field' => 'discente_update'
-                    ])
-                </div>
-
-                <div class="mb-3 col-sm-4">
-                    <label class="form-label" for="funcao">Função</label>
-                    <select class="form-select @error('funcao') is-invalid @enderror ajax-errors" name="funcao" id="funcao">
-                        <option value="0">Selecione uma Função</option>
-                        @foreach($funcoes as $value => $funcao)
-                            @if( $value == $model->funcao )
-                                <option selected value="{{$value}}">{{$funcao}}</option>
-                            @else
-                                <option value="{{$value}}">{{$funcao}}</option>
-                            @endif
-                        @endforeach
-                    </select>
-
-                    @include('components.divs.errors', [
-                        'field' => 'funcao_update'
                     ])
                 </div>
                 

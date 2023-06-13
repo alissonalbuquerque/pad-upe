@@ -90,12 +90,12 @@ class PadTables {
         return [
             [
                 'id' => 'extensao_coordenacao',
-                'name' => '1. EXTENSÃO (COORDENAÇÃO OU PARTICIPAÇÃO EM ATIVIDADES DE EXTENSÃO HOMOLOGADAS PELA PROEC)',
+                'name' => '1. EXTENSÃO (COORDENAÇÃO DE ATIVIDADES DE EXTENSÃO HOMOLOGADA NA PROEC)',
                 'route' => route('extensao_coordenacao_index', ['user_pad_id' => $user_pad_id])
             ],
             [
                 'id' => 'extensao_orientacao',
-                'name' => '2. EXTENSÃO (ORIENTAÇÃO OU ACOMPANHAMENTO DE ESTUDANTES EM ATIVIDADES DE EXTENSÃO HOMOLOGADAS PELA PROEC)',
+                'name' => '2. EXTENSÃO (COLABORAÇÃO EM ATIVIDADE DE EXTENSÃO HOMOLOGADA NA PROEC)',
                 'route' => route('extensao_orientacao_index', ['user_pad_id' => $user_pad_id])
             ],
             [
