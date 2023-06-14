@@ -30,7 +30,7 @@
 
         <div>
             @include('pad.anexo._form', [
-                'route' => route('update_anexo', ['user_pad_id' => 'null'])
+                'route' => route('update_anexo', ['user_pad_id' => $user_pad_id])
             ])
         </div>
     </div>
