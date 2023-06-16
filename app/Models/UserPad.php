@@ -110,4 +110,11 @@ class UserPad extends Model
 
         return $totalHoras;
     }
+
+    /*  
+    * @RELATIONS (relações entre tarefas)
+    */
+    public function ensinoAulas() {
+        return $this->hasMany(EnsinoAula::class, 'user_pad_id', 'id');
+    }
 }

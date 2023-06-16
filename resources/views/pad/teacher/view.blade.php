@@ -36,7 +36,7 @@
             <div class="text-center">
                 <h4 class="h5"> <span class="badge bg-primary">Horas: {{ $ensinoTotalHoras }}</span> </h4>
             </div>
-            <a class="stretched-link" href="{{ route('dimensao_ensino', ['user_pad_id' => $user_pad_id]) }}" class="btn-pad-dimensao"></a>
+            <a class="stretched-link btn-pad-dimensao" href="{{ route('dimensao_ensino', ['user_pad_id' => $user_pad_id]) }}"></a>
         </div>     
     </div>
 
@@ -47,7 +47,7 @@
             <div class="text-center">
                 <h4 class="h5"> <span class="badge bg-primary">Horas: {{ $pesquisaTotalHoras }}</span> </h4>
             </div>
-            <a class="stretched-link" href="{{ route('dimensao_pesquisa', ['user_pad_id' => $user_pad_id]) }}" class="btn-pad-dimensao"></a>
+            <a class="stretched-link btn-pad-dimensao" href="{{ route('dimensao_pesquisa', ['user_pad_id' => $user_pad_id]) }}"></a>
         </div>
     </div>
 
@@ -58,7 +58,7 @@
             <div class="text-center">
                 <h4 class="h5"> <span class="badge bg-primary">Horas: {{ $extensaoTotalHoras }}</span> </h4>
             </div>
-            <a class="stretched-link" href="{{ route('dimensao_extensao', ['user_pad_id' => $user_pad_id]) }}" class="btn-pad-dimensao"></a>
+            <a class="stretched-link btn-pad-dimensao" href="{{ route('dimensao_extensao', ['user_pad_id' => $user_pad_id]) }}"></a>
         </div>
     </div>
 
@@ -69,7 +69,7 @@
             <div class="text-center">
                 <h4 class="h5"> <span class="badge bg-primary">Horas: {{ $gestaoTotalHoras }}</span> </h4>
             </div>
-            <a class="stretched-link" href="{{ route('dimensao_gestao', ['user_pad_id' => $user_pad_id]) }}" class="btn-pad-dimensao"></a>
+            <a class="stretched-link btn-pad-dimensao" href="{{ route('dimensao_gestao', ['user_pad_id' => $user_pad_id]) }}"></a>
         </div>
     </div>
 
@@ -88,7 +88,7 @@
             <div class="text-center">
                 <h4 class="h5"> <span class="badge" style="color: #32415c;background-color: #fd9d0d">Horas: {{ $ensinoTotalHoras + $gestaoTotalHoras + $pesquisaTotalHoras + $extensaoTotalHoras }}</span> </h4>
             </div>
-            <a class="stretched-link" href="{{ route('cursos_print') }}"></a>
+            <a class="stretched-link btn-pdf-download" href="{{ route('user-pad_pdf', ['user_pad_id' => $user_pad_id]) }}"></a>
         </div>
     </div>
     

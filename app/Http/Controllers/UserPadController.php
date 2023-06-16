@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pad;
+use App\Models\Curso;
 use App\Models\User;
 use App\Models\UserPad;
 use App\Models\Util\Status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
+use PDF;
 
 class UserPadController extends Controller
 {
@@ -76,4 +78,15 @@ class UserPadController extends Controller
 
         return Response::json(['errors' => $validator->errors(), 'status' => 400]);
     }
+
+    public function generatePDF($user_pad_id) {
+        $model = UserPad::whereId($user_pad_id)->first();
+        dd($model->ensinoAulas, $model, empty($model));
+        // return view('pad.teacher.report_pdf', ['cursos' => $data]);
+        dd($user_pad_id);
+        view()->share($user_pad_id);
+        $pdf = PDF::loadView('', compact('pad'));
+        return $pdf->download("Relatório PAD ({toDateTimeString({{now()->format('d-m-Y')}})})");
+    }
+
 }
