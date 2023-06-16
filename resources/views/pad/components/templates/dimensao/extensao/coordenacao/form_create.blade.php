@@ -51,30 +51,12 @@
                         ])
                     </div>
                     
-                    <div class="mb-3 col-sm-8">
+                    <div class="mb-3 col-sm-12">
                         <label class="form-label" for="titulo_projeto">Título do Projeto</label>
                         <input class="form-control @error('titulo_projeto') is-invalid @enderror ajax-errors" type="text" name="titulo_projeto" id="titulo_projeto" value="{{ old('titulo_projeto') }}">
                         
                         @include('components.divs.errors', [
                             'field' => 'titulo_projeto_create',
-                        ])
-                    </div>
-
-                    <div class="mb-3 col-sm-4">
-                        <label class="form-label" for="funcao">Função</label>
-                        <select class="form-select @error('funcao') is-invalid @enderror ajax-errors" name="funcao" id="funcao" value="{{ old('funcao') }}">
-                            <option value="0">Selecione uma Função</option>
-                            @foreach($funcoes as $value => $funcao)
-                                @if( $value == old('funcao') )
-                                    <option selected value="{{$value}}">{{$funcao}}</option>
-                                @else
-                                    <option value="{{$value}}">{{$funcao}}</option>
-                                @endif
-                            @endforeach
-                        </select>
-
-                        @include('components.divs.errors', [
-                            'field' => 'funcao_create'
                         ])
                     </div>
 
@@ -136,7 +118,6 @@
                         <th scope="col"> Cód </th>
                         <th scope="col"> Programa de Extensão </th>
                         <th scope="col"> Título do Projeto </th>
-                        <th scope="col"> Função </th>
                         <th scope="col"> CH Semanal </th>
                         <th scope="col"> Opções </th>
                     </tr>
@@ -148,7 +129,6 @@
                         <td>{{ $atividade->cod_atividade }}</td>
                         <td>{{ $atividade->programa_extensao }}</td>
                         <td>{{ $atividade->titulo_projeto }}</td>
-                        <td>{{ $atividade->funcaoAsString() }}</td>
                         <td>{{ $atividade->ch_semanal }}</td>
                         <td>
                             <div class="btn-group" role="group">

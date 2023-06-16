@@ -9,8 +9,8 @@ class Anexo extends Model
 {   
     use SoftDeletes;
 
-    public const SEMESTE_1 = 1;
-    public const SEMESTE_2 = 2;
+    public const SEMESTRE_1 = 1;
+    public const SEMESTRE_2 = 2;
 
     public const CATEGORIA_ = 1;
     // public const CATEGORIA_ = 2;
@@ -42,11 +42,19 @@ class Anexo extends Model
     public static function listSemestre($value = null) {
     
         $values = [
-            self::SEMESTE_1 => '1º SEMESTRE - JANEIRO - JULHO',
-            self::SEMESTE_2 => '2º SEMESTRE - AGOSTO - DEZEMBRO',
+            self::SEMESTRE_1 => '1º SEMESTRE',
+            self::SEMESTRE_2 => '2º SEMESTRE',
         ];
     
         return $value !== null? $values[$value] : $values;
+    }
+
+    public function campus() {
+        return $this->belongsTo(Campus::class);
+    }
+
+    public function curso() {
+        return $this->belongsTo(Curso::class);
     }
 
     public static function listCategoria($value = null) {

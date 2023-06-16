@@ -27,8 +27,6 @@ class ExtensaoCoordenacaoController extends Controller
                         ->orderBy('cod_atividade')
                         ->get();
 
-        $funcoes = Constants::listFuncaoProjeto();
-
         $planejamentos = ExtensaoCoordenacao::listPlanejamentos();
 
         $divs = PadTables::tablesExtensao($user_pad_id);
@@ -37,7 +35,6 @@ class ExtensaoCoordenacaoController extends Controller
             'atividades' => $atividades,
 
             'divs' => $divs,
-            'funcoes' => $funcoes,
             'planejamentos' => $planejamentos,
 
             'user_pad_id' => $user_pad_id,
@@ -48,12 +45,10 @@ class ExtensaoCoordenacaoController extends Controller
     public function edit($id) {
 
         $model = ExtensaoCoordenacao::find($id);
-        $funcoes = Constants::listFuncaoProjeto();
         $planejamentos = ExtensaoCoordenacao::listPlanejamentos();
         
         return view('pad.components.templates.dimensao.extensao.coordenacao.form_update', [
             'model' => $model,
-            'funcoes' => $funcoes,
             'planejamentos' => $planejamentos
         ]);
     }

@@ -2,6 +2,8 @@
     @csrf
     <div class="row">
 
+        <input type="hidden" name="user_pad_id" value="{{$user_pad_id}}">
+
         <div class="col-sm-12">
             <div class="mb-3">
                 <input type="text" class="form-control" value="UNIVERSIDADE DE PERNAMBUCO" disabled>
@@ -11,14 +13,22 @@
         <div class="col-sm-6">
             <div class="mb-3">
                 <label for="campus_id"> UNIDADE DE EDUCAÇÃO/CAMPUS </label>
-                <select name="campus_id" id="campus_id" class="form-select"></select>
+                <select name="campus_id" id="campus_id" class="form-select">
+                    @if($model->campus_id)
+                        <option value="{{$model->campus_id}}"> {{$model->campus}} </option>
+                    @endif
+                </select>
             </div>
         </div>
 
         <div class="col-sm-6">
             <div class="mb-3">
                 <label for="curso_id"> CURSO </label>
-                <select name="curso_id" id="curso_id" class="form-select"></select>
+                <select name="curso_id" id="curso_id" class="form-select">
+                    @if($model->curso_id)
+                        <option value="{{$model->curso_id}}"> {{$model->curso}} </option>
+                    @endif
+                </select>
             </div>
             
         </div>
@@ -26,21 +36,29 @@
         <div class="col-sm-12">
             <div class="mb-3">
                 <label for="semestre">PLANO DE ATIVIDADE DOCENTE - ANO</label>
-                <select name="semestre" id="semestre" class="form-select"></select>
+                <select name="semestre" id="semestre" class="form-select">
+                    @foreach($semestres as $id => $text)
+                        @if($id == $model->semestre)
+                            <option selected value="{{$id}}">{{$text}}</option>
+                        @else
+                            <option value="{{$id}}">{{$text}}</option>
+                        @endif
+                    @endforeach
+                </select>
             </div>
         </div>
 
         <div class="col-sm-8">
             <div class="mb-3">
                 <label for="docente"> DOCENTE </label>
-                <input type="text" id="docente" class="form-control" value="" disabled>
+                <input type="text" id="docente" class="form-control" value="{{$userPad->user}}" disabled>
             </div>
         </div>
 
         <div class="col-sm-4">
             <div class="mb-3">
                 <label for="docente"> CPF </label>
-                <input type="text" id="document" class="form-control" value="" disabled>
+                <input type="text" id="document" class="form-control" value="{{$userPad->user->document}}" disabled>
             </div>
         </div>
 
@@ -54,21 +72,29 @@
         <div class="col-sm-4">
             <div class="mb-3">
                 <label for="carga_horaria"> CARGA HORÁRIA </label>
-                <input type="text" id="carga_horaria" name="carga_horaria" class="form-control" value="">
+                <input type="text" id="carga_horaria" name="carga_horaria" class="form-control" value="{{$model->carga_horaria}}" placeholder="HH:MM">
             </div>
         </div>
 
         <div class="col-sm-4">
             <div class="mb-3">
-                <label for="semestre"> CATEGORIA / NÍVEL </label>
-                <select name="categoria_nivel" id="categoria_nivel" class="form-select"></select>
+                <label for="categoria_nivel"> CATEGORIA / NÍVEL </label>
+                <input type="text" name="categoria_nivel" id="categoria_nivel" class="form-control" value="{{$model->categoria_nivel}}">
             </div>
         </div>
 
         <div class="col-sm-4">
             <div class="mb-3">
                 <label for="afastamento_total"> AFASTAMENTO TOTAL </label>
-                <select name="afastamento_total" id="afastamento_total" class="form-select"></select>
+                <select name="afastamento_total" id="afastamento_total" class="form-select">
+                    @foreach($yesOrNo as $id => $text)
+                        @if($id == $model->afastamento_total)
+                            <option selected value="{{$id}}">{{$text}}</option>
+                        @else
+                            <option value="{{$id}}">{{$text}}</option>
+                        @endif
+                    @endforeach
+                </select>
             </div>
         </div>
 
@@ -84,7 +110,15 @@
         <div class="col-sm-4">
             <div class="mb-3">
                 <label for="afastamento_parcial"> AFASTAMENTO PARCIAL </label>
-                <select name="afastamento_parcial" id="afastamento_parcial" class="form-select"></select>
+                <select name="afastamento_parcial" id="afastamento_parcial" class="form-select">
+                    @foreach($yesOrNo as $id => $text)
+                        @if($id == $model->afastamento_parcial)
+                            <option selected value="{{$id}}">{{$text}}</option>
+                        @else
+                            <option value="{{$id}}">{{$text}}</option>
+                        @endif
+                    @endforeach
+                </select>
             </div>
         </div>
 
@@ -100,7 +134,15 @@
         <div class="col-sm-4">
             <div class="mb-3">
                 <label for="direcao_sindical"> EXERCE FUNÇÃO ADMINISTRATIVA </label>
-                <select name="direcao_sindical" id="direcao_sindical" class="form-select"></select>
+                <select name="direcao_sindical" id="direcao_sindical" class="form-select">
+                    @foreach($yesOrNo as $id => $text)
+                        @if($id == $model->direcao_sindical)
+                            <option selected value="{{$id}}">{{$text}}</option>
+                        @else
+                            <option value="{{$id}}">{{$text}}</option>
+                        @endif
+                    @endforeach
+                </select>
             </div>
         </div>
 
@@ -145,7 +187,7 @@
 
     $('#document').mask('###.###.###-##')
 
-    $('#carga_horaria').mask('000:00');
+    $('#carga_horaria').mask('00:00');
     
     //Config : select2
 
@@ -182,10 +224,5 @@
         placeholder: 'Semestre',
         allowClear: true
     })
-
-    $('#afastamento_total').on('change', () =>
-    {
-        
-    }).change()
 
 </script>
