@@ -198,7 +198,7 @@ class UserPad extends Model
 
     
     public function pesquisaCoordenacoes() {
-        return $this->hasMany(PesquisaCoordeacao::class, 'user_pad_id', 'id');
+        return $this->hasMany(PesquisaCoordenacao::class, 'user_pad_id', 'id');
     }
 
     public function pesquisaLiderancas() {
