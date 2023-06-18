@@ -7,6 +7,7 @@ use App\Models\Curso;
 use App\Models\User;
 use App\Models\UserPad;
 use App\Models\Util\Status;
+use App\Models\Util\PadTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
@@ -79,14 +80,53 @@ class UserPadController extends Controller
         return Response::json(['errors' => $validator->errors(), 'status' => 400]);
     }
 
-    public function generatePDF($user_pad_id) {
-        $model = UserPad::whereId($user_pad_id)->first();
-        dd($model->ensinoAulas, $model, empty($model));
-        // return view('pad.teacher.report_pdf', ['cursos' => $data]);
-        dd($user_pad_id);
-        view()->share($user_pad_id);
-        $pdf = PDF::loadView('', compact('pad'));
-        return $pdf->download("Relatório PAD ({toDateTimeString({{now()->format('d-m-Y')}})})");
+    public function generatePDF($user_pad_id)
+    {
+        $userPad = UserPad::whereId($user_pad_id)->first();
+        $model['ensino'] = 
+            [PadTables::tablesEnsino($user_pad_id)[4]['name'] => $userPad->ensinoAtendimentoDiscentes->all(),
+            PadTables::tablesEnsino($user_pad_id)[0]['name'] => $userPad->ensinoAulas->all(),
+            PadTables::tablesEnsino($user_pad_id)[1]['name'] => $userPad->ensinoCoordenacaoRegencias->all(),
+            PadTables::tablesEnsino($user_pad_id)[7]['name'] => $userPad->ensinoMembroDocentes->all(),
+            PadTables::tablesEnsino($user_pad_id)[2]['name'] => $userPad->ensinoOrientacoes->all(),
+            PadTables::tablesEnsino($user_pad_id)[8]['name'] => $userPad->ensinoOutros->all(),
+            PadTables::tablesEnsino($user_pad_id)[6]['name'] => $userPad->ensinoParticipacoes->all(),
+            PadTables::tablesEnsino($user_pad_id)[5]['name'] => $userPad->ensinoProjetos->all(),
+            PadTables::tablesEnsino($user_pad_id)[3]['name'] => $userPad->ensinoSupervisoes->all()
+            ];
+        $model['extensao'] =
+            [PadTables::tablesExtensao($user_pad_id)[0]['name'] => $userPad->extensaoCoordenacoes->all(),
+            PadTables::tablesExtensao($user_pad_id)[1]['name'] => $userPad->extensaoOrientacoes->all(),
+            PadTables::tablesExtensao($user_pad_id)[2]['name'] => $userPad->extensaoOutros->all()
+            ];
+        $model['gestao'] =
+            [PadTables::tablesGestao($user_pad_id)[5]['name'] => $userPad->gestaoCoordenacaoLaboratoriosDidaticos->all(),
+            PadTables::tablesGestao($user_pad_id)[6]['name'] => $userPad->gestaoCoordenacaoProgramasInstitucionais->all(),
+            PadTables::tablesGestao($user_pad_id)[4]['name'] => $userPad->gestaoMembroCamaras->all(),
+            PadTables::tablesGestao($user_pad_id)[0]['name'] => $userPad->gestaoMembroComissoes->all(),
+            PadTables::tablesGestao($user_pad_id)[1]['name'] => $userPad->gestaoMembroConselhos->all(),
+            PadTables::tablesGestao($user_pad_id)[2]['name'] => $userPad->gestaoMembroTitularConselhos->all(),
+            PadTables::tablesGestao($user_pad_id)[7]['name'] => $userPad->gestaoOutros->all(),
+            PadTables::tablesGestao($user_pad_id)[3]['name'] => $userPad->gestaoRepresentanteUnidadeEducacoes->all()
+            ];
+        $model['pesquisa'] =
+            [PadTables::tablesPesquisa($user_pad_id)[0]['name'] => $userPad->pesquisaCoordenacoes->all(), 
+            PadTables::tablesPesquisa($user_pad_id)[1]['name'] => $userPad->pesquisaLiderancas->all(),
+            PadTables::tablesPesquisa($user_pad_id)[2]['name'] => $userPad->pesquisaOrientacoes->all(),
+            PadTables::tablesPesquisa($user_pad_id)[3]['name'] => $userPad->pesquisaOutros->all()
+            ];
+        $dateTime = now()->format('d-m-Y (H:i:s)');
+        dd(
+            PadTables::tablesEnsino($user_pad_id)[0]['name'],
+            $model,
+            "$dateTime",
+            empty($model['ensino'][0])
+        );
+        return view();
+        // view()->share($model);
+        // $pdf = PDF::loadView('', $model);
+
+        // return $pdf->download("Relatório PAD: ");
     }
 
 }

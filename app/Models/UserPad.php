@@ -114,7 +114,102 @@ class UserPad extends Model
     /*  
     * @RELATIONS (relações entre tarefas)
     */
+    public function ensinoAtendimentoDiscentes() {
+        return $this->hasMany(ensinoAtendimentoDiscente::class, 'user_pad_id', 'id');
+    }
+
     public function ensinoAulas() {
         return $this->hasMany(EnsinoAula::class, 'user_pad_id', 'id');
+    }
+
+    public function ensinoCoordenacaoRegencias() {
+        return $this->hasMany(EnsinoCoordenacaoRegencia::class, 'user_pad_id', 'id');
+    }
+
+    public function ensinoMembroDocentes() {
+        return $this->hasMany(EnsinoMembroDocente::class, 'user_pad_id', 'id');
+    }
+
+    public function ensinoOrientacoes() {
+        return $this->hasMany(EnsinoOrientacao::class, 'user_pad_id', 'id');
+    }
+
+    public function ensinoOutros() {
+        return $this->hasMany(EnsinoOutros::class, 'user_pad_id', 'id');
+    }
+
+    public function ensinoParticipacoes() {
+        return $this->hasMany(EnsinoParticipacao::class, 'user_pad_id', 'id');
+    }
+
+    public function ensinoProjetos() {
+        return $this->hasMany(EnsinoProjeto::class, 'user_pad_id', 'id');
+    }
+
+    public function ensinoSupervisoes() {
+        return $this->hasMany(EnsinoSupervisao::class, 'user_pad_id', 'id');
+    }
+
+    
+    public function extensaoCoordenacoes() {
+        return $this->hasMany(ExtensaoCoordenacao::class, 'user_pad_id', 'id');
+    }
+
+    public function extensaoOrientacoes() {
+        return $this->hasMany(ExtensaoOrientacao::class, 'user_pad_id', 'id');
+    }
+
+    public function extensaoOutros() {
+        return $this->hasMany(ExtensaoOutros::class, 'user_pad_id', 'id');
+    }
+
+    
+    public function gestaoCoordenacaoLaboratoriosDidaticos() {
+        return $this->hasMany(GestaoCoordenacaoLaboratoriosDidaticos::class, 'user_pad_id', 'id');
+    }
+
+    public function gestaoCoordenacaoProgramasInstitucionais() {
+        return $this->hasMany(GestaoCoordenacaoProgramaInstitucional::class, 'user_pad_id', 'id');
+    }
+
+    public function gestaoMembroCamaras() {
+        return $this->hasMany(GestaoMembroCamaras::class, 'user_pad_id', 'id');
+    }
+
+    public function gestaoMembroComissoes() {
+        return $this->hasMany(GestaoMembroComissao::class, 'user_pad_id', 'id');
+    }
+
+    public function gestaoMembroConselhos() {
+        return $this->hasMany(GestaoMembroConselho::class, 'user_pad_id', 'id');
+    }
+
+    public function gestaoMembroTitularConselhos() {
+        return $this->hasMany(GestaoMembroTitularConselho::class, 'user_pad_id', 'id');
+    }
+
+    public function gestaoOutros() {
+        return $this->hasMany(GestaoOutros::class, 'user_pad_id', 'id');
+    }
+
+    public function gestaoRepresentanteUnidadeEducacoes() {
+        return $this->hasMany(GestaoRepresentanteUnidadeEducacao::class, 'user_pad_id', 'id');
+    }
+
+    
+    public function pesquisaCoordenacoes() {
+        return $this->hasMany(PesquisaCoordeacao::class, 'user_pad_id', 'id');
+    }
+
+    public function pesquisaLiderancas() {
+        return $this->hasMany(PesquisaLideranca::class, 'user_pad_id', 'id');
+    }
+    
+    public function pesquisaOrientacoes() {
+        return $this->hasMany(PesquisaOrientacao::class, 'user_pad_id', 'id');
+    }
+    
+    public function pesquisaOutros() {
+        return $this->hasMany(PesquisaOutros::class, 'user_pad_id', 'id');
     }
 }
