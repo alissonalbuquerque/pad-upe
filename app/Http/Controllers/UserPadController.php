@@ -104,6 +104,11 @@ class UserPadController extends Controller
         return Response::json(['errors' => $validator->errors(), 'status' => 400]);
     }
 
+    public function savePAD($user_pad_id)
+    {
+        return view('pad.components.confirm_save', ['user_pad_id' => $user_pad_id]);
+    }
+
     public function generatePDF($user_pad_id)
     {
         $ensinoTotalHoras =

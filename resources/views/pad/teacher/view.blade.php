@@ -19,12 +19,10 @@
 
 <div class="mx-2 d-flex  justify-content-between">
     <h3 class="h3"> DIMENSÕES </h3>
-    <div style="margin-right: 1.2rem">
-        <a class="btn btn-outline-success btn-m " href="{{ route('edit_perfil') }}">
-            <i class="bi bi-check-square"></i>
-            Salvar PAD
-        </a>
-    </div>
+    <button class="btn btn-outline-success btn-m btn-save_pad" style="margin-right: 1.2rem">
+        <i class="bi bi-check-square"></i>
+        Salvar PAD
+    </button>
 </div>
 
 <div class="d-flex my-3">
@@ -93,7 +91,18 @@
             <a class="stretched-link btn-pdf-download" href="{{ route('user-pad_pdf', ['user_pad_id' => $user_pad_id]) }}"></a>
         </div>
     </div>
-    
 </div>
 
+@include('components.modal', [
+    'size' => 'modal-lg',
+    'header' => 'Salvar PAD?'
+])
+@endsection
+
+@section('scripts')
+    @include('pad.components.scripts.dimensao.ensino.show_modal', [
+        'modal_id' => 'modal',
+        'route' => route('user-pad_save', ['user_pad_id' => $user_pad_id]),
+        'btn_class' => 'btn-save_pad',
+    ])
 @endsection
