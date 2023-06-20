@@ -21,7 +21,7 @@
     <h3 class="h3"> DIMENSÕES </h3>
     <button class="btn btn-outline-success btn-m btn-save_pad" style="margin-right: 1.2rem">
         <i class="bi bi-check-square"></i>
-        Salvar PAD
+        Enviar PAD
     </button>
 </div>
 
