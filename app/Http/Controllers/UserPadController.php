@@ -33,6 +33,7 @@ use App\Models\Tabelas\Pesquisa\PesquisaLideranca;
 use App\Models\Tabelas\Pesquisa\PesquisaOrientacao;
 use App\Models\Tabelas\Pesquisa\PesquisaOutros;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use PDF;
@@ -144,14 +145,13 @@ class UserPadController extends Controller
             + ExtensaoOutros::whereUserPadId($user_pad_id)->sum('ch_semanal');
         
         $horas = [
-            'ensino' => $ensinoTotalHoras,
-            'extensao' => $extensaoTotalHoras,
-            'gestao' => $gestaoTotalHoras,
-            'pesquisa' => $pesquisaTotalHoras
+            'ENSINO' => $ensinoTotalHoras,
+            'EXTENSAO' => $extensaoTotalHoras,
+            'GESTAO' => $gestaoTotalHoras,
+            'PESQUISA' => $pesquisaTotalHoras
         ];
 
         $userPad = UserPad::whereId($user_pad_id)->first();
-        $CU = $userPad->ensinoCoordenacaoRegencias->toArray();
         $model['ensino'] = 
             [PadTables::tablesEnsino($user_pad_id)[4]['name'] => $userPad->ensinoAtendimentoDiscentes->toArray(),
             PadTables::tablesEnsino($user_pad_id)[0]['name'] => $userPad->ensinoAulas->toArray(),
@@ -185,55 +185,258 @@ class UserPadController extends Controller
             PadTables::tablesPesquisa($user_pad_id)[3]['name'] => $userPad->pesquisaOutros->toArray()
             ];
         $dateTime = now()->format('d-m-Y (H:i:s)');
-        // foreach ($model as $nome_dimensao=>$dimensao) {
-        //     dump(strtoupper($nome_dimensao));
-        //     foreach ($dimensao as $categoria) {
-        //         // var_dump($categoria);
-        //         foreach ($categoria as $item) {
-        //             // var_dump($item);
-        //             foreach ($item as $value_name=>$value) {
-        //                 if (array_search($value, $item) == "id" ||
-        //                 array_search($value, $item) == "user_pad_id" ||
-        //                 array_search($value, $item) == "dimensao" ||
-        //                 array_search($value, $item) == "created_at" ||
-        //                 array_search($value, $item) == "updated_at" ||
-        //                 array_search($value, $item) == "deleted_at") {
-        //                     continue;
-        //                 }
-        //                 else {
-        //                     // $value_name;
-        //                 } 
-        //             }
+        
+        // Geração de array tratado a partir do modelo
+        $treated_model = [];
+        $treated_nome_dimensao = "";
+        $treated_nome_categoria = "";
+        
+        foreach ($model as $nome_dimensao=>$dimensao)
+        {
+            $treated_nome_dimensao = strtoupper($nome_dimensao);
+            $treated_model = Arr::add($treated_model, $treated_nome_dimensao, []);
+            foreach ($dimensao as $nome_categoria=>$categoria)
+            {
 
-                        
-        //             // foreach (array_values($item) as $index=>$value) {
-        //             //     if ($index == 7 && ! array_key_exists("modalidade", $item)) {
-        //             //         dump("NULOOOO");
-        //             //         continue;
-        //             //     }
-        //             //     if ($index > 2 && $index < 7) {
-        //             //         // var_dump ($item);
-        //             //         dump("\n");
-        //             //         var_dump ($value);
-        //             //     }
-        //             // }
-        //             break;
-        //         }
-        //         break;
-        //     }
-        //     // break;
-        // }
+                if ($categoria == null)
+                {
+                    continue;
+                }
+                else
+                {
+                    $treated_nome_categoria = str_replace(".", ":", $nome_categoria);
+                    $treated_model[$treated_nome_dimensao] = 
+                        Arr::add($treated_model[$treated_nome_dimensao], $treated_nome_categoria, []);
+                    foreach ($categoria as $item_name=>$item)
+                    {
+                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria] = 
+                                Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria], $item_name, []);
+                        foreach ($item as $value_name=>$value)
+                        {
+                            if ($value_name == "id" ||
+                                $value_name == "user_pad_id" ||
+                                $value_name == "dimensao" ||
+                                $value_name == "created_at" ||
+                                $value_name == "updated_at" ||
+                                $value_name == "deleted_at"
+                                )
+                            {
+                                continue;
+                            }
+                            elseif ($value_name == 'cod_atividade')
+                            {
+                                $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
+                                Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name],
+                                    'Cód', $value);
+                            }
+                            elseif ($value_name == 'componente_curricular')
+                            {
+                                $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
+                                Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
+                                    'Componente Curricular', $value);
+                            }
+                            elseif ($value_name == 'ch_semanal')
+                            {
+                                $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
+                                Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
+                                    'CH Semanal', $value);
+                            }
+                            elseif ($value_name == 'curso')
+                            {
+                                $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
+                                Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
+                                    'Curso', $value);
+                            }
+                            elseif ($value_name == 'descricao')
+                            {
+                                $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
+                                Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
+                                    'Descrição', $value);
+                            }
+                            elseif ($value_name == 'discente')
+                            {
+                                $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
+                                Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
+                                    'Curso', $value);
+                            }
+                            elseif ($value_name == 'documento')
+                            {
+                                $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
+                                Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
+                                    'Documento', $value);
+                            }
+                            elseif ($value_name == 'titulo_projeto')
+                            {
+                                $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
+                                Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
+                                    'Título do Projeto', $value);
+                            }
+                            elseif ($value_name == 'nome')
+                            {
+                                $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
+                                Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
+                                    'Nome', $value);
+                            }
+                            elseif ($value_name == 'programa_extensao')
+                            {
+                                $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
+                                Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
+                                    'Programa de Extensão', $value);
+                            }
+                            elseif ($value_name == 'linha_grupo_pesquisa')
+                            {
+                                $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
+                                Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
+                                    'Linha E Grupo de Pesquisa', $value);
+                            }
+                            elseif ($value_name == 'atividade')
+                            {
+                                if ('1. EXTENSÃO (COORDENAÇÃO DE ATIVIDADES DE EXTENSÃO HOMOLOGADA NA PROEC)' == $nome_categoria)
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
+                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
+                                        'Atividade', $value);
+                                }
+                            }
+                            elseif ($value_name == 'cod_dimensao')
+                            {
+                                if ('1. EXTENSÃO (COORDENAÇÃO DE ATIVIDADES DE EXTENSÃO HOMOLOGADA NA PROEC)' == $nome_categoria)
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
+                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
+                                        'Cód Dimensão', $value);
+                                }
+                            }
+                            elseif ($value_name == "nivel")
+                            {
+                                if ($value == 1)
+                                {
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
+                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
+                                        'Nível','Graduação');
+                                }
+                                elseif ($value == 2)
+                                {
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
+                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
+                                        'Nível','Pós Graduação Lato Sensu');
+                                }
+                                elseif ($value == 3)
+                                {
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
+                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
+                                        'Nível','Pós Graduação Stricto Sensu');
+                                }
+                            }
+                            elseif ($value_name == "modalidade") 
+                            {
+                                if ($value == 1) 
+                                {
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
+                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
+                                        'Modalidade','EAD');
+                                }
+                                elseif ($value == 2)
+                                {
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
+                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
+                                        'Modalidade','Presencial');
+                                }
+                            }
+                            elseif ($value_name == "funcao") 
+                            {
+                                if ($value == 1) 
+                                {
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
+                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
+                                        'Função','Coordenador');
+                                }
+                                elseif ($value == 2) 
+                                {
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
+                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
+                                        'Função','Colaborador');
+                                }
+                                elseif ($value == 4) 
+                                {
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
+                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
+                                        'Função','Orientador');
+                                }
+                                elseif ($value == 5) 
+                                {
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
+                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
+                                        'Função','Co-Orientador');
+                                }
+                                elseif ($value == 6) 
+                                {
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
+                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
+                                        'Função','Membro');
+                                }
+                            }
+                            elseif ($value_name == "natureza") 
+                            {
+                                if ($value == 1) 
+                                {
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
+                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
+                                        'Natureza','Inovação');
+                                }
+                                elseif ($value == 2) 
+                                {
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
+                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
+                                        'Natureza','Pedagogia');
+                                }
+                                elseif ($value == 4) 
+                                {
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
+                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
+                                        'Natureza','Vivência');
+                                }
+                                elseif ($value == 5) 
+                                {
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
+                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
+                                        'Natureza','Outros');
+                                }
+                            }
+                            else
+                            { 
+                                $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
+                                Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
+                                    $value_name, $value);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         $data = array(
-            'model' =>$model, 
-            'horas' => $horas);
+            'model' =>$treated_model, 
+            'horas' => $horas
+            );
+        // $treated_model = Arr::add($treated_model, '1.2.4. Ensino', "Abc");
         // dd( 
         // //     $userPad->pesquisaCoordenacoes->toArray(),
-        //     ($model['extensao']['1. EXTENSÃO (COORDENAÇÃO DE ATIVIDADES DE EXTENSÃO HOMOLOGADA NA PROEC)']),
+        //     // ($model['extensao']['1. EXTENSÃO (COORDENAÇÃO DE ATIVIDADES DE EXTENSÃO HOMOLOGADA NA PROEC)']),
+        //     $treated_model,
         //     // array_values($model['ensino'])[0],
         //     // array_values($model['ensino'])[0][0],
         //     // array_values($model['ensino'])[0][0]['cod_atividade'],
         //     // $ensinoTotalHoras,
-        //     // $model,
+        //     $model,
         //     // $horas,
         //     // $data,
         //     // $model['ensino']['8. ENSINO (COORDENAÇÃO OU MEMBRO DE NÚCLEO DOCENTE ESTRUTURANTE OU NÚCLEO DOCENTE ESTRUTURANTE ASSISTENCIAL)'] == null,
