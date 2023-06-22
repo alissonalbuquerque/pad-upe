@@ -33,7 +33,6 @@ use App\Models\Tabelas\Pesquisa\PesquisaLideranca;
 use App\Models\Tabelas\Pesquisa\PesquisaOrientacao;
 use App\Models\Tabelas\Pesquisa\PesquisaOutros;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use PDF;
@@ -190,11 +189,12 @@ class UserPadController extends Controller
         $treated_model = [];
         $treated_nome_dimensao = "";
         $treated_nome_categoria = "";
-        
+        $treated_tarefa_codigo = "";
+
         foreach ($model as $nome_dimensao=>$dimensao)
         {
             $treated_nome_dimensao = strtoupper($nome_dimensao);
-            $treated_model = Arr::add($treated_model, $treated_nome_dimensao, []);
+            $treated_model[$treated_nome_dimensao] = [];
             foreach ($dimensao as $nome_categoria=>$categoria)
             {
 
@@ -205,217 +205,167 @@ class UserPadController extends Controller
                 else
                 {
                     $treated_nome_categoria = str_replace(".", ":", $nome_categoria);
-                    $treated_model[$treated_nome_dimensao] = 
-                        Arr::add($treated_model[$treated_nome_dimensao], $treated_nome_categoria, []);
-                    foreach ($categoria as $item_name=>$item)
+                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria] = [];
+                    foreach ($categoria as $nome_item=>$item)
                     {
-                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria] = 
-                                Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria], $item_name, []);
-                        foreach ($item as $value_name=>$value)
+                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item] = [];
+                        foreach ($item as $nome_valor=>$valor)
                         {
-                            if ($value_name == "id" ||
-                                $value_name == "user_pad_id" ||
-                                $value_name == "dimensao" ||
-                                $value_name == "created_at" ||
-                                $value_name == "updated_at" ||
-                                $value_name == "deleted_at"
-                                )
+                            if (! array_key_exists($treated_tarefa_codigo, $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item]))
                             {
-                                continue;
+                                if ($nome_valor == 'cod_atividade')
+                                {
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item]['Cód: ' . $valor]  = [];
+                                    $treated_tarefa_codigo = 'Cód: ' . $valor;
+                                    // break;
+                                }
                             }
-                            elseif ($value_name == 'cod_atividade')
+                            else 
                             {
-                                $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
-                                Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name],
-                                    'Cód', $value);
-                            }
-                            elseif ($value_name == 'componente_curricular')
-                            {
-                                $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
-                                Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
-                                    'Componente Curricular', $value);
-                            }
-                            elseif ($value_name == 'ch_semanal')
-                            {
-                                $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
-                                Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
-                                    'CH Semanal', $value);
-                            }
-                            elseif ($value_name == 'curso')
-                            {
-                                $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
-                                Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
-                                    'Curso', $value);
-                            }
-                            elseif ($value_name == 'descricao')
-                            {
-                                $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
-                                Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
-                                    'Descrição', $value);
-                            }
-                            elseif ($value_name == 'discente')
-                            {
-                                $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
-                                Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
-                                    'Curso', $value);
-                            }
-                            elseif ($value_name == 'documento')
-                            {
-                                $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
-                                Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
-                                    'Documento', $value);
-                            }
-                            elseif ($value_name == 'titulo_projeto')
-                            {
-                                $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
-                                Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
-                                    'Título do Projeto', $value);
-                            }
-                            elseif ($value_name == 'nome')
-                            {
-                                $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
-                                Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
-                                    'Nome', $value);
-                            }
-                            elseif ($value_name == 'programa_extensao')
-                            {
-                                $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
-                                Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
-                                    'Programa de Extensão', $value);
-                            }
-                            elseif ($value_name == 'linha_grupo_pesquisa')
-                            {
-                                $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
-                                Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
-                                    'Linha E Grupo de Pesquisa', $value);
-                            }
-                            elseif ($value_name == 'atividade')
-                            {
-                                if ('1. EXTENSÃO (COORDENAÇÃO DE ATIVIDADES DE EXTENSÃO HOMOLOGADA NA PROEC)' == $nome_categoria)
+                                if ($nome_valor == "id" ||
+                                    $nome_valor == "user_pad_id" ||
+                                    $nome_valor == "dimensao" ||
+                                    $nome_valor == "created_at" ||
+                                    $nome_valor == "updated_at" ||
+                                    $nome_valor == "deleted_at"
+                                    )
                                 {
                                     continue;
                                 }
+                                elseif ($nome_valor == 'componente_curricular')
+                                {
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item][$treated_tarefa_codigo]['Componente Curricular'] = $valor;
+                                }
+                                elseif ($nome_valor == 'ch_semanal')
+                                {
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item][$treated_tarefa_codigo]['CH Semanal'] = $valor;
+                                }
+                                elseif ($nome_valor == 'curso')
+                                {
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item][$treated_tarefa_codigo]['Curso'] = $valor;
+                                }
+                                elseif ($nome_valor == 'descricao')
+                                {
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item][$treated_tarefa_codigo]['Descrição'] = $valor;
+                                }
+                                elseif ($nome_valor == 'discente')
+                                {
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item][$treated_tarefa_codigo]['Curso'] = $valor;
+                                }
+                                elseif ($nome_valor == 'documento')
+                                {
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item][$treated_tarefa_codigo]['Documento'] = $valor;
+                                }
+                                elseif ($nome_valor == 'titulo_projeto')
+                                {
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item][$treated_tarefa_codigo]['Título do Projeto'] = $valor;
+                                }
+                                elseif ($nome_valor == 'nome')
+                                {
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item][$treated_tarefa_codigo]['Nome'] = $valor;
+                                }
+                                elseif ($nome_valor == 'programa_extensao')
+                                {
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item][$treated_tarefa_codigo]['Programa de Extensão'] = $valor;
+                                }
+                                elseif ($nome_valor == 'linha_grupo_pesquisa')
+                                {
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item][$treated_tarefa_codigo]['Linha E Grupo de Pesquisa'] = $valor;
+                                }
+                                elseif ($nome_valor == 'atividade')
+                                {
+                                    if ('1. EXTENSÃO (COORDENAÇÃO DE ATIVIDADES DE EXTENSÃO HOMOLOGADA NA PROEC)' == $nome_categoria)
+                                    {
+                                        continue;
+                                    }
+                                    else
+                                    {
+                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item][$treated_tarefa_codigo]['Atividade'] = $valor;
+                                    }
+                                }
+                                elseif ($nome_valor == 'cod_dimensao')
+                                {
+                                    if ('1. EXTENSÃO (COORDENAÇÃO DE ATIVIDADES DE EXTENSÃO HOMOLOGADA NA PROEC)' == $nome_categoria)
+                                    {
+                                        continue;
+                                    }
+                                    else
+                                    {
+                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item][$treated_tarefa_codigo]['Cód Dimensão'] = $valor;
+                                    }
+                                }
+                                elseif ($nome_valor == "nivel")
+                                {
+                                    if ($valor == 1)
+                                    {
+                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item][$treated_tarefa_codigo]['Nível'] = 'Graduação';
+                                    }
+                                    elseif ($valor == 2)
+                                    {
+                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item][$treated_tarefa_codigo]['Nível'] = 'Pós Graduação Lato Sensu';
+                                    }
+                                    elseif ($valor == 3)
+                                    {
+                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item][$treated_tarefa_codigo]['Nível'] = 'Pós Graduação Stricto Sensu';
+                                    }
+                                }
+                                elseif ($nome_valor == "modalidade") 
+                                {
+                                    if ($valor == 1) 
+                                    {
+                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item][$treated_tarefa_codigo]['Modalidade'] = 'EAD';
+                                    }
+                                    elseif ($valor == 2)
+                                    {
+                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item][$treated_tarefa_codigo]['Modalidade'] = 'Presencial';
+                                    }
+                                }
+                                elseif ($nome_valor == "funcao") 
+                                {
+                                    if ($valor == 1) 
+                                    {
+                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item][$treated_tarefa_codigo]['Função'] = 'Coordenador';
+                                    }
+                                    elseif ($valor == 2) 
+                                    {
+                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item][$treated_tarefa_codigo]['Função'] = 'Colaborador';
+                                    }
+                                    elseif ($valor == 4) 
+                                    {
+                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item][$treated_tarefa_codigo]['Função'] = 'Orientador';
+                                    }
+                                    elseif ($valor == 5) 
+                                    {
+                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item][$treated_tarefa_codigo]['Função'] = 'Co-Orientador';
+                                    }
+                                    elseif ($valor == 6) 
+                                    {
+                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item][$treated_tarefa_codigo]['Função'] = 'Membro';
+                                    }
+                                }
+                                elseif ($nome_valor == "natureza") 
+                                {
+                                    if ($valor == 1) 
+                                    {
+                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item][$treated_tarefa_codigo]['Natureza'] = 'Inovação';
+                                    }
+                                    elseif ($valor == 2) 
+                                    {
+                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item][$treated_tarefa_codigo]['Natureza'] = 'Pedagogia';
+                                    }
+                                    elseif ($valor == 4) 
+                                    {
+                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item][$treated_tarefa_codigo]['Natureza'] = 'Vivência';
+                                    }
+                                    elseif ($valor == 5) 
+                                    {
+                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item][$treated_tarefa_codigo]['Natureza'] = 'Outros';
+                                    }
+                                }
                                 else
-                                {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
-                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
-                                        'Atividade', $value);
+                                { 
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$nome_item][$treated_tarefa_codigo][$nome_valor] = $valor;
                                 }
-                            }
-                            elseif ($value_name == 'cod_dimensao')
-                            {
-                                if ('1. EXTENSÃO (COORDENAÇÃO DE ATIVIDADES DE EXTENSÃO HOMOLOGADA NA PROEC)' == $nome_categoria)
-                                {
-                                    continue;
-                                }
-                                else
-                                {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
-                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
-                                        'Cód Dimensão', $value);
-                                }
-                            }
-                            elseif ($value_name == "nivel")
-                            {
-                                if ($value == 1)
-                                {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
-                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
-                                        'Nível','Graduação');
-                                }
-                                elseif ($value == 2)
-                                {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
-                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
-                                        'Nível','Pós Graduação Lato Sensu');
-                                }
-                                elseif ($value == 3)
-                                {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
-                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
-                                        'Nível','Pós Graduação Stricto Sensu');
-                                }
-                            }
-                            elseif ($value_name == "modalidade") 
-                            {
-                                if ($value == 1) 
-                                {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
-                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
-                                        'Modalidade','EAD');
-                                }
-                                elseif ($value == 2)
-                                {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
-                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
-                                        'Modalidade','Presencial');
-                                }
-                            }
-                            elseif ($value_name == "funcao") 
-                            {
-                                if ($value == 1) 
-                                {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
-                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
-                                        'Função','Coordenador');
-                                }
-                                elseif ($value == 2) 
-                                {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
-                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
-                                        'Função','Colaborador');
-                                }
-                                elseif ($value == 4) 
-                                {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
-                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
-                                        'Função','Orientador');
-                                }
-                                elseif ($value == 5) 
-                                {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
-                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
-                                        'Função','Co-Orientador');
-                                }
-                                elseif ($value == 6) 
-                                {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
-                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
-                                        'Função','Membro');
-                                }
-                            }
-                            elseif ($value_name == "natureza") 
-                            {
-                                if ($value == 1) 
-                                {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
-                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
-                                        'Natureza','Inovação');
-                                }
-                                elseif ($value == 2) 
-                                {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
-                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
-                                        'Natureza','Pedagogia');
-                                }
-                                elseif ($value == 4) 
-                                {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
-                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
-                                        'Natureza','Vivência');
-                                }
-                                elseif ($value == 5) 
-                                {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
-                                    Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
-                                        'Natureza','Outros');
-                                }
-                            }
-                            else
-                            { 
-                                $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name] = 
-                                Arr::add($treated_model[$treated_nome_dimensao][$treated_nome_categoria][$item_name], 
-                                    $value_name, $value);
                             }
                         }
                     }
@@ -431,6 +381,7 @@ class UserPadController extends Controller
         // dd( 
         // //     $userPad->pesquisaCoordenacoes->toArray(),
         //     // ($model['extensao']['1. EXTENSÃO (COORDENAÇÃO DE ATIVIDADES DE EXTENSÃO HOMOLOGADA NA PROEC)']),
+        //     public_path('images\estado_pe_logo.png'),
         //     $treated_model,
         //     // array_values($model['ensino'])[0],
         //     // array_values($model['ensino'])[0][0],

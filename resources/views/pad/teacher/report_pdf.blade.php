@@ -1,61 +1,39 @@
 <header style="display: flex; direction: rtl">
 </header>
 
-<div style="display: flex; flex-direction: column; gap: 4rem">
+<div style="display: flex; flex-direction: column; gap: 2.5rem">
     @foreach ($data['model'] as $nome_dimensao=>$dimensao)
-        <h1>{{$nome_dimensao}}</h1>
+        <h1 style="font-size: 16px; font-weight: bold">
+            {{$nome_dimensao}}
+        </h1>
         <div>
         @foreach ($dimensao as $nome_categoria=>$categoria)
-            <h3>{{$nome_categoria}}</h3>
+            <h4 style="font-size: 14px">
+                {{$nome_categoria}}
+            </h4>
             
-            @foreach ($categoria as $item_name=>$item)
-                <table style="border-radius: 5px; background-color: #F2F2F2;
-                min-width: 600px; box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25); min-height: 50px; ">
-                    
-                    <thead class="thead-dark">
-                        <tr>
-                            @foreach ($item as $value_name=>$value)
-                                <th style="font-weight: 600; padding: 0.3rem 0.7rem 0.7rem 0.3rem" scope="col">
-                                    {{$value_name}}
-                                </th>
-                            @endforeach
-                        </tr>
-                    </thead>
-                    
-                    <tbody>
-                        <tr>
-                            @foreach ($item as $value_name=>$value)
-                                <td style="border: 1px solid #000; vertical-align: middle; 
-                                    padding: 0.3rem 0.5rem 0.5rem 0.3rem">
-                                    {{$value}}
-                                </td>
-                            @endforeach
-                        </tr>
-                    </tbody>
-                </table>
-                <div style="height: 3rem"></div>
+            @foreach ($categoria as $nome_item=>$item)
+                <ul style="font-size: 14px">
+                    @foreach ($item as $nome_tarefa=>$tarefa)
+                    <li style="font-weight: bold">
+                        {{$nome_tarefa}}
+                    </li>
+                    <ul style="font-size: 13px">
+                        @foreach ($tarefa as $nome_valor=>$valor)
+                            <li>
+                                {{$nome_valor}}: {{$valor}}
+                            </li>
+                        @endforeach 
+                    </ul>
+                    @endforeach
+                </ul>
+                <div style="height: 1.5rem"></div>
             @endforeach
-            <div style="height: 1.5rem"></div>
+            <div style="height: 1rem"></div>
         @endforeach
-        <table style="border-radius: 10px; background-color: #F2F2F2;
-        min-width: 600px; box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
-        min-height: 50px;">
-            
-            <thead class="thead-dark">
-                <tr>
-                    <th style="text-align: center" scope="col">TOTAL DE HORAS</th>
-                </tr>
-            </thead>
-            
-            <tbody>
-                <tr>
-                    <td style="border: 1px solid #000; vertical-align: middle; text-align: center; 
-                        padding: 0.3rem 0.5rem 0.5rem 0.3rem">
-                        {{ $data['horas'][$nome_dimensao] }}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+            <ul style="font-size: 14px; list-style-type: square">
+                <li>TOTAL DE HORAS: {{ $data['horas'][$nome_dimensao] }}</li>
+            </ul>
     </div>
     @endforeach
 </div>
