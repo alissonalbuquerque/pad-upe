@@ -5,7 +5,7 @@
                 height="93" alt="" />
             <img src="https://www.gestaododesempenho.pe.gov.br/AvaliacaoDesempenho/public/resources/images/logos-direita.png"
                 class="img-fluid" width="268" height="100" alt="" /> --}}
-            <img src="{{url('images/estado_pe_logo.png')}}" alt="Logo do Estado" class="img-fluid" width="300" height="100" alt="" />
+            <img src="{{url('images/estado_pe_logo.png')}}" alt="Logo do Estado" class="img-fluid" width="300" height="100"/>
         </a>
     </div>
     <div class="header-divider"></div>
