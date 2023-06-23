@@ -111,6 +111,11 @@ class UserPadController extends Controller
 
     public function generatePDF($user_pad_id)
     {
+        $user_id = UserPad::wherePadId($user_pad_id)->first()->{'id'};
+        $user_data = [
+            'nome' => User::whereId($user_id)->first()->{'name'},
+            'email' => User::whereId($user_id)->first()->{'email'}
+        ];
         $ensinoTotalHoras =
             EnsinoAtendimentoDiscente::whereUserPadId($user_pad_id)->sum('ch_semanal')
             + EnsinoAula::whereUserPadId($user_pad_id)->sum('ch_semanal')
@@ -183,7 +188,6 @@ class UserPadController extends Controller
             PadTables::tablesPesquisa($user_pad_id)[2]['name'] => $userPad->pesquisaOrientacoes->toArray(),
             PadTables::tablesPesquisa($user_pad_id)[3]['name'] => $userPad->pesquisaOutros->toArray()
             ];
-        $dateTime = now()->format('d-m-Y (H:i:s)');
         
         // Geração de array tratado a partir do modelo
         $treated_model = [];
@@ -373,21 +377,29 @@ class UserPadController extends Controller
             }
         }
 
+        date_default_timezone_set("America/Recife");
+        $dateTime = now()->format('d/m/Y (H:i:s)');
+
         $data = array(
-            'model' =>$treated_model, 
+            'date'  => $dateTime,
+            'user'  => $user_data,
+            'model' => $treated_model, 
             'horas' => $horas
             );
-        // $treated_model = Arr::add($treated_model, '1.2.4. Ensino', "Abc");
+
         // dd( 
         // //     $userPad->pesquisaCoordenacoes->toArray(),
         //     // ($model['extensao']['1. EXTENSÃO (COORDENAÇÃO DE ATIVIDADES DE EXTENSÃO HOMOLOGADA NA PROEC)']),
-        //     public_path('images\estado_pe_logo.png'),
+        //     // public_path('\images\estado_pe_logo.png'),
+        //     // url('images\estado_pe_logo.png'),
+        //     // asset('images\estado_pe_logo.png'),
+        //     $user_data,
         //     $treated_model,
         //     // array_values($model['ensino'])[0],
         //     // array_values($model['ensino'])[0][0],
         //     // array_values($model['ensino'])[0][0]['cod_atividade'],
         //     // $ensinoTotalHoras,
-        //     $model,
+        //     // $model,
         //     // $horas,
         //     // $data,
         //     // $model['ensino']['8. ENSINO (COORDENAÇÃO OU MEMBRO DE NÚCLEO DOCENTE ESTRUTURANTE OU NÚCLEO DOCENTE ESTRUTURANTE ASSISTENCIAL)'] == null,
