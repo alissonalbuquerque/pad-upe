@@ -111,7 +111,7 @@ class UserPadController extends Controller
 
     public function generatePDF($user_pad_id)
     {
-        $user_id = UserPad::wherePadId($user_pad_id)->first()->{'id'};
+        $user_id = UserPad::whereId($user_pad_id)->first()->{'id'};
         $user_data = [
             'nome' => User::whereId($user_id)->first()->{'name'},
             'email' => User::whereId($user_id)->first()->{'email'}
@@ -393,6 +393,7 @@ class UserPadController extends Controller
         //     // public_path('\images\estado_pe_logo.png'),
         //     // url('images\estado_pe_logo.png'),
         //     // asset('images\estado_pe_logo.png'),
+        //     UserPad::wherePadId($user_pad_id)->first()->{'id'},
         //     $user_data,
         //     $treated_model,
         //     // array_values($model['ensino'])[0],
