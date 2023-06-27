@@ -111,11 +111,6 @@ class UserPadController extends Controller
 
     public function generatePDF($user_pad_id)
     {
-        $user_id = UserPad::whereId($user_pad_id)->first()->{'id'};
-        $user_data = [
-            'nome' => User::whereId($user_id)->first()->{'name'},
-            'email' => User::whereId($user_id)->first()->{'email'}
-        ];
         $ensinoTotalHoras =
             EnsinoAtendimentoDiscente::whereUserPadId($user_pad_id)->sum('ch_semanal')
             + EnsinoAula::whereUserPadId($user_pad_id)->sum('ch_semanal')
@@ -382,7 +377,10 @@ class UserPadController extends Controller
 
         $data = array(
             'date'  => $dateTime,
-            'user'  => $user_data,
+            'user'  => [
+                        'nome' => $userPad->user->{'name'},
+                        'email' => $userPad->user->{'email'}
+                        ],
             'model' => $treated_model, 
             'horas' => $horas
             );
@@ -393,7 +391,11 @@ class UserPadController extends Controller
         //     // public_path('\images\estado_pe_logo.png'),
         //     // url('images\estado_pe_logo.png'),
         //     // asset('images\estado_pe_logo.png'),
-        //     UserPad::wherePadId($user_pad_id)->first()->{'id'},
+        //     "user_pad_id:  " . $user_pad_id,
+        //     "user data",
+        //     User::whereId($user_pad_id)->first(),
+        //     $userPad->user->{'name'},
+        //     "User name:  " . $data['user']['nome'],
         //     $user_data,
         //     $treated_model,
         //     // array_values($model['ensino'])[0],
