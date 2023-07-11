@@ -23,7 +23,7 @@
     <div id="coordenacao_extensao">
         <div>
             <div class="mb-3">
-                <h3 class="h3"> Extensão - Orientação </h3 class="h3">
+                <h3 class="h3"> Extensão - Colaboração </h3 class="h3">
                 @include('components.buttons.btn-show-resolucao', [
                     'content' => 'Resolução',
                     'btn_class' => 'show_resolucao',

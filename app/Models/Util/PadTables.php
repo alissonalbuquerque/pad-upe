@@ -65,7 +65,7 @@ class PadTables {
         return [
             [
                 'id' => 'pesquisa_coordenacao',
-                'name' => '1. PESQUISA (COORDENAÇÃO OU PARTICIPAÇÃO EM PROJETOS DE PESQUISA CADASTRADOS NO SISPG)',
+                'name' => '1. PESQUISA (COORDENAÇÃO OU PARTICIPAÇÃO EM PROJETOS DE PESQUISA CADASTRADOS NO SISPG/SAPIENS)',
                 'route' => route('pesquisa_coordenacao_index', ['user_pad_id' => $user_pad_id])
             ],
             [
@@ -75,7 +75,7 @@ class PadTables {
             ],
             [
                 'id' => 'pesquisa_orientacao',
-                'name' => '3. PESQUISA (ORIENTAÇÃO DE INICIAÇÃO CIENTÍFICA DE PROJETOS VINCULADOS CADASTRADOS NO SISPG)',
+                'name' => '3. PESQUISA (ORIENTAÇÃO DE INICIAÇÃO CIENTÍFICA DE PROJETOS VINCULADOS CADASTRADOS NO SISPG/SAPIENS)',
                 'route' => route('pesquisa_orientacao_index', ['user_pad_id' => $user_pad_id])
             ],
             [

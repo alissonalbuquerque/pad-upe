@@ -2,7 +2,7 @@
 <div id="extensao_orientacao">
     <div>
         <div class="mb-3">
-            <h3 class="h3"> Extensão - Orientação </h3 class="h3">
+            <h3 class="h3"> Extensão - Colaboração </h3 class="h3">
         </div>
         <form action="{{route('extensao_orientacao_update', ['id' => $model->id])}}" method="post" id="extensao_orientacao_update-form" class="">
             @csrf
