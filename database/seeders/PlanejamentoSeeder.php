@@ -37,9 +37,9 @@ class PlanejamentoSeeder extends Seeder
 
         $list_pesquisa = [
             ['cod_dimensao' => 'P-1', 'dimensao' => Planejamento::PESQUISA, 'descricao' => 'Liderança e/ou participação em grupos de pesquisa cadastrados no CNPq e certificados pela UPE', 'ch_semanal' => 1, 'ch_maxima' => 1],
-            ['cod_dimensao' => 'P-2', 'dimensao' => Planejamento::PESQUISA, 'descricao' => 'Coordenação e/ou participação em Projetos de Pesquisa cadastrados no SISPG', 'ch_semanal' => null, 'ch_maxima' => 12],
-            ['cod_dimensao' => 'P-3', 'dimensao' => Planejamento::PESQUISA, 'descricao' => 'Orientação de Iniciação Científica oriunda de projeto/subprojeto cadastrado no SISPG', 'ch_semanal' => 2, 'ch_maxima' => 6],
-            ['cod_dimensao' => 'P-4', 'dimensao' => Planejamento::PESQUISA, 'descricao' => 'Co-orientação de Iniciação Científica oriunda de projeto/subprojeto cadastrado no SISPG', 'ch_semanal' => 1, 'ch_maxima' => 3],
+            ['cod_dimensao' => 'P-2', 'dimensao' => Planejamento::PESQUISA, 'descricao' => 'Coordenação e/ou participação em Projetos de Pesquisa cadastrados no SISPG/SAPIENS', 'ch_semanal' => null, 'ch_maxima' => 12],
+            ['cod_dimensao' => 'P-3', 'dimensao' => Planejamento::PESQUISA, 'descricao' => 'Orientação de Iniciação Científica oriunda de projeto/subprojeto cadastrado no SISPG/SAPIENS', 'ch_semanal' => 2, 'ch_maxima' => 6],
+            ['cod_dimensao' => 'P-4', 'dimensao' => Planejamento::PESQUISA, 'descricao' => 'Co-orientação de Iniciação Científica oriunda de projeto/subprojeto cadastrado no SISPG/SAPIENS', 'ch_semanal' => 1, 'ch_maxima' => 3],
             ['cod_dimensao' => 'P-5', 'dimensao' => Planejamento::PESQUISA, 'descricao' => 'Atividades fora dos padrões de preenchimento apresentados anteriormente', 'ch_semanal' => null, 'ch_maxima' => null],
         ];
 

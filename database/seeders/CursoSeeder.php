@@ -45,7 +45,7 @@ class CursoSeeder extends Seeder
                 'LICENCIATURA EM LETRAS (PORTUGUÊS/ESPANHOL)',
                 'LICENCIATURA EM MATEMÁTICA',
                 'LICENCIATURA EM PEDAGOGIA',
-                'LICENCIATURA EM TECNOLOGIA EM GESTÃO DE LOGÍSTICA',
+                'TECNOLOGIA EM GESTÃO DE LOGÍSTICA',
             ],
             'MATA SUL' => [
                 'BACHARELADO EM ADMINISTRAÇÃO',
