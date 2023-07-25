@@ -391,13 +391,15 @@ class UserPadController extends Controller
         //     // public_path('\images\estado_pe_logo.png'),
         //     // url('images\estado_pe_logo.png'),
         //     // asset('images\estado_pe_logo.png'),
-        //     "user_pad_id:  " . $user_pad_id,
-        //     "user data",
-        //     User::whereId($user_pad_id)->first(),
-        //     $userPad->user->{'name'},
-        //     "User name:  " . $data['user']['nome'],
-        //     $user_data,
-        //     $treated_model,
+        //     chmod(public_path('images\estado_pe_logo.png'), 0644),
+        //     fileperms(public_path('images\estado_pe_logo.png')),
+        //     fileowner(public_path('images\estado_pe_logo.png')),
+        //     // "user_pad_id:  " . $user_pad_id,
+        //     // "user data",
+        //     // User::whereId($user_pad_id)->first(),
+        //     // $userPad->user->{'name'},
+        //     // "User name:  " . $data['user']['nome'],
+        //     // $treated_model,
         //     // array_values($model['ensino'])[0],
         //     // array_values($model['ensino'])[0][0],
         //     // array_values($model['ensino'])[0][0]['cod_atividade'],
@@ -413,6 +415,8 @@ class UserPadController extends Controller
         // );
         view()->share('data', $data);
         // return view('pad.teacher.report_pdf');
+        // PDF::setOption(['isRemoteEnabled' => 'true']);
+
         $pdf = PDF::loadView('pad.teacher.report_pdf', $data);
         set_time_limit(300);
         return $pdf->download("Relatório PAD: " . $dateTime . ".pdf");
