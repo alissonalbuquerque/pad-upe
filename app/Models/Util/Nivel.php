@@ -6,8 +6,8 @@ namespace App\Models\Util;
 class Nivel
 {
     const GRADUACAO = 1;
-    const POS_GRADUACAO_LATO_SENSU = 2;
-    const POS_GRADUACAO_STRICTO_SENSU = 3;
+    const POS_GRADUACAO_STRICTO_SENSU = 2;
+    const POS_GRADUACAO_LATO_SENSU = 3;
 
     /**
      * @return array|string
@@ -15,8 +15,8 @@ class Nivel
     public static function listNivel($value = null) {
         $values = [
             self::GRADUACAO => 'Graduação',
-            self::POS_GRADUACAO_LATO_SENSU => 'Pós-graduação Stricto Sensu',
-            self::POS_GRADUACAO_STRICTO_SENSU => 'Pós-Graduação Lato Sensu',
+            self::POS_GRADUACAO_STRICTO_SENSU => 'Pós-Graduação Stricto Sensu',
+            self::POS_GRADUACAO_LATO_SENSU => 'Pós-graduação Lato Sensu',
 
         ];
 
