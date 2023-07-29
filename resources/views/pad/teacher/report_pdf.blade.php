@@ -21,24 +21,21 @@
                 <h4 style="font-size: 14px">
                     {{$nome_categoria}}
                 </h4>
-                
-                @foreach ($categoria as $nome_item=>$item)
-                    <ul style="font-size: 14px">
-                        @foreach ($item as $nome_tarefa=>$tarefa)
-                        <li style="font-weight: bold">
-                            {{$nome_tarefa}}
-                        </li>
-                        <ul style="font-size: 13px">
-                            @foreach ($tarefa as $nome_valor=>$valor)
-                                <li>
-                                    {{$nome_valor}}: {{$valor}}
-                                </li>
-                            @endforeach 
-                        </ul>
-                        @endforeach
+                <ul style="font-size: 14px">
+                    @foreach ($categoria as $nome_tarefa=>$tarefa)
+                    <li style="font-weight: bold">
+                        {{$nome_tarefa}}
+                    </li>
+                    <ul style="font-size: 13px">
+                        @foreach ($tarefa as $nome_valor=>$valor)
+                            <li>
+                                {{$nome_valor}}: {{$valor}}
+                            </li>
+                        @endforeach 
                     </ul>
-                    <div style="height: 6mm"></div>
-                @endforeach
+                    @endforeach
+                </ul>
+                <div style="height: 6mm"></div>
                 <div style="height: 4.5mm"></div>
             @endforeach
                 <ul style="font-size: 14px; list-style-type: square">
