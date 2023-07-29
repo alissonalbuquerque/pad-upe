@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\UserPadController;
 use App\Models\Avaliacao;
 use App\Models\AvaliadorPad;
 use App\Models\AvaliadorPadDimensao;
@@ -895,6 +896,46 @@ class PadController extends Controller
                     'pad' => $pad, 
                     'index_menu' => $index_menu,
                     'professores' => $professores]);
+    }
+
+    private function Generate_PDF($id){
+        $user = Auth::user();
+        $pad = Pad::find($id);
+        $professores = User::join('user_pad', 'user_pad.user_id', '=', 'users.id')
+            ->join('pad', 'user_pad.pad_id', '=', 'pad.id')
+            ->where(function ($query) use ($user, $id) {
+                $query->where('pad.status', '=', Status::ATIVO);
+                $query->where('users.campus_id', '=', $user->campus_id);
+                $query->where('users.id', '!=', $user->id);
+                $query->where('pad.id', '=', $id);
+            })
+            ->select('users.id', 'users.name', 'users.curso_id', 'users.campus_id')
+            ->orderBy('name')
+            ->get();
+
+        //Informando se o PAD foi enviado ou não
+        $avaliador_pad = AvaliadorPad::where(function ($query) use ($pad, $user) {
+            $query->where('user_id', '=', $user->id);
+            $query->where('pad_id', '=', $pad->id);
+        })->first();
+
+
+        foreach ($professores as $professor){
+            $professor->status = "Pendente";
+            $userPad = $professor->userPads()->where('pad_id', '=', $pad->id)->first();
+
+            $avaliacoes = $this->get_avaliacoes($userPad, $avaliador_pad); 
+
+            $professor->ch_ensino   = $this->get_carga_horaria($avaliacoes['ensino'])? $this->get_carga_horaria($avaliacoes['ensino']) : 0;
+            $professor->ch_pesquisa = $this->get_carga_horaria($avaliacoes['pesquisa'])? $this->get_carga_horaria($avaliacoes['pesquisa']) : 0;
+            $professor->ch_extensao = $this->get_carga_horaria($avaliacoes['extensao'])? $this->get_carga_horaria($avaliacoes['extensao']) : 0;
+            $professor->ch_gestao   = $this->get_carga_horaria($avaliacoes['gestao'])? $this->get_carga_horaria($avaliacoes['gestao']) : 0;
+            
+            if($professor->ch_ensino || $professor->ch_pesquisa || $professor->ch_extensao || $professor->ch_gestao ) {
+                UserPadController::Generate_PDF($userPad->{'id'});
+            }
+            
+        }
     }
 
 

@@ -19,6 +19,12 @@
             <i class="bi bi-exclamation-octagon-fill"></i>
             Relatório pad {{$pad->nome}}
         </h3>
+        @include('components.buttons.btn-download', [
+            'route' => route('pad_relatório_pdf'),
+            'content' => 'Baixar PADs enviados',
+            'id' => '',
+            'class' => '',
+        ])
     </div>
     <div class="card d-flex">
         <div class="card-head d-flex justify-content-center" style="background-color:#dfdfdf; padding-top:10px;">
