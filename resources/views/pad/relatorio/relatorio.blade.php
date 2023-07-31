@@ -20,7 +20,7 @@
             Relatório pad {{$pad->nome}}
         </h3>
         @include('components.buttons.btn-download', [
-            'route' => route('pad_relatório_pdf'),
+            'route' => route('pad_relatório_pdf', ['id' => $pad->id]),
             'content' => 'Baixar PADs enviados',
             'id' => '',
             'class' => '',
