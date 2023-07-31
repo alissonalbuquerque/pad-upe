@@ -209,14 +209,11 @@ class UserPadController extends Controller
                     {
                         foreach ($item as $nome_valor=>$valor)
                         {
-                            if (! array_key_exists('Cód: ' . $valor, $treated_model[$treated_nome_dimensao][$treated_nome_categoria]))
+                            if (! array_key_exists('Cód: ' . $item['cod_atividade'], $treated_model[$treated_nome_dimensao][$treated_nome_categoria]))
                             {
-                                if ($nome_valor == 'cod_atividade')
-                                {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria]['Cód: ' . $valor]  = [];
-                                    $treated_tarefa_codigo = 'Cód: ' . $valor;
-                                    // break;
-                                }
+                                $treated_model[$treated_nome_dimensao][$treated_nome_categoria]['Cód: ' . $item['cod_atividade']]  = [];
+                                $treated_tarefa_codigo = 'Cód: ' . $item['cod_atividade'];
+                                // break;
                             }
                             else 
                             {
@@ -384,34 +381,34 @@ class UserPadController extends Controller
             'horas' => $horas
             );
 
-        // dd( 
-        // //     $userPad->pesquisaCoordenacoes->toArray(),
-        //     // ($model['extensao']['1. EXTENSÃO (COORDENAÇÃO DE ATIVIDADES DE EXTENSÃO HOMOLOGADA NA PROEC)']),
-        //     // public_path('\images\estado_pe_logo.png'),
-        //     // url('images\estado_pe_logo.png'),
-        //     // asset('images\estado_pe_logo.png'),
-        //     // chmod(public_path('images\estado_pe_logo.png'), 0644),
-        //     // fileperms(public_path('images\estado_pe_logo.png')),
-        //     // fileowner(public_path('images\estado_pe_logo.png')),
-        //     // "user_pad_id:  " . $user_pad_id,
-        //     // "user data",
-        //     // User::whereId($user_pad_id)->first(),
-        //     // $userPad->user->{'name'},
-        //     // "User name:  " . $data['user']['nome'],
-        //     $treated_model,
-        //     // array_values($model['ensino'])[0],
-        //     // array_values($model['ensino'])[0][0],
-        //     // array_values($model['ensino'])[0][0]['cod_atividade'],
-        //     // $ensinoTotalHoras,
+        dd( 
+        //     $userPad->pesquisaCoordenacoes->toArray(),
+            // ($model['extensao']['1. EXTENSÃO (COORDENAÇÃO DE ATIVIDADES DE EXTENSÃO HOMOLOGADA NA PROEC)']),
+            // public_path('\images\estado_pe_logo.png'),
+            // url('images\estado_pe_logo.png'),
+            // asset('images\estado_pe_logo.png'),
+            // chmod(public_path('images\estado_pe_logo.png'), 0644),
+            // fileperms(public_path('images\estado_pe_logo.png')),
+            // fileowner(public_path('images\estado_pe_logo.png')),
+            // "user_pad_id:  " . $user_pad_id,
+            // "user data",
+            // User::whereId($user_pad_id)->first(),
+            // $userPad->user->{'name'},
+            // "User name:  " . $data['user']['nome'],
+            $treated_model,
+            // array_values($model['ensino'])[0],
+            // array_values($model['ensino'])[0][0],
+            // array_values($model['ensino'])[0][0]['cod_atividade'],
+            // $ensinoTotalHoras,
+            $model,
+            // $horas,
+            // $data,
+            // $model['ensino']['8. ENSINO (COORDENAÇÃO OU MEMBRO DE NÚCLEO DOCENTE ESTRUTURANTE OU NÚCLEO DOCENTE ESTRUTURANTE ASSISTENCIAL)'] == null,
+        //     PadTables::tablesEnsino($user_pad_id)[0]['name'],
         //     $model,
-        //     // $horas,
-        //     // $data,
-        //     // $model['ensino']['8. ENSINO (COORDENAÇÃO OU MEMBRO DE NÚCLEO DOCENTE ESTRUTURANTE OU NÚCLEO DOCENTE ESTRUTURANTE ASSISTENCIAL)'] == null,
-        // //     PadTables::tablesEnsino($user_pad_id)[0]['name'],
-        // //     $model,
-        // //     "$dateTime",
-        // //     empty($model['ensino'][0])
-        // );
+        //     "$dateTime",
+        //     empty($model['ensino'][0])
+        );
         view()->share('data', $data);
         // return view('pad.teacher.report_pdf');
         // PDF::setOption(['isRemoteEnabled' => 'true']);
