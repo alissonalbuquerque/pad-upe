@@ -92,6 +92,36 @@
                                     @include('components.divs.errors', ['field' => 'email'])
                                 </div>
                             </div>
+
+                            <div class="mb-4 col-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="campus_id"> Campus </label>
+                                    <select class="form-control" name="campus_id" id="campus_id">
+                                        @if($user->campus_id) 
+                                            <option value="{{$user->campus_id}}" selected> {{$user->campus}} </option>
+                                        @endif
+                                    </select>
+                                    @error('campus_id')
+                                        <span class="text-danger"> {{ $message }} </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="mb-4 col-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="curso_id"> Curso </label>
+                                    <select class="form-control" name="curso_id" id="curso_id">
+                                        @if($user->curso_id) 
+                                            <option value="{{$user->curso_id}}" selected> {{$user->curso}} </option>
+                                        @endif
+                                    </select>
+                                    @error('curso_id')
+                                        <span class="text-danger"> {{ $message }} </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            
                         </div>
 
                     </div>
@@ -158,9 +188,43 @@
 
 @section('scripts')
     <script type="text/javascript">
+
+        //document
         $('#document').mask('000.000.000-00')
         $('#document').keypress(function() {
             $(this).mask('000.000.000-00')
         })
+
+        //campus_id
+        $('#campus_id').select2(
+        {   
+            placeholder: "Selecione um Campus",
+            allowClear: true,
+            ajax: {
+                url: '{{ route("campus_search") }}',
+                dataType: 'json'
+            }
+        });
+
+        $('#campus_id').on('change', function (e) {
+            $('#curso_id').empty()
+        });
+
+        //curso_id
+        $('#curso_id').select2(
+        {   
+            placeholder: "Selecione um Curso",
+            allowClear: true,
+            ajax: {
+                url: '{{ route("curso_search") }}',
+                data: function(params) {
+                    return {
+                        q: params.term,
+                        campus_id: $('#campus_id').val()
+                    }
+                },
+                dataType: 'json'
+            },
+        });
     </script>               
 @endsection

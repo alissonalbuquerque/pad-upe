@@ -41,7 +41,7 @@ class UserController extends Controller
 
         $user = User::find($user_id);
         $user->fill($request->all());
-        $user->document = MaskHelper::documentOnlyNumber($user->document);
+        $user->document = $user->document !== null ? MaskHelper::documentOnlyNumber($user->document) : '';
         $user->save();
 
         return redirect()->route('edit_perfil')->with('success', 'Salvo com sucesso!');

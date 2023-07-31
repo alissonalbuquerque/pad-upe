@@ -10,7 +10,7 @@ class MaskHelper
      * @return string
      * */
     public static function documentOnlyNumber(string $document, array $clean = ['.', '-'])
-    {   
+    {
         return str_replace($clean, '', $document);
         
     }
