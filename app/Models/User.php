@@ -52,8 +52,8 @@ class User extends Authenticatable
         $rules = [
             'name' => ['required', 'min:4'],
             'email' => ['required', 'email', Rule::unique('users')->ignore($id)],
-            'curso_id' => ['integer'],
-            'campus_id' => ['integer'],
+            'curso_id' => ['required', 'integer'],
+            'campus_id' => ['required', 'integer'],
             'status' => [
                 Rule::requiredIf ( function() use($ignoreStatus)
                 {
@@ -81,9 +81,11 @@ class User extends Authenticatable
             'status.integer' => 'O campo "Status" deve cónter um inteiro!',
 
             //curso_id
+            'curso_id.required' => 'O campo "Curso" é obrigatório.',
             'curso_id.integer' => 'O campo "Curso" deve cónter um inteiro!',
 
             //campus_id
+            'campus_id.required' => 'O campo "Campus" é obrigatório.',
             'campus_id.integer' => 'O campo "Campus" deve cónter um inteiro!',
         ];
 

@@ -102,7 +102,7 @@
             <div class="afastamento_total_desc_field">
                 <div class="mb-3">
                     <label for="afastamento_total_desc" class="form-label"> PORTARIA DE AFASTAMENTO (TOTAL) </label>
-                    <textarea class="form-control" name="afastamento_total_desc" id="afastamento_total_desc"></textarea>
+                    <textarea class="form-control" name="afastamento_total_desc" id="afastamento_total_desc">{{ $model->afastamento_total_desc }}</textarea>
                 </div>
             </div>
         </div>
@@ -126,7 +126,7 @@
             <div class="afastamento_parcial_desc_field">
                 <div class="mb-3">
                     <label for="afastamento_parcial_desc" class="form-label"> PORTARIA DE AFASTAMENTO (PARCIAL) </label>
-                    <textarea class="form-control" name="afastamento_parcial_desc" id="afastamento_parcial_desc"></textarea>
+                    <textarea class="form-control" name="afastamento_parcial_desc" id="afastamento_parcial_desc">{{ $model->afastamento_parcial_desc }}</textarea>
                 </div>
             </div>
         </div>
@@ -150,7 +150,7 @@
             <div class="licenca_field">
                 <div class="mb-3">
                     <label for="licenca" class="form-label"> LICENÇA DE ACORDO COM A LEGISLAÇÃO VIGENTE. ESPECIFIQUE </label>
-                    <textarea class="form-control" name="licenca" id="licenca"></textarea>
+                    <textarea class="form-control" name="licenca" id="licenca">{{ $model->licenca }}</textarea>
                 </div>
             </div>
         </div>
