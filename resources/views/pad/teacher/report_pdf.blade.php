@@ -13,6 +13,15 @@
     </header>
 
     <div style="display: flex; flex-direction: column; padding-left:5mm; gap: 10mm">
+        <h1 style="font-size: 16px; font-weight: bold; text-align: center">
+            ANEXO B
+        </h1>
+        @foreach ($data['anexo'] as $nome=>$valor)
+            <h4 style="font-size: 12px; font-weight: normal; padding-bottom: 5px">
+                <b>{{$nome}}</b>: {{$valor}}
+            </h4>
+        @endforeach
+        <hr>
         @foreach ($data['model'] as $nome_dimensao=>$dimensao)
             <h1 style="font-size: 16px; font-weight: bold">
                 {{$nome_dimensao}}

@@ -311,8 +311,6 @@ class UserPadController extends Controller
             }
         }
         $treated_anexo_pad = [];
-        $treated_anexo_item_valor = "";
-        $treated_anexo_item_nome = "";
         foreach ($anexoPad as $nome_valor=>$valor)
         {
             if (in_array($nome_valor, $valores_lista_negra))
@@ -344,7 +342,6 @@ class UserPadController extends Controller
                 $treated_anexo_pad[$nome_valor] = $valor;
             }
         }
-        $model['anexo'] = $treated_anexo_pad;
 
         date_default_timezone_set("America/Recife");
         $dateTime = now()->format('d/m/Y (H:i:s)');
@@ -355,6 +352,7 @@ class UserPadController extends Controller
                         'nome' => $userPad->user->{'name'},
                         'email' => $userPad->user->{'email'}
                         ],
+            'anexo' => $treated_anexo_pad,
             'model' => $treated_model, 
             'horas' => $horas
             );
@@ -363,7 +361,6 @@ class UserPadController extends Controller
         // //     $userPad->pesquisaCoordenacoes->toArray(),
         //     $anexoPad,
         //     $treated_anexo_pad,
-        //     // $model['anexo'],
         //     $cursos,
         //     // ($model['extensao']['1. EXTENSÃO (COORDENAÇÃO DE ATIVIDADES DE EXTENSÃO HOMOLOGADA NA PROEC)']),
         //     // public_path('\images\estado_pe_logo.png'),
