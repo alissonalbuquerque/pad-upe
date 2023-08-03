@@ -6,6 +6,8 @@ use App\Models\Pad;
 use App\Models\Curso;
 use App\Models\User;
 use App\Models\UserPad;
+use App\Models\Anexo;
+use App\Models\Unidade;
 use App\Models\Util\Nivel;
 use App\Models\Util\Modalidade;
 use App\Models\Util\Natureza;
@@ -123,23 +125,50 @@ class UserPadController extends Controller
         ksort($funcoes);
         $naturezas = Natureza::listNatureza();
         $modalidades = Modalidade::listModalidade();
-        $nomes_valores = ['componente_curricular' => 'Componente Curricular',
-                'ch_semanal' => 'CH Semanal',
-                'curso' => 'Curso',
-                'descricao' => 'Descrição',
-                'discente' => 'Discente',
-                'documento' => 'Documento',
-                'titulo_projeto' => 'Título do Projeto',
-                'nome' => 'Nome',
-                'programa_extensao' => 'Programa de Extensão',
-                'linha_grupo_pesquisa' => 'Linha e Grupo de Pesquisa',
-                'atividade' => 'Atividade',
-                'cod_dimensao' => 'Cód Dimensão',
-                'nivel' => 'Nível',
-                'modalidade' => 'Modalidade',
-                'funcao' => 'Função',
-                'natureza' => 'Natureza'
-            ];
+        $unidades_ensino = Unidade::listUnidades();
+        $cursos = Curso::whereId(5)->first()->toArray();
+        $semestres = Anexo::listSemestre();
+        $nomes_valores = 
+        [
+            'componente_curricular' => 'Componente Curricular',
+            'ch_semanal' => 'CH Semanal',
+            'curso' => 'Curso',
+            'descricao' => 'Descrição',
+            'discente' => 'Discente',
+            'documento' => 'Documento',
+            'titulo_projeto' => 'Título do Projeto',
+            'nome' => 'Nome',
+            'programa_extensao' => 'Programa de Extensão',
+            'linha_grupo_pesquisa' => 'Linha e Grupo de Pesquisa',
+            'atividade' => 'Atividade',
+            'cod_dimensao' => 'Cód Dimensão',
+            'nivel' => 'Nível',
+            'modalidade' => 'Modalidade',
+            'funcao' => 'Função',
+            'natureza' => 'Natureza',
+            "campus_id" => 'UNIDADE DE EDUCAÇÃO/CAMPUS',
+            "curso_id" => 'CURSO',
+            "semestre" => 'PLANO DE ATIVIDADE DOCENTE - ANO',
+            "matricula" => 'MATRÍCULA',
+            "carga_horaria" => 'CARGA HORÁRIA',
+            "categoria_nivel" => 'CATEGORIA / NÍVEL',
+            "afastamento_total" => 'AFASTAMENTO TOTAL?',
+            "afastamento_total_desc" => 'PORTARIA DE AFASTAMENTO (TOTAL)',
+            "afastamento_parcial" => 'AFASTAMENTO PARCIAL?',
+            "afastamento_parcial_desc" => 'PORTARIA DE AFASTAMENTO (PARCIAL)',
+            "direcao_sindical" => 'EXERCE FUNÇÃO ADMINISTRATIVA?',
+            "licenca" => 'LICENÇA DE ACORDO COM A LEGISLAÇÃO VIGENTE. ESPECIFIQUE',
+        ];
+        $valores_lista_negra =
+        [
+            "id",
+            "user_pad_id",
+            "dimensao",
+            "cod_atividade",
+            "created_at",
+            "updated_at",
+            "deleted_at"
+        ];
         $ensinoTotalHoras =
             EnsinoAtendimentoDiscente::whereUserPadId($user_pad_id)->sum('ch_semanal')
             + EnsinoAula::whereUserPadId($user_pad_id)->sum('ch_semanal')
@@ -179,6 +208,7 @@ class UserPadController extends Controller
             'PESQUISA' => $pesquisaTotalHoras
         ];
 
+        $anexoPad = Anexo::whereUserPadId($user_pad_id)->first()->toArray();
         $userPad = UserPad::whereId($user_pad_id)->first();
         $model['ensino'] = 
             [PadTables::tablesEnsino($user_pad_id)[0]['name'] => $userPad->ensinoAulas->toArray(),
@@ -243,19 +273,10 @@ class UserPadController extends Controller
                             {
                                 $treated_model[$treated_nome_dimensao][$treated_nome_categoria]['Cód: ' . $item['cod_atividade']]  = [];
                                 $treated_tarefa_codigo = 'Cód: ' . $item['cod_atividade'];
-                                // break;
                             }
                             else 
                             {
-                                if ($nome_valor == "id" ||
-                                    $nome_valor == "user_pad_id" ||
-                                    $nome_valor == "dimensao" ||
-                                    $nome_valor == 'cod_atividade' ||
-                                    $nome_valor == "created_at" ||
-                                    $nome_valor == "updated_at" ||
-                                    $nome_valor == "deleted_at" 
-                                    
-                                    )
+                                if (in_array($nome_valor, $valores_lista_negra))
                                 {
                                     continue;
                                 }
@@ -289,6 +310,41 @@ class UserPadController extends Controller
                 }
             }
         }
+        $treated_anexo_pad = [];
+        $treated_anexo_item_valor = "";
+        $treated_anexo_item_nome = "";
+        foreach ($anexoPad as $nome_valor=>$valor)
+        {
+            if (in_array($nome_valor, $valores_lista_negra))
+            {
+                continue;
+            }
+            elseif ($nome_valor == 'campus_id') 
+            {
+                $treated_anexo_pad[$nomes_valores[$nome_valor]] = strtoupper($unidades_ensino[$valor]);
+            }
+            elseif ($nome_valor == 'curso_id') 
+            {
+                $treated_anexo_pad[$nomes_valores[$nome_valor]] = Curso::whereId($valor)->first()->{'name'};
+            }
+            elseif ($nome_valor == 'semestre') 
+            {
+                $treated_anexo_pad[$nomes_valores[$nome_valor]] = $semestres[$valor];
+            }
+            elseif ($nome_valor == 'afastamento_total' || $nome_valor == 'afastamento_parcial' || $nome_valor == 'direcao_sindical') 
+            {
+                $treated_anexo_pad[$nomes_valores[$nome_valor]] = $valor == 1? 'Sim' : 'Não';
+            }
+            elseif (array_key_exists($nome_valor, $nomes_valores))
+            {
+                $treated_anexo_pad[$nomes_valores[$nome_valor]] = $valor;
+            }
+            else 
+            {
+                $treated_anexo_pad[$nome_valor] = $valor;
+            }
+        }
+        $model['anexo'] = $treated_anexo_pad;
 
         date_default_timezone_set("America/Recife");
         $dateTime = now()->format('d/m/Y (H:i:s)');
@@ -305,8 +361,10 @@ class UserPadController extends Controller
 
         // dd( 
         // //     $userPad->pesquisaCoordenacoes->toArray(),
-        //     $niveis[1],
-        //     $funcoes,
+        //     $anexoPad,
+        //     $treated_anexo_pad,
+        //     // $model['anexo'],
+        //     $cursos,
         //     // ($model['extensao']['1. EXTENSÃO (COORDENAÇÃO DE ATIVIDADES DE EXTENSÃO HOMOLOGADA NA PROEC)']),
         //     // public_path('\images\estado_pe_logo.png'),
         //     // url('images\estado_pe_logo.png'),
