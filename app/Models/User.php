@@ -47,7 +47,7 @@ class User extends Authenticatable
         return $this->status !== null ? Status::listStatus($this->status) : '-';
     }
 
-    public static function validator(array $attributes, $id = null, $ignoreStatus = true)
+    public static function validator(array $attributes, $id = null, $ignoreStatus = true, $ignoreAttributes = [])
     {   
         $rules = [
             'name' => ['required', 'min:4'],
@@ -64,6 +64,10 @@ class User extends Authenticatable
                 'integer',
             ],
         ];
+
+        foreach($ignoreAttributes as $attribute) {
+            unset($rules[$attribute]);
+        }
 
         $messages = [
             //name

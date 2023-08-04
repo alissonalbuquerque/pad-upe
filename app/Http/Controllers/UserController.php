@@ -89,7 +89,7 @@ class UserController extends Controller
 
     public function actionStore(Request $request)
     {   
-        $validator = User::validator($request->all());
+        $validator = User::validator($request->all(), null, true, ['curso_id', 'campus_id']);
 
         if($validator->fails()) {
             return redirect()->route('user_create')->withErrors($validator)->withInput();
@@ -138,7 +138,7 @@ class UserController extends Controller
     {   
         $model = User::find($id);
 
-        $validator = User::validator($request->all(), $model->id);
+        $validator = User::validator($request->all(), $model->id, true, ['curso_id', 'campus_id']);
 
         if($validator->fails()) {
             return redirect()->route('user_edit', ['id' => $model->id])->withErrors($validator)->withInput();
