@@ -6,6 +6,13 @@ use App\Models\Pad;
 use App\Models\Curso;
 use App\Models\User;
 use App\Models\UserPad;
+use App\Models\Anexo;
+use App\Models\Unidade;
+use App\Models\Util\Nivel;
+use App\Models\Util\Modalidade;
+use App\Models\Util\Natureza;
+use App\Models\Util\Funcao;
+use App\Models\Util\Dimensao;
 use App\Models\Util\Status;
 use App\Models\Util\PadTables;
 use App\Models\Tabelas\Ensino\EnsinoAtendimentoDiscente;
@@ -111,6 +118,57 @@ class UserPadController extends Controller
 
     public function generatePDF($user_pad_id)
     {
+        $niveis = Nivel::listNivel();
+        $funcoes = Funcao::listFuncaoEnsino() + 
+                    Funcao::listFuncaoOrientador() + 
+                    array_diff(Funcao::listFuncaoProjeto(), Funcao::listFuncaoEnsino());
+        ksort($funcoes);
+        $naturezas = Natureza::listNatureza();
+        $modalidades = Modalidade::listModalidade();
+        $unidades_ensino = Unidade::listUnidades();
+        $cursos = Curso::whereId(5)->first()->toArray();
+        $semestres = Anexo::listSemestre();
+        $nomes_valores = 
+        [
+            'componente_curricular' => 'Componente Curricular',
+            'ch_semanal' => 'CH Semanal',
+            'curso' => 'Curso',
+            'descricao' => 'Descrição',
+            'discente' => 'Discente',
+            'documento' => 'Documento',
+            'titulo_projeto' => 'Título do Projeto',
+            'nome' => 'Nome',
+            'programa_extensao' => 'Programa de Extensão',
+            'linha_grupo_pesquisa' => 'Linha e Grupo de Pesquisa',
+            'atividade' => 'Atividade',
+            'cod_dimensao' => 'Cód Dimensão',
+            'nivel' => 'Nível',
+            'modalidade' => 'Modalidade',
+            'funcao' => 'Função',
+            'natureza' => 'Natureza',
+            "campus_id" => 'UNIDADE DE EDUCAÇÃO/CAMPUS',
+            "curso_id" => 'CURSO',
+            "semestre" => 'PLANO DE ATIVIDADE DOCENTE - ANO',
+            "matricula" => 'MATRÍCULA',
+            "carga_horaria" => 'CARGA HORÁRIA',
+            "categoria_nivel" => 'CATEGORIA / NÍVEL',
+            "afastamento_total" => 'AFASTAMENTO TOTAL?',
+            "afastamento_total_desc" => 'PORTARIA DE AFASTAMENTO (TOTAL)',
+            "afastamento_parcial" => 'AFASTAMENTO PARCIAL?',
+            "afastamento_parcial_desc" => 'PORTARIA DE AFASTAMENTO (PARCIAL)',
+            "direcao_sindical" => 'EXERCE FUNÇÃO ADMINISTRATIVA?',
+            "licenca" => 'LICENÇA DE ACORDO COM A LEGISLAÇÃO VIGENTE. ESPECIFIQUE',
+        ];
+        $valores_lista_negra =
+        [
+            "id",
+            "user_pad_id",
+            "dimensao",
+            "cod_atividade",
+            "created_at",
+            "updated_at",
+            "deleted_at"
+        ];
         $ensinoTotalHoras =
             EnsinoAtendimentoDiscente::whereUserPadId($user_pad_id)->sum('ch_semanal')
             + EnsinoAula::whereUserPadId($user_pad_id)->sum('ch_semanal')
@@ -150,32 +208,34 @@ class UserPadController extends Controller
             'PESQUISA' => $pesquisaTotalHoras
         ];
 
+        $anexoPad = Anexo::whereUserPadId($user_pad_id)->first()->toArray();
         $userPad = UserPad::whereId($user_pad_id)->first();
         $model['ensino'] = 
-            [PadTables::tablesEnsino($user_pad_id)[4]['name'] => $userPad->ensinoAtendimentoDiscentes->toArray(),
-            PadTables::tablesEnsino($user_pad_id)[0]['name'] => $userPad->ensinoAulas->toArray(),
+            [PadTables::tablesEnsino($user_pad_id)[0]['name'] => $userPad->ensinoAulas->toArray(),
             PadTables::tablesEnsino($user_pad_id)[1]['name'] => $userPad->ensinoCoordenacaoRegencias->toArray(),
-            PadTables::tablesEnsino($user_pad_id)[7]['name'] => $userPad->ensinoMembroDocentes->toArray(),
             PadTables::tablesEnsino($user_pad_id)[2]['name'] => $userPad->ensinoOrientacoes->toArray(),
-            PadTables::tablesEnsino($user_pad_id)[8]['name'] => $userPad->ensinoOutros->toArray(),
-            PadTables::tablesEnsino($user_pad_id)[6]['name'] => $userPad->ensinoParticipacoes->toArray(),
+            PadTables::tablesEnsino($user_pad_id)[3]['name'] => $userPad->ensinoSupervisoes->toArray(),
+            PadTables::tablesEnsino($user_pad_id)[4]['name'] => $userPad->ensinoAtendimentoDiscentes->toArray(),
             PadTables::tablesEnsino($user_pad_id)[5]['name'] => $userPad->ensinoProjetos->toArray(),
-            PadTables::tablesEnsino($user_pad_id)[3]['name'] => $userPad->ensinoSupervisoes->toArray()
+            PadTables::tablesEnsino($user_pad_id)[6]['name'] => $userPad->ensinoParticipacoes->toArray(),
+            PadTables::tablesEnsino($user_pad_id)[7]['name'] => $userPad->ensinoMembroDocentes->toArray(),
+            PadTables::tablesEnsino($user_pad_id)[8]['name'] => $userPad->ensinoOutros->toArray()
             ];
+
         $model['extensao'] =
             [PadTables::tablesExtensao($user_pad_id)[0]['name'] => $userPad->extensaoCoordenacoes->toArray(),
             PadTables::tablesExtensao($user_pad_id)[1]['name'] => $userPad->extensaoOrientacoes->toArray(),
             PadTables::tablesExtensao($user_pad_id)[2]['name'] => $userPad->extensaoOutros->toArray()
             ];
         $model['gestao'] =
-            [PadTables::tablesGestao($user_pad_id)[5]['name'] => $userPad->gestaoCoordenacaoLaboratoriosDidaticos->toArray(),
-            PadTables::tablesGestao($user_pad_id)[6]['name'] => $userPad->gestaoCoordenacaoProgramasInstitucionais->toArray(),
-            PadTables::tablesGestao($user_pad_id)[4]['name'] => $userPad->gestaoMembroCamaras->toArray(),
-            PadTables::tablesGestao($user_pad_id)[0]['name'] => $userPad->gestaoMembroComissoes->toArray(),
+            [PadTables::tablesGestao($user_pad_id)[0]['name'] => $userPad->gestaoMembroComissoes->toArray(),
             PadTables::tablesGestao($user_pad_id)[1]['name'] => $userPad->gestaoMembroConselhos->toArray(),
             PadTables::tablesGestao($user_pad_id)[2]['name'] => $userPad->gestaoMembroTitularConselhos->toArray(),
-            PadTables::tablesGestao($user_pad_id)[7]['name'] => $userPad->gestaoOutros->toArray(),
-            PadTables::tablesGestao($user_pad_id)[3]['name'] => $userPad->gestaoRepresentanteUnidadeEducacoes->toArray()
+            PadTables::tablesGestao($user_pad_id)[3]['name'] => $userPad->gestaoRepresentanteUnidadeEducacoes->toArray(),
+            PadTables::tablesGestao($user_pad_id)[4]['name'] => $userPad->gestaoMembroCamaras->toArray(),
+            PadTables::tablesGestao($user_pad_id)[5]['name'] => $userPad->gestaoCoordenacaoLaboratoriosDidaticos->toArray(),
+            PadTables::tablesGestao($user_pad_id)[6]['name'] => $userPad->gestaoCoordenacaoProgramasInstitucionais->toArray(),
+            PadTables::tablesGestao($user_pad_id)[7]['name'] => $userPad->gestaoOutros->toArray()
             ];
         $model['pesquisa'] =
             [PadTables::tablesPesquisa($user_pad_id)[0]['name'] => $userPad->pesquisaCoordenacoes->toArray(), 
@@ -213,149 +273,32 @@ class UserPadController extends Controller
                             {
                                 $treated_model[$treated_nome_dimensao][$treated_nome_categoria]['Cód: ' . $item['cod_atividade']]  = [];
                                 $treated_tarefa_codigo = 'Cód: ' . $item['cod_atividade'];
-                                // break;
                             }
                             else 
                             {
-                                if ($nome_valor == "id" ||
-                                    $nome_valor == "user_pad_id" ||
-                                    $nome_valor == "dimensao" ||
-                                    $nome_valor == "created_at" ||
-                                    $nome_valor == "updated_at" ||
-                                    $nome_valor == "deleted_at"
-                                    )
+                                if (in_array($nome_valor, $valores_lista_negra))
                                 {
                                     continue;
                                 }
-                                elseif ($nome_valor == 'componente_curricular')
-                                {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo]['Componente Curricular'] = $valor;
-                                }
-                                elseif ($nome_valor == 'ch_semanal')
-                                {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo]['CH Semanal'] = $valor;
-                                }
-                                elseif ($nome_valor == 'curso')
-                                {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo]['Curso'] = $valor;
-                                }
-                                elseif ($nome_valor == 'descricao')
-                                {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo]['Descrição'] = $valor;
-                                }
-                                elseif ($nome_valor == 'discente')
-                                {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo]['Curso'] = $valor;
-                                }
-                                elseif ($nome_valor == 'documento')
-                                {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo]['Documento'] = $valor;
-                                }
-                                elseif ($nome_valor == 'titulo_projeto')
-                                {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo]['Título do Projeto'] = $valor;
-                                }
-                                elseif ($nome_valor == 'nome')
-                                {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo]['Nome'] = $valor;
-                                }
-                                elseif ($nome_valor == 'programa_extensao')
-                                {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo]['Programa de Extensão'] = $valor;
-                                }
-                                elseif ($nome_valor == 'linha_grupo_pesquisa')
-                                {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo]['Linha E Grupo de Pesquisa'] = $valor;
-                                }
-                                elseif ($nome_valor == 'atividade')
-                                {
-                                    if ('1. EXTENSÃO (COORDENAÇÃO DE ATIVIDADES DE EXTENSÃO HOMOLOGADA NA PROEC)' == $nome_categoria)
-                                    {
-                                        continue;
-                                    }
-                                    else
-                                    {
-                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo]['Atividade'] = $valor;
-                                    }
-                                }
-                                elseif ($nome_valor == 'cod_dimensao')
-                                {
-                                    if ('1. EXTENSÃO (COORDENAÇÃO DE ATIVIDADES DE EXTENSÃO HOMOLOGADA NA PROEC)' == $nome_categoria)
-                                    {
-                                        continue;
-                                    }
-                                    else
-                                    {
-                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo]['Cód Dimensão'] = $valor;
-                                    }
-                                }
                                 elseif ($nome_valor == "nivel")
                                 {
-                                    if ($valor == 1)
-                                    {
-                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo]['Nível'] = 'Graduação';
-                                    }
-                                    elseif ($valor == 2)
-                                    {
-                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo]['Nível'] = 'Pós Graduação Lato Sensu';
-                                    }
-                                    elseif ($valor == 3)
-                                    {
-                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo]['Nível'] = 'Pós Graduação Stricto Sensu';
-                                    }
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo][$nomes_valores[$nome_valor]] = $niveis[$valor];
                                 }
                                 elseif ($nome_valor == "modalidade") 
                                 {
-                                    if ($valor == 1) 
-                                    {
-                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo]['Modalidade'] = 'EAD';
-                                    }
-                                    elseif ($valor == 2)
-                                    {
-                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo]['Modalidade'] = 'Presencial';
-                                    }
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo][$nomes_valores[$nome_valor]] = $modalidades[$valor];
                                 }
                                 elseif ($nome_valor == "funcao") 
                                 {
-                                    if ($valor == 1) 
-                                    {
-                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo]['Função'] = 'Coordenador';
-                                    }
-                                    elseif ($valor == 2) 
-                                    {
-                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo]['Função'] = 'Colaborador';
-                                    }
-                                    elseif ($valor == 4) 
-                                    {
-                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo]['Função'] = 'Orientador';
-                                    }
-                                    elseif ($valor == 5) 
-                                    {
-                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo]['Função'] = 'Co-Orientador';
-                                    }
-                                    elseif ($valor == 6) 
-                                    {
-                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo]['Função'] = 'Membro';
-                                    }
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo][$nomes_valores[$nome_valor]] = $funcoes[$valor];
                                 }
                                 elseif ($nome_valor == "natureza") 
                                 {
-                                    if ($valor == 1) 
-                                    {
-                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo]['Natureza'] = 'Inovação';
-                                    }
-                                    elseif ($valor == 2) 
-                                    {
-                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo]['Natureza'] = 'Pedagogia';
-                                    }
-                                    elseif ($valor == 4) 
-                                    {
-                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo]['Natureza'] = 'Vivência';
-                                    }
-                                    elseif ($valor == 5) 
-                                    {
-                                        $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo]['Natureza'] = 'Outros';
-                                    }
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo][$nomes_valores[$nome_valor]] = $naturezas[$valor];
+                                }
+                                elseif(array_key_exists($nome_valor, $nomes_valores)) 
+                                {
+                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo][$nomes_valores[$nome_valor]] = $valor;
                                 }
                                 else
                                 { 
@@ -365,6 +308,38 @@ class UserPadController extends Controller
                         }
                     }
                 }
+            }
+        }
+        $treated_anexo_pad = [];
+        foreach ($anexoPad as $nome_valor=>$valor)
+        {
+            if (in_array($nome_valor, $valores_lista_negra))
+            {
+                continue;
+            }
+            elseif ($nome_valor == 'campus_id') 
+            {
+                $treated_anexo_pad[$nomes_valores[$nome_valor]] = strtoupper($unidades_ensino[$valor]);
+            }
+            elseif ($nome_valor == 'curso_id') 
+            {
+                $treated_anexo_pad[$nomes_valores[$nome_valor]] = Curso::whereId($valor)->first()->{'name'};
+            }
+            elseif ($nome_valor == 'semestre') 
+            {
+                $treated_anexo_pad[$nomes_valores[$nome_valor]] = $semestres[$valor];
+            }
+            elseif ($nome_valor == 'afastamento_total' || $nome_valor == 'afastamento_parcial' || $nome_valor == 'direcao_sindical') 
+            {
+                $treated_anexo_pad[$nomes_valores[$nome_valor]] = $valor == 1? 'Sim' : 'Não';
+            }
+            elseif (array_key_exists($nome_valor, $nomes_valores))
+            {
+                $treated_anexo_pad[$nomes_valores[$nome_valor]] = $valor;
+            }
+            else 
+            {
+                $treated_anexo_pad[$nome_valor] = $valor;
             }
         }
 
@@ -377,12 +352,16 @@ class UserPadController extends Controller
                         'nome' => $userPad->user->{'name'},
                         'email' => $userPad->user->{'email'}
                         ],
+            'anexo' => $treated_anexo_pad,
             'model' => $treated_model, 
             'horas' => $horas
             );
 
         // dd( 
         // //     $userPad->pesquisaCoordenacoes->toArray(),
+        //     $anexoPad,
+        //     $treated_anexo_pad,
+        //     $cursos,
         //     // ($model['extensao']['1. EXTENSÃO (COORDENAÇÃO DE ATIVIDADES DE EXTENSÃO HOMOLOGADA NA PROEC)']),
         //     // public_path('\images\estado_pe_logo.png'),
         //     // url('images\estado_pe_logo.png'),
@@ -395,12 +374,12 @@ class UserPadController extends Controller
         //     // User::whereId($user_pad_id)->first(),
         //     // $userPad->user->{'name'},
         //     // "User name:  " . $data['user']['nome'],
-        //     $treated_model,
+        //     // $treated_model,
         //     // array_values($model['ensino'])[0],
         //     // array_values($model['ensino'])[0][0],
         //     // array_values($model['ensino'])[0][0]['cod_atividade'],
         //     // $ensinoTotalHoras,
-        //     $model,
+        //     // $model,
         //     // $horas,
         //     // $data,
         //     // $model['ensino']['8. ENSINO (COORDENAÇÃO OU MEMBRO DE NÚCLEO DOCENTE ESTRUTURANTE OU NÚCLEO DOCENTE ESTRUTURANTE ASSISTENCIAL)'] == null,
