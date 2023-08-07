@@ -103,7 +103,7 @@ Route::prefix('/avaliador')->group(function () {
     Route::delete('/delete/{id}', [AvaliadorController::class, 'destroy'])->name('avaliador_delete');
     Route::get('/relatorio', [AvaliadorController::class, 'relatorio'])->name('avaliador_relatorio');
     Route::get('/relatorio/{id}', [PadController::class, 'relatorio'])->name('pad_relatório');
-    Route::get('/relatorio/{id}/pdf', [PadController::class, 'GeneratePDF'])->name('pad_relatório_pdf');
+    Route::get('/relatorio/{id}/pdf', [PadController::class, 'generatePDF'])->name('pad_relatório_pdf');
 });
 
 Route::prefix('/user')->group(function () {

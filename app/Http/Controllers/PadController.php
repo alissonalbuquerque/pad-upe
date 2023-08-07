@@ -898,7 +898,7 @@ class PadController extends Controller
                     'professores' => $professores]);
     }
 
-    private function GeneratePDF($id){
+    public function generatePDF($id){
         $user = Auth::user();
         $pad = Pad::find($id);
         $professores = User::join('user_pad', 'user_pad.user_id', '=', 'users.id')
@@ -932,7 +932,7 @@ class PadController extends Controller
             $professor->ch_gestao   = $this->get_carga_horaria($avaliacoes['gestao'])? $this->get_carga_horaria($avaliacoes['gestao']) : 0;
             
             if($professor->ch_ensino || $professor->ch_pesquisa || $professor->ch_extensao || $professor->ch_gestao ) {
-                UserPadController::GeneratePDF($userPad->{'id'});
+                UserPadController::generatePDF($userPad->{'id'});
             }
             
         }
