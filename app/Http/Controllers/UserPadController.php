@@ -315,36 +315,39 @@ class UserPadController extends Controller
             }
         }
         $treated_anexo_pad = [];
-        foreach ($anexoPad as $nome_valor=>$valor)
+        if ($anexoPad != null) 
         {
-            if (in_array($nome_valor, $valores_lista_negra))
+            foreach ($anexoPad as $nome_valor=>$valor)
             {
-                continue;
-            }
-            elseif ($nome_valor == 'campus_id') 
-            {
-                $treated_anexo_pad[$nomes_valores[$nome_valor]] = Campus::whereId($valor)->first()->{'name'};
-                $treated_anexo_pad[$nomes_valores['unidade']] = $unidades_ensino[Campus::whereId($valor)->first()->{'unidade_id'}];
-            }
-            elseif ($nome_valor == 'curso_id') 
-            {
-                $treated_anexo_pad[$nomes_valores[$nome_valor]] = Curso::whereId($valor)->first()->{'name'};
-            }
-            elseif ($nome_valor == 'semestre') 
-            {
-                $treated_anexo_pad[$nomes_valores[$nome_valor]] = $semestres[$valor];
-            }
-            elseif ($nome_valor == 'afastamento_total' || $nome_valor == 'afastamento_parcial' || $nome_valor == 'direcao_sindical') 
-            {
-                $treated_anexo_pad[$nomes_valores[$nome_valor]] = $valor == 1? 'Sim' : 'Não';
-            }
-            elseif (array_key_exists($nome_valor, $nomes_valores))
-            {
-                $treated_anexo_pad[$nomes_valores[$nome_valor]] = $valor;
-            }
-            else 
-            {
-                $treated_anexo_pad[$nome_valor] = $valor;
+                if (in_array($nome_valor, $valores_lista_negra))
+                {
+                    continue;
+                }
+                elseif ($nome_valor == 'campus_id') 
+                {
+                    $treated_anexo_pad[$nomes_valores[$nome_valor]] = Campus::whereId($valor)->first()->{'name'};
+                    $treated_anexo_pad[$nomes_valores['unidade']] = $unidades_ensino[Campus::whereId($valor)->first()->{'unidade_id'}];
+                }
+                elseif ($nome_valor == 'curso_id') 
+                {
+                    $treated_anexo_pad[$nomes_valores[$nome_valor]] = Curso::whereId($valor)->first()->{'name'};
+                }
+                elseif ($nome_valor == 'semestre') 
+                {
+                    $treated_anexo_pad[$nomes_valores[$nome_valor]] = $semestres[$valor];
+                }
+                elseif ($nome_valor == 'afastamento_total' || $nome_valor == 'afastamento_parcial' || $nome_valor == 'direcao_sindical') 
+                {
+                    $treated_anexo_pad[$nomes_valores[$nome_valor]] = $valor == 1? 'Sim' : 'Não';
+                }
+                elseif (array_key_exists($nome_valor, $nomes_valores))
+                {
+                    $treated_anexo_pad[$nomes_valores[$nome_valor]] = $valor;
+                }
+                else 
+                {
+                    $treated_anexo_pad[$nome_valor] = $valor;
+                }
             }
         }
 
