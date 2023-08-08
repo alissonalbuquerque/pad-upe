@@ -901,6 +901,7 @@ class PadController extends Controller
     public function generatePDF($id){
         $user = Auth::user();
         $pad = Pad::find($id);
+        $userPadGeneratePDF = new UserPadController();
         $professores = User::join('user_pad', 'user_pad.user_id', '=', 'users.id')
             ->join('pad', 'user_pad.pad_id', '=', 'pad.id')
             ->where(function ($query) use ($user, $id) {
@@ -932,7 +933,7 @@ class PadController extends Controller
             $professor->ch_gestao   = $this->get_carga_horaria($avaliacoes['gestao'])? $this->get_carga_horaria($avaliacoes['gestao']) : 0;
             
             if($professor->ch_ensino || $professor->ch_pesquisa || $professor->ch_extensao || $professor->ch_gestao ) {
-                UserPadController::generatePDF($userPad->{'id'});
+                $userPadGeneratePDF->generatePDF($userPad->{'id'});
             }
             
         }
