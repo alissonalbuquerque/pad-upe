@@ -12,6 +12,7 @@ class Status
     const FINALIZADO = 5;
     const REPROVADO = 6;
     const APROVADO = 7;
+    const EM_REVISAO = 8;
 
     public static function listStatus($value = null)
     {
@@ -23,7 +24,8 @@ class Status
             self::ARQUIVADO => 'Arquivado',
             self::FINALIZADO => 'Finalizado',
             self::REPROVADO => 'Reprovado',
-            self::APROVADO => 'Aprovado'
+            self::APROVADO => 'Aprovado',
+            self::EM_REVISAO => 'Em Revisão'
         ];
 
         return $value !== null ? $values[$value] : $values;
