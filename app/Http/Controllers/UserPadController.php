@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pad;
 use App\Models\Curso;
+use App\Models\Campus;
 use App\Models\User;
 use App\Models\UserPad;
 use App\Models\Anexo;
@@ -207,8 +208,11 @@ class UserPadController extends Controller
             'GESTAO' => $gestaoTotalHoras,
             'PESQUISA' => $pesquisaTotalHoras
         ];
-
-        $anexoPad = Anexo::whereUserPadId($user_pad_id)->first()->toArray();
+        if ( Anexo::whereUserPadId($user_pad_id)->first() != null) 
+        {
+            $anexoPad = Anexo::whereUserPadId($user_pad_id)->first()->toArray();
+        }
+        else { $anexoPad = null; }
         $userPad = UserPad::whereId($user_pad_id)->first();
         $model['ensino'] = 
             [PadTables::tablesEnsino($user_pad_id)[0]['name'] => $userPad->ensinoAulas->toArray(),
@@ -319,7 +323,8 @@ class UserPadController extends Controller
             }
             elseif ($nome_valor == 'campus_id') 
             {
-                $treated_anexo_pad[$nomes_valores[$nome_valor]] = strtoupper($unidades_ensino[$valor]);
+                $treated_anexo_pad[$nomes_valores[$nome_valor]] = Campus::whereId($valor)->first()->{'name'};
+                $treated_anexo_pad[$nomes_valores['unidade']] = $unidades_ensino[Campus::whereId($valor)->first()->{'unidade_id'}];
             }
             elseif ($nome_valor == 'curso_id') 
             {
