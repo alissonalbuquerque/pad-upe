@@ -117,6 +117,12 @@ class UserPadController extends Controller
         return view('pad.components.confirm_save', ['user_pad_id' => $user_pad_id]);
     }
 
+    /**
+     * Generate PDF, with a given user_pad_id
+     *
+     * @param  integer  $user_pad_id
+     * @return \Illuminate\Http\Response
+     */
     public function generatePDF($user_pad_id)
     {
         $niveis = Nivel::listNivel();
@@ -149,6 +155,7 @@ class UserPadController extends Controller
             'natureza' => 'Natureza',
             "campus_id" => 'UNIDADE DE EDUCAÇÃO/CAMPUS',
             "curso_id" => 'CURSO',
+            "unidade" => 'UNIDADE',
             "semestre" => 'PLANO DE ATIVIDADE DOCENTE - ANO',
             "matricula" => 'MATRÍCULA',
             "carga_horaria" => 'CARGA HORÁRIA',
@@ -315,44 +322,54 @@ class UserPadController extends Controller
             }
         }
         $treated_anexo_pad = [];
-        // if ($anexoPad != null) 
-        // {
-        //     foreach ($anexoPad as $nome_valor=>$valor)
-        //     {
-        //         if (in_array($nome_valor, $valores_lista_negra))
-        //         {
-        //             continue;
-        //         }
-        //         elseif ($nome_valor == 'campus_id') 
-        //         {
-        //             $treated_anexo_pad[$nomes_valores[$nome_valor]] = Campus::whereId($valor)->first()->{'name'};
-        //             $treated_anexo_pad[$nomes_valores['unidade']] = $unidades_ensino[Campus::whereId($valor)->first()->{'unidade_id'}];
-        //         }
-        //         elseif ($nome_valor == 'curso_id') 
-        //         {
-        //             $treated_anexo_pad[$nomes_valores[$nome_valor]] = Curso::whereId($valor)->first()->{'name'};
-        //         }
-        //         elseif ($nome_valor == 'semestre') 
-        //         {
-        //             $treated_anexo_pad[$nomes_valores[$nome_valor]] = $semestres[$valor];
-        //         }
-        //         elseif ($nome_valor == 'afastamento_total' || $nome_valor == 'afastamento_parcial' || $nome_valor == 'direcao_sindical') 
-        //         {
-        //             $treated_anexo_pad[$nomes_valores[$nome_valor]] = $valor == 1? 'Sim' : 'Não';
-        //         }
-        //         elseif (array_key_exists($nome_valor, $nomes_valores))
-        //         {
-        //             $treated_anexo_pad[$nomes_valores[$nome_valor]] = $valor;
-        //         }
-        //         else 
-        //         {
-        //             $treated_anexo_pad[$nome_valor] = $valor;
-        //         }
-        //     }
-        // }
+        if ($anexoPad != null) 
+        {
+            foreach ($anexoPad as $nome_valor=>$valor)
+            {
+                if (in_array($nome_valor, $valores_lista_negra))
+                {
+                    continue;
+                }
+                elseif ($nome_valor == 'campus_id') 
+                {
+                    if ($valor != null) 
+                    {
+                        $campus = Campus::whereId($valor)->first();
+                        $treated_anexo_pad[$nomes_valores[$nome_valor]] = $campus->{'name'};
+                        // $treated_anexo_pad[$nomes_valores['unidade']] = strToUpper($unidades_ensino[$campus->{'unidade_id'}]);
+                    }
+                    else
+                    {
+                        $treated_anexo_pad[$nomes_valores[$nome_valor]] = "";
+                        // $treated_anexo_pad[$nomes_valores['unidade']] = "Não especificado";
+                    }
+                    
+                }
+                elseif ($nome_valor == 'curso_id') 
+                {
+                    $valor != null ? $treated_anexo_pad[$nomes_valores[$nome_valor]] = Curso::whereId($valor)->first()->{'name'} : $treated_anexo_pad[$nomes_valores[$nome_valor]] = "Não especificado";
+                }
+                elseif ($nome_valor == 'semestre') 
+                {
+                    $valor != null ? $treated_anexo_pad[$nomes_valores[$nome_valor]] = $semestres[$valor] : $treated_anexo_pad[$nomes_valores[$nome_valor]] = "Não especificado";
+                }
+                elseif ($nome_valor == 'afastamento_total' || $nome_valor == 'afastamento_parcial' || $nome_valor == 'direcao_sindical') 
+                {
+                    $treated_anexo_pad[$nomes_valores[$nome_valor]] = $valor == 1? 'Sim' : 'Não';
+                }
+                elseif (array_key_exists($nome_valor, $nomes_valores))
+                {
+                    $valor != null ? $treated_anexo_pad[$nomes_valores[$nome_valor]] = $valor : $treated_anexo_pad[$nomes_valores[$nome_valor]] = "Não especificado";
+                }
+                else 
+                {
+                    $valor != null ? $treated_anexo_pad[$nome_valor] = $valor : $treated_anexo_pad[$nome_valor] = "Não especificado";
+                }
+            }
+        }
 
         date_default_timezone_set("America/Recife");
-        $dateTime = now()->format('d/m/Y (H:i:s)');
+        $dateTime = now()->format('d-m-Y (H:i:s)');
 
         $data = array(
             'date'  => $dateTime,
@@ -364,32 +381,13 @@ class UserPadController extends Controller
             'model' => $treated_model, 
             'horas' => $horas
             );
-
         // dd( 
         // //     $userPad->pesquisaCoordenacoes->toArray(),
-        //     $anexoPad,
         //     $treated_anexo_pad,
-        //     $cursos,
         //     // ($model['extensao']['1. EXTENSÃO (COORDENAÇÃO DE ATIVIDADES DE EXTENSÃO HOMOLOGADA NA PROEC)']),
         //     // public_path('\images\estado_pe_logo.png'),
         //     // url('images\estado_pe_logo.png'),
         //     // asset('images\estado_pe_logo.png'),
-        //     // chmod(public_path('images\estado_pe_logo.png'), 0644),
-        //     // fileperms(public_path('images\estado_pe_logo.png')),
-        //     // fileowner(public_path('images\estado_pe_logo.png')),
-        //     // "user_pad_id:  " . $user_pad_id,
-        //     // "user data",
-        //     // User::whereId($user_pad_id)->first(),
-        //     // $userPad->user->{'name'},
-        //     // "User name:  " . $data['user']['nome'],
-        //     // $treated_model,
-        //     // array_values($model['ensino'])[0],
-        //     // array_values($model['ensino'])[0][0],
-        //     // array_values($model['ensino'])[0][0]['cod_atividade'],
-        //     // $ensinoTotalHoras,
-        //     // $model,
-        //     // $horas,
-        //     // $data,
         //     // $model['ensino']['8. ENSINO (COORDENAÇÃO OU MEMBRO DE NÚCLEO DOCENTE ESTRUTURANTE OU NÚCLEO DOCENTE ESTRUTURANTE ASSISTENCIAL)'] == null,
         // //     PadTables::tablesEnsino($user_pad_id)[0]['name'],
         // //     $model,
@@ -400,9 +398,8 @@ class UserPadController extends Controller
         // return view('pad.teacher.report_pdf');
         // PDF::setOption(['isRemoteEnabled' => 'true']);
 
+        $pdf_name = " Relatório PAD - " . $userPad->user->{'name'};
         $pdf = PDF::loadView('pad.teacher.report_pdf', $data);
-        set_time_limit(300);
-        return $pdf->download($userPad->user->{'name'} . " Relatório PAD: " . $dateTime . ".pdf");
+        return $pdf->download($pdf_name . ".pdf");
     }
-
 }
