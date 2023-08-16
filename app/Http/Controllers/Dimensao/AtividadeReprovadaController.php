@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\dimensao;
+namespace App\Http\Controllers\Dimensao;
 
 use App\Http\Controllers\Controller;
 use App\Models\Avaliacao;
