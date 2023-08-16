@@ -107,6 +107,7 @@ class ExtensaoCoordenacaoController extends Controller
                 'tarefa_id' => $model->id,
                 'type' => UtilAvaliacao::EXTENSAO_COORDENACAO,
                 'status' => Status::PENDENTE,
+                // 'status' => Avaliacao::PENDENTE
             ]);
 
             if(!$avaliacao->save())

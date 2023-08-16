@@ -93,6 +93,7 @@ class EnsinoOutrosController extends Controller
                 'tarefa_id' => $model->id,
                 'type' => UtilAvaliacao::ENSINO_OUTROS,
                 'status' => Status::PENDENTE,
+                // 'status' => Avaliacao::PENDENTE
             ]);
 
             if(!$avaliacao->save())

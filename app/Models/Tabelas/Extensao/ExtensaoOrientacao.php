@@ -5,13 +5,18 @@ namespace App\Models\Tabelas\Extensao;
 use App\Models\Planejamento;
 use App\Models\UserPad;
 use App\Models\Tabelas\Constants;
+use App\Models\Tabelas\Traits\ExpandModel;
+use App\Models\Tabelas\Traits\ExpandTask;
 use App\Queries\Tabelas\Extensao\ExtensaoOrientacaoQuery;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 
 class ExtensaoOrientacao extends Model
-{
-        /**
+{   
+    use ExpandModel;
+    use ExpandTask;
+    
+    /**
      * References table ensino_aulas
      * 
      * @var string

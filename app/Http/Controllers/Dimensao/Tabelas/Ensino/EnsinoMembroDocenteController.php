@@ -100,6 +100,7 @@ class EnsinoMembroDocenteController extends Controller
                 'tarefa_id' => $model->id,
                 'type' => UtilAvaliacao::ENSINO_MEMBRO_DOCENTE,
                 'status' => Status::PENDENTE,
+                // 'status' => Avaliacao::PENDENTE
             ]);
 
             if(!$avaliacao->save())

@@ -4,14 +4,18 @@ namespace App\Models\Tabelas\Ensino;
 
 use App\Models\Planejamento;
 use App\Models\UserPad;
-use App\Models\Util\CargaHoraria;
 use App\Models\Util\Nivel;
+use App\Models\Tabelas\Traits\ExpandModel;
+use App\Models\Tabelas\Traits\ExpandTask;
 use App\Queries\Tabelas\Ensino\EnsinoAtendimentoDiscenteQuery;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 
 class EnsinoAtendimentoDiscente extends Model
-{
+{   
+    use ExpandModel;
+    use ExpandTask;
+    
      /**
      * References table ensino_aulas
      * 
@@ -31,6 +35,11 @@ class EnsinoAtendimentoDiscente extends Model
     public $avaliable_attributes = ['Componente Curricular:' => 'componente_curricular', 'Curso:' => 'curso', 'Carga Horária:' => 'ch_semanal'];
 
     public function nivelAsString()
+    {
+        return Nivel::listNivel($this->nivel);
+    }
+
+    public function nivelToString()
     {
         return Nivel::listNivel($this->nivel);
     }

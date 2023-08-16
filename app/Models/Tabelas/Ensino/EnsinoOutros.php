@@ -3,13 +3,18 @@
 namespace App\Models\Tabelas\Ensino;
 
 use App\Models\Planejamento;
+use App\Models\Tabelas\Traits\ExpandModel;
+use App\Models\Tabelas\Traits\ExpandTask;
 use App\Models\UserPad;
 use App\Queries\Tabelas\Ensino\EnsinoOutrosQuery;
 use Illuminate\Database\Eloquent\Model;
 
 class EnsinoOutros extends Model
-{
-    /**
+{   
+    use ExpandModel;
+    use ExpandTask;
+
+   /**
      * References table ensino_aulas
      * 
      * @var string

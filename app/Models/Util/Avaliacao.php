@@ -5,6 +5,7 @@ namespace App\Models\Util;
 
 class Avaliacao
 {   
+    //class is depreciated
     const ENSINO_AULA = 1;
     const ENSINO_COORDENACAO_REGENCIA = 2;
     const ENSINO_ORIENTACAO = 3;

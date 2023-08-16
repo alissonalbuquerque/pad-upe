@@ -3,12 +3,17 @@
 namespace App\Models\Tabelas\Gestao;
 
 use App\Models\Planejamento;
+use App\Models\Tabelas\Traits\ExpandModel;
+use App\Models\Tabelas\Traits\ExpandTask;
 use App\Models\UserPad;
 use App\Queries\Tabelas\Gestao\GestaoMembroComissaoQuery;
 use Illuminate\Database\Eloquent\Model;
 
 class GestaoMembroComissao extends Model
 {   
+    use ExpandModel;
+    use ExpandTask;
+    
     protected $table = 'gestao_membro_comissao';
 
     protected $fillable = ['user_pad_id', 'dimensao', 'cod_atividade', 'nome', 'documento', 'ch_semanal'];

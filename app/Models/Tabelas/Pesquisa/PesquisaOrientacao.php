@@ -5,6 +5,8 @@ namespace App\Models\Tabelas\Pesquisa;
 use App\Models\Planejamento;
 use App\Models\UserPad;
 use App\Models\Tabelas\Constants;
+use App\Models\Tabelas\Traits\ExpandModel;
+use App\Models\Tabelas\Traits\ExpandTask;
 use App\Queries\Tabelas\Pesquisa\PesquisaOrientacaoQuery;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,6 +15,8 @@ use Illuminate\Validation\Rule;
 class PesquisaOrientacao extends Model
 {
     use SoftDeletes;
+    use ExpandModel;
+    use ExpandTask;
 
     protected $table = 'pesquisa_orientacao';
 

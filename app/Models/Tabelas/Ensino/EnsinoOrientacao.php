@@ -3,6 +3,8 @@
 namespace App\Models\Tabelas\Ensino;
 
 use App\Models\Planejamento;
+use App\Models\Tabelas\Traits\ExpandModel;
+use App\Models\Tabelas\Traits\ExpandTask;
 use App\Models\UserPad;
 use App\Models\Util\Nivel;
 use App\Models\Util\Orientacao;
@@ -11,7 +13,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 
 class EnsinoOrientacao extends Model
-{
+{   
+    use ExpandModel;
+    use ExpandTask;
+    
     /**
      * References table ensino_orientacoes
      * 
@@ -36,7 +41,19 @@ class EnsinoOrientacao extends Model
     }
 
     /** @return string */
+    public function nivelToString()
+    {
+        return Nivel::listNivel($this->nivel);
+    }
+
+    /** @return string */
     public function orientacaoAsString()
+    {
+        return Orientacao::listOrientacao($this->type_orientacao);
+    }
+
+    /** @return string */
+    public function orientacaoToString()
     {
         return Orientacao::listOrientacao($this->type_orientacao);
     }

@@ -122,6 +122,7 @@ class EnsinoSupervisaoController extends Controller
                 'tarefa_id' => $model->id,
                 'type' => UtilAvaliacao::ENSINO_SUPERVISAO,
                 'status' => Status::PENDENTE,
+                // 'status' => Avaliacao::PENDENTE
             ]);
 
             if(!$avaliacao->save())
