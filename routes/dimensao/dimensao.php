@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\dimensao\AtividadeReprovadaController;
+use App\Http\Controllers\Dimensao\AtividadeReprovadaController;
 use App\Http\Controllers\Dimensao\EnsinoController;
 use App\Http\Controllers\Dimensao\PesquisaController;
 use App\Http\Controllers\Dimensao\ExtensaoController;
