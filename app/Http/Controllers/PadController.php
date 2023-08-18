@@ -921,8 +921,9 @@ class PadController extends Controller
         })->first();
 
 
+        $pads = [];
+        set_time_limit(240);
         foreach ($professores as $professor){
-            $professor->status = "Pendente";
             $userPad = $professor->userPads()->where('pad_id', '=', $pad->id)->first();
 
             $avaliacoes = $this->get_avaliacoes($userPad, $avaliador_pad); 
@@ -933,10 +934,31 @@ class PadController extends Controller
             $professor->ch_gestao   = $this->get_carga_horaria($avaliacoes['gestao'])? $this->get_carga_horaria($avaliacoes['gestao']) : 0;
             
             if($professor->ch_ensino || $professor->ch_pesquisa || $professor->ch_extensao || $professor->ch_gestao ) {
-                $userPadGeneratePDF->generatePDF($userPad->{'id'});
+                $resource = tmpfile();
+                $path = stream_get_meta_data($resource)['uri'];
+
+
+                $fileName = storage_path($professor->{'name'} . "_.pdf");
+                $userPadGeneratePDF->GeneratePDF($userPad->{'id'}, $fileName);
+                $pads[$professor->{'name'}] = $fileName;
             }
-            
         }
+        $zipFile = storage_path(random_int(1000, 9999) . ".zip");
+        $zip = new \ZipArchive();
+        $zip->open($zipFile, \ZipArchive::CREATE);
+        foreach ($pads as $profName=>$file) 
+        {
+            $zip->addFile($file, "PAD - Professor ".$profName."_.pdf");
+        }
+        $zip->close();
+        foreach ($pads as $profName=>$file) 
+        {
+            unlink($file);
+        }
+        header('Content-type: application/zip');
+        header('Content-Disposition: attachment; filename= Relatórios PAD -- Avaliador-'.$user->name.'.zip');
+        readfile($zipFile);
+        unlink($zipFile);
     }
 
 
