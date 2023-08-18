@@ -118,12 +118,15 @@ class UserPadController extends Controller
     }
 
     /**
-     * Generate PDF, with a given user_pad_id
+     * Return generated PDF, with a given user_pad_id;
      *
+     * Additionally, if a filename is given, function will save PDF in storage;
+     * 
      * @param  integer  $user_pad_id
+     * @param  string  $fileName
      * @return \Illuminate\Http\Response
      */
-    public function generatePDF($user_pad_id)
+    public function generatePDF($user_pad_id, $fileName="")
     {
         $niveis = Nivel::listNivel();
         $funcoes = Funcao::listFuncaoEnsino() + 
@@ -400,6 +403,14 @@ class UserPadController extends Controller
 
         $pdf_name = " Relatório PAD - " . $userPad->user->{'name'};
         $pdf = PDF::loadView('pad.teacher.report_pdf', $data);
-        return $pdf->download($pdf_name . ".pdf");
+        if ($fileName == "") 
+        {
+            return $pdf->download($pdf_name . ".pdf");
+        }
+        else 
+        {
+            $pdf->save($fileName);
+        }
+        
     }
 }
