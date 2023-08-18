@@ -6,12 +6,17 @@ use App\Models\Planejamento;
 use App\Models\UserPad;
 use App\Models\Util\Modalidade;
 use App\Models\Util\Nivel;
+use App\Models\Tabelas\Traits\ExpandModel;
+use App\Models\Tabelas\Traits\ExpandTask;
 use App\Queries\Tabelas\Ensino\EnsinoCoordenacaoRegenciaQuery;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 
 class EnsinoCoordenacaoRegencia extends Model
-{
+{   
+    use ExpandModel;
+    use ExpandTask;
+    
     /**
      * References table ensino_aulas
      * 
@@ -45,6 +50,21 @@ class EnsinoCoordenacaoRegencia extends Model
         return Modalidade::listModalidade($this->modalidade);
     }
 
+    /**
+     * @return string
+     */
+    public function nivelToString()
+    {
+        return Nivel::listNivel($this->nivel);
+    }
+    
+    /**
+     * @return string
+     */
+    public function modalidadeToString()
+    {
+        return Modalidade::listModalidade($this->modalidade);
+    }
 
     public static function rules()
     {

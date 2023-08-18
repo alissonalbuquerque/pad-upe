@@ -105,6 +105,7 @@ class EnsinoProjetoController extends Controller
                 'tarefa_id' => $model->id,
                 'type' => UtilAvaliacao::ENSINO_PROJETO,
                 'status' => Status::PENDENTE,
+                // 'status' => Avaliacao::PENDENTE
             ]);
 
             if(!$avaliacao->save())

@@ -117,6 +117,7 @@ class EnsinoCoordenacaoRegenciaController extends Controller
                 'tarefa_id' => $model->id,
                 'type' => UtilAvaliacao::ENSINO_COORDENACAO_REGENCIA,
                 'status' => Status::PENDENTE,
+                // 'status' => Avaliacao::PENDENTE
             ]);
 
             if(!$avaliacao->save())

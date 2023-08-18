@@ -3,6 +3,8 @@
 namespace App\Models\Tabelas\Ensino;
 
 use App\Models\Planejamento;
+use App\Models\Tabelas\Traits\ExpandModel;
+use App\Models\Tabelas\Traits\ExpandTask;
 use App\Models\UserPad;
 use App\Models\Util\Nivel;
 use App\Models\Util\Supervisao;
@@ -11,8 +13,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 
 class EnsinoSupervisao extends Model
-{
-        /**
+{   
+    use ExpandModel;
+    use ExpandTask;
+    
+    /**
      * References table ensino_orientacoes
      * 
      * @var string
@@ -37,6 +42,18 @@ class EnsinoSupervisao extends Model
 
     /** @return string */
     public function supervisaoAsString()
+    {
+        return Supervisao::listSupervisao($this->type_supervisao);
+    }
+
+    /** @return string */
+    public function nivelToString()
+    {
+        return Nivel::listNivel($this->nivel);
+    }
+
+    /** @return string */
+    public function supervisaoToString()
     {
         return Supervisao::listSupervisao($this->type_supervisao);
     }

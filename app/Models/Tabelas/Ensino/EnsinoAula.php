@@ -3,6 +3,8 @@
 namespace App\Models\Tabelas\Ensino;
 
 use App\Models\Planejamento;
+use App\Models\Tabelas\Traits\ExpandModel;
+use App\Models\Tabelas\Traits\ExpandTask;
 use App\Models\UserPad;
 use App\Models\Util\Modalidade;
 use App\Models\Util\Nivel;
@@ -11,7 +13,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 
 class EnsinoAula extends Model
-{
+{   
+    use ExpandModel;
+    use ExpandTask;
+    
     /**
      * References table ensino_aulas
      * 
@@ -75,6 +80,16 @@ class EnsinoAula extends Model
     }
 
     public function modalidadeAsString()
+    {
+        return Modalidade::listModalidade($this->modalidade);
+    }
+
+    public function nivelToString()
+    {
+        return Nivel::listNivel($this->nivel);
+    }
+
+    public function modalidadeToString()
     {
         return Modalidade::listModalidade($this->modalidade);
     }

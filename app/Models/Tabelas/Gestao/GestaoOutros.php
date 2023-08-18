@@ -3,12 +3,17 @@
 namespace App\Models\Tabelas\Gestao;
 
 use App\Models\Planejamento;
+use App\Models\Tabelas\Traits\ExpandModel;
+use App\Models\Tabelas\Traits\ExpandTask;
 use App\Models\UserPad;
 use App\Queries\Tabelas\Gestao\GestaoOutrosQuery;
 use Illuminate\Database\Eloquent\Model;
 
 class GestaoOutros extends Model
-{
+{   
+    use ExpandModel;
+    use ExpandTask;
+    
     /**
      * References table ensino_aulas
      * 

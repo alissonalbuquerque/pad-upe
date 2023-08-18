@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Dimensao\AtividadeReprovadaController;
 use App\Http\Controllers\Dimensao\EnsinoController;
 use App\Http\Controllers\Dimensao\PesquisaController;
 use App\Http\Controllers\Dimensao\ExtensaoController;
@@ -23,4 +24,5 @@ Route::prefix('/pad/dimensao/')->group(function () {
     Route::get('/ensino/{user_pad_id}', [EnsinoController::class, 'index'])->name('dimensao_ensino');
     Route::get('/pesquisa/{user_pad_id}', [PesquisaController::class, 'index'])->name('dimensao_pesquisa');
     Route::get('/extensao/{user_pad_id}', [ExtensaoController::class, 'index'])->name('dimensao_extensao');
+    Route::get('/all/tasks/disapproved/{user_pad_id}', [AtividadeReprovadaController::class, 'index'])->name('tasks_disapproved');
 });

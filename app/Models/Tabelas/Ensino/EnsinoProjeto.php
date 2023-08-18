@@ -3,6 +3,8 @@
 namespace App\Models\Tabelas\Ensino;
 
 use App\Models\Planejamento;
+use App\Models\Tabelas\Traits\ExpandModel;
+use App\Models\Tabelas\Traits\ExpandTask;
 use App\Models\UserPad;
 use App\Models\Util\Funcao;
 use App\Models\Util\Natureza;
@@ -11,8 +13,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 
 class EnsinoProjeto extends Model
-{
-        /**
+{   
+    use ExpandModel;
+    use ExpandTask;
+    
+    /**
      * References table ensino_aulas
      * 
      * @var string
@@ -37,6 +42,18 @@ class EnsinoProjeto extends Model
 
     /** @return string|array */
     public function funcaoAsString()
+    {
+        return Funcao::listFuncaoProjeto($this->funcao);
+    }
+
+    /** @return string|array */
+    public function naturezaToString()
+    {
+        return Natureza::listNatureza($this->natureza);
+    }
+
+    /** @return string|array */
+    public function funcaoToString()
     {
         return Funcao::listFuncaoProjeto($this->funcao);
     }

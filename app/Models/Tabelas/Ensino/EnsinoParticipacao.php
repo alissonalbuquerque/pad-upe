@@ -3,6 +3,8 @@
 namespace App\Models\Tabelas\Ensino;
 
 use App\Models\Planejamento;
+use App\Models\Tabelas\Traits\ExpandModel;
+use App\Models\Tabelas\Traits\ExpandTask;
 use App\Models\UserPad;
 use App\Models\Util\Nivel;
 use App\Queries\Tabelas\Ensino\EnsinoParticipacaoQuery;
@@ -10,8 +12,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 
 class EnsinoParticipacao extends Model
-{
-     /**
+{   
+    use ExpandModel;
+    use ExpandTask;
+    
+    /**
      * References table ensino_aulas
      * 
      * @var string
@@ -30,6 +35,12 @@ class EnsinoParticipacao extends Model
 
     /** @return string|array */
     public function nivelAsString()
+    {
+        return Nivel::listNivel($this->nivel);
+    }
+
+    /** @return string|array */
+    public function nivelToString()
     {
         return Nivel::listNivel($this->nivel);
     }

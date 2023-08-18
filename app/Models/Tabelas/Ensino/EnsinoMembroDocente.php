@@ -5,13 +5,18 @@ namespace App\Models\Tabelas\Ensino;
 use App\Models\Planejamento;
 use App\Models\UserPad;
 use App\Models\Util\Funcao;
+use App\Models\Tabelas\Traits\ExpandModel;
+use App\Models\Tabelas\Traits\ExpandTask;
 use App\Queries\Tabelas\Ensino\EnsinoMembroDocenteQuery;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 
 class EnsinoMembroDocente extends Model
-{
-        /**
+{   
+    use ExpandModel;
+    use ExpandTask;
+    
+    /**
      * References table ensino_aulas
      * 
      * @var string
@@ -32,6 +37,12 @@ class EnsinoMembroDocente extends Model
     {
         return Funcao::listFuncaoEnsino($this->funcao);
     }
+
+    public function funcaoToString()
+    {
+        return Funcao::listFuncaoEnsino($this->funcao);
+    }
+
     public static function rules()
     {
         return [
