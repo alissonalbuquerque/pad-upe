@@ -1,8 +1,8 @@
 {{--
     @include('components.buttons.btn-download', [
-        'id' => '',
-        'route' => '',
-        'content' => ''
+        'route'     => '',
+        'id'        => '',
+        'content'   => ''
     ])
 --}}
 

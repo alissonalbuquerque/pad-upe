@@ -888,6 +888,7 @@ class PadController extends Controller
             
             if($professor->ch_ensino || $professor->ch_pesquisa || $professor->ch_extensao || $professor->ch_gestao ) {
                 $professor->status = "Enviado";
+                $professor->pad_id = $userPad->{'id'};
             }
             
         }

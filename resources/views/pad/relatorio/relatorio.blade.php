@@ -80,6 +80,7 @@
                         <th scope='col'>CH Extensão</th>
                         <th scope='col'>CH Gestão</th>
                         <th scope='col'>Campus</th>
+                        <th scope='col'></th>
                     </tr>
                     </thead>
                     
@@ -97,6 +98,13 @@
                                 <td>{{$professor->ch_gestao}}</td>
 
                                 <td>{{$professor->campus}}</td>
+                                <td>
+                                    @include('components.buttons.btn-download', [
+                                        'route' => route('user-pad_pdf', ['user_pad_id' => $professor->pad_id]),
+                                        'id' => '',
+                                        'content' => ''
+                                    ])
+                                </td>
                             </tr>
                             @php $index += 1 @endphp
                             @endif
