@@ -42,6 +42,10 @@ class PesquisaOrientacao extends Model
         return Constants::listFuncaoOrientador($this->funcao);
     }
 
+    public function funcaoToString() {
+        return Constants::listFuncaoOrientador($this->funcao);
+    }
+
     public static function rules()
     {
         return [

@@ -42,6 +42,10 @@ class PesquisaLideranca extends Model
         return Constants::listFuncaoProjeto($this->funcao);
     }
 
+    public function funcaoToString() {
+        return Constants::listFuncaoProjeto($this->funcao);
+    }
+
     public static function rules()
     {
         return [
