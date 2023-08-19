@@ -110,12 +110,6 @@
 
         <div class="tab-pane" id="gestao-session" role="tabpanel" aria-labelledby="gestao-tab">
             
-            @php
-                use App\Models\Tabelas\Gestao\GestaoMembroComissao;
-
-                // $gestaoMembroComissoes = GestaoMembroComissao::limit(10)->get();
-            @endphp
-            
             @foreach($gestaoCoordenacaoLaboratoriosDidaticos as $gestaoCoordenacaoLaboratoriosDidatico)
                 @include('pad/dimensao/atividades/reprovadas/cards/gestao/gestao_coordenacao_laboratorio_didatico', ['model' => $gestaoCoordenacaoLaboratoriosDidatico])
             @endforeach
