@@ -70,21 +70,9 @@ class Avaliacao extends Model
     CONST TYPE_GESTAO_MEMBRO_COMISSAO = 23;
     CONST TYPE_GESTAO_OUTROS = 24;
 
-    public static function listStatus($value = null)
-    {
-        $values = [
-            self::STATUS_APROVADO => 'Aprovado',
-            self::STATUS_PENDENTE => 'Pendente',
-            self::STATUS_REPROVADO => 'Reprovado',
-            self::STATUS_EM_REVISAO => 'Em Revisão'
-        ];
-
-        return $value !== null ? $values[$value] : $values;
-    }
-
     protected $table = 'avaliacao';
 
-    protected $fillable = ['tarefa_id', 'avaliador_id', 'type', 'status', 'descricao', 'ch_semanal', 'hora_reajuste'];
+    protected $fillable = ['id', 'tarefa_id', 'avaliador_id', 'type', 'status', 'descricao', 'ch_semanal', 'ch_total', 'created_at', 'updated_at', 'deleted_at', 'horas_reajuste'];
 
     public function tarefa()
     {   
@@ -203,6 +191,18 @@ class Avaliacao extends Model
 
     public function getStatusAsText() {
         return Status::listStatus($this->status);
+    }
+
+    public static function listStatus($value = null)
+    {
+        $values = [
+            self::STATUS_APROVADO => 'Aprovado',
+            self::STATUS_PENDENTE => 'Pendente',
+            self::STATUS_REPROVADO => 'Reprovado',
+            self::STATUS_EM_REVISAO => 'Em Revisão'
+        ];
+
+        return $value !== null ? $values[$value] : $values;
     }
 
     public static function getTypeByClassPath($classPath) {

@@ -106,6 +106,7 @@
             @foreach($extensaoOutros as $extensaoOutro)
                 @include('pad/dimensao/atividades/reprovadas/cards/extensao/extensao_outro', ['model' => $extensaoOutro])
             @endforeach
+            
         </div>
 
         <div class="tab-pane fade" id="gestao-content" role="tabpanel" aria-labelledby="gestao-tab">

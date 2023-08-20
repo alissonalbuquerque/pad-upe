@@ -91,13 +91,12 @@ class EnsinoOutrosController extends Controller
         {
             $avaliacao = new Avaliacao([
                 'tarefa_id' => $model->id,
-                'type' => UtilAvaliacao::ENSINO_OUTROS,
-                'status' => Status::PENDENTE,
-                // 'status' => Avaliacao::PENDENTE
+                'type' => Avaliacao::TYPE_ENSINO_OUTROS,
+                'status' => Status::PENDENTE
             ]);
 
             if(!$avaliacao->save())
-            {
+            {   
                 return redirect()
                     ->route('ensino_outros_index', ['user_pad_id' => $user_pad_id])
                     ->with('fail', 'Erro ao cadastrar Atividade!');

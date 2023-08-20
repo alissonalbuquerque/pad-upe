@@ -15,9 +15,11 @@
             <p> <span class="fw-bolder">C.H Semanal: </span> {{ $model->ch_semanal . 'h' }} </p>
         </div>
         <div class="card-footer">
-            <h5 class="fw-bolder">Correções</h5>
-            <p> <span class="fw-bolder">Descrição: </span> {{ $model->avaliacao->descricao }} </p>
-            <p> <span class="fw-bolder">C.H Reajuste: </span> {{ $model->avaliacao->horas_reajuste . 'h'}} </p>
+            @if($model->avaliacao)
+                <h5 class="fw-bolder">Correções</h5>
+                <p> <span class="fw-bolder">Descrição: </span> {{ $model->avaliacao->descricao }} </p>
+                <p> <span class="fw-bolder">C.H Reajuste: </span> {{ $model->avaliacao->horas_reajuste }} </p>
+            @endif
         </div>
     </div>
 
