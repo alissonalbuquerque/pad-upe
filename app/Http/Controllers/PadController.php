@@ -923,7 +923,6 @@ class PadController extends Controller
 
 
         $pads = [];
-        set_time_limit(240);
         foreach ($professores as $professor){
             $userPad = $professor->userPads()->where('pad_id', '=', $pad->id)->first();
 
@@ -942,6 +941,7 @@ class PadController extends Controller
                 $fileName = storage_path($professor->{'name'} . "_.pdf");
                 $userPadGeneratePDF->GeneratePDF($userPad->{'id'}, $fileName);
                 $pads[$professor->{'name'}] = $fileName;
+                set_time_limit(10);
             }
         }
         $zipFile = storage_path(random_int(1000, 9999) . ".zip");
