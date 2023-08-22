@@ -35,59 +35,59 @@
 
         <div class="tab-pane fade show active" id="ensino-content" role="tabpanel" aria-labelledby="ensino-tab">
 
-            @foreach($ensinoAtendimentoDiscentes as $ensinoAtendimentoDiscente)
+            @foreach($avaliacoesEnsinoAtendimentoDiscentes as $ensinoAtendimentoDiscente)
                 @include('pad/dimensao/atividades/reprovadas/cards/ensino/ensino_atendimento_discente', ['model' => $ensinoAtendimentoDiscente])
             @endforeach
 
-            @foreach($ensinoCoordenacaoRegencias as $ensinoCoordenacaoRegencia)
+            @foreach($avaliacoesEnsinoCoordenacaoRegencias as $ensinoCoordenacaoRegencia)
                 @include('pad/dimensao/atividades/reprovadas/cards/ensino/ensino_coordenacao_regencia', ['model' => $ensinoCoordenacaoRegencia])
             @endforeach
 
-            @foreach($ensinoOrientacoes as $ensinoOrientacao)
+            @foreach($avaliacoesEnsinoOrientacoes as $ensinoOrientacao)
                 @include('pad/dimensao/atividades/reprovadas/cards/ensino/ensino_orientacao', ['model' => $ensinoOrientacao])
             @endforeach
 
-            @foreach($ensinoParticipacoes as $ensinoParticipacao)
+            @foreach($avaliacoesEnsinoParticipacoes as $ensinoParticipacao)
                 @include('pad/dimensao/atividades/reprovadas/cards/ensino/ensino_participacao', ['model' => $ensinoParticipacao])
             @endforeach
 
-            @foreach($ensinoSupervisoes as $ensinoSupervisao)
+            @foreach($avaliacoesEnsinoSupervisoes as $ensinoSupervisao)
                 @include('pad/dimensao/atividades/reprovadas/cards/ensino/ensino_supervisao', ['model' => $ensinoSupervisao])
             @endforeach
 
-            @foreach($ensinoAulas as $ensinoAula)
+            @foreach($avaliacoesEnsinoAulas as $ensinoAula)
                 @include('pad/dimensao/atividades/reprovadas/cards/ensino/ensino_aula', ['model' => $ensinoAula])
             @endforeach
                 	
-            @foreach($ensinoMembroDocentes as $ensinoMembroDocente)
+            @foreach($avaliacoesEnsinoMembroDocentes as $ensinoMembroDocente)
                 @include('pad/dimensao/atividades/reprovadas/cards/ensino/ensino_membro_docente', ['model' => $ensinoMembroDocente])
             @endforeach
 
-            @foreach($ensinoOutros as $ensinoOutro)
+            @foreach($avaliacoesEnsinoOutros as $ensinoOutro)
                 @include('pad/dimensao/atividades/reprovadas/cards/ensino/ensino_outro', ['model' => $ensinoOutro])
             @endforeach
 
-            @foreach($ensinoProjetos as $ensinoProjeto)
+            @foreach($avaliacoesEnsinoProjetos as $ensinoProjeto)
                 @include('pad/dimensao/atividades/reprovadas/cards/ensino/ensino_projeto', ['model' => $ensinoProjeto])
             @endforeach
-
+            
         </div>
 
         <div class="tab-pane fade" id="pesquisa-content" role="tabpanel" aria-labelledby="pesquisa-tab">
             
-            @foreach($pesquisaCoordenacoes as $pesquisaCoordenacao)
+            @foreach($avaliacoesPesquisaCoordenacoes as $pesquisaCoordenacao)
                 @include('pad/dimensao/atividades/reprovadas/cards/pesquisa/pesquisa_coordenacao', ['model' => $pesquisaCoordenacao])
             @endforeach
 
-            @foreach($pesquisaLiderancas as $pesquisaLideranca)
+            @foreach($avaliacoesPesquisaLiderancas as $pesquisaLideranca)
                 @include('pad/dimensao/atividades/reprovadas/cards/pesquisa/pesquisa_lideranca', ['model' => $pesquisaLideranca])
             @endforeach
 
-            @foreach($pesquisaOrientacoes as $pesquisaOrientacao)
+            @foreach($avaliacoesPesquisaOrientacoes as $pesquisaOrientacao)
                 @include('pad/dimensao/atividades/reprovadas/cards/pesquisa/pesquisa_orientacao', ['model' => $pesquisaOrientacao])
             @endforeach
 
-            @foreach($pesquisaOutros as $pesquisaOutro)
+            @foreach($avaliacoesPesquisaOutros as $pesquisaOutro)
                 @include('pad/dimensao/atividades/reprovadas/cards/pesquisa/pesquisa_outro', ['model' => $pesquisaOutro])
             @endforeach
 
@@ -95,15 +95,15 @@
 
         <div class="tab-pane fade" id="extensao-content" role="tabpanel" aria-labelledby="extensao-tab">
             
-            @foreach($extensaoCoordenacoes as $extensaoCoordenacao)
+            @foreach($avaliacoesExtensaoCoordenacoes as $extensaoCoordenacao)
                 @include('pad/dimensao/atividades/reprovadas/cards/extensao/extensao_coordenacao', ['model' => $extensaoCoordenacao])
             @endforeach
                         
-            @foreach($extensaoOrientacoes as $extensaoOrientacao)
+            @foreach($avaliacoesExtensaoOrientacoes as $extensaoOrientacao)
                 @include('pad/dimensao/atividades/reprovadas/cards/extensao/extensao_orientacao', ['model' => $extensaoOrientacao])
             @endforeach 
 
-            @foreach($extensaoOutros as $extensaoOutro)
+            @foreach($avaliacoesExtensaoOutros as $extensaoOutro)
                 @include('pad/dimensao/atividades/reprovadas/cards/extensao/extensao_outro', ['model' => $extensaoOutro])
             @endforeach
             
@@ -111,35 +111,35 @@
 
         <div class="tab-pane fade" id="gestao-content" role="tabpanel" aria-labelledby="gestao-tab">
 
-            @foreach($gestaoCoordenacaoLaboratoriosDidaticos as $gestaoCoordenacaoLaboratoriosDidatico)
+            @foreach($avaliacoesGestaoCoordenacaoLaboratoriosDidaticos as $gestaoCoordenacaoLaboratoriosDidatico)
                 @include('pad/dimensao/atividades/reprovadas/cards/gestao/gestao_coordenacao_laboratorio_didatico', ['model' => $gestaoCoordenacaoLaboratoriosDidatico])
             @endforeach
             
-            @foreach($gestaoMembroComissoes as $gestaoMembroComissao)
+            @foreach($avaliacoesGestaoMembroComissoes as $gestaoMembroComissao)
                 @include('pad/dimensao/atividades/reprovadas/cards/gestao/gestao_membro_comissao', ['model' => $gestaoMembroComissao])
             @endforeach
             
-            @foreach($gestaoOutros as $gestaoOutro)
+            @foreach($avaliacoesGestaoOutros as $gestaoOutro)
                 @include('pad/dimensao/atividades/reprovadas/cards/gestao/gestao_outro', ['model' => $gestaoOutro])
             @endforeach
             
-            @foreach($gestaoCoordenacaoProgramaInstitucionais as $gestaoCoordenacaoProgramaInstitucional)
+            @foreach($avaliacoesGestaoCoordenacaoProgramaInstitucionais as $gestaoCoordenacaoProgramaInstitucional)
                 @include('pad/dimensao/atividades/reprovadas/cards/gestao/gestao_coordenacao_programa_institucional', ['model' => $gestaoCoordenacaoProgramaInstitucional])
             @endforeach
 
-            @foreach($gestaoMembroConselhos as $gestaoMembroConselho)
+            @foreach($avaliacoesGestaoMembroConselhos as $gestaoMembroConselho)
                 @include('pad/dimensao/atividades/reprovadas/cards/gestao/gestao_membro_conselho', ['model' => $gestaoMembroConselho])
             @endforeach
             
-            @foreach($gestaoRepresentanteUnidadeEducacoes as $gestaoRepresentanteUnidadeEducacao)
+            @foreach($avaliacoesGestaoRepresentanteUnidadeEducacoes as $gestaoRepresentanteUnidadeEducacao)
                 @include('pad/dimensao/atividades/reprovadas/cards/gestao/gestao_representante_unidade_educacao', ['model' => $gestaoRepresentanteUnidadeEducacao])
             @endforeach
             
-            @foreach($gestaoMembroCamaras as $gestaoMembroCamara)
+            @foreach($avaliacoesGestaoMembroCamaras as $gestaoMembroCamara)
                 @include('pad/dimensao/atividades/reprovadas/cards/gestao/gestao_membro_camara', ['model' => $gestaoMembroCamara])
             @endforeach
             
-            @foreach($gestaoMembroTitularConselhos as $gestaoMembroTitularConselho)
+            @foreach($avaliacoesGestaoMembroTitularConselhos as $gestaoMembroTitularConselho)
                 @include('pad/dimensao/atividades/reprovadas/cards/gestao/gestao_membro_titular_conselho', ['model' => $gestaoMembroTitularConselho])
             @endforeach
 

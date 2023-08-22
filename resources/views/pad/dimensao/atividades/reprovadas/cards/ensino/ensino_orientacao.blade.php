@@ -1,5 +1,5 @@
 {{-- 
-    @var $model App\Models\Tabelas\Ensino\EnsinoOrientacao
+    @var $model App\Models\Avaliacao
 --}}
 
 @php
@@ -13,20 +13,20 @@
             Ensino - Orientações
         </div>
         <div class="card-body">
-            <h5><span class="fw-bolder">Cód Atividade: </span> {{ $model->cod_atividade }}</h5>
-            <p> <span class="fw-bolder">Atividade: Orientação e/ou Coorientação: </span> {{ $model->atividade }} </p>
-            <p> <span class="fw-bolder">Curso: </span> {{ $model->curso }} </p>
-            <p> <span class="fw-bolder">Nível: </span> {{ $model->nivelToString() }} </p>
-            <p> <span class="fw-bolder">Orientação: </span> {{ $model->orientacaoToString() }} </p>
-            @if($model->type_orientacao == Orientacao::GRUPO)
-                <p> <span class="fw-bolder">Número de Orientandos: </span> {{ $model->numero_orientandos }} </p>
+            <h5><span class="fw-bolder">Cód Atividade: </span> {{ $model->tarefa->cod_atividade }}</h5>
+            <p> <span class="fw-bolder">Atividade: Orientação e/ou Coorientação: </span> {{ $model->tarefa->atividade }} </p>
+            <p> <span class="fw-bolder">Curso: </span> {{ $model->tarefa->curso }} </p>
+            <p> <span class="fw-bolder">Nível: </span> {{ $model->tarefa->nivelToString() }} </p>
+            <p> <span class="fw-bolder">Orientação: </span> {{ $model->tarefa->orientacaoToString() }} </p>
+            @if($model->tarefa->type_orientacao == Orientacao::GRUPO)
+                <p> <span class="fw-bolder">Número de Orientandos: </span> {{ $model->tarefa->numero_orientandos }} </p>
             @endif
-            <p> <span class="fw-bolder">C.H Semanal: </span> {{ $model->ch_semanal . 'h' }} </p>
+            <p> <span class="fw-bolder">C.H Semanal: </span> {{ $model->tarefa->ch_semanal . 'h' }} </p>
         </div>
         <div class="card-footer">
             <h5 class="fw-bolder">Correções</h5>
-            <p> <span class="fw-bolder">Descrição: </span> {{ $model->avaliacao->descricao }} </p>
-            <p> <span class="fw-bolder">C.H Reajuste: </span> {{ $model->avaliacao->horas_reajuste . 'h'}} </p>
+            <p> <span class="fw-bolder">Descrição: </span> {{ $model->descricao }} </p>
+            <p> <span class="fw-bolder">C.H Reajuste: </span> {{ $model->horas_reajuste . 'h'}} </p>
         </div>
     </div>
 

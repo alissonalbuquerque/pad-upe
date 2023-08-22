@@ -31,6 +31,7 @@ use App\Models\Tabelas\Gestao\GestaoOutros;
 use App\Models\Tabelas\Gestao\GestaoRepresentanteUnidadeEducacao;
 use App\Models\Tabelas\Traits\ExpandModel;
 use App\Models\Util\Status;
+use Illuminate\Database\Query\JoinClause;
 
 class Avaliacao extends Model
 {
@@ -238,5 +239,29 @@ class Avaliacao extends Model
         ];
 
         return $typeByClassPath[$classPath];
+    }
+
+    /**
+     * Retorna uma lista de avaliações com status reprovada
+     *
+     * @param "Ensino* Pesquisa* Extensao* Gestao*" $classPath
+     * @return Collection<Avaliacao>
+     */
+    public static function getAvaliacoesDisapproved($classPath, $user_pad_id) {
+
+        $class = $classPath;
+        $avaliacaoType = self::getTypeByClassPath($classPath);
+
+        $modelClassQuery = $class::whereUserPadId($user_pad_id)->join(Avaliacao::getTableName(), function (JoinClause $join) use ($class, $avaliacaoType) {
+            $join->on($class::getColumnName('id'), '=', Avaliacao::getColumnName('tarefa_id'))
+                ->where(Avaliacao::getColumnName('type'), '=', $avaliacaoType)
+                ->where(Avaliacao::getColumnName('status'), '=', Avaliacao::STATUS_REPROVADO);
+        })->select('avaliacao.tarefa_id');
+
+        $avaliacaoIds = $modelClassQuery->get()->map(function($model) {
+            return $model->tarefa_id;
+        })->toArray();
+
+        return Avaliacao::whereIn('tarefa_id', $avaliacaoIds)->whereType($avaliacaoType)->get();
     }
 }

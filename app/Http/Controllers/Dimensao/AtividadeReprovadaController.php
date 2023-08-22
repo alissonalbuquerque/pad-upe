@@ -36,189 +36,82 @@ class AtividadeReprovadaController extends Controller
 {
     public function index($user_pad_id) {
 
-        //Ensino Collections
+        //Avaliacoes (Ensino) Collections
 
-        $ensinoAtendimentoDiscentes = EnsinoAtendimentoDiscente::whereUserPadId($user_pad_id)->join(Avaliacao::getTableName(), function (JoinClause $join) {
-            $join->on(EnsinoAtendimentoDiscente::getColumnName('id'), '=', Avaliacao::getColumnName('tarefa_id'))
-                ->where(Avaliacao::getColumnName('type'), '=', Avaliacao::TYPE_ENSINO_ATENDIMENTO_DISCENTE)
-                ->where(Avaliacao::getColumnName('status'), '=', Avaliacao::STATUS_REPROVADO);
-        })->get();
+        $avaliacoesEnsinoAtendimentoDiscentes = Avaliacao::getAvaliacoesDisapproved(EnsinoAtendimentoDiscente::class, $user_pad_id);
+        
+        $avaliacoesEnsinoCoordenacaoRegencias = Avaliacao::getAvaliacoesDisapproved(EnsinoCoordenacaoRegencia::class, $user_pad_id);
 
-        $ensinoCoordenacaoRegencias = EnsinoCoordenacaoRegencia::whereUserPadId($user_pad_id)->join(Avaliacao::getTableName(), function (JoinClause $join) {
-            $join->on(EnsinoCoordenacaoRegencia::getColumnName('id'), '=', Avaliacao::getColumnName('tarefa_id'))
-                ->where(Avaliacao::getColumnName('type'), '=', Avaliacao::TYPE_ENSINO_COORDENACAO_REGENCIA)
-                ->where(Avaliacao::getColumnName('status'), '=', Avaliacao::STATUS_REPROVADO);
-        })->get();
+        $avaliacoesEnsinoOrientacoes = Avaliacao::getAvaliacoesDisapproved(EnsinoOrientacao::class, $user_pad_id);
 
-        $ensinoOrientacoes = EnsinoOrientacao::whereUserPadId($user_pad_id)->join(Avaliacao::getTableName(), function (JoinClause $join) {
-            $join->on(EnsinoOrientacao::getColumnName('id'), '=', Avaliacao::getColumnName('tarefa_id'))
-                ->where(Avaliacao::getColumnName('type'), '=', Avaliacao::TYPE_ENSINO_ORIENTACAO)
-                ->where(Avaliacao::getColumnName('status'), '=', Avaliacao::STATUS_REPROVADO);
-        })->get();
+        $avaliacoesEnsinoParticipacoes = Avaliacao::getAvaliacoesDisapproved(EnsinoParticipacao::class, $user_pad_id);
 
-        $ensinoParticipacoes = EnsinoParticipacao::whereUserPadId($user_pad_id)->join(Avaliacao::getTableName(), function (JoinClause $join) {
-            $join->on(EnsinoParticipacao::getColumnName('id'), '=', Avaliacao::getColumnName('tarefa_id'))
-                ->where(Avaliacao::getColumnName('type'), '=', Avaliacao::TYPE_ENSINO_PARTICIPACAO)
-                ->where(Avaliacao::getColumnName('status'), '=', Avaliacao::STATUS_REPROVADO);
-        })->get();
+        $avaliacoesEnsinoSupervisoes = Avaliacao::getAvaliacoesDisapproved(EnsinoSupervisao::class, $user_pad_id);
+        
+        $avaliacoesEnsinoAulas = Avaliacao::getAvaliacoesDisapproved(EnsinoAula::class, $user_pad_id);
+        
+        $avaliacoesEnsinoMembroDocentes = Avaliacao::getAvaliacoesDisapproved(EnsinoMembroDocente::class, $user_pad_id);
 
-        $ensinoSupervisoes = EnsinoSupervisao::whereUserPadId($user_pad_id)->join(Avaliacao::getTableName(), function (JoinClause $join) {
-            $join->on(EnsinoSupervisao::getColumnName('id'), '=', Avaliacao::getColumnName('tarefa_id'))
-                ->where(Avaliacao::getColumnName('type'), '=', Avaliacao::TYPE_ENSINO_SUPERVISAO)
-                ->where(Avaliacao::getColumnName('status'), '=', Avaliacao::STATUS_REPROVADO);
-        })->get();
+        $avaliacoesEnsinoOutros = Avaliacao::getAvaliacoesDisapproved(EnsinoOutros::class, $user_pad_id);
 
-        $ensinoAulas = EnsinoAula::whereUserPadId($user_pad_id)->join(Avaliacao::getTableName(), function (JoinClause $join) {
-            $join->on(EnsinoAula::getColumnName('id'), '=', Avaliacao::getColumnName('tarefa_id'))
-                ->where(Avaliacao::getColumnName('type'), '=', Avaliacao::TYPE_ENSINO_AULA)
-                ->where(Avaliacao::getColumnName('status'), '=', Avaliacao::STATUS_REPROVADO);
-        })->get();
+        $avaliacoesEnsinoProjetos = Avaliacao::getAvaliacoesDisapproved(EnsinoProjeto::class, $user_pad_id);
 
-        $ensinoMembroDocentes = EnsinoMembroDocente::whereUserPadId($user_pad_id)->join(Avaliacao::getTableName(), function (JoinClause $join) {
-            $join->on(EnsinoMembroDocente::getColumnName('id'), '=', Avaliacao::getColumnName('tarefa_id'))
-                ->where(Avaliacao::getColumnName('type'), '=', Avaliacao::TYPE_ENSINO_MEMBRO_DOCENTE)
-                ->where(Avaliacao::getColumnName('status'), '=', Avaliacao::STATUS_REPROVADO);
-        })->get();
+        //Avaliacoes (Pesquisa) Collections
 
-        $ensinoOutros = EnsinoOutros::whereUserPadId($user_pad_id)->join(Avaliacao::getTableName(), function (JoinClause $join) {
-            $join->on(EnsinoOutros::getColumnName('id'), '=', Avaliacao::getColumnName('tarefa_id'))
-                ->where(Avaliacao::getColumnName('type'), '=', Avaliacao::TYPE_ENSINO_OUTROS)
-                ->where(Avaliacao::getColumnName('status'), '=', Avaliacao::STATUS_REPROVADO);
-        })->get();
+        $avaliacoesPesquisaCoordenacoes = Avaliacao::getAvaliacoesDisapproved(PesquisaCoordenacao::class, $user_pad_id);
+        $avaliacoesPesquisaLiderancas = Avaliacao::getAvaliacoesDisapproved(PesquisaLideranca::class, $user_pad_id);
+        $avaliacoesPesquisaOrientacoes = Avaliacao::getAvaliacoesDisapproved(PesquisaOrientacao::class, $user_pad_id);
+        $avaliacoesPesquisaOutros = Avaliacao::getAvaliacoesDisapproved(PesquisaOutros::class, $user_pad_id);
 
-        $ensinoProjetos = EnsinoProjeto::whereUserPadId($user_pad_id)->join(Avaliacao::getTableName(), function (JoinClause $join) {
-            $join->on(EnsinoProjeto::getColumnName('id'), '=', Avaliacao::getColumnName('tarefa_id'))
-                ->where(Avaliacao::getColumnName('type'), '=', Avaliacao::TYPE_ENSINO_PROJETO)
-                ->where(Avaliacao::getColumnName('status'), '=', Avaliacao::STATUS_REPROVADO);
-        })->get();
+        //Avaliacoes (Extensão) Collections
 
-        //Pesquisa Collections
+        $avaliacoesExtensaoCoordenacoes = Avaliacao::getAvaliacoesDisapproved(ExtensaoCoordenacao::class, $user_pad_id);
+        $avaliacoesExtensaoOrientacoes = Avaliacao::getAvaliacoesDisapproved(ExtensaoOrientacao::class, $user_pad_id);
+        $avaliacoesExtensaoOutros = Avaliacao::getAvaliacoesDisapproved(ExtensaoOutros::class, $user_pad_id);
 
-        $pesquisaCoordenacoes = PesquisaCoordenacao::whereUserPadId($user_pad_id)->join(Avaliacao::getTableName(), function (JoinClause $join) {
-            $join->on(PesquisaCoordenacao::getColumnName('id'), '=', Avaliacao::getColumnName('tarefa_id'))
-                ->where(Avaliacao::getColumnName('type'), '=', Avaliacao::TYPE_PESQUISA_COORDENACAO)
-                ->where(Avaliacao::getColumnName('status'), '=', Avaliacao::STATUS_REPROVADO);
-        })->get();
+        //Avaliacoes (Gestão) Collections
 
-        $pesquisaLiderancas = PesquisaLideranca::whereUserPadId($user_pad_id)->join(Avaliacao::getTableName(), function (JoinClause $join) {
-            $join->on(PesquisaLideranca::getColumnName('id'), '=', Avaliacao::getColumnName('tarefa_id'))
-                ->where(Avaliacao::getColumnName('type'), '=', Avaliacao::TYPE_PESQUISA_LIDERANCA)
-                ->where(Avaliacao::getColumnName('status'), '=', Avaliacao::STATUS_REPROVADO);
-        })->get();
-
-        $pesquisaOrientacoes = PesquisaOrientacao::whereUserPadId($user_pad_id)->join(Avaliacao::getTableName(), function (JoinClause $join) {
-            $join->on(PesquisaOrientacao::getColumnName('id'), '=', Avaliacao::getColumnName('tarefa_id'))
-                ->where(Avaliacao::getColumnName('type'), '=', Avaliacao::TYPE_PESQUISA_ORIENTACAO)
-                ->where(Avaliacao::getColumnName('status'), '=', Avaliacao::STATUS_REPROVADO);
-        })->get();
-
-        $pesquisaOutros = PesquisaOutros::whereUserPadId($user_pad_id)->join(Avaliacao::getTableName(), function (JoinClause $join) {
-            $join->on(PesquisaOutros::getColumnName('id'), '=', Avaliacao::getColumnName('tarefa_id'))
-                ->where(Avaliacao::getColumnName('type'), '=', Avaliacao::TYPE_PESQUISA_OUTROS)
-                ->where(Avaliacao::getColumnName('status'), '=', Avaliacao::STATUS_REPROVADO);
-        })->get();
-
-        //Extensão Collections
-
-        $extensaoCoordenacoes = ExtensaoCoordenacao::whereUserPadId($user_pad_id)->join(Avaliacao::getTableName(), function (JoinClause $join) {
-            $join->on(ExtensaoCoordenacao::getColumnName('id'), '=', Avaliacao::getColumnName('tarefa_id'))
-                ->where(Avaliacao::getColumnName('type'), '=', Avaliacao::TYPE_EXTENSAO_COORDENACAO)
-                ->where(Avaliacao::getColumnName('status'), '=', Avaliacao::STATUS_REPROVADO);
-        })->get();
-
-        $extensaoOrientacoes = ExtensaoOrientacao::whereUserPadId($user_pad_id)->join(Avaliacao::getTableName(), function (JoinClause $join) {
-            $join->on(ExtensaoOrientacao::getColumnName('id'), '=', Avaliacao::getColumnName('tarefa_id'))
-                ->where(Avaliacao::getColumnName('type'), '=', Avaliacao::TYPE_EXTENSAO_ORIENTACAO)
-                ->where(Avaliacao::getColumnName('status'), '=', Avaliacao::STATUS_REPROVADO);
-        })->get();
-
-        $extensaoOutros = ExtensaoOutros::whereUserPadId($user_pad_id)->join(Avaliacao::getTableName(), function (JoinClause $join) {
-            $join->on(ExtensaoOutros::getColumnName('id'), '=', Avaliacao::getColumnName('tarefa_id'))
-                ->where(Avaliacao::getColumnName('type'), '=', Avaliacao::TYPE_EXTENSAO_OUTROS)
-                ->where(Avaliacao::getColumnName('status'), '=', Avaliacao::STATUS_REPROVADO);
-        })->get();
-
-        //Gestão Collections
-
-        $gestaoCoordenacaoLaboratoriosDidaticos = GestaoCoordenacaoLaboratoriosDidaticos::whereUserPadId($user_pad_id)->join(Avaliacao::getTableName(), function (JoinClause $join) {
-            $join->on(GestaoCoordenacaoLaboratoriosDidaticos::getColumnName('id'), '=', Avaliacao::getColumnName('tarefa_id'))
-                ->where(Avaliacao::getColumnName('type'), '=', Avaliacao::TYPE_GESTAO_COORDENACAO_LABORATORIOS_DIDATICOS)
-                ->where(Avaliacao::getColumnName('status'), '=', Avaliacao::STATUS_REPROVADO);
-        })->get();
-
-        $gestaoMembroComissoes = GestaoMembroComissao::whereUserPadId($user_pad_id)->join(Avaliacao::getTableName(), function (JoinClause $join) {
-            $join->on(GestaoMembroComissao::getColumnName('id'), '=', Avaliacao::getColumnName('tarefa_id'))
-                ->where(Avaliacao::getColumnName('type'), '=', Avaliacao::TYPE_GESTAO_MEMBRO_COMISSAO)
-                ->where(Avaliacao::getColumnName('status'), '=', Avaliacao::STATUS_REPROVADO);
-        })->get();
-
-        $gestaoOutros = GestaoOutros::whereUserPadId($user_pad_id)->join(Avaliacao::getTableName(), function (JoinClause $join) {
-            $join->on(GestaoOutros::getColumnName('id'), '=', Avaliacao::getColumnName('tarefa_id'))
-                ->where(Avaliacao::getColumnName('type'), '=', Avaliacao::TYPE_GESTAO_OUTROS)
-                ->where(Avaliacao::getColumnName('status'), '=', Avaliacao::STATUS_REPROVADO);
-        })->get();
-
-        $gestaoCoordenacaoProgramaInstitucionais = GestaoCoordenacaoProgramaInstitucional::whereUserPadId($user_pad_id)->join(Avaliacao::getTableName(), function (JoinClause $join) {
-            $join->on(GestaoCoordenacaoProgramaInstitucional::getColumnName('id'), '=', Avaliacao::getColumnName('tarefa_id'))
-                ->where(Avaliacao::getColumnName('type'), '=', Avaliacao::TYPE_GESTAO_COORDENACAO_PROGRAMA_INSTITUCIONAL)
-                ->where(Avaliacao::getColumnName('status'), '=', Avaliacao::STATUS_REPROVADO);
-        })->get();
-
-        $gestaoMembroConselhos = GestaoMembroConselho::whereUserPadId($user_pad_id)->join(Avaliacao::getTableName(), function (JoinClause $join) {
-            $join->on(GestaoMembroConselho::getColumnName('id'), '=', Avaliacao::getColumnName('tarefa_id'))
-                ->where(Avaliacao::getColumnName('type'), '=', Avaliacao::TYPE_GESTAO_MEMBRO_CONSELHO)
-                ->where(Avaliacao::getColumnName('status'), '=', Avaliacao::STATUS_REPROVADO);
-        })->get();
-
-        $gestaoRepresentanteUnidadeEducacoes = GestaoRepresentanteUnidadeEducacao::whereUserPadId($user_pad_id)->join(Avaliacao::getTableName(), function (JoinClause $join) {
-            $join->on(GestaoRepresentanteUnidadeEducacao::getColumnName('id'), '=', Avaliacao::getColumnName('tarefa_id'))
-                ->where(Avaliacao::getColumnName('type'), '=', Avaliacao::TYPE_GESTAO_REPRESENTANTE_UNIDADE_EDUCACAO)
-                ->where(Avaliacao::getColumnName('status'), '=', Avaliacao::STATUS_REPROVADO);
-        })->get();
-
-        $gestaoMembroCamaras = GestaoMembroCamaras::whereUserPadId($user_pad_id)->join(Avaliacao::getTableName(), function (JoinClause $join) {
-            $join->on(GestaoMembroCamaras::getColumnName('id'), '=', Avaliacao::getColumnName('tarefa_id'))
-                ->where(Avaliacao::getColumnName('type'), '=', Avaliacao::TYPE_GESTAO_MEMBRO_CAMARAS)
-                ->where(Avaliacao::getColumnName('status'), '=', Avaliacao::STATUS_REPROVADO);
-        })->get();
-
-        $gestaoMembroTitularConselhos = GestaoMembroTitularConselho::whereUserPadId($user_pad_id)->join(Avaliacao::getTableName(), function (JoinClause $join) {
-            $join->on(GestaoMembroTitularConselho::getColumnName('id'), '=', Avaliacao::getColumnName('tarefa_id'))
-                ->where(Avaliacao::getColumnName('type'), '=', Avaliacao::TYPE_GESTAO_MEMBRO_TITULAR_CONSELHO)
-                ->where(Avaliacao::getColumnName('status'), '=', Avaliacao::STATUS_REPROVADO);
-        })->get();
+        $avaliacoesGestaoCoordenacaoLaboratoriosDidaticos = Avaliacao::getAvaliacoesDisapproved(GestaoCoordenacaoLaboratoriosDidaticos::class, $user_pad_id);
+        $avaliacoesGestaoMembroComissoes = Avaliacao::getAvaliacoesDisapproved(GestaoMembroComissao::class, $user_pad_id);
+        $avaliacoesGestaoOutros = Avaliacao::getAvaliacoesDisapproved(GestaoOutros::class, $user_pad_id);
+        $avaliacoesGestaoCoordenacaoProgramaInstitucionais = Avaliacao::getAvaliacoesDisapproved(GestaoCoordenacaoProgramaInstitucional::class, $user_pad_id);
+        $avaliacoesGestaoMembroConselhos = Avaliacao::getAvaliacoesDisapproved(GestaoMembroConselho::class, $user_pad_id);
+        $avaliacoesGestaoRepresentanteUnidadeEducacoes = Avaliacao::getAvaliacoesDisapproved(GestaoRepresentanteUnidadeEducacao::class, $user_pad_id);
+        $avaliacoesGestaoMembroCamaras = Avaliacao::getAvaliacoesDisapproved(GestaoMembroCamaras::class, $user_pad_id);
+        $avaliacoesGestaoMembroTitularConselhos = Avaliacao::getAvaliacoesDisapproved(GestaoMembroTitularConselho::class, $user_pad_id);
 
         return view('pad/dimensao/atividades/reprovadas/index', [
 
             'menu' => MenuItemsTeacher::PAD,
 
-            'ensinoAtendimentoDiscentes' => $ensinoAtendimentoDiscentes,
-            'ensinoCoordenacaoRegencias' => $ensinoCoordenacaoRegencias,
-            'ensinoOrientacoes' => $ensinoOrientacoes,
-            'ensinoParticipacoes' => $ensinoParticipacoes,
-            'ensinoSupervisoes' => $ensinoSupervisoes,
-            'ensinoAulas' => $ensinoAulas,
-            'ensinoMembroDocentes' => $ensinoMembroDocentes,
-            'ensinoOutros' => $ensinoOutros,
-            'ensinoProjetos' => $ensinoProjetos,
+            'avaliacoesEnsinoAtendimentoDiscentes' => $avaliacoesEnsinoAtendimentoDiscentes,
+            'avaliacoesEnsinoCoordenacaoRegencias' => $avaliacoesEnsinoCoordenacaoRegencias,
+            'avaliacoesEnsinoOrientacoes' => $avaliacoesEnsinoOrientacoes,
+            'avaliacoesEnsinoParticipacoes' => $avaliacoesEnsinoParticipacoes,
+            'avaliacoesEnsinoSupervisoes' => $avaliacoesEnsinoSupervisoes,
+            'avaliacoesEnsinoAulas' => $avaliacoesEnsinoAulas,
+            'avaliacoesEnsinoMembroDocentes' => $avaliacoesEnsinoMembroDocentes,
+            'avaliacoesEnsinoOutros' => $avaliacoesEnsinoOutros,
+            'avaliacoesEnsinoProjetos' => $avaliacoesEnsinoProjetos,
+            'avaliacoesEnsinoOutros' => $avaliacoesEnsinoOutros,
 
-            'pesquisaCoordenacoes' => $pesquisaCoordenacoes,
-            'pesquisaLiderancas' => $pesquisaLiderancas,
-            'pesquisaOrientacoes' => $pesquisaOrientacoes,
-            'pesquisaOutros' => $pesquisaOutros,
+            'avaliacoesPesquisaCoordenacoes' => $avaliacoesPesquisaCoordenacoes,
+            'avaliacoesPesquisaLiderancas' => $avaliacoesPesquisaLiderancas,
+            'avaliacoesPesquisaOrientacoes' => $avaliacoesPesquisaOrientacoes,
+            'avaliacoesPesquisaOutros' => $avaliacoesPesquisaOutros,
 
-            'extensaoCoordenacoes' => $extensaoCoordenacoes,
-            'extensaoOrientacoes' => $extensaoOrientacoes,
-            'extensaoOutros' => $extensaoOutros,
+            'avaliacoesExtensaoCoordenacoes' => $avaliacoesExtensaoCoordenacoes,
+            'avaliacoesExtensaoOrientacoes' => $avaliacoesExtensaoOrientacoes,
+            'avaliacoesExtensaoOutros' => $avaliacoesExtensaoOutros,
 
-            'gestaoCoordenacaoLaboratoriosDidaticos' => $gestaoCoordenacaoLaboratoriosDidaticos,
-            'gestaoMembroComissoes' => $gestaoMembroComissoes,
-            'gestaoOutros' => $gestaoOutros,
-            'gestaoCoordenacaoProgramaInstitucionais' => $gestaoCoordenacaoProgramaInstitucionais,
-            'gestaoMembroConselhos' => $gestaoMembroConselhos,
-            'gestaoRepresentanteUnidadeEducacoes' => $gestaoRepresentanteUnidadeEducacoes,
-            'gestaoMembroCamaras' => $gestaoMembroCamaras,
-            'gestaoMembroTitularConselhos' => $gestaoMembroTitularConselhos,
+            'avaliacoesGestaoCoordenacaoLaboratoriosDidaticos' => $avaliacoesGestaoCoordenacaoLaboratoriosDidaticos,
+            'avaliacoesGestaoMembroComissoes' => $avaliacoesGestaoMembroComissoes,
+            'avaliacoesGestaoOutros' => $avaliacoesGestaoOutros,
+            'avaliacoesGestaoCoordenacaoProgramaInstitucionais' => $avaliacoesGestaoCoordenacaoProgramaInstitucionais,
+            'avaliacoesGestaoMembroConselhos' => $avaliacoesGestaoMembroConselhos,
+            'avaliacoesGestaoRepresentanteUnidadeEducacoes' => $avaliacoesGestaoRepresentanteUnidadeEducacoes,
+            'avaliacoesGestaoMembroCamaras' => $avaliacoesGestaoMembroCamaras,
+            'avaliacoesGestaoMembroTitularConselhos' => $avaliacoesGestaoMembroTitularConselhos,
         ]);
     }
 }
