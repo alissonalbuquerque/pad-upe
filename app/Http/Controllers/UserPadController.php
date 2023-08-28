@@ -138,7 +138,7 @@ class UserPadController extends Controller
         $unidades_ensino = Unidade::listUnidades();
         $cursos = Curso::whereId(5)->first()->toArray();
         $semestres = Anexo::listSemestre();
-        $nomes_valores = 
+        $valoresPad = 
         [
             'componente_curricular' => 'Componente Curricular',
             'ch_semanal' => 'CH Semanal',
@@ -155,7 +155,11 @@ class UserPadController extends Controller
             'nivel' => 'Nível',
             'modalidade' => 'Modalidade',
             'funcao' => 'Função',
-            'natureza' => 'Natureza',
+            'natureza' => 'Natureza'
+        ];
+
+        $valoresAnexo = 
+        [
             "campus_id" => 'UNIDADE DE EDUCAÇÃO/CAMPUS',
             "curso_id" => 'CURSO',
             "unidade" => 'UNIDADE',
@@ -168,9 +172,11 @@ class UserPadController extends Controller
             "afastamento_parcial" => 'AFASTAMENTO PARCIAL?',
             "afastamento_parcial_desc" => 'PORTARIA DE AFASTAMENTO (PARCIAL)',
             "direcao_sindical" => 'EXERCE FUNÇÃO ADMINISTRATIVA?',
-            "licenca" => 'LICENÇA DE ACORDO COM A LEGISLAÇÃO VIGENTE. ESPECIFIQUE',
+            "licenca" => 'LICENÇA DE ACORDO COM A LEGISLAÇÃO VIGENTE. ESPECIFIQUE'
         ];
-        $valores_lista_negra =
+        // dd(array_keys($valoresAnexo));
+
+        $valoresListaNegra =
         [
             "id",
             "user_pad_id",
@@ -221,6 +227,7 @@ class UserPadController extends Controller
         if ( Anexo::whereUserPadId($user_pad_id)->first() != null) 
         {
             $anexoPad = Anexo::whereUserPadId($user_pad_id)->first()->toArray();
+            // dd($anexoPad);
         }
         else { $anexoPad = null; }
         $userPad = UserPad::whereId($user_pad_id)->first();
@@ -259,15 +266,15 @@ class UserPadController extends Controller
             ];
         
         // Geração de array tratado a partir do modelo
-        $treated_model = [];
-        $treated_nome_dimensao = "";
-        $treated_nome_categoria = "";
-        $treated_tarefa_codigo = "";
+        $treatedModel = [];
+        $treatedNomeDimensao = "";
+        $treatedNomeCategoria = "";
+        $treatedTarefaCodigo = "";
 
         foreach ($model as $nome_dimensao=>$dimensao)
         {
-            $treated_nome_dimensao = strtoupper($nome_dimensao);
-            $treated_model[$treated_nome_dimensao] = [];
+            $treatedNomeDimensao = strtoupper($nome_dimensao);
+            $treatedModel[$treatedNomeDimensao] = [];
             foreach ($dimensao as $nome_categoria=>$categoria)
             {
 
@@ -277,46 +284,46 @@ class UserPadController extends Controller
                 }
                 else
                 {
-                    $treated_nome_categoria = str_replace(".", ":", $nome_categoria);
-                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria] = [];
+                    $treatedNomeCategoria = str_replace(".", ":", $nome_categoria);
+                    $treatedModel[$treatedNomeDimensao][$treatedNomeCategoria] = [];
                     foreach ($categoria as $nome_item=>$item)
                     {
                         foreach ($item as $nome_valor=>$valor)
                         {
-                            if (! array_key_exists('Cód: ' . $item['cod_atividade'], $treated_model[$treated_nome_dimensao][$treated_nome_categoria]))
+                            if (! array_key_exists('Cód: ' . $item['cod_atividade'], $treatedModel[$treatedNomeDimensao][$treatedNomeCategoria]))
                             {
-                                $treated_model[$treated_nome_dimensao][$treated_nome_categoria]['Cód: ' . $item['cod_atividade']]  = [];
-                                $treated_tarefa_codigo = 'Cód: ' . $item['cod_atividade'];
+                                $treatedModel[$treatedNomeDimensao][$treatedNomeCategoria]['Cód: ' . $item['cod_atividade']]  = [];
+                                $treatedTarefaCodigo = 'Cód: ' . $item['cod_atividade'];
                             }
                             else 
                             {
-                                if (in_array($nome_valor, $valores_lista_negra))
+                                if (in_array($nome_valor, $valoresListaNegra))
                                 {
                                     continue;
                                 }
                                 elseif ($nome_valor == "nivel")
                                 {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo][$nomes_valores[$nome_valor]] = $niveis[$valor];
+                                    $treatedModel[$treatedNomeDimensao][$treatedNomeCategoria][$treatedTarefaCodigo][$valoresPad[$nome_valor]] = $niveis[$valor];
                                 }
                                 elseif ($nome_valor == "modalidade") 
                                 {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo][$nomes_valores[$nome_valor]] = $modalidades[$valor];
+                                    $treatedModel[$treatedNomeDimensao][$treatedNomeCategoria][$treatedTarefaCodigo][$valoresPad[$nome_valor]] = $modalidades[$valor];
                                 }
                                 elseif ($nome_valor == "funcao") 
                                 {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo][$nomes_valores[$nome_valor]] = $funcoes[$valor];
+                                    $treatedModel[$treatedNomeDimensao][$treatedNomeCategoria][$treatedTarefaCodigo][$valoresPad[$nome_valor]] = $funcoes[$valor];
                                 }
                                 elseif ($nome_valor == "natureza") 
                                 {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo][$nomes_valores[$nome_valor]] = $naturezas[$valor];
+                                    $treatedModel[$treatedNomeDimensao][$treatedNomeCategoria][$treatedTarefaCodigo][$valoresPad[$nome_valor]] = $naturezas[$valor];
                                 }
-                                elseif(array_key_exists($nome_valor, $nomes_valores)) 
+                                elseif(array_key_exists($nome_valor, $valoresPad)) 
                                 {
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo][$nomes_valores[$nome_valor]] = $valor;
+                                    $treatedModel[$treatedNomeDimensao][$treatedNomeCategoria][$treatedTarefaCodigo][$valoresPad[$nome_valor]] = $valor;
                                 }
                                 else
                                 { 
-                                    $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo][$nome_valor] = $valor;
+                                    $treatedModel[$treatedNomeDimensao][$treatedNomeCategoria][$treatedTarefaCodigo][$nome_valor] = $valor;
                                 }
                             }
                         }
@@ -324,49 +331,48 @@ class UserPadController extends Controller
                 }
             }
         }
-        $treated_anexo_pad = [];
+        $ANEXOPLACEHOLDER = "Não especificado";
+        $treatedAnexo = [];
         if ($anexoPad != null) 
         {
-            foreach ($anexoPad as $nome_valor=>$valor)
+            foreach ($anexoPad as $nome=>$valor)
             {
-                if (in_array($nome_valor, $valores_lista_negra))
+                if (in_array($nome, $valoresListaNegra))
                 {
                     continue;
                 }
-                elseif ($nome_valor == 'campus_id') 
+                elseif ($nome == "campus_id") 
                 {
                     if ($valor != null) 
                     {
                         $campus = Campus::whereId($valor)->first();
-                        $treated_anexo_pad[$nomes_valores[$nome_valor]] = $campus->{'name'};
-                        // $treated_anexo_pad[$nomes_valores['unidade']] = strToUpper($unidades_ensino[$campus->{'unidade_id'}]);
+                        $treatedAnexo[$valoresAnexo[$nome]] = $campus->{'name'};
                     }
                     else
                     {
-                        $treated_anexo_pad[$nomes_valores[$nome_valor]] = "";
-                        // $treated_anexo_pad[$nomes_valores['unidade']] = "Não especificado";
+                        $treatedAnexo[$valoresAnexo[$nome]] = $ANEXOPLACEHOLDER;
                     }
                     
                 }
-                elseif ($nome_valor == 'curso_id') 
+                elseif ($nome == "curso_id") 
                 {
-                    $valor != null ? $treated_anexo_pad[$nomes_valores[$nome_valor]] = Curso::whereId($valor)->first()->{'name'} : $treated_anexo_pad[$nomes_valores[$nome_valor]] = "Não especificado";
+                    $valor != null ? $treatedAnexo[$valoresAnexo[$nome]] = Curso::whereId($valor)->first()->{'name'} : $treatedAnexo[$valoresAnexo[$nome]] = $ANEXOPLACEHOLDER;
                 }
-                elseif ($nome_valor == 'semestre') 
+                elseif ($nome == "semestre") 
                 {
-                    $valor != null ? $treated_anexo_pad[$nomes_valores[$nome_valor]] = $semestres[$valor] : $treated_anexo_pad[$nomes_valores[$nome_valor]] = "Não especificado";
+                    $valor != null ? $treatedAnexo[$valoresAnexo[$nome]] = $semestres[$valor] : $treatedAnexo[$valoresAnexo[$nome]] = $ANEXOPLACEHOLDER;
                 }
-                elseif ($nome_valor == 'afastamento_total' || $nome_valor == 'afastamento_parcial' || $nome_valor == 'direcao_sindical') 
+                elseif ($nome == "afastamento_total" || $nome == "afastamento_parcial" || $nome == 'direcao_sindical') 
                 {
-                    $treated_anexo_pad[$nomes_valores[$nome_valor]] = $valor == 1? 'Sim' : 'Não';
+                    $treatedAnexo[$valoresAnexo[$nome]] = $valor == 1? 'Sim' : 'Não';
                 }
-                elseif (array_key_exists($nome_valor, $nomes_valores))
+                elseif (array_key_exists($nome, $valoresAnexo))
                 {
-                    $valor != null ? $treated_anexo_pad[$nomes_valores[$nome_valor]] = $valor : $treated_anexo_pad[$nomes_valores[$nome_valor]] = "Não especificado";
+                    $valor != null ? $treatedAnexo[$valoresAnexo[$nome]] = $valor : $treatedAnexo[$valoresAnexo[$nome]] = $ANEXOPLACEHOLDER;
                 }
                 else 
                 {
-                    $valor != null ? $treated_anexo_pad[$nome_valor] = $valor : $treated_anexo_pad[$nome_valor] = "Não especificado";
+                    $valor != null ? $treatedAnexo[$nome] = $valor : $treatedAnexo[$nome] = $ANEXOPLACEHOLDER;
                 }
             }
         }
@@ -380,13 +386,13 @@ class UserPadController extends Controller
                         'nome' => $userPad->user->{'name'},
                         'email' => $userPad->user->{'email'}
                         ],
-            'anexo' => $treated_anexo_pad,
-            'model' => $treated_model, 
+            'anexo' => $treatedAnexo,
+            'model' => $treatedModel, 
             'horas' => $horas
             );
         // dd( 
         // //     $userPad->pesquisaCoordenacoes->toArray(),
-        //     $treated_anexo_pad,
+        //     $treatedAnexo,
         //     // ($model['extensao']['1. EXTENSÃO (COORDENAÇÃO DE ATIVIDADES DE EXTENSÃO HOMOLOGADA NA PROEC)']),
         //     // public_path('\images\estado_pe_logo.png'),
         //     // url('images\estado_pe_logo.png'),

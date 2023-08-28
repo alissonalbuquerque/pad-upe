@@ -934,10 +934,6 @@ class PadController extends Controller
             $professor->ch_gestao   = $this->get_carga_horaria($avaliacoes['gestao'])? $this->get_carga_horaria($avaliacoes['gestao']) : 0;
             
             if($professor->ch_ensino || $professor->ch_pesquisa || $professor->ch_extensao || $professor->ch_gestao ) {
-                $resource = tmpfile();
-                $path = stream_get_meta_data($resource)['uri'];
-
-
                 $fileName = storage_path($professor->{'name'} . "_.pdf");
                 $userPadGeneratePDF->GeneratePDF($userPad->{'id'}, $fileName);
                 $pads[$professor->{'name'}] = $fileName;
