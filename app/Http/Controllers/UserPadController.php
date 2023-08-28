@@ -376,6 +376,13 @@ class UserPadController extends Controller
                 }
             }
         }
+        else 
+        {
+            foreach ($valoresAnexo as $nome => $valor)
+            {
+                $treatedAnexo[$valor] = $ANEXOPLACEHOLDER;
+            }
+        }
 
         date_default_timezone_set("America/Recife");
         $dateTime = now()->format('d-m-Y (H:i:s)');
