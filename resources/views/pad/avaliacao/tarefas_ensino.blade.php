@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@php
+    use App\Models\Util\Status;
+@endphp
+
 @section('title', 'Ensino')
 @section('header')
     @include('layouts.header', [
@@ -70,59 +74,80 @@
 
         <div class="tab-content" id="myTabContent">
             <!-- Ensino -->
-            <div class="tab-pane fade show active" id="ensino" role="tabpanel" aria-labelledby="ensino-tab">       
+            <div class="tab-pane fade show active" id="ensino" role="tabpanel" aria-labelledby="ensino-tab">
                 @if (isset($avaliacoes_ensino) && !empty($avaliacoes_ensino[0]))
                     @foreach ($avaliacoes_ensino as $avaliacao)
                         <div class="card">
                             <h5 class="card-header">{{$avaliacao->tarefa->getDescricaoAtividade()}}  ({{$avaliacao->tarefa->cod_atividade}})</h5>
                             <div class="card-body">
-                                <ul>
-                                    @foreach($avaliacao->tarefa->avaliable_attributes as $key => $attribute)
-                                        <li> <span class="fw-bold ">{{ $key }} </span><span class="card-text">{{ $avaliacao->tarefa->$attribute }}</span><br> </li>
-                                    @endforeach
-                                </ul>
-                                
-                                <span class="fw-bold">Status: </span> {{$avaliacao->getStatusAsText()}}
-                                
-                                @if($avaliacao->status == 3)
-                                <div style="width: 100%;" class="btns-avaliar d-flex justify-content-end">
-                                    <button
-                                        type="button"
-                                        class="btn btn-outline-danger"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#modal_avaliacao"
-                                        style="height: 38px;"
-                                        onclick="setaDadosModalAvaliacao('{{$avaliacao->tarefa->id}}', '{{$avaliacao->tarefa->userPad->user->id}}', '6', '{{$avaliacao->type}}', '{{$avaliacao->id}}') ">
-                                        Reprovar
-                                    </button>
 
-                                    <span>&nbsp;&nbsp;</span>
-
-                                    <form action="{{route('avaliador_avaliar')}}" method="POST">
-                                        @csrf
-                                        @method("PUT")
-                                        <input type="hidden" name="avaliacao_id" id="avaliacao_id" value="{{$avaliacao->id}}">
-                                        <input type="hidden" name="tarefa_id" id="tarefa_id_aprovar" value="{{$avaliacao->tarefa->id}}">
-                                        <input type="hidden" name="professor_id" id="professor_id_aprovar" value="{{$avaliacao->tarefa->userPad->user->id}}">
-                                        <input type="hidden" name="status" id="status_aprovar" value='7'>
-                                        <input type="hidden" name="atividade_type" id="atividade_type_aprovar" value="{{$avaliacao->type}}">
-                                        <input type="submit" class="btn btn-primary" value="Aprovar">
-                                    </form>
+                                <div class="card-header mb-4">
+                                    <p class="fw-bold"> Atividade </p>
+                                    <ul>
+                                        @foreach($avaliacao->tarefa->avaliable_attributes as $key => $attribute)
+                                            <li> <span class="fw-bold ">{{ $key }} </span><span class="card-text">{{ $avaliacao->tarefa->$attribute }}</span><br> </li>
+                                        @endforeach
+    
+                                        @if($avaliacao->status !== Status::REPROVADO)
+                                            <li> <span class="fw-bold">Status: </span> {{$avaliacao->getStatusAsText()}} </li>
+                                        @endif
+                                    </ul>
                                 </div>
-                                @else
-                                <div class="btns-avaliar mt-4 d-flex justify-content-end">
-                                    <form action="{{route('avaliador_avaliar')}}" method="POST">
-                                        @csrf
-                                        @method("PUT")
-                                        <input type="hidden" name="avaliacao_id" id="avaliacao_id_cancelar" value="{{$avaliacao->id}}">
-                                        <input type="hidden" name="tarefa_id" id="tarefa_id_cancelar" value="{{$avaliacao->tarefa->id}}">
-                                        <input type="hidden" name="professor_id" id="professor_id_cancelar" value="{{$avaliacao->tarefa->userPad->user->id}}">
-                                        <input type="hidden" name="status" id="status_cancelar" value='3'>
-                                        <input type="hidden" name="atividade_type" id="atividade_type_cancelar" value="{{$avaliacao->type}}">
-                                        <input type="submit" class="btn btn-secondary" value="Cancelar Avaliação">
-                                    </form>
-                                </div>
+                                
+                                @if($avaliacao->status == Status::REPROVADO)
+                                    <div class="card-header mb-4">
+                                        <p class="fw-bold"> Avaliação </p>
+                                        <ul>
+                                            <li><span class="fw-bold">Descrição:</span> {{ $avaliacao->descricao }} </li>
+                                            <li><span class="fw-bold">Hora de Reajuste:</span> {{ $avaliacao->horas_reajuste }} h </li>
+                                            <li><span class="fw-bold">Status:</span> {{$avaliacao->getStatusAsText()}} </li>
+                                        </ul>
+                                    </div>
                                 @endif
+                                
+                                <div class="card-header">
+                                    
+                                    @if($avaliacao->status == 3)
+                                    <div style="width: 100%;" class="btns-avaliar d-flex justify-content-end">
+                                        <button
+                                            type="button"
+                                            class="btn btn-outline-danger"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modal_avaliacao"
+                                            style="height: 38px;"
+                                            onclick="setaDadosModalAvaliacao('{{$avaliacao->tarefa->id}}', '{{$avaliacao->tarefa->userPad->user->id}}', '6', '{{$avaliacao->type}}', '{{$avaliacao->id}}') ">
+                                            Reprovar
+                                        </button>
+
+                                        <span>&nbsp;&nbsp;</span>
+
+                                        <form action="{{route('avaliador_avaliar')}}" method="POST">
+                                            @csrf
+                                            @method("PUT")
+                                            <input type="hidden" name="avaliacao_id" id="avaliacao_id" value="{{$avaliacao->id}}">
+                                            <input type="hidden" name="tarefa_id" id="tarefa_id_aprovar" value="{{$avaliacao->tarefa->id}}">
+                                            <input type="hidden" name="professor_id" id="professor_id_aprovar" value="{{$avaliacao->tarefa->userPad->user->id}}">
+                                            <input type="hidden" name="status" id="status_aprovar" value='7'>
+                                            <input type="hidden" name="atividade_type" id="atividade_type_aprovar" value="{{$avaliacao->type}}">
+                                            <input type="submit" class="btn btn-primary" value="Aprovar">
+                                        </form>
+                                    </div>
+                                    @else
+                                    <div class="btns-avaliar mt-4 d-flex justify-content-end">
+                                        <form action="{{route('avaliador_avaliar')}}" method="POST">
+                                            @csrf
+                                            @method("PUT")
+                                            <input type="hidden" name="avaliacao_id" id="avaliacao_id_cancelar" value="{{$avaliacao->id}}">
+                                            <input type="hidden" name="tarefa_id" id="tarefa_id_cancelar" value="{{$avaliacao->tarefa->id}}">
+                                            <input type="hidden" name="professor_id" id="professor_id_cancelar" value="{{$avaliacao->tarefa->userPad->user->id}}">
+                                            <input type="hidden" name="status" id="status_cancelar" value='3'>
+                                            <input type="hidden" name="atividade_type" id="atividade_type_cancelar" value="{{$avaliacao->type}}">
+                                            <input type="submit" class="btn btn-secondary" value="Cancelar Avaliação">
+                                        </form>
+                                    </div>
+                                    @endif
+
+                                </div>
 
                             </div>
                         </div><br>
