@@ -30,7 +30,7 @@
 
     <div class="stylo p-3 n-flex">
         <h2>Portal de acesso ao</h2>
-        <h3>Plano de Atividades Docentes - PAD</h3>
+        <h3> Plano Docente de Atividades - PDA </h3>
     </div>
 
     <div class="container">

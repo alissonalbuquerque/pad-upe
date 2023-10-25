@@ -24,7 +24,7 @@
     <li class="nav-item">
         <a href="{{ route('pad_index') }}" class="custom-nav-link {{ $pads_active }}">
             <i class="bi bi-book-half"></i>
-            PADs
+            PDAs
         </a>
     </li>
     <li class="nav-item">
