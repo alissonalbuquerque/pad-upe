@@ -16,7 +16,7 @@
 
     <div>
         
-        <h3 class="h3"> PADs </h3>
+        <h3 class="h3"> PDAs </h3>
 
         <div>
 

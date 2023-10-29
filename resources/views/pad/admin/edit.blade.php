@@ -14,7 +14,7 @@
     @include('components.alerts')
 
     <div class="mb-3">
-        <h3 class="h4"> PAD - Atualizar </h3>
+        <h3 class="h4"> PDA - Atualizar </h3>
     </div>
 
     <!-- Tabs -->

@@ -12,7 +12,7 @@
 @section('body')
 
     <div class="mb-3">
-        <h3 class="h4"> PAD - Novo </h3>
+        <h3 class="h4"> PDA - Novo </h3>
     </div>
 
     <!-- Tabs -->

@@ -51,25 +51,4 @@
             Usuários
         </a>
     </li>
-    
-    <div> - - - </div>
-    <li class="nav-item">
-        <a href="{{ route('diretor_index') }}" class="custom-nav-link {{ ((($menu ?? 0) == 11 ? 0: $menu ) == 4? "active": "") }}">
-            <i class="bi bi-people-fill"></i>
-            Diretores
-        </a>
-    </li>
-    <li class="nav-item">
-        <a href="{{ route('coordenador_index') }}" class="custom-nav-link {{ ((($menu ?? 0) == 11 ? 0: $menu ) == 5? "active": "") }}">
-            <i class="bi bi-person-video3"></i>
-            Coordenadores
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a href="{{ route('professor_index') }}" class="custom-nav-link {{ ((($menu ?? 0) == 11 ? 0: $menu ) == 7? "active": "") }}">
-            <i class="bi bi-eyeglasses"></i>
-            Professores
-        </a>
-    </li>
 </ul>
