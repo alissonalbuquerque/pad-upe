@@ -30,7 +30,7 @@
     </div>
 
     <div class="mb-3 col-sm-6">
-        <label class="form-label" for="pad_name"> PAD </label>
+        <label class="form-label" for="pad_name"> PDA </label>
         <input class="form-control" type="text" disabled value="{{ $pad->nome }}">
     </div>
 

@@ -21,7 +21,7 @@
     <div>
         <ul class="nav nav-tabs">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="pad-tab" data-bs-toggle="tab" data-bs-target="#pad-container" type="button" role="tab" aria-controls="pad-container" arial-selected="true"> PAD </button>
+                <button class="nav-link active" id="pad-tab" data-bs-toggle="tab" data-bs-target="#pad-container" type="button" role="tab" aria-controls="pad-container" arial-selected="true"> PDA </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="user_pad-tab" data-bs-toggle="tab" data-bs-target="#user_pad-container" type="button" role="tab" aria-controls="user_pad-container" arial-selected="false"> Professores </button>
@@ -121,7 +121,7 @@
                     <thead>
                         <tr>
                             <th scope="col"> Professor </th>
-                            <th scope="col"> PAD </th>
+                            <th scope="col"> PDA </th>
                             <th scope="col"> C.H </th>
                             <th scope="col"> Opções </th>
                         </tr>
@@ -169,7 +169,7 @@
                     <thead>
                     <tr>
                         <th scope="col"> Avaliador </th>
-                        <th scope="col"> PAD </th>
+                        <th scope="col"> PDA </th>
                         <th scope="col"> Dimensão </th>
                         <th scope="col"> Opções </th>
                     </tr>

@@ -28,7 +28,7 @@
     </div>
     <div class="card d-flex">
         <div class="card-head d-flex justify-content-center" style="background-color:#dfdfdf; padding-top:10px;">
-            <h6 class="card-title" style="font-weight:bold;">PROFESSORES QUE NÃO ENVIARAM O PAD</h6>
+            <h6 class="card-title" style="font-weight:bold;">PROFESSORES QUE NÃO ENVIARAM O PDA</h6>
         </div>
         <div class="card-body">
 
@@ -66,7 +66,7 @@
 
     <div class="card d-flex" style='margin-top:20px;'>
         <div class="card-head d-flex justify-content-center" style="background-color:#dfdfdf; padding-top:10px;">
-            <h6 class="card-title" style="font-weight:bold;">RELAÇÃO DOS PROFESSORES QUE ENVIARAM O PAD</h6>
+            <h6 class="card-title" style="font-weight:bold;">RELAÇÃO DOS PROFESSORES QUE ENVIARAM O PDA</h6>
         </div>
         <div class="card-body">
 

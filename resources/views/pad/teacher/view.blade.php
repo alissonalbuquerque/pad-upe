@@ -21,7 +21,7 @@
     <h3 class="h3"> DIMENSÕES </h3>
     <button class="btn btn-outline-success btn-m btn-save_pad" style="margin-right: 1.2rem">
         <i class="bi bi-check-square"></i>
-        Enviar PAD
+        Enviar PDA
     </button>
 </div>
 
@@ -92,7 +92,7 @@
     <div class="card mx-2" style="width: 10rem;">
         <div class="card-body bg-primary">
             <h1 class="text-center"> <i class="bi bi-cloud-arrow-down-fill" style="color: #F1F1F1"></i> </h1>
-            <h5 class="text-center text-white"> Baixar PAD </h4>
+            <h5 class="text-center text-white"> Baixar PDA </h4>
             <div class="text-center">
                 <h4 class="h5"> <span class="badge" style="color: #32415c;background-color: #fd9d0d">Horas: {{ $ensinoTotalHoras + $gestaoTotalHoras + $pesquisaTotalHoras + $extensaoTotalHoras }}</span> </h4>
             </div>
@@ -103,7 +103,7 @@
 
 @include('components.modal', [
     'size' => 'modal-lg',
-    'header' => 'Salvar PAD?'
+    'header' => 'Salvar PDA?'
 ])
 @endsection
 

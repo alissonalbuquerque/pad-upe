@@ -20,7 +20,7 @@
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
                     <h3>
                         <i class="bi bi-exclamation-octagon-fill"></i>
-                        PADs com Relatórios Disponíveis
+                        PDAs com Relatórios Disponíveis
                     </h3>
                 </div>
                 <div class="d-flex">

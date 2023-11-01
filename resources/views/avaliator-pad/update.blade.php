@@ -1,6 +1,6 @@
 
 <div class="mb-3">
-    <h3 class="h3"> Atualizar Avaliador (PAD) </h3>
+    <h3 class="h3"> Atualizar Avaliador (PDA) </h3>
 </div>
 
 <form id="form-user_pad" action="{{ route('avaliator-pad_update', ['id' => $model->id]) }}" method="post">

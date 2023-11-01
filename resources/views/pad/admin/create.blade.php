@@ -19,7 +19,7 @@
     <div>
         <ul class="nav nav-tabs">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="pad-tab" data-bs-toggle="tab" data-bs-target="#pad-container" type="button" role="tab" aria-controls="pad-container" arial-selected="true"> PAD </button>
+                <button class="nav-link active" id="pad-tab" data-bs-toggle="tab" data-bs-target="#pad-container" type="button" role="tab" aria-controls="pad-container" arial-selected="true"> PDA </button>
             </li>
         </ul>
     </div>

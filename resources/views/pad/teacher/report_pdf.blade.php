@@ -6,7 +6,7 @@
         </div>
         
         <div style="display: flex; flex-direction: column">
-            <p style="margin: 1.1mm"><span>Autor do PAD: {{$data['user']['nome']}}</span></p>
+            <p style="margin: 1.1mm"><span>Autor do PDA: {{$data['user']['nome']}}</span></p>
             <p style="margin: 1.1mm"><span>E-mail do Autor: {{$data['user']['email']}}</span></p>
             <p style="margin: 1.1mm"><span>PDF gerado em: {{$data['date']}}</span></p>            
         </div>

@@ -13,7 +13,7 @@
         <button class="btn btn-l btn-success" 
                 onclick="location.href='{{route('user-pad_pdf', ['user_pad_id' => $user_pad_id])}}'"
                 data-bs-dismiss="modal">
-            Sim, salvar PAD
+            Sim, salvar PDA
         </button>
     </div>
     

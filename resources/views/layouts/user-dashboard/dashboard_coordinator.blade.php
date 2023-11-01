@@ -14,8 +14,8 @@
     </div>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-top">
         <ul class="inf-list">
-            <li><a href="" rel="noopener" target="_blank">Cronograma de atividades PAD 2022</a></li>
-            <li><a href="" rel="noopener" target="_blank">Informações sobre o processo PAD 2022</a></li>
+            <li><a href="" rel="noopener" target="_blank">Cronograma de atividades PDA 2023</a></li>
+            <li><a href="" rel="noopener" target="_blank">Informações sobre o processo PDA 2023</a></li>
         </ul>
     </div>
 </div>
@@ -23,7 +23,7 @@
 <div class="tab-pane" id="pad" role="tabpanel" aria-labelledby="pad-tab">
     <div
         class="d-flex flex-column justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Dimenções-PAD</h1>
+        <h1 class="h2">Dimenções-PDA</h1>
     </div>
     <div class="d-flex justify-content-start ">
         <div class="card text-center" style="width: 18rem;">
