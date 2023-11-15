@@ -14,8 +14,7 @@
                 <!-- Session Status -->
                 @include('components.alerts')
 
-                {{-- <form action="{{ route('login') }}" method="POST" class="signin-form d-md-flex"> --}}
-                <form action="https://pad.upe.br/login" method="POST" class="signin-form d-md-flex">
+                <form action="{{ route('login') }}" method="POST" class="signin-form d-md-flex">
                     @csrf                    
 
                     <!-- Informações -->
