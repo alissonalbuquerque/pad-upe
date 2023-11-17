@@ -11,9 +11,5 @@ class Menu
     const CURSOS = 5;
     const UNIDADES = 6;
     const PADS = 7;
-    
-    //Deletar depois
-    const DIRETORES = 4;
-    const COORDENADORES = 5;
-    const PROFESSORES = 7;
+    const FILES = 8;
 }

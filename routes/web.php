@@ -7,10 +7,11 @@ use App\Http\Controllers\CoordenadorController;
 use App\Http\Controllers\DiretorController;
 use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\AvaliadorController;
+use App\Http\Controllers\DownloadFileController;
 use App\Http\Controllers\PadController;
 
 use App\Http\Controllers\PDFController;
-
+use FontLib\Table\Type\name;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -110,6 +111,12 @@ Route::prefix('/user')->group(function () {
     Route::get('/edit/perfil/{tab?}', [UserController::class, 'editPerfil'])->name('edit_perfil');
     Route::post('/update/perfil', [UserController::class, 'updatePerfil'])->name('update_perfil');
     Route::post('/update/password', [UserController::class, 'updatePassword'])->name('update_password');
+});
+
+Route::prefix('/download')->group(function() {
+    Route::get('/index', [DownloadFileController::class, 'index'])->name('download_index');
+    Route::get('/grade-horario', [DownloadFileController::class, 'degreeSchedule'])->name('download_grade_horario');
+    Route::get('/manual', [DownloadFileController::class, 'manual'])->name('download_manual');
 });
 
 // Simple concept test of creating a LOREM IPSUM With Barryvdh-DomPDF
