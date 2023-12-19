@@ -4,8 +4,8 @@
 </div>
 
 <form id="form-user_pad" action="{{ route('avaliator-pad_store') }}" method="post">
-    @csrf
     @method('POST')
+    @csrf
 
     @include('avaliator-pad.form', [
         'pad' => $pad,
