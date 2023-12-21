@@ -112,8 +112,7 @@ class AvaliadorPadController extends Controller
     }
 
     public function actionCreate($pad_id)
-    {   
-        dd('create');
+    {
         $pad = Pad::find($pad_id);
         $model = new AvaliadorPad();
 
