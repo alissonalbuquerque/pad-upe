@@ -3,7 +3,7 @@
     <h3 class="h3"> Cadastrar Avaliador (PDA) </h3>
 </div>
 
-<form id="form-user_pad" action="{{ route('avaliator-pad_store') }}" method="post">
+<form id="form-user_pad" action="{{ route('avaliator-pad_store') }}" method="POST">
     @method('POST')
     @csrf
 
