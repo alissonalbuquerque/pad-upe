@@ -120,6 +120,8 @@ class AvaliadorPadController extends Controller
         $users = User::all();
         $dimensoes = Dimensao::listDimensao();
 
+        return "PAD : {$pad->id}";
+
         return view('avaliator-pad.create', [
             'pad' => $pad,
             'model' => $model,
