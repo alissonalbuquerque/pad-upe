@@ -1,13 +1,12 @@
-
 <div class="mb-3">
-    <h3 class="h3"> Atualizar Avaliador (PDA) </h3>
+    <h3 class="h3"> Cadastrar Avaliador (PDA) </h3>
 </div>
 
-<form id="form-user_pad" action="{{ route('avaliator-pad_update', ['id' => $model->id]) }}" method="post">
-    @csrf
+<form id="form-user_pad" action="{{ route('avaliator-pad_store') }}" method="POST">
     @method('POST')
+    @csrf
 
-    @include('avaliator-pad.form', [
+    @include('avaliator_pad.form', [
         'pad' => $pad,
         'model' => $model,
         'users' => $users,
@@ -18,7 +17,7 @@
         <div class="modal-footer">
             @include('components.buttons.btn-save', [
                 'id' => 'btn_submit',
-                'content' => 'Atualizar',
+                'content' => 'Cadastrar',
             ])
 
             @include('components.buttons.btn-close_modal')
