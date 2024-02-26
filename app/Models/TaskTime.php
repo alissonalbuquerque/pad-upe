@@ -166,7 +166,7 @@ class TaskTime extends Model
         return $this->hasOne(UserPad::class, 'id', 'user_pad_id');
     }
 
-    public static function listWeekDays($value) {
+    public static function listWeekDays($value = null) {
         $values = [
             self::WEEK_DAY_SUNDAY       => "DOMINGO",
             self::WEEK_DAY_MONDAY       => "SEGUNDA-FEIRA",
@@ -180,4 +180,25 @@ class TaskTime extends Model
         return $value != null ? $values[$value] : $values;
     }
 
+    /**
+     * Explode string with format "id_{id}|type_{type}" to array ['tarefa_id' => 'integer', 'type' => 'integer'] 
+     * @return array
+     */
+    public static function splitTarefaAndType(string $task_type) {
+        
+        $split_task_type = explode("|", $task_type);
+        
+        $task_data = $split_task_type[0];
+        $split_task = explode("_", $task_data);
+        $task_id = $split_task[1];
+
+        $type_data = $split_task_type[1];
+        $split_type = explode("_", $type_data);
+        $type = $split_type[1];
+
+
+        $data = ['tarefa_id' => $task_id, 'type' => $type];
+
+        return $data;
+    }
 }

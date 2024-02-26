@@ -6,7 +6,6 @@
     ])
 --}}
 
-
 <script type="text/javascript">
     $('.{{ $btn_class }}').click(function(e) {
 

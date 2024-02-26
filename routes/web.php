@@ -42,6 +42,10 @@ require __DIR__ . '/users.php';
 
 require __DIR__ . '/user_type.php';
 
+require __DIR__ . '/Task.php';
+
+require __DIR__ . '/TaskTime.php';
+
 require __DIR__ . '/dimensao/dimensao.php';
 
 require __DIR__ . '/dimensao/ensino.php';

@@ -177,8 +177,8 @@
     $yes = YesOrNo::YES;
     $no = YesOrNo::NO;
 @endphp
-
 <script type="text/javascript">
+
 
     /** Interpolação: PHP => JS*/
     const yes = "{{ $yes }}"
