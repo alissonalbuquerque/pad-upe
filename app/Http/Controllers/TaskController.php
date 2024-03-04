@@ -316,4 +316,9 @@ class TaskController extends Controller
 
         return Response::json($results);
     }
+
+    public function searchById(Request $request) {
+        
+        dd($request->all());
+    }
 }

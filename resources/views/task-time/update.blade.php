@@ -1,29 +1,38 @@
 @php
     use App\Models\TaskTime;
+
+    /**
+     * @var App\Models\TaskTime $model
+    */
 @endphp
 
-<form id="task-time-form" action="{{ route('TaskTimeSave') }}" method="post">
+<form id="form-delete-{{$model->id}}" action="{{ route('TaskTimeDelete', ['id' => $model->id]) }}" method="post">
+    @method('DELETE')
+    @csrf
+</form>
+
+<form id="task-time-update-form" action="{{ route('TaskTimeUpdate', ['id' => $model->id]) }}" method="post">
     @csrf
     @method('POST')
 
     <div class="row">
 
-        <input type="hidden" id="user_pad_id" name="user_pad_id" value="{{ $user_pad_id }}">
+        <input type="hidden" id="user_pad_id" name="user_pad_id" value="{{ $model->user_pad_id }}">
 
-        <input type="hidden" id="tarefa_id" name="tarefa_id" value="">
+        <input type="hidden" id="tarefa_id" name="tarefa_id" value="{{ $model->tarefa_id }}">
 
-        <input type="hidden" id="type" name="type" value="">
+        <input type="hidden" id="type" name="type" value="{{ $model->type }}">´
 
-        <input type="hidden" id="id" name="id" value="">
+        <input type="hidden" id="id" name="id" value="{{ $model->id }}">
 
         <div class="mb-4 col-sm-2">
             <div class="">
                 <label class="form-label" for="cod_atividade">Cód. Atividade</label>
-                <input class="form-control @error('cod_atividade') is-invalid @enderror ajax-errors" type="text" name="cod_atividade" id="cod_atividade" readonly>
+                <input type="text" id="cod_atividade" name="cod_atividade" value="{{ $model->tarefa->cod_atividade }}" readonly class="form-control @error('cod_atividade') is-invalid @enderror ajax-errors">
             </div>
 
             @include('components.divs.errors', [
-                'field' => 'cod_atividade_create'
+                'field' => 'cod_atividade_update'
             ])
         </div>
 
@@ -32,12 +41,16 @@
                 <label for="weekday">Dia da Semana</label>
                 <select name="weekday" id="weekday" class="form-select @error('weekday') is-invalid @enderror ajax-errors">
                     @foreach(TaskTime::listWeekDays() as $id => $text)
-                        <option value="{{$id}}">{{$text}}</option>
+                        @if( $model->weekday == $id)
+                            <option selected value="{{$id}}">{{$text}}</option>
+                        @else
+                            <option value="{{$id}}">{{$text}}</option>
+                        @endif
                     @endforeach
                 </select>
 
                 @include('components.divs.errors', [
-                    'field' => 'weekday_create'
+                    'field' => 'weekday_update'
                 ])
             </div>
         </div>
@@ -46,21 +59,22 @@
             <div class="">
                 <label for="slct_tarefa_id">Atividade</label>
                 <select name="slct_tarefa_id" id="slct_tarefa_id" class="form-select @error('slct_tarefa_id') is-invalid @enderror ajax-errors">
+                    <option selected value="{{$model->tarefa_id}}">{{$model->getName()}}</option>
                 </select>
             </div>
 
             @include('components.divs.errors', [
-                'field' => 'slct_tarefa_id_create'
+                'field' => 'slct_tarefa_id'
             ])
         </div>
 
         <div class="col-sm-6">
             <div class="mt-3">
                 <label class="form-label" for="start_time">Horário Inicial</label>
-                <input type="time" min="07:30" max="21:15" name="start_time" id="start_time" class="form-control @error('start_time') is-invalid @enderror ajax-errors" >
+                <input type="time" name="start_time" id="start_time" value="{{$model->start_time}}" class="form-control @error('start_time') is-invalid @enderror ajax-errors" >
                 
                 @include('components.divs.errors', [
-                    'field' => 'start_time_create',
+                    'field' => 'start_time_update',
                 ])
             </div>
         </div>
@@ -68,24 +82,31 @@
         <div class="col-sm-6">
             <div class="mt-3">
                 <label class="form-label" for="end_time">Horário Final</label>
-                <input type="time" min="07:30" max="21:15" name="end_time" id="end_time" class="form-control @error('end_time') is-invalid @enderror ajax-errors" >
+                <input type="time" name="end_time" id="end_time" value="{{$model->end_time}}" class="form-control @error('end_time') is-invalid @enderror ajax-errors" >
                 
                 @include('components.divs.errors', [
-                    'field' => 'end_time_create',
+                    'field' => 'end_time_update',
                 ])
             </div>
         </div>
-
     </div>
-
-    <div class="mt-1 text-end">
+    
+    <div class="mt-4">
         <div class="modal-footer">
-            @include('components.buttons.btn-save', [
-                'id' => 'btn_submit',
-                'content' => 'Cadastrar',
-            ])
+            <div class="text-start">
+                @include('components.buttons.btn-delete-by-alert', [
+                    '_id' => $model->id,
+                    '_class' => "delete_task_time",
+                ])
+            </div>
+            <div class="text-end">
+                @include('components.buttons.btn-save', [
+                    'id' => 'btn_submit',
+                    'content' => 'Atualizar',
+                ])
 
-            @include('components.buttons.btn-close_modal')
+                @include('components.buttons.btn-close_modal')
+            </div>
         </div>
     </div>
 
@@ -93,9 +114,9 @@
 
 @include('pad.components.scripts.ajaxValidation', [
     'btn_submit_id' => 'btn_submit',
-    'form_id' => 'task-time-form',
+    'form_id' => 'task-time-update-form',
     'route' => route('TaskTimeValidation'),
-    'form_type' => 'create',
+    'form_type' => 'update',
 ])
 
 <script type="text/javascript">
@@ -121,7 +142,7 @@
             data: function(params) {
                 return {
                     q: params.term,
-                    user_pad_id : {{$user_pad_id}}
+                    user_pad_id : {{$model->user_pad_id}}
                 }
             },
             dataType: 'json'
@@ -130,7 +151,7 @@
     })
 
     $('#slct_tarefa_id').on('change', function(e)
-    {
+    {   
         const type = $('#type')
         const tarefa_id = $('#tarefa_id')
 

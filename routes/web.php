@@ -29,7 +29,11 @@ require __DIR__ . '/auth.php';
 require __DIR__ . '/profile.php';
 
 require __DIR__ . '/pad.php';
+
+require __DIR__ . '/avaliador.php';
+
 require __DIR__ . '/avaliador_pad.php';
+
 require __DIR__ . '/professor_pad.php';
 
 require __DIR__ . '/unidade.php';
@@ -95,19 +99,6 @@ Route::prefix('/professor')->group(function () {
     Route::get('/edit/{id}', [ProfessorController::class, 'edit'])->name('professor_edit');
     Route::post('/update/{id}', [ProfessorController::class, 'update'])->name('professor_update');
     Route::delete('/delete/{id}', [ProfessorController::class, 'destroy'])->name('professor_delete');
-});
-
-Route::prefix('/avaliador')->group(function () {
-    Route::get('/index', [AvaliadorController::class, 'index'])->name('avaliador_index');
-    Route::put('/avaliar', [AvaliadorController::class, 'avaliar'])->name('avaliador_avaliar');
-    Route::get('/create', [AvaliadorController::class, 'create'])->name('avaliador_create');
-    Route::post('/store', [AvaliadorController::class, 'store'])->name('avaliador_store');
-    Route::get('/edit/{id}', [AvaliadorController::class, 'edit'])->name('avaliador_edit');
-    Route::post('/update/{id}', [AvaliadorController::class, 'update'])->name('avaliador_update');
-    Route::delete('/delete/{id}', [AvaliadorController::class, 'destroy'])->name('avaliador_delete');
-    Route::get('/relatorio', [AvaliadorController::class, 'relatorio'])->name('avaliador_relatorio');
-    Route::get('/relatorio/{id}', [PadController::class, 'relatorio'])->name('pad_relatório');
-    Route::get('/relatorio/{id}/pdf', [PadController::class, 'generatePDF'])->name('pad_relatório_pdf');
 });
 
 Route::prefix('/user')->group(function () {
