@@ -81,7 +81,7 @@ class PadController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function view($id)
-    {   
+    {
         $ensinoTotalHoras =
             EnsinoAtendimentoDiscente::whereUserPadId($id)->sum('ch_semanal')
             + EnsinoAula::whereUserPadId($id)->sum('ch_semanal')
