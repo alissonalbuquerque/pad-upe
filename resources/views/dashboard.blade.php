@@ -2,12 +2,12 @@
     @section('title', 'Home')
     <x-slot name="main">
         <div class="tab-content">
-            @php dd('dashboard'); @endphp
             @if(Auth::user()->isTypeAdmin())
                 @include('layouts.user-dashboard.dashboard_admin')
             @endif
 
             @if(Auth::user()->isTypeTeacher())
+                @php dd('teacher'); @endphp
                 @include('layouts.user-dashboard.dashboard_teacher', ['user' => Auth::user(), 'userPads' => $userPads])
             @endif
 
