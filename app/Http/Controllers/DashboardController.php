@@ -19,7 +19,6 @@ class DashboardController extends Controller
 {
     public function index()
     {   
-        dd('update');
         $user = Auth::user();
 
         if ($user->isTypeAdmin()) {
@@ -27,6 +26,7 @@ class DashboardController extends Controller
         }
 
         if ($user->isTypeTeacher()) {
+            dd('update');
             $userPads = UserPad::whereUserId($user->id)->whereStatus(Status::ATIVO)->get();
 
             return view('dashboard', ['userPads' => $userPads, 'menu' => Menu::HOME]);
