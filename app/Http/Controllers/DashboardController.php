@@ -27,8 +27,6 @@ class DashboardController extends Controller
 
         if ($user->isTypeTeacher()) {
 
-            dd('professor');
-            
             $userPads = UserPad::whereUserId($user->id)->whereStatus(Status::ATIVO)->get();
 
             return view('dashboard', ['userPads' => $userPads, 'menu' => Menu::HOME]);

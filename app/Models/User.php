@@ -192,7 +192,7 @@ class User extends Authenticatable
      * @return UserType|Null
      */
     public function profileSelected()
-    {   
+    {
         return $this->profiles()->whereSelected(true)->first();
     }
 
@@ -213,7 +213,6 @@ class User extends Authenticatable
         //     'professor',
         //     'profile' => $this->profileSelected()->type === UserType::TEACHER
         // ]);
-        return true;
         return $this->profileSelected()->type === UserType::TEACHER;
     }
 
