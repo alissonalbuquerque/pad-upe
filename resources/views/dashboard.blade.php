@@ -7,7 +7,9 @@
             @endif
 
             @if(Auth::user()->isTypeTeacher())
-                @php dd('teacher'); @endphp
+                @php 
+                    ['user' => Auth::user(), 'userPads' => $userPads]
+                @endphp
                 @include('layouts.user-dashboard.dashboard_teacher', ['user' => Auth::user(), 'userPads' => $userPads])
             @endif
 
