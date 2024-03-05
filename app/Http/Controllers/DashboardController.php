@@ -26,7 +26,7 @@ class DashboardController extends Controller
         }
 
         if ($user->isTypeTeacher()) {
-            
+
             $userPads = UserPad::whereUserId($user->id)->whereStatus(Status::ATIVO)->get();
 
             return view('dashboard', ['userPads' => $userPads, 'menu' => Menu::HOME]);
@@ -50,6 +50,7 @@ class DashboardController extends Controller
             return view('dashboard', ['userPads' => $userPads, 'menu' => Menu::HOME]);
         }
 
+        dd('não entrou em nenhuh if');
         //return redirect()->route('login');
     }
 }
