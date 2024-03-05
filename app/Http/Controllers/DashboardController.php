@@ -19,9 +19,8 @@ class DashboardController extends Controller
 {
 
     public function index()
-    {
+    {   
         dd('index');
-
         $user = Auth::user();
 
         if ($user->isTypeAdmin()) {
