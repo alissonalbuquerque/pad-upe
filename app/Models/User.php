@@ -209,11 +209,11 @@ class User extends Authenticatable
      */
     public function isTypeTeacher()
     {   
-        dd([
-            'professor',
-            'profile' => $this->profileSelected()->type === UserType::TEACHER
-        ]);
-        
+        // dd([
+        //     'professor',
+        //     'profile' => $this->profileSelected()->type === UserType::TEACHER
+        // ]);
+        return true;
         return $this->profileSelected()->type === UserType::TEACHER;
     }
 
