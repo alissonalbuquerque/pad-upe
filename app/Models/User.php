@@ -208,7 +208,8 @@ class User extends Authenticatable
      * @return bool
      */
     public function isTypeTeacher()
-    {
+    {   
+        dd('professor');
         return $this->profileSelected()->type === UserType::TEACHER;
     }
 
