@@ -2,6 +2,7 @@
     @section('title', 'Home')
     <x-slot name="main">
         <div class="tab-content">
+            @php dd('dashboard'); @endphp
             @if(Auth::user()->isTypeAdmin())
                 @include('layouts.user-dashboard.dashboard_admin')
             @endif
