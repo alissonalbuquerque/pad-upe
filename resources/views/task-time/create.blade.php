@@ -2,7 +2,7 @@
     use App\Models\TaskTime;
 @endphp
 
-<form id="task-time-form" action="{{ route('TaskTimeSave') }}" method="post">
+<form id="task-time-form" action="{{ route('task_time_save') }}" method="post">
     @csrf
     @method('POST')
 
@@ -94,7 +94,7 @@
 @include('pad.components.scripts.ajaxValidation', [
     'btn_submit_id' => 'btn_submit',
     'form_id' => 'task-time-form',
-    'route' => route('TaskTimeValidation'),
+    'route' => route('task_time_validation'),
     'form_type' => 'create',
 ])
 
@@ -117,7 +117,7 @@
             }
         },
         ajax: {
-            url: '{{ route("TaskSearch") }}',
+            url: '{{ route("task_search") }}',
             data: function(params) {
                 return {
                     q: params.term,

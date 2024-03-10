@@ -49,7 +49,7 @@ require __DIR__ . '/user_type.php';
 
 require __DIR__ . '/Task.php';
 
-require __DIR__ . '/TaskTime.php';
+require __DIR__ . '/task_time.php';
 
 require __DIR__ . '/dimensao/dimensao.php';
 

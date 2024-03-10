@@ -119,25 +119,25 @@
 
     @include('pad.components.scripts.dimensao.ensino.show_modal', [
         'modal_id' => 'modal',
-        'route' => route('TaskTimeCreate', ['user_pad_id' => $user_pad_id]),
+        'route' => route('task_time_create', ['user_pad_id' => $user_pad_id]),
         'btn_class' => 'task-time-create',
     ])
 
     @include('pad.components.scripts.dimensao.ensino.show_modal', [
         'modal_id' => 'modal',
-        'route' => route('TaskTimeEdit'),
+        'route' => route('task_time_edit'),
         'btn_class' => 'btn-edit_task',
     ])
 
 @endsection
 
 {{-- @include('components.buttons.btn-edit', [
-    'route' => route('TaskTimeEdit', ['id' => $model->id])
+    'route' => route('task_time_edit', ['id' => $model->id])
 ])
 
 @include('components.buttons.btn-delete', [
     'id' => $model->id,
-    'route' => route('TaskTimeDelete', ['id' => $model->id])
+    'route' => route('task_time_delete', ['id' => $model->id])
 ]) --}}
 
 {{-- @foreach($listTaskTime as $key => $taskTimes)

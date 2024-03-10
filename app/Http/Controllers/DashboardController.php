@@ -49,8 +49,5 @@ class DashboardController extends Controller
 
             return view('dashboard', ['userPads' => $userPads, 'menu' => Menu::HOME]);
         }
-
-        dd('não entrou em nenhuh if');
-        //return redirect()->route('login');
     }
 }
