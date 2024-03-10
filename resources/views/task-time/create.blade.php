@@ -150,7 +150,7 @@
             tarefa_id.val(_tarefa_id)
 
             $.ajax({
-                url: '{{ route("TaskTimeSearchTask") }}',
+                url: '{{ route("task_time_search") }}',
                 type: 'GET',
                 data: {
                     tarefa_id: _tarefa_id,

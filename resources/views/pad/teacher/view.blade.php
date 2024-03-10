@@ -71,13 +71,13 @@
         </div>
     </div>
 
-    {{-- <div class="card mx-2" style="width: 10rem;"> --}}
-        {{-- <div class="card-body">
+    <div class="card mx-2" style="width: 10rem;">
+        <div class="card-body">
             <h2 class="text-center"> <i class="bi bi-clock"></i> </h2>
             <h3 class="text-center">Horário</h3>
             <a class="stretched-link btn-pad-horario" href="{{ route('task_time_index', ['user_pad_id' => $user_pad_id]) }}"></a>
-        </div> --}}
-    {{-- </div> --}}
+        </div>
+    </div>
 
     <div class="card mx-2" style="width: 10rem;">
         <div class="card-body">
