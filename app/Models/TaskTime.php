@@ -30,6 +30,7 @@ use App\Models\Tabelas\Pesquisa\PesquisaOrientacao;
 use App\Models\Tabelas\Pesquisa\PesquisaOutros;
 use App\Rules\ValidationGreaterThanTime;
 use App\Rules\ValidationLimitTime;
+use Carbon\Carbon;
 use DateInterval;
 use DateTime;
 use Illuminate\Database\Eloquent\Model;
@@ -374,6 +375,14 @@ class TaskTime extends Model
         $dateTime->add($interval); // Popular com Interval
 
         return $dateTime->format($format);
+    }
+
+    public function formatStartTime() {
+        return Carbon::createFromFormat('H:i:s', $this->start_time)->format('H:i');
+    }
+
+    public function formatEndTime() {
+        return Carbon::createFromFormat('H:i:s', $this->end_time)->format('H:i');
     }
 
     /**

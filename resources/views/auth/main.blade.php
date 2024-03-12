@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="pt-br">
 <head>
-    <title>PAD - Plano de Avaliação Docente </title>
+    <title>PDA - Plano de Avaliação Docente </title>
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -15,14 +15,9 @@
 
     <header>
         <div class="navbar shadow-sm" alt="Max-width 100%">
-            <div class="container d-flex justify-content-between">
-                <a class="navbar-brand d-flex align-items-center" href="#">
-                    <img src="http://www.avaliacaodocente.upe.br/assets/img/logo-upe.png" class="img-fluid"
-                        width="128" height="93" alt="" />
-                </a>
-                <a class="navbar-brand d-flex align-items-center" href="#">
-                    <img src="https://www.gestaododesempenho.pe.gov.br/AvaliacaoDesempenho/public/resources/images/logos-direita.png"
-                        class="img-fluid" width="268" height="100" alt="" />
+            <div class="">
+                <a class="navbar-brand p-3" href="#">
+                    <img src="{{url('images/estado_pe_logo.png')}}" alt="Logo do Estado" class="img-fluid" width="300" height="100"/>
                 </a>
             </div>
         </div>

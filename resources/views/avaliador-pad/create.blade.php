@@ -1,6 +1,6 @@
 
 <div class="mb-3">
-    <h3 class="h3"> Cadastrar Professor (PAD) </h3>
+    <h3 class="h3"> Cadastrar Professor (PDA) </h3>
 </div>
 
 <form id="form-user_pad" action="{{ route('user-pad_store') }}" method="post">

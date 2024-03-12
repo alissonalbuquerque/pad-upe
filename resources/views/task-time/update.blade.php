@@ -6,12 +6,12 @@
     */
 @endphp
 
-<form id="form-delete-{{$model->id}}" action="{{ route('TaskTimeDelete', ['id' => $model->id]) }}" method="post">
+<form id="form-delete-{{$model->id}}" action="{{ route('task_time_delete', ['id' => $model->id]) }}" method="post">
     @method('DELETE')
     @csrf
 </form>
 
-<form id="task-time-update-form" action="{{ route('TaskTimeUpdate', ['id' => $model->id]) }}" method="post">
+<form id="task-time-update-form" action="{{ route('task_time_update', ['id' => $model->id]) }}" method="post">
     @csrf
     @method('POST')
 
@@ -115,7 +115,7 @@
 @include('pad.components.scripts.ajaxValidation', [
     'btn_submit_id' => 'btn_submit',
     'form_id' => 'task-time-update-form',
-    'route' => route('TaskTimeValidation'),
+    'route' => route('task_time_validation'),
     'form_type' => 'update',
 ])
 
@@ -138,7 +138,7 @@
             }
         },
         ajax: {
-            url: '{{ route("TaskSearch") }}',
+            url: '{{ route("task_search") }}',
             data: function(params) {
                 return {
                     q: params.term,
@@ -171,7 +171,7 @@
             tarefa_id.val(_tarefa_id)
 
             $.ajax({
-                url: '{{ route("TaskTimeSearchTask") }}',
+                url: '{{ route("task_time_search") }}',
                 type: 'GET',
                 data: {
                     tarefa_id: _tarefa_id,

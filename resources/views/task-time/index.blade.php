@@ -27,50 +27,29 @@
     @php
         use App\Models\TaskTime;
 
-        // $hours = ['07:30', '08:20', '09:10', '10:00', '10:50', '11:40', '12:30', '13:30', '14:30', '15:30', '16:30', '17:30', '19:00', '19:45', '20:30', '21:15'];
-
-        $rangeHours = [
-            ['07:30', '08:20'],
-            ['08:20', '09:10'],
-            ['09:10', '10:00'],
-            ['10:00', '10:50'],
-            ['10:50', '11:40'],
-            ['11:40', '12:30'],
-            ['12:30', '13:30'],
-            ['13:30', '14:30'],
-            ['14:30', '15:30'],
-            ['15:30', '16:30'],
-            ['16:30', '17:30'],
-            ['17:30', '19:00'],
-            ['19:00', '19:45'],
-            ['19:45', '20:30'],
-            ['20:30', '21:15'],
-            ['21:15', '21:15'],
-        ];
-
         $calendar = [];
 
-        $row = [];
+        $weekColumns = [];
 
-        foreach ($rangeHours as $rangeHour)
-        {   
-            $start_time = $rangeHour[0];
-            $end_time = $rangeHour[1];
+        $max_len_column = 0;
+        foreach (array_keys(TaskTime::listWeekDays()) as $weekday) {
+            
+            $weekColumns[$weekday] = 
+                                    TaskTime::whereWeekday($weekday)
+                                        ->orderBy('start_time', 'ASC')
+                                        ->get();
 
-            $row[0] = $start_time;
-
-            foreach (array_keys(TaskTime::listWeekDays()) as $weekday)
-            {   
-                $row[$weekday] = 
-                    TaskTime::where('user_pad_id', '=', $user_pad_id)
-                            ->where('weekday', '=', $weekday)
-                            ->where(function($query) use ($rangeHour) {
-                                $query->orWhereBetween('start_time', $rangeHour)->orWhereBetween('end_time', $rangeHour);
-                            })->first();
-                
-                $row[$weekday] = $row[$weekday] ? $row[$weekday] : '';
+            if(count($weekColumns[$weekday]) > $max_len_column) {
+                $max_len_column = count($weekColumns[$weekday]);
             }
+        }
 
+        foreach (range(0, $max_len_column-1) as $i) {
+            $row = [];
+            foreach (array_keys(TaskTime::listWeekDays()) as $weekday) {
+
+                isset($weekColumns[$weekday][$i]) ? array_push($row, $weekColumns[$weekday][$i]) : array_push($row, null);
+            }
             $calendar[] = $row;
         }
     @endphp
@@ -80,25 +59,33 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    @foreach(TaskTime::listWeekDaysTable() as $key => $weekday)
-                        <th scope="col">{{$weekday}}</th>
+                    @foreach(TaskTime::listWeekDays() as $key => $weekday)
+                        <th scope="col" class="text-center">{{$weekday}}</th>
                     @endforeach
                 </tr>
             </thead>
             <tbody>
-                @foreach($calendar as $rowHour)
+                @foreach($calendar as $row)
                     <tr>
-                    @foreach ($rowHour as $model)
+                    @foreach ($row as $model)
 
-                        @if(gettype($model) == 'string')
-                            <th scope="col">{{ $model }}</th>
-                        @endif
-
-                        @if(gettype($model) == 'object')
+                        @if($model !== null)
                             <td>
-                                <a href="#modal" class="btn btn-edit_task" id="{{ $model->id }}">
-                                    {{ "{$model->getCode()} : {$model->getName()}" }}
-                                </a>
+                                <div class="card">
+                                    <div class="card-header">
+                                        <p class="text-center"> <i class="bi bi-clock"></i> {{ $model->formatStartTime() }} </p>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="text-center">
+                                            <a href="#modal" class="btn btn-edit_task" id="{{ $model->id }}">
+                                                {{ "{$model->getCode()} : {$model->getName()}" }} <i class="bi bi-pencil"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="card-header">
+                                        <p class="text-center"> <i class="bi bi-clock-fill"></i> {{ $model->formatEndTime() }} </p>
+                                    </div>
+                                </div>
                             </td>
                         @endif
 
@@ -119,39 +106,14 @@
 
     @include('pad.components.scripts.dimensao.ensino.show_modal', [
         'modal_id' => 'modal',
-        'route' => route('TaskTimeCreate', ['user_pad_id' => $user_pad_id]),
+        'route' => route('task_time_create', ['user_pad_id' => $user_pad_id]),
         'btn_class' => 'task-time-create',
     ])
 
     @include('pad.components.scripts.dimensao.ensino.show_modal', [
         'modal_id' => 'modal',
-        'route' => route('TaskTimeEdit'),
+        'route' => route('task_time_edit'),
         'btn_class' => 'btn-edit_task',
     ])
 
 @endsection
-
-{{-- @include('components.buttons.btn-edit', [
-    'route' => route('TaskTimeEdit', ['id' => $model->id])
-])
-
-@include('components.buttons.btn-delete', [
-    'id' => $model->id,
-    'route' => route('TaskTimeDelete', ['id' => $model->id])
-]) --}}
-
-{{-- @foreach($listTaskTime as $key => $taskTimes)
-<tr>
-    @foreach($taskTimes as $model)
-        
-            @if(gettype($model) == 'string')
-                <th>{{ $model }}</th>
-            @endif
-                
-            @if(gettype($model) == 'object')
-                
-            @endif
-        
-    @endforeach
-</tr>
-@endforeach --}}

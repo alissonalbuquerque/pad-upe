@@ -4,7 +4,7 @@
     use App\Models\Util\Status;
 @endphp
 
-@section('title', 'PADs')
+@section('title', 'PDAs')
 
 @section('header')
     @include('layouts.header', [

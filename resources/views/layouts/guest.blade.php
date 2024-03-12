@@ -3,7 +3,7 @@
 
 <head>
 
-    <title>Avaliação de Desempanho Docente - PAD</title>
+    <title>Avaliação de Desempanho Docente - PDA</title>
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -32,7 +32,7 @@
 
     <div class="stylo p-3 n-flex">
         <h2>Portal de acesso ao</h2>
-        <h3>Plano de Atividades Docentes - PAD</h3>
+        <h3>Plano de Atividades Docentes - PDA</h3>
     </div>
 
     <section class="ftco-section">

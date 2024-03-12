@@ -32,7 +32,7 @@ class TaskTimeController extends Controller
 
         if($model->save()) {
             return redirect()
-                ->route('TaskTimeIndex', ['user_pad_id' => $model->user_pad_id])
+                ->route('task_time_index', ['user_pad_id' => $model->user_pad_id])
                 ->with('success', 'Cadastro realizado com sucesso!');
         }
     }
@@ -54,12 +54,12 @@ class TaskTimeController extends Controller
 
         if($model->save()) {
             return redirect()
-                ->route('TaskTimeIndex', ['user_pad_id' => $model->user_pad_id])
+                ->route('task_time_index', ['user_pad_id' => $model->user_pad_id])
                 ->with('success', 'Atualizado com sucesso!');
         }
 
         return redirect()
-            ->route('TaskTimeIndex', ['user_pad_id' => $model->user_pad_id])
+            ->route('task_time_index', ['user_pad_id' => $model->user_pad_id])
             ->with('fail', 'Erro ao Atualizar!');
         
     }
@@ -70,12 +70,12 @@ class TaskTimeController extends Controller
 
         if($model->delete()) {
             return redirect()
-                ->route('TaskTimeIndex', ['user_pad_id' => $model->user_pad_id])
+                ->route('task_time_index', ['user_pad_id' => $model->user_pad_id])
                 ->with('success', 'Deletado com sucesso!');
         }
 
         return redirect()
-            ->route('TaskTimeIndex', ['user_pad_id' => $model->user_pad_id])
+            ->route('task_time_index', ['user_pad_id' => $model->user_pad_id])
             ->with('fail', 'Erro ao Deletar!');
 
     }

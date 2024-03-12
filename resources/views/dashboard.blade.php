@@ -7,7 +7,7 @@
             @endif
 
             @if(Auth::user()->isTypeTeacher())
-                @include('layouts.user-dashboard.dashboard_teacher', ['user' => Auth::user(), 'userPads => $userPads'])
+                @include('layouts.user-dashboard.dashboard_teacher', ['user' => Auth::user(), 'userPads' => $userPads])
             @endif
 
             @if(Auth::user()->isTypeDirector())

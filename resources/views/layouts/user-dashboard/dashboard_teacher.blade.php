@@ -22,7 +22,7 @@
                             <span class="badge bg-primary">{{ $userPad->pad->statusAsString() }}</span>
                         </div>
                         <h1 class="text-center"> <i class="bi bi-book-half"></i> </h1>
-                        <h5 class="text-center"> PAD: {{ $userPad->pad->nome }} </h4>
+                        <h5 class="text-center"> PDA: {{ $userPad->pad->nome }} </h4>
                         <div class="text-center">
                             <h4 class="h5"> <span class="badge bg-primary">Horas: {{ $userPad->totalHoras() }}</span> </h4>
                         </div>

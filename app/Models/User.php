@@ -192,8 +192,8 @@ class User extends Authenticatable
      * @return UserType|Null
      */
     public function profileSelected()
-    {   
-        return $this->profiles()->whereSelected(true)->first();
+    {
+        return $this->profiles()->first();
     }
 
     /**
