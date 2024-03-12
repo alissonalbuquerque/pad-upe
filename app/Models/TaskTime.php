@@ -28,6 +28,7 @@ use App\Models\Tabelas\Pesquisa\PesquisaCoordenacao;
 use App\Models\Tabelas\Pesquisa\PesquisaLideranca;
 use App\Models\Tabelas\Pesquisa\PesquisaOrientacao;
 use App\Models\Tabelas\Pesquisa\PesquisaOutros;
+use App\Rules\ValidationGreaterThanTime;
 use App\Rules\ValidationLimitTime;
 use DateInterval;
 use DateTime;
@@ -85,14 +86,13 @@ class TaskTime extends Model
     public static function rules($attributes)
     {
         return [
-            'cod_atividade' => ['required'],
-            'slct_tarefa_id' => ['required'],
-            'tarefa_id' => ['required', 'integer'],
-            'type' => ['required', 'integer', Rule::in(array_keys(self::listTaskTypes()))],
-            'weekday' => ['required', 'integer', Rule::in(array_keys(self::listWeekDays()))],
-            'start_time' => ['required', 'date_format:H:i', 'after_or_equal:07:30', 'before_or_equal:21:15'],
-            // 'end_time' => ['required', 'date_format:H:i', 'after_or_equal:07:30', 'before_or_equal:21:15'],
-            'end_time' => ['required', 'date_format:H:i', 'after_or_equal:07:30', 'before_or_equal:21:15', new ValidationLimitTime($attributes)],
+            'cod_atividade'     => ['required'],
+            'slct_tarefa_id'    => ['required'],
+            'tarefa_id'         => ['required', 'integer'],
+            'type'              => ['required', 'integer', Rule::in(array_keys(self::listTaskTypes()))],
+            'weekday'           => ['required', 'integer', Rule::in(array_keys(self::listWeekDays()))],
+            'start_time'        => ['required', 'date_format:H:i', 'before:end_time'],
+            'end_time'          => ['required', 'date_format:H:i', 'after:start_time', new ValidationLimitTime($attributes)],
         ];
     }
 
@@ -116,13 +116,11 @@ class TaskTime extends Model
 
             //start_time
             'start_time.required' => 'O campo "Horário Inicial" é obrigatório!',
-            'start_time.after_or_equal' => 'O valor minímo do "Horário Inicial" é 07:30!',
-            'start_time.before_or_equal' => 'O valor máximo do "Horário Inicial" é 21:15!',
+            'start_time.before' => 'O campo "Horário Inicial" deve ser menor do que "Horário Final"!',
 
             //end_time
             'end_time.required' => 'O campo "Horário Final" é obrigatório!',
-            'end_time.after_or_equal' => 'O valor minímo do "Horário Final" é 07:30!',
-            'end_time.before_or_equal' => 'O valor máximo do "Horário Final" é 21:15!'
+            'end_time.after' => 'O campo "Horário Final" deve ser maior do que "Horário Inicial"!',
         ];
     }
 
