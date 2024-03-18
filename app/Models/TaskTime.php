@@ -30,6 +30,7 @@ use App\Models\Tabelas\Pesquisa\PesquisaOrientacao;
 use App\Models\Tabelas\Pesquisa\PesquisaOutros;
 use App\Rules\ValidationGreaterThanTime;
 use App\Rules\ValidationLimitTime;
+use App\Rules\ValidationRangeTime;
 use Carbon\Carbon;
 use DateInterval;
 use DateTime;
@@ -72,7 +73,7 @@ class TaskTime extends Model
     CONST TYPE_GESTAO_OUTROS                                = 24;
 
     CONST WEEK_HOUR = 0;
-    CONST WEEK_DAY_SUNDAY       = 1;
+    CONST WEEK_DAY_SUNDAY       = 1; // Não Utilizado
     CONST WEEK_DAY_MONDAY       = 2;
     CONST WEEK_DAY_TUESDAY      = 3;
     CONST WEEK_DAY_WEDNESDAY    = 4;
@@ -93,7 +94,7 @@ class TaskTime extends Model
             'type'              => ['required', 'integer', Rule::in(array_keys(self::listTaskTypes()))],
             'weekday'           => ['required', 'integer', Rule::in(array_keys(self::listWeekDays()))],
             'start_time'        => ['required', 'date_format:H:i', 'before:end_time'],
-            'end_time'          => ['required', 'date_format:H:i', 'after:start_time', new ValidationLimitTime($attributes)],
+            'end_time'          => ['required', 'date_format:H:i', 'after:start_time', new ValidationLimitTime($attributes), new ValidationRangeTime($attributes)],
         ];
     }
 
@@ -358,6 +359,13 @@ class TaskTime extends Model
             return $this->tarefa->nome;
         }
         // - - - - - - - - - - 
+    }
+
+    /**
+     * @return string
+     */
+    public function getWeekdayAsText() {
+        return $this->listWeekDays($this->weekday);
     }
 
     /**

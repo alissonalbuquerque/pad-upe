@@ -87,12 +87,6 @@ class ValidationLimitTime implements Rule
 
         $this->outLineTime = $totalDateTime->diff($limitDateTime);
 
-        // dd([
-        //     'limite' => $limitDateTime,
-        //     'total' => $totalDateTime,
-        //     'interval' => $this->outLineTime
-        // ]);
-
         return $limitDateTime >= $totalDateTime;
     }
 

@@ -104,6 +104,7 @@ class TaskTimeController extends Controller
             'user_pad_id' => $request->get('user_pad_id'),
             'tarefa_id' => $request->get('tarefa_id'),
             'type' => $request->get('type'),
+            'weekday' => $request->get('weekday'),
             'start_time' => $request->get('start_time'),
             'end_time' => $request->get('end_time'),
         ];

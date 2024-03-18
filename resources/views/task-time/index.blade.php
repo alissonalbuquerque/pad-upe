@@ -33,11 +33,10 @@
 
         $max_len_column = 0;
         foreach (array_keys(TaskTime::listWeekDays()) as $weekday) {
-            
-            $weekColumns[$weekday] = 
-                                    TaskTime::whereWeekday($weekday)
-                                        ->orderBy('start_time', 'ASC')
-                                        ->get();
+
+            $weekColumn = TaskTime::whereUserPadId($user_pad_id)->whereWeekday($weekday)->orderBy('start_time', 'ASC')->get();
+
+            $weekColumns[$weekday] = $weekColumn->isNotEmpty()  ? $weekColumn : collect(['--']);
 
             if(count($weekColumns[$weekday]) > $max_len_column) {
                 $max_len_column = count($weekColumns[$weekday]);
@@ -47,7 +46,6 @@
         foreach (range(0, $max_len_column-1) as $i) {
             $row = [];
             foreach (array_keys(TaskTime::listWeekDays()) as $weekday) {
-
                 isset($weekColumns[$weekday][$i]) ? array_push($row, $weekColumns[$weekday][$i]) : array_push($row, null);
             }
             $calendar[] = $row;
@@ -55,8 +53,7 @@
     @endphp
 
     <div class="my-4">
-
-        <table class="table table-hover">
+        <table class="table table-hover table-borderless">
             <thead>
                 <tr>
                     @foreach(TaskTime::listWeekDays() as $key => $weekday)
@@ -71,21 +68,28 @@
 
                         @if($model !== null)
                             <td>
-                                <div class="card">
-                                    <div class="card-header">
-                                        <p class="text-center"> <i class="bi bi-clock"></i> {{ $model->formatStartTime() }} </p>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="text-center">
-                                            <a href="#modal" class="btn btn-edit_task" id="{{ $model->id }}">
-                                                {{ "{$model->getCode()} : {$model->getName()}" }} <i class="bi bi-pencil"></i>
-                                            </a>
+                                @if($model instanceof TaskTime)
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <p class="text-center"> <i class="bi bi-clock"></i> {{ $model->formatStartTime() }} </p>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="text-center">
+                                                <a href="#modal" class="btn btn-edit_task" id="{{ $model->id }}">
+                                                    {{ "{$model->getCode()} : {$model->getName()}" }} <i class="bi bi-pencil"></i>
+                                                </a>
+                                                {{--  --}}
+                                                <p class="text-center"> </i> DIA: {{ $model->getWeekdayAsText() }} </p>
+                                                {{--  --}}
+                                            </div>
+                                        </div>
+                                        <div class="card-header">
+                                            <p class="text-center"> <i class="bi bi-clock-fill"></i> {{ $model->formatEndTime() }} </p>
                                         </div>
                                     </div>
-                                    <div class="card-header">
-                                        <p class="text-center"> <i class="bi bi-clock-fill"></i> {{ $model->formatEndTime() }} </p>
-                                    </div>
-                                </div>
+                                @else
+                                    
+                                @endif
                             </td>
                         @endif
 
