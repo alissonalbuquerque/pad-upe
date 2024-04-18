@@ -31,6 +31,8 @@
 
         $weekColumns = [];
 
+        $COLUMN_NAN = 'NaN';
+
         $max_len_column = 0;
         foreach (array_keys(TaskTime::listWeekDays()) as $weekday) {
 
@@ -46,7 +48,7 @@
         foreach (range(0, $max_len_column-1) as $i) {
             $row = [];
             foreach (array_keys(TaskTime::listWeekDays()) as $weekday) {
-                isset($weekColumns[$weekday][$i]) ? array_push($row, $weekColumns[$weekday][$i]) : array_push($row, null);
+                isset($weekColumns[$weekday][$i]) ? array_push($row, $weekColumns[$weekday][$i]) : array_push($row, $COLUMN_NAN);
             }
             $calendar[] = $row;
         }
@@ -88,7 +90,7 @@
                                         </div>
                                     </div>
                                 @else
-                                    
+
                                 @endif
                             </td>
                         @endif
