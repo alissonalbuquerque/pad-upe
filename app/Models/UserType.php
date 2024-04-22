@@ -15,6 +15,9 @@ class UserType extends Model
 {   
     use SoftDeletes;
 
+    const STATUS_ATIVO = 1;
+    const STATUS_INATIVO = 2;
+
     const ADMIN = 1;       // Administrador
     const TEACHER = 2;     // Professor
     const DIRECTOR= 3;     // Diretor

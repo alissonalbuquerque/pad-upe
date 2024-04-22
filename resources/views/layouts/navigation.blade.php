@@ -9,6 +9,10 @@
         if(isset($menu)) {
             $edit_active = $menu == Menu::USER ? 'btn btn-primary btn-sm' : 'btn btn-outline-primary btn-sm';
         }
+
+        /** @var App\Models\User */
+        $user = Auth::user();
+        
     @endphp
 
     @if (Auth::check())
@@ -18,7 +22,9 @@
                 <div class="content-user-info">
                     <div class="text-center">
 
-                        <div class="font-medium text-base text-gray-800">{{ Auth::user()->dashboardName() }}</div>
+                        <div class="font-medium text-base text-gray-800">{{ $user->dashboardName() }}</div>
+
+                        <div class="font-medium text-base text-gray-800">{{ "Logado : {$user->get_profile_name()}" }}</div>
                         
                         <div class="mt-3">
                             <a class="{{ $edit_active }}" href="{{ route('edit_perfil') }}">

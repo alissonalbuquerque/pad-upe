@@ -159,15 +159,17 @@ class UserController extends Controller
     }
 
     public function actionChangeProfile($user_id, $user_type_id)
-    {   
-        $profiles = UserType::whereUserId($user_id)->whereStatus(Status::ATIVO)->get();
-        $profiles->each(function(UserType $model) {
-            $model->selected = false;
-            $model->save();
-        });
+    {
+        $profiles = UserType::whereUserId($user_id)->get();
+        foreach($profiles as $profile) {
+            $profile->selected = false;
+            $profile->status = UserType::STATUS_ATIVO;
+            $profile->save();
+        }
 
         $profile = UserType::whereId($user_type_id)->first();
         $profile->selected = true;
+        $profile->status = UserType::STATUS_ATIVO;
         $profile->save();
 
         return redirect('dashboard');

@@ -183,9 +183,8 @@ class User extends Authenticatable
     }
 
     /** @return UserType[]|null */
-    public function profiles()
-    {   
-        return $this->hasMany(UserType::class)->whereStatus(Status::ATIVO);
+    public function profiles() {
+        return $this->hasMany(UserType::class)->whereStatus(UserType::STATUS_ATIVO);
     }
 
     /**
@@ -193,7 +192,19 @@ class User extends Authenticatable
      */
     public function profileSelected()
     {
-        return $this->profiles()->first();
+        return $this->profiles()->whereSelected(true)->first();
+    }
+
+    /**
+     * @return UserType|Null
+     */
+    public function get_profile_name()
+    {
+        $profile = $this->profiles->where('selected', true)->first();
+
+        $name = $profile !== null ? UserType::listType($profile->type) : '';
+        
+        return $name;
     }
 
     /**
@@ -231,8 +242,7 @@ class User extends Authenticatable
     /**
      * @return bool
      */
-    public function isTypeEvaluator()
-    {
+    public function isTypeEvaluator() {
         return $this->profileSelected()->type === UserType::EVALUATOR;
     }
 
