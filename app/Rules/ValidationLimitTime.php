@@ -106,49 +106,6 @@ class ValidationLimitTime implements Rule
      * @return bool
      */
     public function passes($attribute, $value)
-    {   
-        //--------------------------------------------------------------
-
-        $date_time_start = new DateTime($this->taskTime->start_time);
-        $date_time_end   = new DateTime($this->taskTime->end_time);
-
-        /** @var DateInternal|null */
-        $diff = $date_time_end->diff($date_time_start);
-
-        [$hours, $minutes] = [$diff->h, $diff->i];
-
-        $new_model_date_interval = new DateInterval("PT{$hours}H{$minutes}M");
-
-        //--------------------------------------------------------------
-
-        $limit_date_interval = $this->limit_date_interval;
-
-        $date_interval = TaskTime::sum_interval_times($this->taskTimes);
-
-        [$date_interval_days, $date_interval_hours, $date_interval_minutes] = [$date_interval->d, $date_interval->h, $date_interval->i];
-
-        [$new_model_days, $new_model_hours, $new_model_minutes] = [$new_model_date_interval->d, $new_model_date_interval->h, $new_model_date_interval->i];
-
-        $date_interval_days     = $date_interval_days    + $new_model_days;
-        $date_interval_hours    = $date_interval_hours   + $new_model_hours;
-        $date_interval_minutes  = $date_interval_minutes + $new_model_minutes;
-
-        $date_interval = new DateInterval("P{$date_interval_days}DT{$date_interval_hours}H{$date_interval_minutes}M");
-
-        //--------------------------------------------------------------
-        
-        $limit_minutes      = TaskTime::date_interval_to_minutes($limit_date_interval);
-        $interval_minutes   = TaskTime::date_interval_to_minutes($date_interval);
-
-        return $limit_minutes >= $interval_minutes;
-    }
-
-    /**
-     * Get the validation error message.
-     *
-     * @return string
-     */
-    public function message()
     {
         //--------------------------------------------------------------
 
@@ -166,8 +123,6 @@ class ValidationLimitTime implements Rule
 
         $limit_date_interval = $this->limit_date_interval;
 
-        //--------------------------------------------------------------
-
         $date_interval = TaskTime::sum_interval_times($this->taskTimes);
 
         [$date_interval_days, $date_interval_hours, $date_interval_minutes] = [$date_interval->d, $date_interval->h, $date_interval->i];
@@ -182,30 +137,68 @@ class ValidationLimitTime implements Rule
 
         //--------------------------------------------------------------
 
-        dd([
-            'limite' => $limit_date_interval,
-            'total' => $date_interval
-        ]);
+        $limit_minutes      = TaskTime::date_interval_to_minutes($limit_date_interval);
+        $interval_minutes   = TaskTime::date_interval_to_minutes($date_interval);
 
-        // $limitDateTime = new DateTime($this->limit_hours);
+        return $limit_minutes >= $interval_minutes;
+    }
 
-        // $sumDateTime = TaskTime::sumIntervalTimes($this->taskTimes);
+    /**
+     * Get the validation error message.
+     *
+     * @return string
+     */
+    public function message()
+    {
+        /** @var DateInterval */
+        $limit_date_interval = $this->limit_date_interval;
 
-        // $diffInterval = $sumDateTime->diff($limitDateTime);
+        /** @var DateInterval */
+        $date_interval = TaskTime::sum_interval_times($this->taskTimes);
 
-        // $dateTime = new DateTime('00:00:00');
+        /** @var integer */
+        $limit_minutes      = TaskTime::date_interval_to_minutes($limit_date_interval);
 
-        // $dateTime->add($diffInterval);
+        /** @var integer */
+        $interval_minutes   = TaskTime::date_interval_to_minutes($date_interval);
 
-        // $diff_time = $dateTime->format('H:i');
+        /** @var integer */
+        $diff_minutes       = $limit_minutes - $interval_minutes;
 
-        // $taskTime = $this->createTaskTime();
-        // $interval_time = $taskTime->intervalTime('H:i');
+        /** @var DateInterval */
+        $diff_date_interval = new DateInterval("PT{$diff_minutes}M");
 
-        // $msgError = "Carga horária disponível restante: {$diff_time} hora(s)!";
-        // $msgError .= $diff_time == "00:00"? " Atividade Indisponível!" : " Intervalo entre inicio e fim : {$interval_time} hora(s)!";
+        /** @var DateTime */
+        $date_time = new DateTime('00:00:00');
 
-        return $msgError;
+        $date_time->add($diff_date_interval);
+
+        $diff_time = $date_time->format('H:i');
+
+        //--------------------------------------------------------------
+
+        $date_time_start = new DateTime($this->taskTime->start_time);
+        $date_time_end   = new DateTime($this->taskTime->end_time);
+
+        /** @var DateInternal|null */
+        $diff = $date_time_end->diff($date_time_start);
+
+        [$hours, $minutes] = [$diff->h, $diff->i];
+
+        $new_model_date_interval = new DateInterval("PT{$hours}H{$minutes}M");
+
+        /** @var DateTime */
+        $new_date_time = new DateTime('00:00:00');
+
+        $new_date_time->add($new_model_date_interval);
+
+        $interval_time = $new_date_time->format('H:i');
+
+        //--------------------------------------------------------------
+
+        $msg_error = $diff_time != "00:00" ? "Carga horária disponível restante: {$diff_time} hora(s)! {$interval_time} hora(s)! Informada(s)!" : "Atividade Indisponível! Limite de Horas Alcançado!";
+
+        return $msg_error;
     }
 
     /**

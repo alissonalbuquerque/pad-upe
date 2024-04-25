@@ -61,11 +61,11 @@ class TaskTimeController extends Controller
         return redirect()
             ->route('task_time_index', ['user_pad_id' => $model->user_pad_id])
             ->with('fail', 'Erro ao Atualizar!');
-        
+
     }
 
     public function delete($id) {
-        
+
         $model = TaskTime::find($id);
 
         if($model->delete()) {
