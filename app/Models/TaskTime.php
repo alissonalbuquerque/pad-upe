@@ -570,7 +570,7 @@ class TaskTime extends Model
             $diff = $date_time_end->diff($date_time_start);
 
             $total_hours   = $total_hours + $diff->h;
-            $total_minutes = $total_minutes + $diff->m;
+            $total_minutes = $total_minutes + $diff->i;
         }
 
         $date_interval = new DateInterval("PT{$total_hours}H{$total_minutes}M");
@@ -578,6 +578,15 @@ class TaskTime extends Model
         return $date_interval;
     }
 
+    /**
+     * @return integer
+     */
+    public static function date_interval_to_minutes(DateInterval $date_interval) {
+
+        [$days_to_minutes, $hours_to_minutes, $minutes]  = [($date_interval->d * 24 * 60), ($date_interval->h * 60), ($date_interval->i * 1)];
+        
+        return $days_to_minutes + $hours_to_minutes + $minutes;
+    }
     /** 
      * @param DateTime $dateTimeX
      * @param DateTime $dateTimeY
