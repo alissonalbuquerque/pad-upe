@@ -17,10 +17,15 @@
 
 <div>
 
-    <h3 class="h3"> Usuários </h3>
-
+    <div>
+        <h3 class="h3"> Usuários </h3>
+        <hr>
+    </div>
+    
     <div>
         @include('components.alerts')
+
+        @include('users\_search', ['model' => $model_search])
 
         <div class="d-flex justify-content-end mb-2">
             @include('components.buttons.btn-create', [

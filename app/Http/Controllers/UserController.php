@@ -10,6 +10,7 @@ use App\Models\UserType;
 use App\Models\Util\MaskHelper;
 use App\Models\Util\Menu;
 use App\Models\Util\Status;
+use App\Search\UserSearch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -64,14 +65,13 @@ class UserController extends Controller
     }
 
     public function actionIndex(Request $request)
-    {   
-        $users = 
-            User::initQuery();
+    {
+        $model_search = new UserSearch();
+        
+        $users = $model_search->search($request->all());
 
-        $users = $users->get();
         return view('users.index', [
-            'users' => $users,
-            'menu' => Menu::USERS,
+            'model_search' => $model_search, 'users' => $users, 'menu' => Menu::USERS,
         ]);
     }
 

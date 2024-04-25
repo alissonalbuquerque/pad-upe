@@ -3,7 +3,7 @@
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('/users')->group(function() {
+Route::prefix('/usuarios')->group(function() {
     Route::get('/index', [UserController::class, 'actionIndex'])->name('user_index');
     Route::get('/create', [UserController::class, 'actionCreate'])->name('user_create');
     Route::post('/store', [UserController::class, 'actionStore'])->name('user_store');
