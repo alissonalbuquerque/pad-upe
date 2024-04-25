@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use App\Models\TaskTime;
+use DateInterval;
 use DateTime;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Database\Eloquent\Collection;
@@ -42,6 +43,9 @@ class ValidationLimitTime implements Rule
     /** @var Collection */
     protected $taskTimes;
 
+    /** @var DateInterval */
+    protected $limit_date_interval;
+
     /**
      * Create a new rule instance.
      *
@@ -62,7 +66,9 @@ class ValidationLimitTime implements Rule
 
         $this->task = TaskTime::tarefaByStatic($this->type, $this->tarefa_id);
 
-        $this->limit_hours = TaskTime::convertFloatToHour($this->task->ch_semanal);
+        $this->limit_date_interval = TaskTime::float_to_date_interval($this->task->ch_semanal);
+
+        $this->limit_hours = TaskTime::convertFloatToHour($this->task->ch_semanal); // deprected
 
         $this->taskTimes = $this->getTaskTimes();
 
@@ -76,18 +82,54 @@ class ValidationLimitTime implements Rule
      * @param  mixed  $value
      * @return bool
      */
+    // public function passes($attribute, $value)
+    // {
+    //     $limitDateTime = new DateTime($this->limit_hours);
+    //     $sumDateTime = TaskTime::sumIntervalTimes($this->taskTimes);
+
+    //     $newDateTime = new DateTime($this->taskTime->intervalTime());
+
+    //     $totalDateTime = TaskTime::sumDateTimes($sumDateTime, $newDateTime);
+
+    //     dd($totalDateTime);
+
+    //     $this->outLineTime = $totalDateTime->diff($limitDateTime);
+
+    //     return $limitDateTime >= $totalDateTime;
+    // }
+
+    /**
+     * Determine if the validation rule passes.
+     *
+     * @param  string  $attribute
+     * @param  mixed  $value
+     * @return bool
+     */
     public function passes($attribute, $value)
     {
-        $limitDateTime = new DateTime($this->limit_hours);
-        $sumDateTime = TaskTime::sumIntervalTimes($this->taskTimes);
+        $date_time_start = new DateTime($this->taskTime->start_time);
+        $date_time_end   = new DateTime($this->taskTime->end_time);
 
-        $newDateTime = new DateTime($this->taskTime->intervalTime());
+        /** @return DateInternal|null */
+        $diff = $date_time_end->diff($date_time_start);
 
-        $totalDateTime = TaskTime::sumDateTimes($sumDateTime, $newDateTime);
+        [$hours, $minutes] = [$diff->h, $diff->m];
 
-        $this->outLineTime = $totalDateTime->diff($limitDateTime);
+        $new_model_date_interval = new DateInterval("PT{$hours}H{$minutes}M");
 
-        return $limitDateTime >= $totalDateTime;
+        //--------------------------------------------------------------
+        
+        $limit_date_interval = $this->limit_date_interval;
+
+        $date_interval = TaskTime::sum_interval_times($this->taskTimes);        
+
+        // $date_interval->add($new_date_interval);
+
+        // $totalDateTime = TaskTime::sumDateTimes($sumDateTime, $newDateTime);
+
+        // $this->outLineTime = $totalDateTime->diff($limitDateTime);
+
+        // return $limitDateTime >= $totalDateTime;
     }
 
     /**

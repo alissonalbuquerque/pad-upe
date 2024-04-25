@@ -464,21 +464,54 @@ class TaskTime extends Model
      * @param $floatValue 
      * @return string|time
     */
-    public static function convertFloatToHour($floatValue) {
+    public static function float_to_date_interval($float_value)
+    {
+        // Calcula as horas
+        $horas = floor($float_value);
 
-        $percent = $floatValue * 100.0; // float to percent
-        $one_percent_from_hour = 0.6;   // 0.6 min
+        // Calcula os minutos
+        $minutos_decimal = ($float_value - $horas) * 60;
+        $minutos = floor($minutos_decimal);
+
+        // Calcula os segundos
+        $segundos = round(($minutos_decimal - $minutos) * 60);
         
-        $minutes = $one_percent_from_hour * $percent; // minutes
+        /** @var DateInterval */
+        $date_interval = new DateInterval("PT{$horas}H{$minutos}M{$segundos}S");
+
+        return $date_interval;
+    }
+
+    /** 
+     * @param $floatValue 
+     * @return string|time
+    */
+    public static function convertFloatToHour($float_value)
+    {
+        // Calcula as horas
+        $horas = floor($float_value);
+
+        // Calcula os minutos
+        $minutos_decimal = ($float_value - $horas) * 60;
+        $minutos = floor($minutos_decimal);
+
+        // Calcula os segundos
+        $segundos = round(($minutos_decimal - $minutos) * 60);
         
-        // Criar um objeto DateTime com um intervalo de minutos
-        $interval = new DateInterval('PT' . $minutes . 'M');
+        /** @var DateInterval */
+        $date_interval = new DateInterval("PT{$horas}H{$minutos}M{$segundos}S");
 
-        // Criar um objeto DateTime base com 0 horas e 0 minutos
-        $dateTime = new DateTime('00:00');
-        $dateTime->add($interval); // Popular com Interval
+        return $date_interval;
 
-        return $dateTime->format('H:i:s');
+        // /** @var DateTime */
+        // $date_time = new DateTime('00:00');
+        // $date_time->add($date_interval);
+
+        // dd(
+        //     $date_time->format('H:i:s')
+        // );
+
+        // return $date_time->format('H:i:s');
     }
 
     /**
@@ -519,6 +552,30 @@ class TaskTime extends Model
         }
 
         return $sumDateTime;
+    }
+
+    /** 
+     * @param $taskTimes
+     * @return DateTime
+     */
+    public static function sum_interval_times(Collection $task_times)
+    {
+        [$total_hours, $total_minutes] = [0, 0];
+        foreach($task_times as $task_time) {
+
+            $date_time_start = new DateTime($task_time->start_time);
+            $date_time_end   = new DateTime($task_time->end_time);
+
+            /** @return DateInternal|null */
+            $diff = $date_time_end->diff($date_time_start);
+
+            $total_hours   = $total_hours + $diff->h;
+            $total_minutes = $total_minutes + $diff->m;
+        }
+
+        $date_interval = new DateInterval("PT{$total_hours}H{$total_minutes}M");
+
+        return $date_interval;
     }
 
     /** 
