@@ -9,7 +9,7 @@ use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Database\Eloquent\Collection;
 
 class ValidationLimitTime implements Rule
-{   
+{
     /** @var string|integer */
     protected $id;
 
@@ -33,13 +33,13 @@ class ValidationLimitTime implements Rule
 
     /** @var DateInterval */
     protected $outLineTime;
-    
+
     /** @var mixed */
     protected $task;
 
     /** @var TaskTime */
     protected $taskTime;
-    
+
     /** @var Collection */
     protected $taskTimes;
 
@@ -51,12 +51,12 @@ class ValidationLimitTime implements Rule
      *
      * @param array $attributes
      * @return void
-     * 
+     *
      * Example
      * $attributes = ['user_pad_id' => $user_pad_id, 'tarefa_id' => $tarefa_id, 'type' => $type, 'start_time' => $start_time, 'end_time' => $end_time]
      */
     public function __construct($attributes = [])
-    {   
+    {
         $this->id           = $attributes['id'];
         $this->user_pad_id  = $attributes['user_pad_id'];
         $this->tarefa_id    = $attributes['tarefa_id'];
@@ -110,7 +110,7 @@ class ValidationLimitTime implements Rule
         $date_time_start = new DateTime($this->taskTime->start_time);
         $date_time_end   = new DateTime($this->taskTime->end_time);
 
-        /** @return DateInternal|null */
+        /** @var DateInternal|null */
         $diff = $date_time_end->diff($date_time_start);
 
         [$hours, $minutes] = [$diff->h, $diff->m];
@@ -118,18 +118,25 @@ class ValidationLimitTime implements Rule
         $new_model_date_interval = new DateInterval("PT{$hours}H{$minutes}M");
 
         //--------------------------------------------------------------
-        
+
         $limit_date_interval = $this->limit_date_interval;
 
-        $date_interval = TaskTime::sum_interval_times($this->taskTimes);        
+        $date_interval = TaskTime::sum_interval_times($this->taskTimes);
 
-        // $date_interval->add($new_date_interval);
+        [$date_interval_days, $date_interval_hours, $date_interval_minutes] = [$date_interval->d, $date_interval->h, $date_interval->m];
 
-        // $totalDateTime = TaskTime::sumDateTimes($sumDateTime, $newDateTime);
+        [$new_model_days, $new_model_hours, $new_model_minutes] = [$new_model_date_interval->d, $new_model_date_interval->h, $new_model_date_interval->m];
 
-        // $this->outLineTime = $totalDateTime->diff($limitDateTime);
+        $date_interval_days     = $date_interval_days    + $new_model_days;
+        $date_interval_hours    = $date_interval_hours   + $new_model_hours;
+        $date_interval_minutes  = $date_interval_minutes + $new_model_minutes;
 
-        // return $limitDateTime >= $totalDateTime;
+        $date_interval = new DateInterval("P{$date_interval_days}DT{$date_interval_hours}H{$date_interval_minutes}M");
+
+        //Fix validação
+        dd($limit_date_interval <=> $date_interval);
+
+        return $limit_date_interval <=> $date_interval;
     }
 
     /**
@@ -138,7 +145,7 @@ class ValidationLimitTime implements Rule
      * @return string
      */
     public function message()
-    {   
+    {
         $limitDateTime = new DateTime($this->limit_hours);
 
         $sumDateTime = TaskTime::sumIntervalTimes($this->taskTimes);
@@ -166,7 +173,7 @@ class ValidationLimitTime implements Rule
     public function getTaskTimes()
     {
         $id = $this->id;
-        
+
         return (
             TaskTime::where('user_pad_id', '=', $this->user_pad_id)
                     ->where('tarefa_id', '=', $this->tarefa_id)
@@ -183,7 +190,7 @@ class ValidationLimitTime implements Rule
      */
     public function createTaskTime()
     {
-        $model = new TaskTime();    
+        $model = new TaskTime();
         $model->user_pad_id = $this->user_pad_id;
         $model->tarefa_id = $this->tarefa_id;
         $model->type = $this->type;
@@ -192,7 +199,7 @@ class ValidationLimitTime implements Rule
 
         $model->start_time = "{$model->start_time}:00";
         $model->end_time = "{$model->end_time}:00";
-        
+
         return $model;
     }
 }

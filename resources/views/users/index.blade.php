@@ -21,11 +21,11 @@
         <h3 class="h3"> Usuários </h3>
         <hr>
     </div>
-    
+
     <div>
         @include('components.alerts')
 
-        @include('users\_search', ['model' => $model_search])
+        @include('users/_search', ['model' => $model_search])
 
         <div class="d-flex justify-content-end mb-2">
             @include('components.buttons.btn-create', [
@@ -48,7 +48,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($users as $user) 
+                    @foreach($users as $user)
                         <tr>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
