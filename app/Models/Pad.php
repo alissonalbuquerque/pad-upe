@@ -21,11 +21,15 @@ class Pad extends Model
     /** @var array */
     protected $dates = ['deleted_at'];
 
+    const STATUS_ATIVO = 1;
+    const STATUS_INATIVO = 2;
+    const STATUS_ARQUIVADO = 3;
+
     /**
      * @return string
      * */
     public function statusAsString() {
-        return Status::listStatus($this->status);
+        return self::listStatus($this->status);
     }
 
     /**
@@ -56,6 +60,17 @@ class Pad extends Model
      */
     public function avaliadorPads(){
         return $this->hasMany(AvaliadorPad::class, 'pad_id');
+    }
+
+    public static function listStatus($value = null) {
+
+        $values = [
+            self::STATUS_ATIVO => 'Ativo',
+            self::STATUS_INATIVO => 'Inativo',
+            self::STATUS_ARQUIVADO => 'Arquivado',
+        ];
+
+        return $value !== null? $values[$value] : $values;
     }
 }
 

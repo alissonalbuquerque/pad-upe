@@ -54,8 +54,11 @@ require __DIR__ . '/task_time.php';
 require __DIR__ . '/dimensao/dimensao.php';
 
 require __DIR__ . '/dimensao/ensino.php';
+
 require __DIR__ . '/dimensao/gestao.php';
+
 require __DIR__ . '/dimensao/pesquisa.php';
+
 require __DIR__ . '/dimensao/extensao.php';
 
 require __DIR__ . '/import/update_user.php';

@@ -1,3 +1,15 @@
+@php
+    /**
+     * @var $pad App\Models\Pad
+     * @var $menu integer
+     * @var $status integer
+     * @var $user_pads Illuminate\Database\Eloquent\Collection<App\Models\UserPad>
+     * @var $avaliador_pads Illuminate\Database\Eloquent\Collection<App\Models\AvaliadorPad>
+     * @var $user_pad_search App\Search\UserPadSearch
+     * @var $avaliador_pad_search App\Search\AvaliadorPadSearch
+     */
+@endphp
+
 @extends('layouts.main')
 
 @section('title', 'Novo')
@@ -110,6 +122,8 @@
 
             <div class="border rounded px-2">
 
+                @include('pad/admin/search/_user_pad_search', ['model' => $user_pad_search])
+
                 {{-- Create Professor --}}
                 <div class="text-end my-2">
                     <button type="button" class="btn btn-success user-pad-create"> Cadastrar Professor </button>
@@ -122,17 +136,19 @@
                         <tr>
                             <th scope="col"> Professor </th>
                             <th scope="col"> PDA </th>
+                            <th scope="col"> E-mail </th>
                             <th scope="col"> C.H </th>
                             <th scope="col"> Opções </th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        @foreach($userPads as $userPad)
+                        @foreach($user_pads as $user_pad)
                         <tr>
-                            <td>{{ $userPad->user }}</td>
-                            <td>{{ $userPad->pad->nome }}</td>
-                            <td> <span class="badge bg-primary">{{ $userPad->totalHoras() }}</span> </td>
+                            <td>{{ $user_pad->user }}</td>
+                            <td>{{ $user_pad->pad->nome }}</td>
+                            <td>{{ $user_pad->user->email }}</td>
+                            <td> <span class="badge bg-primary">{{ $user_pad->total_horas() }}</span> </td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -140,18 +156,19 @@
                 {{-- Table --}}
 
                 {{-- Pagination --}}
-                <ul class="pagination justify-content-end">
+                @if($user_pads->hasPages())
+                    <ul class="pagination justify-content-end">
 
-                </ul>
+                        @if(!$user_pads->onFirstPage())
+                            <li class="page-item"> <a class="page-link" href="{{ $user_pads->previousPageUrl() }}" tabindex="-1" aria-disabled="true">< Anterior</a> </li>
+                        @endif
 
-                <ul class="pagination justify-content-end">
-                    <li class="page-item"> <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a> </li>
-                    <li class="page-item"><a class="page-link" href="">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"> <a class="page-link" href="#">Próximo</a> </li>
-                </ul>
-                {{-- Pagination --}}
+                        @if($user_pads->hasMorePages())
+                            <li class="page-item"> <a class="page-link" href="{{ $user_pads->nextPageUrl() }}">Próximo > </a> </li>
+                        @endif
+
+                    </ul>
+                @endif
 
             </div>
 
@@ -161,6 +178,8 @@
 
             <div class="border rounded px-2">
 
+                @include('pad/admin/search/_avaliador_pad_search', ['model' => $avaliador_pad_search])
+
                 <div class="text-end my-2">
                     <button type="button" class="btn btn-success avaliator-pad-create"> Cadastrar Avaliador </button>
                 </div>
@@ -169,6 +188,7 @@
                     <thead>
                     <tr>
                         <th scope="col"> Avaliador </th>
+                        <th scope="col"> E-mail </th>
                         <th scope="col"> PDA </th>
                         <th scope="col"> Dimensão </th>
                         <th scope="col"> Opções </th>
@@ -176,12 +196,13 @@
                     </thead>
 
                     <tbody>
-                    @foreach($avaliatorsPads as $avaliatorPad)
+                    @foreach($avaliador_pads as $avaliador_pad)
                     <tr>
-                        <td>{{ $avaliatorPad->user->name ?? 'UserID não selecionado!' }}</td>
-                        <td>{{ $avaliatorPad->pad->nome }}</td>
+                        <td>{{ $avaliador_pad->user->name ?? 'UserID não selecionado!' }}</td>
+                        <td>{{ $avaliador_pad->user->email }}</td>
+                        <td>{{ $avaliador_pad->pad->nome }}</td>
                         <td>
-                            @foreach($avaliatorPad->dimensions as $dimension)
+                            @foreach($avaliador_pad->dimensions as $dimension)
                                 <span class="badge bg-primary">{{ $dimension }}</span>
                             @endforeach
                         </td>
@@ -190,13 +211,13 @@
                                 <div class="me-1">
                                     @include('components.buttons.btn-edit-task', [
                                         'btn_class' => 'btn-edit_avaliador_pad',
-                                        'btn_id' => $avaliatorPad->id,
+                                        'btn_id' => $avaliador_pad->id,
                                     ])
                                 </div>
                                 <div class="me-1">
                                     @include('components.buttons.btn-delete', [
-                                        'id' => $avaliatorPad->id,
-                                        'route' => route('avaliador-pad_delete', ['id' => $avaliatorPad->id])
+                                        'id' => $avaliador_pad->id,
+                                        'route' => route('avaliador-pad_delete', ['id' => $avaliador_pad->id])
                                     ])
                                 </div>
                             </div>
