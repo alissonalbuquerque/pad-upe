@@ -15,15 +15,15 @@
     @csrf
     @method('POST')
 
+    <input type="hidden" id="user_pad_id" name="user_pad_id" value="{{ $model->user_pad_id }}">
+
+    <input type="hidden" id="tarefa_id" name="tarefa_id" value="{{ $model->tarefa_id }}">
+
+    <input type="hidden" id="type" name="type" value="{{ $model->type }}">´
+
+    <input type="hidden" id="id" name="id" value="{{ $model->id }}">
+
     <div class="row">
-
-        <input type="hidden" id="user_pad_id" name="user_pad_id" value="{{ $model->user_pad_id }}">
-
-        <input type="hidden" id="tarefa_id" name="tarefa_id" value="{{ $model->tarefa_id }}">
-
-        <input type="hidden" id="type" name="type" value="{{ $model->type }}">´
-
-        <input type="hidden" id="id" name="id" value="{{ $model->id }}">
 
         <div class="mb-4 col-sm-2">
             <div class="">
@@ -37,8 +37,8 @@
         </div>
 
         <div class="col-sm-10">
-            <div class="mt-3">
-                <label for="weekday">Dia da Semana</label>
+            <div class="">
+                <label class="mb-2" for="weekday">Dia da Semana</label>
                 <select name="weekday" id="weekday" class="form-select @error('weekday') is-invalid @enderror ajax-errors">
                     @foreach(TaskTime::listWeekDays() as $id => $text)
                         @if( $model->weekday == $id)
@@ -55,6 +55,9 @@
             </div>
         </div>
 
+    </div>
+
+    <div class="row">
         <div class="col-sm-12">
             <div class="">
                 <label for="slct_tarefa_id">Atividade</label>
@@ -67,12 +70,15 @@
                 'field' => 'slct_tarefa_id'
             ])
         </div>
+    </div>
+
+    <div class="row">
 
         <div class="col-sm-6">
             <div class="mt-3">
                 <label class="form-label" for="start_time">Horário Inicial</label>
                 <input type="time" name="start_time" id="start_time" value="{{$model->start_time}}" class="form-control @error('start_time') is-invalid @enderror ajax-errors" >
-                
+
                 @include('components.divs.errors', [
                     'field' => 'start_time_update',
                 ])
@@ -83,14 +89,15 @@
             <div class="mt-3">
                 <label class="form-label" for="end_time">Horário Final</label>
                 <input type="time" name="end_time" id="end_time" value="{{$model->end_time}}" class="form-control @error('end_time') is-invalid @enderror ajax-errors" >
-                
+
                 @include('components.divs.errors', [
                     'field' => 'end_time_update',
                 ])
             </div>
         </div>
+
     </div>
-    
+
     <div class="mt-4">
         <div class="modal-footer">
             <div class="text-start">
@@ -121,12 +128,12 @@
 
 <script type="text/javascript">
 
-    $('#weekday').select2(
-    {   
-        allowClear: true,
-        placeholder: 'Dia da Semana',
-        dropdownParent: $('#modal')
-    })
+    // $('#weekday').select2(
+    // {
+    //     allowClear: true,
+    //     placeholder: 'Dia da Semana',
+    //     dropdownParent: $('#modal')
+    // })
 
     $('#slct_tarefa_id').select2(
     {
@@ -151,7 +158,7 @@
     })
 
     $('#slct_tarefa_id').on('change', function(e)
-    {   
+    {
         const type = $('#type')
         const tarefa_id = $('#tarefa_id')
 
@@ -185,7 +192,7 @@
                 error: (xhr, status, error) => {
                     console.error('Erro na requisição!');
                 }
-            });   
+            });
         }
     })
 

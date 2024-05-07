@@ -38,7 +38,12 @@
 
             $weekColumn = TaskTime::whereUserPadId($user_pad_id)->whereWeekday($weekday)->orderBy('start_time', 'ASC')->get();
 
-            $weekColumns[$weekday] = $weekColumn->isNotEmpty()  ? $weekColumn : collect(['--']);
+            $weekColumn =
+                $weekColumn->filter(function(TaskTIme $model) {
+                    return $model->tarefa !== null;
+                });
+
+            $weekColumns[$weekday] = $weekColumn->isNotEmpty() ? $weekColumn : collect(['--']);
 
             if(count($weekColumns[$weekday]) > $max_len_column) {
                 $max_len_column = count($weekColumns[$weekday]);
