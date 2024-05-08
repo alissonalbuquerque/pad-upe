@@ -237,6 +237,11 @@ class TaskTime extends Model
         // - - - - - - - - - -
     }
 
+    /* @return boolean */
+    public function has_tarefa() {
+        return $this->tarefa !== null ? true : false;
+    }
+
     public function userPad() {
         return $this->hasOne(UserPad::class, 'id', 'user_pad_id');
     }

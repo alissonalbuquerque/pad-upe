@@ -38,10 +38,10 @@
 
             $weekColumn = TaskTime::whereUserPadId($user_pad_id)->whereWeekday($weekday)->orderBy('start_time', 'ASC')->get();
 
-            $weekColumn =
-                $weekColumn->filter(function(TaskTIme $model) {
-                    return $model->tarefa !== null;
-                });
+//            $weekColumn =
+//                $weekColumn->filter(function(TaskTIme $model) {
+//                    return $model->tarefa !== null;
+//                });
 
             $weekColumns[$weekday] = $weekColumn->isNotEmpty() ? $weekColumn : collect(['--']);
 
@@ -81,14 +81,38 @@
                                             <p class="text-center"> <i class="bi bi-clock"></i> {{ $model->formatStartTime() }} </p>
                                         </div>
                                         <div class="card-body">
-                                            <div class="text-center">
-                                                <a href="#modal" class="btn btn-edit_task" id="{{ $model->id }}">
-                                                    {{ "{$model->getCode()} : {$model->getName()}" }} <i class="bi bi-pencil"></i>
-                                                </a>
-                                                {{--  --}}
-                                                <p class="text-center"> </i> DIA: {{ $model->getWeekdayAsText() }} </p>
-                                                {{--  --}}
-                                            </div>
+                                            @if($model->has_tarefa())
+                                                <div class="text-center">
+                                                    <a href="#modal" class="btn btn-edit_task" id="{{ $model->id }}">
+                                                        {{ "{$model->getCode()} : {$model->getName()}" }} <i class="bi bi-pencil"></i>
+                                                    </a>
+                                                    {{--  --}}
+                                                    <p class="text-center"> </i> DIA: {{ $model->getWeekdayAsText() }} </p>
+                                                    {{--  --}}
+                                                </div>
+                                            @endif
+                                            @if(!$model->has_tarefa())
+
+                                                <div class="text-center">
+
+                                                    <form id="form-delete-{{$model->id}}" action="{{ route('task_time_delete', ['id' => $model->id]) }}" method="post">
+                                                        @method('DELETE')
+                                                        @csrf
+                                                    </form>
+
+                                                    {{ "ATIVIDADE APAGADA !" }}
+
+                                                    @include('components.buttons.btn-delete-by-alert', [
+                                                        '_id' => $model->id,
+                                                        '_class' => "delete_task_time",
+                                                        '_remove_default_class' => true
+                                                    ])
+
+                                                    {{--  --}}
+                                                    <p class="text-center"> </i> DIA: {{ $model->getWeekdayAsText() }} </p>
+                                                    {{--  --}}
+                                                </div>
+                                            @endif
                                         </div>
                                         <div class="card-header">
                                             <p class="text-center"> <i class="bi bi-clock-fill"></i> {{ $model->formatEndTime() }} </p>
