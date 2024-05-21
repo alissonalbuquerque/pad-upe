@@ -24,8 +24,8 @@
     </header>
 
     <div class="stylo p-3 n-flex">
-        <h2>Portal de acesso ao</h2>
-        <h3> Plano Docente de Atividades - PDA </h3>
+        <!-- <h2>Portal de acesso ao</h2> -->
+        <h3> Portal de acesso ao Plano Docente de Atividades - PDA </h3>
     </div>
 
     <div class="container">
@@ -38,7 +38,7 @@
     <footer class="pt-3 my-3 align-items-center border-top" alt="Max-width 100%">
         <div class="w-100">
             <p class="copyright-upe d-flex text-center text-muted justify-content-center">
-                Copyright &#9400;2022. Universidade de Pernambuco - Todos os direitos reservados
+                Copyright &#9400;2022. Universidade de Pernambuco - Todos os direitos reservados.
             </p>
         </div>
     </footer>
