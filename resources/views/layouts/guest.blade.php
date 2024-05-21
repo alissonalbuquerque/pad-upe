@@ -31,8 +31,8 @@
     </header>
 
     <div class="stylo p-3 n-flex">
-        <h2>Portal de acesso ao</h2>
-        <h3>Plano de Atividades Docentes - PDA</h3>
+        <!-- <h2>Portal de acesso ao</h2> -->
+        <h3>Portal de acesso ao Plano de Atividades Docentes - PDA</h3>
     </div>
 
     <section class="ftco-section">
