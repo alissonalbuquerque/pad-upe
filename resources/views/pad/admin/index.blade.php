@@ -38,8 +38,8 @@
                         <tr>
                             <th scole="col">#</th>
                             <th scole="col">Nome</th>
-                            <th scole="col">Data de início</th>
-                            <th scole="col">Data de fim</th>
+                            <th scole="col">Início</th>
+                            <th scole="col">Final</th>
                             <th scole="col">Status</th>
                             <th scole="col">Opções</th>
                         </tr>
