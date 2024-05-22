@@ -1,5 +1,6 @@
 @php
     use App\Models\Util\Status;
+    use App\Models\Pad;
 @endphp
 
 <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -27,6 +28,23 @@
                             <h4 class="h5"> <span class="badge bg-primary">Horas: {{ $userPad->totalHoras() }}</span> </h4>
                         </div>
                         <a class="stretched-link" href="{{ route('pad_view', ['id' => $userPad->id]) }}"></a>
+                    </div>
+                    
+                </div>
+            @endif
+            @if($userPad->pad->status === Pad::STATUS_EM_AVALIACAO)
+                <div class="card mx-2 bg-secondary" style="width: 12rem;">
+
+                    <div class="card-body">
+                        <div class="text-end">
+                            <span class="badge bg-primary">{{ $userPad->pad->statusAsString() }}</span>
+                        </div>
+                        <h1 class="text-center"> <i class="bi bi-book-half"></i> </h1>
+                        <h5 class="text-center"> PDA: {{ $userPad->pad->nome }} </h4>
+                        <div class="text-center">
+                            <h4 class="h5"> <span class="badge bg-primary">Horas: {{ $userPad->totalHoras() }}</span> </h4>
+                        </div>
+                        {{-- <a class="stretched-link" href="{{ route('pad_view', ['id' => $userPad->id]) }}"></a> --}}
                     </div>
                     
                 </div>

@@ -21,7 +21,7 @@ class Status
             self::ATIVO => 'Ativo',
             self::INATIVO => 'Inativo',
             self::PENDENTE => 'Pendente',
-            self::ARQUIVADO => 'Arquivado',
+            self::ARQUIVADO => 'Em Avaliação',
             self::FINALIZADO => 'Finalizado',
             self::REPROVADO => 'Reprovado',
             self::APROVADO => 'Aprovado',

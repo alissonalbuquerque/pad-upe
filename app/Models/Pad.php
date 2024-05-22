@@ -12,6 +12,18 @@ class Pad extends Model
 {
     use HasFactory;
 
+    const STATUS_ATIVO = 1;
+    const STATUS_INATIVO = 2;
+    const STATUS_ARQUIVADO = 3;
+    const STATUS_EM_AVALIACAO = 4;
+
+    const STATUS_PENDENTE = 3;
+    const ARQUIVADO = 4;
+    const FINALIZADO = 5;
+    const REPROVADO = 6;
+    const APROVADO = 7;
+    const EM_REVISAO = 8;
+
     /** @var string */
     protected $table = 'pad';
 

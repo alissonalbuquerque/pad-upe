@@ -23,6 +23,7 @@
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">Professor</th>
+                    <th scope="col">E-mail</th>
                     <th scope="col">Status</th>
                     <th scope="col">CH</th>
                     <th scope="col">CH Corrigida</th>
@@ -34,6 +35,7 @@
                 @foreach ($professores as $professor)
                     <tr>
                         <td>{{$professor->name}}</td>
+                        <td>{{$professor->email}}</td>
                         @if($professor->status === 'Pendente')
                             <td style="color:red;">{{$professor->status}}</td>
                         @else
