@@ -56,7 +56,7 @@
                                 
                                 <div class="btn-edit-tasks">
                                     <button type="button" class="btn btn-primary btn-view_modal" id="{{ "pad_{$pad->id}-professor_{$professor->id}" }}">
-                                        <i class="bi bi-pencil-square"></i> Editar
+                                        <i class="bi bi-clock"></i> Horário
                                     </button>
                                 </div>
 
