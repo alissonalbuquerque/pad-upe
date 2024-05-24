@@ -32,7 +32,7 @@
                             @csrf
                              <!-- Email Address -->
                             <div class="form-group mt-3">
-                            <label class="label" for="name">Endereço de email</label>
+                            <label class="label" for="name">Endereço de e-mail</label>
                             <input type="email" name="email" class="form-control" placeholder="ex: usuario@upe.br" :value="old('email')" required autofocus />
                             </div>
                             <!-- Email Address -->
