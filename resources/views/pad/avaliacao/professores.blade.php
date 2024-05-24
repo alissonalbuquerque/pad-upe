@@ -44,13 +44,24 @@
                         <td>@if($professor->ch > 0) {{$professor->ch}}H @endif</td>
                         <td>@if($professor->ch_corrigida > 0 && $professor->ch != $professor->ch_corrigida) {{$professor->ch_corrigida}}H @endif</td>
                         <td>
+                            
+                            <div class="btn-group" role="group" aria-label="">
 
-                            @include('components.buttons.btn-avaliar', [
-                                'route' => url("/pad/$pad->id/professor/$professor->id/atividades"), #avaliador_avaliar
-                                'class' => '',
-                                'content' => 'Avaliar',
-                                'id' => '',
-                            ])
+                                @include('components.buttons.btn-avaliar', [
+                                    'route' => url("/pad/$pad->id/professor/$professor->id/atividades"), #avaliador_avaliar
+                                    'class' => '',
+                                    'content' => 'Avaliar',
+                                    'id' => '',
+                                ])
+                                
+                                <div class="btn-edit-tasks">
+                                    <button type="button" class="btn btn-primary btn-view_modal" id="{{ "pad_{$pad->id}-professor_{$professor->id}" }}">
+                                        <i class="bi bi-pencil-square"></i> Editar
+                                    </button>
+                                </div>
+
+                            </div>
+                            
                         </td>
                     </tr>
                 @endforeach
@@ -59,4 +70,17 @@
             </tbody>
         </table>
     </div>
+
+    @include('components.modal', ['size' => 'modal-xl'])
+
+@endsection
+
+@section('scripts')
+
+    @include('pad.components.scripts.dimensao.ensino.show_modal', [
+        'modal_id' => 'modal',
+        'route' => route('mostrar_horario'),
+        'btn_class' => 'btn-view_modal',
+    ])
+
 @endsection

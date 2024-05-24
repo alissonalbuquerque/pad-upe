@@ -34,6 +34,7 @@ use App\Models\Tabelas\Pesquisa\PesquisaCoordenacao;
 use App\Models\Tabelas\Pesquisa\PesquisaLideranca;
 use App\Models\Tabelas\Pesquisa\PesquisaOrientacao;
 use App\Models\Tabelas\Pesquisa\PesquisaOutros;
+use App\Models\TaskTime;
 use App\Models\User;
 use App\Models\UserPad;
 use App\Models\UserType;
@@ -301,69 +302,84 @@ class PadController extends Controller
         $pad = Pad::find($id);
         $index_menu = MenuItemsAvaliador::HOME;
 
-        [$user_id, $campus_id, $pad_id, $status_active] = [$user->id, $user->campus_id, $pad->id, PAD::STATUS_ATIVO];
-        $professores =
-                User::join('user_pad', 'user_pad.user_id', '=', 'users.id')
-                    ->join('pad', 'user_pad.pad_id', '=', 'pad.id')
-                    ->where(function ($query) use ($user_id, $campus_id, $pad_id, $status_active)
-                    {
-                        $query->where('pad.status', '=', $status_active);
-                        $query->where('users.campus_id', '=', $campus_id);
-                        $query->where('users.id', '!=', $user_id);
-                        $query->where('pad.id', '=', $pad_id);
-                    })
-                    ->select('users.id', 'users.name', 'users.email')
-                    ->orderBy('users.name')
-                    ->limit(10)
-                    ->get();
+        // [$user_id, $campus_id, $pad_id, $status_active] = [$user->id, $user->campus_id, $pad->id, PAD::STATUS_ATIVO];
+        // $professores =
+        //         User::join('user_pad', 'user_pad.user_id', '=', 'users.id')
+        //             ->join('pad', 'user_pad.pad_id', '=', 'pad.id')
+        //             ->where(function ($query) use ($user_id, $campus_id, $pad_id, $status_active)
+        //             {
+        //                 $query->where('pad.status', '=', $status_active);
+        //                 $query->where('users.campus_id', '=', $campus_id);
+        //                 $query->where('users.id', '!=', $user_id);
+        //                 $query->where('pad.id', '=', $pad_id);
+        //             })
+        //             ->select('users.id', 'users.name', 'users.email')
+        //             ->orderBy('users.name')
+        //             ->limit(10)
+        //             ->get();
 
-//        $professores = User::join('user_pad', 'user_pad.user_id', '=', 'users.id')
-//            ->join('pad', 'user_pad.pad_id', '=', 'pad.id')
-//            ->where(function ($query) use ($user, $id) {
-//                $query->where('pad.status', '=', Status::ATIVO);
-//                $query->where('users.campus_id', '=', $user->campus_id);
-//                $query->where('users.id', '!=', $user->id);
-//                $query->where('pad.id', '=', $id);
-//            })
-//            ->select('users.id', 'users.name')
-//            ->orderBy('name')
-//            ->limit(10)
-//            ->get();
-//
-//        //Informando se o PAD foi enviado ou não
-//        $avaliador_pad = AvaliadorPad::where(function ($query) use ($pad, $user) {
-//            $query->where('user_id', '=', $user->id);
-//            $query->where('pad_id', '=', $pad->id);
-//        })->first();
-//
-//
-//        foreach ($professores as $professor){
-//            $professor->status = "Pendente";
-//            $userPad = $professor->userPads()->where('pad_id', '=', $pad->id)->first();
-//
-//            $avaliacoes = $this->get_avaliacoes($userPad, $avaliador_pad);
-//
-//            $avaliacoes_ensino = !empty($avaliacoes['ensino']) ? $avaliacoes['ensino'] : null;
-//            $avaliacoes_pesquisa = !empty($avaliacoes['pesquisa']) ? $avaliacoes['pesquisa'] : null;
-//            $avaliacoes_extensao = !empty($avaliacoes['extensao']) ? $avaliacoes['extensao'] : null;
-//            $avaliacoes_gestao = !empty($avaliacoes['gestao']) ? $avaliacoes['gestao'] : null;
-//
-//
-//            $avaliacoes_ensino_all = $avaliacoes_ensino? $avaliacoes_ensino->all() : null;
-//            $avaliacoes_pesquisa_all = $avaliacoes_pesquisa? $avaliacoes_pesquisa->all() : null;
-//            $avaliacoes_extensao_all = $avaliacoes_extensao? $avaliacoes_extensao->all() : null;
-//            $avaliacoes_gestao_all = $avaliacoes_gestao? $avaliacoes_gestao->all() : null;
-//
-//
-//            if($avaliacoes_ensino_all || $avaliacoes_pesquisa_all || $avaliacoes_extensao_all || $avaliacoes_gestao_all) {
-//                $professor->status = "Enviado";
-//            }
-//
-//            $professor->ch = $this->get_carga_horaria_total($avaliacoes);
-//            $professor->ch_corrigida = $this->get_carga_horaria_corrigida($avaliacoes_ensino, $avaliacoes_pesquisa, $avaliacoes_extensao, $avaliacoes_gestao);
-//        }
+        // dd($professores);
+
+       $professores = User::join('user_pad', 'user_pad.user_id', '=', 'users.id')
+           ->join('pad', 'user_pad.pad_id', '=', 'pad.id')
+           ->where(function ($query) use ($user, $id) {
+               $query->where('pad.status', '=', Status::ATIVO);
+               $query->where('users.campus_id', '=', $user->campus_id);
+               $query->where('users.id', '!=', $user->id);
+               $query->where('pad.id', '=', $id);
+           })
+           ->select('users.id', 'users.name')
+           ->orderBy('name')
+           ->get();
+
+       //Informando se o PAD foi enviado ou não
+       $avaliador_pad = AvaliadorPad::where(function ($query) use ($pad, $user) {
+           $query->where('user_id', '=', $user->id);
+           $query->where('pad_id', '=', $pad->id);
+       })->first();
+
+
+       foreach ($professores as $professor){
+           $professor->status = "Pendente";
+           $userPad = $professor->userPads()->where('pad_id', '=', $pad->id)->first();
+
+           $avaliacoes = $this->get_avaliacoes($userPad, $avaliador_pad);
+
+           $avaliacoes_ensino = !empty($avaliacoes['ensino']) ? $avaliacoes['ensino'] : null;
+           $avaliacoes_pesquisa = !empty($avaliacoes['pesquisa']) ? $avaliacoes['pesquisa'] : null;
+           $avaliacoes_extensao = !empty($avaliacoes['extensao']) ? $avaliacoes['extensao'] : null;
+           $avaliacoes_gestao = !empty($avaliacoes['gestao']) ? $avaliacoes['gestao'] : null;
+
+
+           $avaliacoes_ensino_all = $avaliacoes_ensino? $avaliacoes_ensino->all() : null;
+           $avaliacoes_pesquisa_all = $avaliacoes_pesquisa? $avaliacoes_pesquisa->all() : null;
+           $avaliacoes_extensao_all = $avaliacoes_extensao? $avaliacoes_extensao->all() : null;
+           $avaliacoes_gestao_all = $avaliacoes_gestao? $avaliacoes_gestao->all() : null;
+
+
+           if($avaliacoes_ensino_all || $avaliacoes_pesquisa_all || $avaliacoes_extensao_all || $avaliacoes_gestao_all) {
+               $professor->status = "Enviado";
+           }
+
+           $professor->ch = $this->get_carga_horaria_total($avaliacoes);
+           $professor->ch_corrigida = $this->get_carga_horaria_corrigida($avaliacoes_ensino, $avaliacoes_pesquisa, $avaliacoes_extensao, $avaliacoes_gestao);
+       }
 
         return view("pad.avaliacao.professores", compact('professores', 'pad', 'index_menu'));
+    }
+    
+    public function view_calender($id) {
+
+        $user_pad_ids = explode("-", $id);
+
+        $pad_data = explode("_", $user_pad_ids[0]);
+        $user_data = explode("_", $user_pad_ids[1]);
+        
+        [$pad_id, $user_id] = [$pad_data[1], $user_data[1]];
+        
+        $user_pad = UserPad::where("pad_id", "=", "{$pad_id}")->where("user_id", "=", "{$user_id}")->first();
+
+        return view("pad.avaliacao.view_modal", ['user_pad' => $user_pad]);
     }
 
     public function professor_atividades($id, $professor_id, $aba=null)
