@@ -318,19 +318,18 @@ class PadController extends Controller
         //             ->limit(10)
         //             ->get();
 
-        // dd($professores);
-
-       $professores = User::join('user_pad', 'user_pad.user_id', '=', 'users.id')
-           ->join('pad', 'user_pad.pad_id', '=', 'pad.id')
-           ->where(function ($query) use ($user, $id) {
-               $query->where('pad.status', '=', Status::ATIVO);
-               $query->where('users.campus_id', '=', $user->campus_id);
-               $query->where('users.id', '!=', $user->id);
-               $query->where('pad.id', '=', $id);
-           })
-           ->select('users.id', 'users.name')
-           ->orderBy('name')
-           ->get();
+        $professores = User::join('user_pad', 'user_pad.user_id', '=', 'users.id')
+            ->join('pad', 'user_pad.pad_id', '=', 'pad.id')
+            ->where(function ($query) use ($user, $id) {
+                // $query->where('pad.status', '=', Status::ATIVO);
+                $query->whereIn('pad.status', [Pad::STATUS_ATIVO, Pad::STATUS_EM_AVALIACAO]);
+                $query->where('users.campus_id', '=', $user->campus_id);
+                $query->where('users.id', '!=', $user->id);
+                $query->where('pad.id', '=', $id);
+            })
+            ->select('users.id', 'users.name')
+            ->orderBy('name')
+            ->get();
 
        //Informando se o PAD foi enviado ou não
        $avaliador_pad = AvaliadorPad::where(function ($query) use ($pad, $user) {
