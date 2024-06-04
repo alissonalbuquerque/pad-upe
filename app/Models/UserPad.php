@@ -36,7 +36,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserPad extends Model
 {
-    use HasFactory;
+    const STATUS_DEFAULT = 0;
+    const STATUS_ATIVO   = 1;
+    const STATUS_INATIVO = 2;
 
     /** @var string */
     protected $table = 'user_pad';
@@ -58,6 +60,27 @@ class UserPad extends Model
 
     public static function initQuery() {
         return new UserPadQuery(get_called_class());
+    }
+
+    /**
+     * @return string
+     * */
+    public function status_as_text() {
+        return self::list_status($this->status);
+    }
+
+    /**
+     * @return string|array
+     */
+    public static function list_status($value = null)
+    {
+        $values = [
+            self::STATUS_DEFAULT        => 'ATIVO (EM LOTE)',
+            self::STATUS_ATIVO          => 'ATIVO',
+            self::STATUS_INATIVO        => 'INATIVO',
+        ];
+
+        return $value !== null ? $values[$value] : $values;
     }
 
     public static function rules() {
