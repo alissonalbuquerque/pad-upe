@@ -207,29 +207,20 @@ class PadController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
+    {   
         $menu = Menu::PADS;
+
         $pad = PAD::find($id);
-        $userPads = $pad->userPads()->paginate(50);
-        $avaliatorsPads = $pad->avaliadorPads;
-        $status = Constants::listStatus();
-
-        
-
-        //Se a página atual for 1 remova o previous
-        //Se a página atual for lastPage remova o next
-        //Se houver um page="" no query selecionar a opção de professor por padrão [list]
-        //Criar variavel para retornar o active tab selecionado
-
-        // dd($pad->id);
-        // dd($userPads, $userPads->links());
+        $status = Pad::list_status();
+        $avaliadores_pad = $pad->avaliadorPads;
+        $user_pads = $pad->userPads()->paginate(10);
 
         return view('pad.admin.edit', [
             'pad' => $pad,
             'menu' => $menu,
             'status' => $status,
-            'userPads' => $userPads,
-            'avaliatorsPads' => $avaliatorsPads
+            'userPads' => $user_pads,
+            'avaliatorsPads' => $avaliadores_pad
         ]);
     }
 
@@ -259,13 +250,43 @@ class PadController extends Controller
         );
 
         if ($validated) {
+
             $model = Pad::find($id);
             $model->fill($request->all());
 
+            [$status_new, $status_old] = [$model->status, $model->getOriginal('status')];
+
             if ($model->save()) {
+
+                if($model->status == Pad::STATUS_ATIVO) {
+
+                    foreach($model->user_pads as $user_pad) {
+                        $user_pad->status = UserPad::STATUS_ATIVO;
+                        $user_pad->save();
+                    }
+
+                } else {
+
+                    foreach($model->user_pads as $user_pad) {
+                        
+                        if(in_array($status_old, [Pad::STATUS_INATIVO, Pad::STATUS_ARQUIVADO, Pad::STATUS_EM_AVALIACAO]) && $user_pad->status == UserPad::STATUS_ATIVO) {
+                            $user_pad->status = UserPad::STATUS_ATIVO;
+                            $user_pad->save();
+                        } else {
+                            $user_pad->status = UserPad::STATUS_INATIVO;
+                            $user_pad->save();
+                        }
+                        
+                    }
+
+                }
+
                 return redirect()->route('pad_index')->with('success', 'PAD atualizado com sucesso!');
+
             } else {
+
                 return redirect()->route('pad_index')->with('success', 'Erro ao atualizar o PAD!');
+
             }
         }
     }

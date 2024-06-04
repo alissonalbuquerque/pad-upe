@@ -53,6 +53,8 @@ require __DIR__ . '/Task.php';
 
 require __DIR__ . '/task_time.php';
 
+require __DIR__ . '/user_pad.php';
+
 require __DIR__ . '/dimensao/dimensao.php';
 
 require __DIR__ . '/dimensao/ensino.php';

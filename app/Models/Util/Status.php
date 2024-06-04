@@ -16,7 +16,6 @@ class Status
 
     public static function listStatus($value = null)
     {
-
         $values = [
             self::ATIVO => 'Ativo',
             self::INATIVO => 'Inativo',
