@@ -15,7 +15,7 @@
 @section('body')
 
     <div>
-        
+
         <h3 class="h3"> PDAs </h3>
 
         <div>
@@ -30,7 +30,7 @@
                     'content' => 'Cadastrar',
                 ])
             </div>
-            
+
             <div class="border rounded px-4">
 
                 <table class="table table-responsive table-hover mt-4">
@@ -39,13 +39,13 @@
                             <th scole="col">#</th>
                             <th scole="col">Nome</th>
                             <th scole="col">Início</th>
-                            <th scole="col">Final</th>
+                            <th scole="col">Fim</th>
                             <th scole="col">Status</th>
                             <th scole="col">Opções</th>
                         </tr>
                     </thead>
-                    
-                    @php 
+
+                    @php
                         $index_row = 1;
                     @endphp
                     <tbody>
@@ -71,7 +71,7 @@
                                             'route' => route('pad_delete', ['id' => $pad->id])
                                         ])
                                     </div>
-                                </div>    
+                                </div>
                             </td>
                         </tr>
                         @endforeach
@@ -88,7 +88,7 @@
 @section('script')
 
 <script type="text/javascript">
-    
+
 </script>
 
 @endsection

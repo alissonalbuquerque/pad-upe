@@ -69,7 +69,7 @@
 
                     <div class="row mb-3">
                         <div class="col-sm-6">
-                            <label class="form-label" for="data_inicio">Data de Início</label>
+                            <label class="form-label" for="data_inicio">Início</label>
                             <input class="form-control @error('data_inicio') is-invalid @enderror" type="date" name="data_inicio" id="data_inicio" value="{{ $pad->data_inicio }}">
                             @error('data_inicio')
                                 <div class="alert alert-danger">
@@ -79,7 +79,7 @@
                         </div>
 
                         <div class="col-sm-6">
-                            <label class="form-label" for="data_fim">Data de Fim</label>
+                            <label class="form-label" for="data_fim">Fim</label>
                             <input class="form-control @error('data_fim') is-invalid @enderror" type="date" name="data_fim" id="data_fim" value="{{ $pad->data_fim }}">
                             @error('data_fim')
                                 <div class="alert alert-danger">
@@ -145,11 +145,13 @@
                 </ul>
 
                 <ul class="pagination justify-content-end">
-                    <li class="page-item"> <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a> </li>
+                    {{-- <li class="page-item"> <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a> </li>
                     <li class="page-item"><a class="page-link" href="">1</a></li>
                     <li class="page-item"><a class="page-link" href="#">2</a></li>
                     <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"> <a class="page-link" href="#">Próximo</a> </li>
+                    <li class="page-item"> <a class="page-link" href="#">Próximo</a> </li> --}}
+
+                    {{ $userPads->links() }}
                 </ul>
                 {{-- Pagination --}}
 
