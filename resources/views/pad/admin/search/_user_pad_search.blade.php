@@ -30,7 +30,7 @@
             <div class="mb-3 col-6">
                 <div class="form-group">
                     <label class="form-label" for="email"> E-Mail </label>
-                    <input type="email" name="email" id="email" class="form-control" placeholder="E-Mail" value="{{ $model->email }}">
+                    <input type="text" name="email" id="email" class="form-control" placeholder="E-Mail" value="{{ $model->email }}">
                 </div>
             </div>
 
