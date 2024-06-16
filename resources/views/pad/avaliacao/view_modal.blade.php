@@ -1,28 +1,4 @@
-@extends('layouts.main')
-
-@section('title', 'Início')
-
-@section('header')
-    @include('layouts.header', [
-        'user' => Auth::user(),
-    ])
-@endsection
-
-@section('nav')
-    @include('layouts.navigation', ['menu' => $menu])
-@endsection
-
-@section('body')
-
 <div class="container">
-
-    @include('components.alerts')
-
-    @include('components.buttons.btn-show-modal', [
-        '_class' => 'btn-success',
-        '_content' => 'Cadastrar',
-        '_target_class' => 'task-time-create',
-    ])
 
     @php
         use App\Models\TaskTime;
@@ -36,7 +12,7 @@
         $max_len_column = 0;
         foreach (array_keys(TaskTime::listWeekDays()) as $weekday) {
 
-            $weekColumn = TaskTime::whereUserPadId($user_pad_id)->whereWeekday($weekday)->orderBy('start_time', 'ASC')->get();
+            $weekColumn = TaskTime::whereUserPadId($user_pad->id)->whereWeekday($weekday)->orderBy('start_time', 'ASC')->get();
 
 //            $weekColumn =
 //                $weekColumn->filter(function(TaskTIme $model) {
@@ -83,30 +59,18 @@
                                         <div class="card-body">
                                             @if($model->has_tarefa())
                                                 <div class="text-center">
-                                                    <a href="#modal" class="btn btn-edit_task" id="{{ $model->id }}">
-                                                        {{ "{$model->getCode()} : {$model->getName()}" }} <i class="bi bi-pencil"></i>
-                                                    </a>
-                                                    {{--  --}}
+
+                                                    <p class="text-center"> {{ "{$model->getCode()} : {$model->getName()}" }} </p>
+                                                    
                                                     <p class="text-center"> </i> DIA: {{ $model->getWeekdayAsText() }} </p>
-                                                    {{--  --}}
+                                                    
                                                 </div>
                                             @endif
                                             @if(!$model->has_tarefa())
 
                                                 <div class="text-center">
 
-                                                    <form id="form-delete-{{$model->id}}" action="{{ route('task_time_delete', ['id' => $model->id]) }}" method="post">
-                                                        @method('DELETE')
-                                                        @csrf
-                                                    </form>
-
                                                     {{ "ATIVIDADE APAGADA !" }}
-
-                                                    @include('components.buttons.btn-delete-by-alert', [
-                                                        '_id' => $model->id,
-                                                        '_class' => "delete_task_time",
-                                                        '_remove_default_class' => true
-                                                    ])
 
                                                     {{--  --}}
                                                     <p class="text-center"> </i> DIA: {{ $model->getWeekdayAsText() }} </p>
@@ -131,24 +95,4 @@
           </table>
     </div>
 
-    @include('components.modal', ['size' => 'modal-lg', 'header' => ''])
-
 </div>
-
-@endsection
-
-@section('scripts')
-
-    @include('pad.components.scripts.dimensao.ensino.show_modal', [
-        'modal_id' => 'modal',
-        'route' => route('task_time_create', ['user_pad_id' => $user_pad_id]),
-        'btn_class' => 'task-time-create',
-    ])
-
-    @include('pad.components.scripts.dimensao.ensino.show_modal', [
-        'modal_id' => 'modal',
-        'route' => route('task_time_edit'),
-        'btn_class' => 'btn-edit_task',
-    ])
-
-@endsection

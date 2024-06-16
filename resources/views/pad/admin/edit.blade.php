@@ -68,7 +68,11 @@
                             <label class="form-label" for="status">Status</label>
                             <select class="form-select @error('status') is-invalid @enderror" name="status" id="status">
                                 @foreach($status as $value => $content)
-                                    <option value="{{$value}}">{{$content}}</option>
+                                    @if($pad->status == $value)
+                                        <option selected value="{{$value}}">{{$content}}</option>
+                                    @else
+                                        <option value="{{$value}}">{{$content}}</option>    
+                                    @endif
                                 @endforeach
                             </select>
                             @error('status')
@@ -135,10 +139,11 @@
                     <thead>
                         <tr>
                             <th scope="col"> Professor </th>
-                            <th scope="col"> PDA </th>
-                            <th scope="col"> E-mail </th>
-                            <th scope="col"> C.H </th>
-                            <th scope="col"> Opções </th>
+                            <th scope="col"> PDA       </th>
+                            <th scope="col"> E-mail    </th>
+                            <th scope="col"> Status    </th>
+                            <th scope="col"> C.H       </th>
+                            <th scope="col"> Opções    </th>
                         </tr>
                     </thead>
 
@@ -148,7 +153,9 @@
                             <td>{{ $user_pad->user }}</td>
                             <td>{{ $user_pad->pad->nome }}</td>
                             <td>{{ $user_pad->user->email }}</td>
+                            <td> <span class="badge bg-primary">{{ $user_pad->status_as_text() }}</span> </td>
                             <td> <span class="badge bg-primary">{{ $user_pad->total_horas() }}</span> </td>
+                            <td> <a href="{{ route('user_pad_alter_status', $user_pad->id) }}"> <i class="bi bi-arrow-repeat"></i> </a> </td>    
                         </tr>
                         @endforeach
                     </tbody>

@@ -413,4 +413,22 @@ class UserPadController extends Controller
         }
         
     }
+
+    /**
+     * 
+     */
+    public function action_change_status($id) {
+
+        $user_pad = UserPad::find($id);
+
+        if(in_array($user_pad->status, [UserPad::STATUS_DEFAULT, UserPad::STATUS_ATIVO])) {
+            $user_pad->status = UserPad::STATUS_INATIVO;
+        } else {
+            $user_pad->status = UserPad::STATUS_ATIVO;
+        }
+
+        $user_pad->save();
+
+        return redirect()->route('pad_edit', $user_pad->pad_id)->with('success', 'Status Atualizado!');
+    }
 }

@@ -129,7 +129,7 @@ class TaskTime extends Model
     public function tarefa()
     {
         // Return Ensino Models
-        // - - - - - - - - - - 
+        // - - - - - - - - - -
         if($this->type == self::TYPE_ENSINO_ATENDIMENTO_DISCENTE) {
             return $this->hasOne(EnsinoAtendimentoDiscente::class, 'id', 'tarefa_id');
         }
@@ -165,10 +165,10 @@ class TaskTime extends Model
         if($this->type == self::TYPE_ENSINO_SUPERVISAO) {
             return $this->hasOne(EnsinoSupervisao::class, 'id', 'tarefa_id');
         }
-        // - - - - - - - - - - 
+        // - - - - - - - - - -
 
         // Return Pesquisa Models
-        // - - - - - - - - - - 
+        // - - - - - - - - - -
         if($this->type == self::TYPE_PESQUISA_COORDENACAO) {
             return $this->hasOne(PesquisaCoordenacao::class, 'id', 'tarefa_id');
         }
@@ -184,10 +184,10 @@ class TaskTime extends Model
         if($this->type == self::TYPE_PESQUISA_OUTROS) {
             return $this->hasOne(PesquisaOutros::class, 'id', 'tarefa_id');
         }
-        // - - - - - - - - - - 
+        // - - - - - - - - - -
 
         // Return Extensao Models
-        // - - - - - - - - - - 
+        // - - - - - - - - - -
         if($this->type == self::TYPE_EXTENSAO_COORDENACAO) {
             return $this->hasOne(ExtensaoCoordenacao::class, 'id', 'tarefa_id');
         }
@@ -199,10 +199,10 @@ class TaskTime extends Model
         if($this->type == self::TYPE_EXTENSAO_OUTROS) {
             return $this->hasOne(ExtensaoOutros::class, 'id', 'tarefa_id');
         }
-        // - - - - - - - - - - 
+        // - - - - - - - - - -
 
         // Return Gestao Models
-        // - - - - - - - - - - 
+        // - - - - - - - - - -
         if($this->type == self::TYPE_GESTAO_COORDENACAO_LABORATORIOS_DIDATICOS) {
             return $this->hasOne(GestaoCoordenacaoLaboratoriosDidaticos::class, 'id', 'tarefa_id');
         }
@@ -234,7 +234,12 @@ class TaskTime extends Model
         if($this->type == self::TYPE_GESTAO_REPRESENTANTE_UNIDADE_EDUCACAO) {
             return $this->hasOne(GestaoRepresentanteUnidadeEducacao::class, 'id', 'tarefa_id');
         }
-        // - - - - - - - - - - 
+        // - - - - - - - - - -
+    }
+
+    /* @return boolean */
+    public function has_tarefa() {
+        return $this->tarefa !== null ? true : false;
     }
 
     public function userPad() {
@@ -253,7 +258,7 @@ class TaskTime extends Model
      */
     public function getName() {
         // Return Ensino Models
-        // - - - - - - - - - - 
+        // - - - - - - - - - -
         if($this->type == self::TYPE_ENSINO_ATENDIMENTO_DISCENTE) {
             return $this->tarefa->componente_curricular;
         }
@@ -289,10 +294,10 @@ class TaskTime extends Model
         if($this->type == self::TYPE_ENSINO_SUPERVISAO) {
             return $this->tarefa->atividade;
         }
-        // - - - - - - - - - - 
+        // - - - - - - - - - -
 
         // Return Pesquisa Models
-        // - - - - - - - - - - 
+        // - - - - - - - - - -
         if($this->type == self::TYPE_PESQUISA_COORDENACAO) {
             return $this->tarefa->titulo_projeto;
         }
@@ -308,10 +313,10 @@ class TaskTime extends Model
         if($this->type == self::TYPE_PESQUISA_OUTROS) {
             return $this->tarefa->atividade;
         }
-        // - - - - - - - - - - 
+        // - - - - - - - - - -
 
         // Return Extensao Models
-        // - - - - - - - - - - 
+        // - - - - - - - - - -
         if($this->type == self::TYPE_EXTENSAO_COORDENACAO) {
             return $this->tarefa->titulo_projeto;
         }
@@ -323,10 +328,10 @@ class TaskTime extends Model
         if($this->type == self::TYPE_EXTENSAO_OUTROS) {
             return $this->tarefa->atividade;
         }
-        // - - - - - - - - - - 
+        // - - - - - - - - - -
 
         // Return Gestao Models
-        // - - - - - - - - - - 
+        // - - - - - - - - - -
         if($this->type == self::TYPE_GESTAO_COORDENACAO_LABORATORIOS_DIDATICOS) {
             return $this->tarefa->nome;
         }
@@ -358,7 +363,7 @@ class TaskTime extends Model
         if($this->type == self::TYPE_GESTAO_REPRESENTANTE_UNIDADE_EDUCACAO) {
             return $this->tarefa->nome;
         }
-        // - - - - - - - - - - 
+        // - - - - - - - - - -
     }
 
     /**
@@ -374,7 +379,7 @@ class TaskTime extends Model
     public function intervalTime($format = 'H:i:s') {
 
         $startTime = DateTime::createFromFormat('H:i:s', $this->start_time);
-        
+
         $endTime = DateTime::createFromFormat('H:i:s', $this->end_time);
 
         $interval = $startTime->diff($endTime);
@@ -427,7 +432,7 @@ class TaskTime extends Model
 
     public static function listTaskTypes($value = null) {
         $values = [
-            
+
             self::TYPE_ENSINO_AULA => '',
             self::TYPE_ENSINO_COORDENACAO_REGENCIA => '',
             self::TYPE_ENSINO_ORIENTACAO => '',
@@ -460,8 +465,8 @@ class TaskTime extends Model
         return $value != null ? $values[$value] : $values;
     }
 
-    /** 
-     * @param $floatValue 
+    /**
+     * @param $floatValue
      * @return string|time
     */
     public static function float_to_date_interval($float_value)
@@ -475,15 +480,15 @@ class TaskTime extends Model
 
         // Calcula os segundos
         $segundos = round(($minutos_decimal - $minutos) * 60);
-        
+
         /** @var DateInterval */
         $date_interval = new DateInterval("PT{$horas}H{$minutos}M{$segundos}S");
 
         return $date_interval;
     }
 
-    /** 
-     * @param $floatValue 
+    /**
+     * @param $floatValue
      * @return string|time
     */
     public static function convertFloatToHour($float_value)
@@ -497,7 +502,7 @@ class TaskTime extends Model
 
         // Calcula os segundos
         $segundos = round(($minutos_decimal - $minutos) * 60);
-        
+
         /** @var DateInterval */
         $date_interval = new DateInterval("PT{$horas}H{$minutos}M{$segundos}S");
 
@@ -532,7 +537,7 @@ class TaskTime extends Model
         return $hour;
     }
 
-    /** 
+    /**
      * @param $taskTimes
      * @return DateTime
      */
@@ -543,7 +548,7 @@ class TaskTime extends Model
         foreach($taskTimes as $taskTime) {
 
             $split_time = explode(":", $taskTime->intervalTime());
-            
+
             $hours = $split_time[0];
             $minutes = $split_time[1];
             $seconds = $split_time[2];
@@ -554,7 +559,7 @@ class TaskTime extends Model
         return $sumDateTime;
     }
 
-    /** 
+    /**
      * @param $taskTimes
      * @return DateTime
      */
@@ -584,10 +589,10 @@ class TaskTime extends Model
     public static function date_interval_to_minutes(DateInterval $date_interval) {
 
         [$days_to_minutes, $hours_to_minutes, $minutes]  = [($date_interval->d * 24 * 60), ($date_interval->h * 60), ($date_interval->i * 1)];
-        
+
         return $days_to_minutes + $hours_to_minutes + $minutes;
     }
-    /** 
+    /**
      * @param DateTime $dateTimeX
      * @param DateTime $dateTimeY
      * @return DateTime
@@ -600,13 +605,13 @@ class TaskTime extends Model
         $newDateTime = new DateTime($time_x);
 
         $split_time = explode(":", $time_y);
-        
+
         $hours = $split_time[0];
         $minutes = $split_time[1];
         $seconds = $split_time[2];
 
         $newDateTime->modify("+{$hours} hours +{$minutes} minutes +{$seconds} seconds");
-        
+
         return $newDateTime;
     }
 
@@ -614,7 +619,7 @@ class TaskTime extends Model
     public static function tarefaByStatic($type, $tarefa_id)
     {
         // Return Ensino Models
-        // - - - - - - - - - - 
+        // - - - - - - - - - -
         if($type == self::TYPE_ENSINO_ATENDIMENTO_DISCENTE) {
             return EnsinoAtendimentoDiscente::find($tarefa_id);
         }
@@ -650,10 +655,10 @@ class TaskTime extends Model
         if($type == self::TYPE_ENSINO_SUPERVISAO) {
             return EnsinoSupervisao::find($tarefa_id);
         }
-        // - - - - - - - - - - 
+        // - - - - - - - - - -
 
         // Return Pesquisa Models
-        // - - - - - - - - - - 
+        // - - - - - - - - - -
         if($type == self::TYPE_PESQUISA_COORDENACAO) {
             return PesquisaCoordenacao::find($tarefa_id);
         }
@@ -669,10 +674,10 @@ class TaskTime extends Model
         if($type == self::TYPE_PESQUISA_OUTROS) {
             return PesquisaOutros::find($tarefa_id);
         }
-        // - - - - - - - - - - 
+        // - - - - - - - - - -
 
         // Return Extensao Models
-        // - - - - - - - - - - 
+        // - - - - - - - - - -
         if($type == self::TYPE_EXTENSAO_COORDENACAO) {
             return ExtensaoCoordenacao::find($tarefa_id);
         }
@@ -684,10 +689,10 @@ class TaskTime extends Model
         if($type == self::TYPE_EXTENSAO_OUTROS) {
             return ExtensaoOutros::find($tarefa_id);
         }
-        // - - - - - - - - - - 
+        // - - - - - - - - - -
 
         // Return Gestao Models
-        // - - - - - - - - - - 
+        // - - - - - - - - - -
         if($type == self::TYPE_GESTAO_COORDENACAO_LABORATORIOS_DIDATICOS) {
             return GestaoCoordenacaoLaboratoriosDidaticos::find($tarefa_id);
         }
@@ -719,6 +724,6 @@ class TaskTime extends Model
         if($type == self::TYPE_GESTAO_REPRESENTANTE_UNIDADE_EDUCACAO) {
             return GestaoRepresentanteUnidadeEducacao::find($tarefa_id);
         }
-        // - - - - - - - - - - 
+        // - - - - - - - - - -
     }
 }

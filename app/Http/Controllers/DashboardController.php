@@ -44,7 +44,7 @@ class DashboardController extends Controller
             $userPads =
                 AvaliadorPad::where('user_id', '=', $user->id)
                 ->join('pad', 'avaliador_pad.pad_id', '=', 'pad.id')
-                ->where('pad.status', '=', Status::ATIVO)
+                ->whereIn('pad.status', [Status::ATIVO, Status::ARQUIVADO])
                 ->get();
 
             return view('dashboard', ['userPads' => $userPads, 'menu' => Menu::HOME]);

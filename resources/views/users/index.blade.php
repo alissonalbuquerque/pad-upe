@@ -40,7 +40,7 @@
                 <thead>
                     <tr>
                         <th scole="col">Nome</th>
-                        <th scole="col">Email</th>
+                        <th scole="col">E-mail</th>
                         <th scole="col">Status</th>
                         <th scole="col">Campus</th>
                         <th scole="col">Curso</th>

@@ -55,8 +55,8 @@
 
                     <div class="mb-4 col-12">
                         <div class="form-group">
-                            <label class="form-label" for="email"> E-Mail </label>
-                            <input type="text" name="email" id="email" class="form-control @error('email') is-invalid @enderror" placeholder="E-Mail" value="{{ $model->exists ? $model->email : old('email') }}">
+                            <label class="form-label" for="email"> E-mail </label>
+                            <input type="text" name="email" id="email" class="form-control @error('email') is-invalid @enderror" placeholder="E-mail" value="{{ $model->exists ? $model->email : old('email') }}">
                             @include('components.divs.errors', ['field' => 'email'])
                         </div>
                     </div>

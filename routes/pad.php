@@ -18,8 +18,7 @@ Route::prefix('/pad')->group(function () {
     Route::get('/{id}/professor/{professor_id}/atividades/pesquisa', [PadController::class, 'professor_atividades'])->name('pad_professor_atividades_pesquisa');
     Route::get('/{id}/professor/{professor_id}/atividades/gestao', [PadController::class, 'professor_atividades'])->name('pad_professor_atividades_gestao');
     Route::get('/{id}/professor/{professor_id}/atividades/extensao', [PadController::class, 'professor_atividades'])->name('pad_professor_atividades_extensao');
-
-//    Route::get('/{id}/professor/{professor_id}/atividades/extensao', [PadController::class, 'professor_atividades'])->name('pad_professor_atividades_extensao');
+    Route::get('/professor/view-calender/{id?}', [PadController::class, 'view_calender'])->name('mostrar_horario');
 });
 
 /** PadProfessor */

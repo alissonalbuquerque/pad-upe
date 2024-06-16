@@ -37,6 +37,7 @@ use App\Models\Tabelas\Pesquisa\PesquisaCoordenacao;
 use App\Models\Tabelas\Pesquisa\PesquisaLideranca;
 use App\Models\Tabelas\Pesquisa\PesquisaOrientacao;
 use App\Models\Tabelas\Pesquisa\PesquisaOutros;
+use App\Models\TaskTime;
 use App\Models\User;
 use App\Models\UserPad;
 use App\Models\UserType;
@@ -209,9 +210,11 @@ class PadController extends Controller
      * @param  integer $id
      * @return \Illuminate\Http\Response
      */
+
     public function edit(mixed $id, Request $request)
     {
         $menu = Menu::PADS;
+
         $pad = PAD::find($id);
         $status = Pad::listStatus();
 
@@ -270,13 +273,43 @@ class PadController extends Controller
         );
 
         if ($validated) {
+
             $model = Pad::find($id);
             $model->fill($request->all());
 
+            [$status_new, $status_old] = [$model->status, $model->getOriginal('status')];
+
             if ($model->save()) {
+
+                if($model->status == Pad::STATUS_ATIVO) {
+
+                    foreach($model->user_pads as $user_pad) {
+                        $user_pad->status = UserPad::STATUS_ATIVO;
+                        $user_pad->save();
+                    }
+
+                } else {
+
+                    foreach($model->user_pads as $user_pad) {
+                        
+                        if(in_array($status_old, [Pad::STATUS_INATIVO, Pad::STATUS_ARQUIVADO, Pad::STATUS_EM_AVALIACAO]) && $user_pad->status == UserPad::STATUS_ATIVO) {
+                            $user_pad->status = UserPad::STATUS_ATIVO;
+                            $user_pad->save();
+                        } else {
+                            $user_pad->status = UserPad::STATUS_INATIVO;
+                            $user_pad->save();
+                        }
+                        
+                    }
+
+                }
+
                 return redirect()->route('pad_index')->with('success', 'PAD atualizado com sucesso!');
+
             } else {
+
                 return redirect()->route('pad_index')->with('success', 'Erro ao atualizar o PAD!');
+
             }
         }
     }
@@ -312,10 +345,28 @@ class PadController extends Controller
         $user = Auth::user();
         $pad = Pad::find($id);
         $index_menu = MenuItemsAvaliador::HOME;
+
+        // [$user_id, $campus_id, $pad_id, $status_active] = [$user->id, $user->campus_id, $pad->id, PAD::STATUS_ATIVO];
+        // $professores =
+        //         User::join('user_pad', 'user_pad.user_id', '=', 'users.id')
+        //             ->join('pad', 'user_pad.pad_id', '=', 'pad.id')
+        //             ->where(function ($query) use ($user_id, $campus_id, $pad_id, $status_active)
+        //             {
+        //                 $query->where('pad.status', '=', $status_active);
+        //                 $query->where('users.campus_id', '=', $campus_id);
+        //                 $query->where('users.id', '!=', $user_id);
+        //                 $query->where('pad.id', '=', $pad_id);
+        //             })
+        //             ->select('users.id', 'users.name', 'users.email')
+        //             ->orderBy('users.name')
+        //             ->limit(10)
+        //             ->get();
+
         $professores = User::join('user_pad', 'user_pad.user_id', '=', 'users.id')
             ->join('pad', 'user_pad.pad_id', '=', 'pad.id')
             ->where(function ($query) use ($user, $id) {
-                $query->where('pad.status', '=', Status::ATIVO);
+                // $query->where('pad.status', '=', Status::ATIVO);
+                $query->whereIn('pad.status', [Pad::STATUS_ATIVO, Pad::STATUS_EM_AVALIACAO]);
                 $query->where('users.campus_id', '=', $user->campus_id);
                 $query->where('users.id', '!=', $user->id);
                 $query->where('pad.id', '=', $id);
@@ -324,14 +375,15 @@ class PadController extends Controller
             ->orderBy('name')
             ->get();
 
-        //Informando se o PAD foi enviado ou não
-        $avaliador_pad = AvaliadorPad::where(function ($query) use ($pad, $user) {
-            $query->where('user_id', '=', $user->id);
-            $query->where('pad_id', '=', $pad->id);
-        })->first();
+       //Informando se o PAD foi enviado ou não
+       $avaliador_pad = AvaliadorPad::where(function ($query) use ($pad, $user) {
+           $query->where('user_id', '=', $user->id);
+           $query->where('pad_id', '=', $pad->id);
+       })->first();
 
 
-        foreach ($professores as $professor){
+       foreach ($professores as $professor)
+       {
             $professor->status = "Pendente";
             $userPad = $professor->userPads()->where('pad_id', '=', $pad->id)->first();
 
@@ -348,16 +400,33 @@ class PadController extends Controller
             $avaliacoes_extensao_all = $avaliacoes_extensao? $avaliacoes_extensao->all() : null;
             $avaliacoes_gestao_all = $avaliacoes_gestao? $avaliacoes_gestao->all() : null;
 
-
             if($avaliacoes_ensino_all || $avaliacoes_pesquisa_all || $avaliacoes_extensao_all || $avaliacoes_gestao_all) {
                 $professor->status = "Enviado";
             }
 
-            $professor->ch = $this->get_carga_horaria_total($avaliacoes);
-            $professor->ch_corrigida = $this->get_carga_horaria_corrigida($avaliacoes_ensino, $avaliacoes_pesquisa, $avaliacoes_extensao, $avaliacoes_gestao);
-        }
+           if($avaliacoes_ensino_all || $avaliacoes_pesquisa_all || $avaliacoes_extensao_all || $avaliacoes_gestao_all) {
+               $professor->status = "Enviado";
+           }
+
+           $professor->ch = $this->get_carga_horaria_total($avaliacoes);
+           $professor->ch_corrigida = $this->get_carga_horaria_corrigida($avaliacoes_ensino, $avaliacoes_pesquisa, $avaliacoes_extensao, $avaliacoes_gestao);
+       }
 
         return view("pad.avaliacao.professores", compact('professores', 'pad', 'index_menu'));
+    }
+    
+    public function view_calender($id) {
+
+        $user_pad_ids = explode("-", $id);
+
+        $pad_data = explode("_", $user_pad_ids[0]);
+        $user_data = explode("_", $user_pad_ids[1]);
+        
+        [$pad_id, $user_id] = [$pad_data[1], $user_data[1]];
+        
+        $user_pad = UserPad::where("pad_id", "=", "{$pad_id}")->where("user_id", "=", "{$user_id}")->first();
+
+        return view("pad.avaliacao.view_modal", ['user_pad' => $user_pad]);
     }
 
     public function professor_atividades($id, $professor_id, $aba=null)
