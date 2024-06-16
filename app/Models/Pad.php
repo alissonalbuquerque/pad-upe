@@ -53,6 +53,7 @@ class Pad extends Model
         ];
 
         return $value !== null ? $values[$value] : $values;
+
     }
 
     /**
@@ -91,6 +92,17 @@ class Pad extends Model
      */
     public function avaliadorPads(){
         return $this->hasMany(AvaliadorPad::class, 'pad_id');
+    }
+
+    public static function listStatus($value = null) {
+
+        $values = [
+            self::STATUS_ATIVO => 'Ativo',
+            self::STATUS_INATIVO => 'Inativo',
+            self::STATUS_ARQUIVADO => 'Arquivado',
+        ];
+
+        return $value !== null? $values[$value] : $values;
     }
 }
 

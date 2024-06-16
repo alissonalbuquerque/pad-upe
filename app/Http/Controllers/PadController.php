@@ -7,6 +7,9 @@ use App\Http\Controllers\UserPadController;
 use App\Models\Avaliacao;
 use App\Models\AvaliadorPad;
 use App\Models\AvaliadorPadDimensao;
+use App\Search\AvaliadorPadSearch;
+use App\Search\UserPadSearch;
+use App\Search\UserSearch;
 use Illuminate\Http\Request;
 use App\Models\Pad;
 use App\Models\Tabelas\Constants;
@@ -203,24 +206,44 @@ class PadController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
+     * @param Illuminate\Http\Request
      * @param  integer $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {   
+
+    public function edit(mixed $id, Request $request)
+    {
         $menu = Menu::PADS;
 
         $pad = PAD::find($id);
-        $status = Pad::list_status();
-        $avaliadores_pad = $pad->avaliadorPads;
-        $user_pads = $pad->userPads()->paginate(10);
+        $status = Pad::listStatus();
+
+        $user_pad_search = new UserPadSearch();
+        $user_pad_search->pad_id = $id;
+        $user_pad_search->paginate = 50;
+
+        $avaliador_pad_search = new AvaliadorPadSearch();
+        $avaliador_pad_search->pad_id = $id;
+        $avaliador_pad_search->paginate = 50;
+
+        $query_params = $request->all();
+
+        if(isset($query_params['search_tab'])) {
+            $user_pads = ($query_params['search_tab'] == 'user_pad') ? $user_pad_search->search($query_params) : $user_pad_search->search();
+            $avaliador_pads = ($query_params['search_tab'] == 'avaliador_pad') ? $avaliador_pad_search->search($query_params) : $avaliador_pad_search->search();
+        } else {
+            $user_pads = $user_pad_search->search();
+            $avaliador_pads = $avaliador_pad_search->search();
+        }
 
         return view('pad.admin.edit', [
             'pad' => $pad,
             'menu' => $menu,
             'status' => $status,
-            'userPads' => $user_pads,
-            'avaliatorsPads' => $avaliadores_pad
+            'user_pads' => $user_pads,
+            'avaliador_pads' => $avaliador_pads,
+            'user_pad_search' => $user_pad_search,
+            'avaliador_pad_search' => $avaliador_pad_search
         ]);
     }
 
@@ -359,23 +382,27 @@ class PadController extends Controller
        })->first();
 
 
-       foreach ($professores as $professor){
-           $professor->status = "Pendente";
-           $userPad = $professor->userPads()->where('pad_id', '=', $pad->id)->first();
+       foreach ($professores as $professor)
+       {
+            $professor->status = "Pendente";
+            $userPad = $professor->userPads()->where('pad_id', '=', $pad->id)->first();
 
-           $avaliacoes = $this->get_avaliacoes($userPad, $avaliador_pad);
+            $avaliacoes = $this->get_avaliacoes($userPad, $avaliador_pad);
 
-           $avaliacoes_ensino = !empty($avaliacoes['ensino']) ? $avaliacoes['ensino'] : null;
-           $avaliacoes_pesquisa = !empty($avaliacoes['pesquisa']) ? $avaliacoes['pesquisa'] : null;
-           $avaliacoes_extensao = !empty($avaliacoes['extensao']) ? $avaliacoes['extensao'] : null;
-           $avaliacoes_gestao = !empty($avaliacoes['gestao']) ? $avaliacoes['gestao'] : null;
+            $avaliacoes_ensino = !empty($avaliacoes['ensino']) ? $avaliacoes['ensino'] : null;
+            $avaliacoes_pesquisa = !empty($avaliacoes['pesquisa']) ? $avaliacoes['pesquisa'] : null;
+            $avaliacoes_extensao = !empty($avaliacoes['extensao']) ? $avaliacoes['extensao'] : null;
+            $avaliacoes_gestao = !empty($avaliacoes['gestao']) ? $avaliacoes['gestao'] : null;
 
 
-           $avaliacoes_ensino_all = $avaliacoes_ensino? $avaliacoes_ensino->all() : null;
-           $avaliacoes_pesquisa_all = $avaliacoes_pesquisa? $avaliacoes_pesquisa->all() : null;
-           $avaliacoes_extensao_all = $avaliacoes_extensao? $avaliacoes_extensao->all() : null;
-           $avaliacoes_gestao_all = $avaliacoes_gestao? $avaliacoes_gestao->all() : null;
+            $avaliacoes_ensino_all = $avaliacoes_ensino? $avaliacoes_ensino->all() : null;
+            $avaliacoes_pesquisa_all = $avaliacoes_pesquisa? $avaliacoes_pesquisa->all() : null;
+            $avaliacoes_extensao_all = $avaliacoes_extensao? $avaliacoes_extensao->all() : null;
+            $avaliacoes_gestao_all = $avaliacoes_gestao? $avaliacoes_gestao->all() : null;
 
+            if($avaliacoes_ensino_all || $avaliacoes_pesquisa_all || $avaliacoes_extensao_all || $avaliacoes_gestao_all) {
+                $professor->status = "Enviado";
+            }
 
            if($avaliacoes_ensino_all || $avaliacoes_pesquisa_all || $avaliacoes_extensao_all || $avaliacoes_gestao_all) {
                $professor->status = "Enviado";
