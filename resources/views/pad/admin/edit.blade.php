@@ -17,24 +17,41 @@
         <h3 class="h4"> PDA - Atualizar </h3>
     </div>
 
+    @php
+        $tab = isset($tab) ? $tab : 'pad';
+
+        $tab_options_tab = [
+            'pad'           => $tab == 'pad'           ? 'active' : '',
+            'user_pad'      => $tab == 'user_pad'      ? 'active' : '',
+            'avaliator_pad' => $tab == 'avaliator_pad' ? 'active' : '',
+        ];
+
+        $tab_options_panel = [
+            'pad'           => $tab == 'pad'           ? 'show active' : '',
+            'user_pad'      => $tab == 'user_pad'      ? 'show active' : '',
+            'avaliador_pad' => $tab == 'avaliator_pad' ? 'show active' : '',
+        ];
+
+        dd($tab_options_tab['avaliador_pad']);
+    @endphp
     <!-- Tabs -->
     <div>
         <ul class="nav nav-tabs">
             <li class="nav-item" role="presentation">
-                <a class="nav-link {{ $tab == 'pad' ? 'active' : '' }}" href="{{ route('edit', ['id' => $pad->id, 'tab' => 'pad']) }}">PDA</a>
+                <a class="nav-link {{ $tab_options_tab['pad'] }}">PDA</a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link {{ $tab == 'user_pad' ? 'active' : '' }}" href="{{ route('edit', ['id' => $pad->id, 'tab' => 'user_pad']) }}">Professores</a>
+                <a class="nav-link {{ $tab_options_tab['user_pad'] }}">Professores</a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link {{ $tab == 'avaliator_pad' ? 'active' : '' }}" href="{{ route('edit', ['id' => $pad->id, 'tab' => 'avaliator_pad']) }}">Avaliadores</a>
+                <a class="nav-link {{ $tab_options_tab['avaliator_pad'] }}">Avaliadores</a>
             </li>
         </ul>
     </div>
 
     <!-- Panels -->
     <div class="tab-content">
-        <div class="tab-pane fade {{ $tab == 'pad' ? 'show active' : '' }}" id="pad-container">
+        <div class="tab-pane fade {{ $tab_options_panel['pad'] }}" id="pad-container">
             <div class="mt-2 px-2">
                 <form class="form" action="{{ route('pad_update', ['id' => $pad->id]) }}" method="post">
                     @csrf
@@ -55,7 +72,7 @@
             </div>
         </div>
 
-        <div class="tab-pane fade {{ $tab == 'user_pad' ? 'show active' : '' }}" id="user_pad-container">
+        <div class="tab-pane fade {{ $tab_options_panel['user_pad'] }}" id="user_pad-container">
             <div class="border rounded px-2">
                 <div class="text-end my-2">
                     <button type="button" class="btn btn-success user-pad-create">Cadastrar Professor</button>
@@ -89,7 +106,7 @@
             </div>
         </div>
 
-        <div class="tab-pane fade {{ $tab == 'avaliator_pad' ? 'show active' : '' }}" id="avaliator_pad-container">
+        <div class="tab-pane fade {{ $tab_options_panel['avaliator_pad'] }}" id="avaliator_pad-container">
             <div class="border rounded px-2">
                 <div class="text-end my-2">
                     <button type="button" class="btn btn-success avaliator-pad-create">Cadastrar Avaliador</button>
