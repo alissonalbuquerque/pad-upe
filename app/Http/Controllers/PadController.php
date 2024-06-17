@@ -203,9 +203,10 @@ class PadController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  integer $id
+     * @param  Request $request
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $menu = Menu::PADS;
         $pad = PAD::find($id);
@@ -221,8 +222,11 @@ class PadController extends Controller
         // dd($pad->id);
         // dd($userPads, $userPads->links());
 
+        $tab = $request->query('tab');
+
         return view('pad.admin.edit', [
             'pad' => $pad,
+            'tab' => $tab,
             'menu' => $menu,
             'status' => $status,
             'userPads' => $userPads,
