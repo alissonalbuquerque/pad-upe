@@ -210,8 +210,8 @@ class PadController extends Controller
     {
         $menu = Menu::PADS;
         $pad = PAD::find($id);
-        $userPads = $pad->userPads()->paginate(50);
-        $avaliatorsPads = $pad->avaliadorPads()->paginate(50);
+        $userPads = $pad->userPads()->paginate(50, ['*'], 'page_professor');
+        $avaliatorsPads = $pad->avaliadorPads()->paginate(50, ['*'], 'page_avaliador');
         $status = Constants::listStatus();
 
         //Se a página atual for 1 remova o previous
