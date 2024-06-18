@@ -1,5 +1,7 @@
 @php
     use App\Models\Util\Status;
+    use App\Models\Pad;
+    use App\Models\UserPad;
 @endphp
 
 <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -13,23 +15,41 @@
         </h3> --}}
     </div>
     <div class="d-flex">
-        @foreach($userPads as $userPad)
-            @if($userPad->pad->status === Status::ATIVO)
-                <div class="card mx-2" style="width: 12rem;">
+        @foreach($userPads as $user_pad)
 
+            @if($user_pad->pad_status === Pad::STATUS_ATIVO || $user_pad->status === UserPad::STATUS_ATIVO)
+
+                <div class="card mx-2" style="width: 12rem;">
                     <div class="card-body">
                         <div class="text-end">
-                            <span class="badge bg-primary">{{ $userPad->pad->statusAsString() }}</span>
+                            <span class="badge bg-primary">{{ $user_pad->pad->statusAsString() }}</span>
                         </div>
                         <h1 class="text-center"> <i class="bi bi-book-half"></i> </h1>
-                        <h5 class="text-center"> PDA: {{ $userPad->pad->nome }} </h4>
+                        <h5 class="text-center"> PDA: {{ $user_pad->pad->nome }} </h4>
                         <div class="text-center">
-                            <h4 class="h5"> <span class="badge bg-primary">Horas: {{ $userPad->totalHoras() }}</span> </h4>
+                            <h4 class="h5"> <span class="badge bg-primary">Horas: {{ $user_pad->totalHoras() }}</span> </h4>
                         </div>
-                        <a class="stretched-link" href="{{ route('pad_view', ['id' => $userPad->id]) }}"></a>
+                        <a class="stretched-link" href="{{ route('pad_view', ['id' => $user_pad->id]) }}"></a>
                     </div>
-                    
                 </div>
+
+            @endif
+
+            @if($user_pad->pad->status === Pad::STATUS_EM_AVALIACAO && $user_pad->status !== UserPad::STATUS_ATIVO)
+
+                <div class="card mx-2 bg-secondary" style="width: 12rem;">
+                    <div class="card-body">
+                        <div class="text-end">
+                            <span class="badge bg-primary">{{ $user_pad->pad->statusAsString() }}</span>
+                        </div>
+                        <h1 class="text-center"> <i class="bi bi-book-half"></i> </h1>
+                        <h5 class="text-center"> PDA: {{ $user_pad->pad->nome }} </h4>
+                        <div class="text-center">
+                            <h4 class="h5"> <span class="badge bg-primary">Horas: {{ $user_pad->totalHoras() }}</span> </h4>
+                        </div>
+                    </div>
+                </div>
+
             @endif
         @endforeach
     </div>

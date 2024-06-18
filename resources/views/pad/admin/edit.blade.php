@@ -1,3 +1,15 @@
+@php
+    /**
+     * @var $pad App\Models\Pad
+     * @var $menu integer
+     * @var $status integer
+     * @var $user_pads Illuminate\Database\Eloquent\Collection<App\Models\UserPad>
+     * @var $avaliador_pads Illuminate\Database\Eloquent\Collection<App\Models\AvaliadorPad>
+     * @var $user_pad_search App\Search\UserPadSearch
+     * @var $avaliador_pad_search App\Search\AvaliadorPadSearch
+     */
+@endphp
+
 @extends('layouts.main')
 
 @section('title', 'Novo')
@@ -73,7 +85,11 @@
                             <label class="form-label" for="status">Status</label>
                             <select class="form-select @error('status') is-invalid @enderror" name="status" id="status">
                                 @foreach($status as $value => $content)
-                                    <option value="{{$value}}">{{$content}}</option>
+                                    @if($pad->status == $value)
+                                        <option selected value="{{$value}}">{{$content}}</option>
+                                    @else
+                                        <option value="{{$value}}">{{$content}}</option>    
+                                    @endif
                                 @endforeach
                             </select>
                             @error('status')
@@ -127,6 +143,8 @@
 
             <div class="border rounded px-2">
 
+                @include('pad/admin/search/_user_pad_search', ['model' => $user_pad_search])
+
                 {{-- Create Professor --}}
                 <div class="text-end my-2">
                     <button type="button" class="btn btn-success user-pad-create"> Cadastrar Professor </button>
@@ -138,18 +156,23 @@
                     <thead>
                         <tr>
                             <th scope="col"> Professor </th>
-                            <th scope="col"> PDA </th>
-                            <th scope="col"> C.H </th>
-                            <th scope="col"> Opções </th>
+                            <th scope="col"> PDA       </th>
+                            <th scope="col"> E-mail    </th>
+                            <th scope="col"> Status    </th>
+                            <th scope="col"> C.H       </th>
+                            <th scope="col"> Opções    </th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        @foreach($userPads as $userPad)
+                        @foreach($user_pads as $user_pad)
                         <tr>
-                            <td>{{ $userPad->user }}</td>
-                            <td>{{ $userPad->pad->nome }}</td>
-                            <td> <span class="badge bg-primary">{{ $userPad->totalHoras() }}</span> </td>
+                            <td>{{ $user_pad->user }}</td>
+                            <td>{{ $user_pad->pad->nome }}</td>
+                            <td>{{ $user_pad->user->email }}</td>
+                            <td> <span class="badge bg-primary">{{ $user_pad->status_as_text() }}</span> </td>
+                            <td> <span class="badge bg-primary">{{ $user_pad->total_horas() }}</span> </td>
+                            <td> <a href="{{ route('user_pad_alter_status', $user_pad->id) }}"> <i class="bi bi-arrow-repeat"></i> </a> </td>    
                         </tr>
                         @endforeach
                     </tbody>
@@ -157,15 +180,14 @@
                 {{-- Table --}}
 
                 {{-- Pagination --}}
-
                 <ul class="pagination justify-content-end">
                     {{-- <li class="page-item"> <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a> </li>
                     <li class="page-item"><a class="page-link" href="">1</a></li>
                     <li class="page-item"><a class="page-link" href="#">2</a></li>
                     <li class="page-item"><a class="page-link" href="#">3</a></li>
                     <li class="page-item"> <a class="page-link" href="#">Próximo</a> </li> --}}
-
-                    {{ $userPads->appends(['tab' => 'user_pad', 'page_avaliador' => $avaliatorsPads->currentPage()])->links() }}
+                    
+                    {{ $user_pads->appends(['tab' => 'user_pad', 'page_avaliador' => $avaliatorsPads->currentPage()])->links() }}
                 </ul>
                 {{-- Pagination --}}
 
@@ -177,6 +199,8 @@
 
             <div class="border rounded px-2">
 
+                @include('pad/admin/search/_avaliador_pad_search', ['model' => $avaliador_pad_search])
+
                 <div class="text-end my-2">
                     <button type="button" class="btn btn-success avaliator-pad-create"> Cadastrar Avaliador </button>
                 </div>
@@ -185,6 +209,7 @@
                     <thead>
                     <tr>
                         <th scope="col"> Avaliador </th>
+                        <th scope="col"> E-mail </th>
                         <th scope="col"> PDA </th>
                         <th scope="col"> Dimensão </th>
                         <th scope="col"> Opções </th>
@@ -192,12 +217,13 @@
                     </thead>
 
                     <tbody>
-                    @foreach($avaliatorsPads as $avaliatorPad)
+                    @foreach($avaliador_pads as $avaliador_pad)
                     <tr>
-                        <td>{{ $avaliatorPad->user->name ?? 'UserID não selecionado!' }}</td>
-                        <td>{{ $avaliatorPad->pad->nome }}</td>
+                        <td>{{ $avaliador_pad->user->name ?? 'UserID não selecionado!' }}</td>
+                        <td>{{ $avaliador_pad->user->email }}</td>
+                        <td>{{ $avaliador_pad->pad->nome }}</td>
                         <td>
-                            @foreach($avaliatorPad->dimensions as $dimension)
+                            @foreach($avaliador_pad->dimensions as $dimension)
                                 <span class="badge bg-primary">{{ $dimension }}</span>
                             @endforeach
                         </td>
@@ -206,13 +232,13 @@
                                 <div class="me-1">
                                     @include('components.buttons.btn-edit-task', [
                                         'btn_class' => 'btn-edit_avaliador_pad',
-                                        'btn_id' => $avaliatorPad->id,
+                                        'btn_id' => $avaliador_pad->id,
                                     ])
                                 </div>
                                 <div class="me-1">
                                     @include('components.buttons.btn-delete', [
-                                        'id' => $avaliatorPad->id,
-                                        'route' => route('avaliador-pad_delete', ['id' => $avaliatorPad->id])
+                                        'id' => $avaliador_pad->id,
+                                        'route' => route('avaliador-pad_delete', ['id' => $avaliador_pad->id])
                                     ])
                                 </div>
                             </div>
@@ -226,7 +252,7 @@
 
                 {{-- Pagination --}}
                 <ul class="pagination justify-content-end" id="avaliator_pad-pagination">
-                    {{ $avaliatorsPads->appends(['tab' => 'avaliador_pad', 'page_professor' => $userPads->currentPage()])->links() }}
+                    {{ $avaliatorsPads->appends(['tab' => 'avaliador_pad', 'page_professor' => $user_pads->currentPage()])->links() }}
                 </ul>
                 {{-- Pagination --}}
 

@@ -38,7 +38,9 @@ require __DIR__ . '/avaliador_pad.php';
 require __DIR__ . '/professor_pad.php';
 
 require __DIR__ . '/unidade.php';
+
 require __DIR__ . '/campus.php';
+
 require __DIR__ . '/curso.php';
 
 require __DIR__ . '/anexo.php';
@@ -51,11 +53,16 @@ require __DIR__ . '/Task.php';
 
 require __DIR__ . '/task_time.php';
 
+require __DIR__ . '/user_pad.php';
+
 require __DIR__ . '/dimensao/dimensao.php';
 
 require __DIR__ . '/dimensao/ensino.php';
+
 require __DIR__ . '/dimensao/gestao.php';
+
 require __DIR__ . '/dimensao/pesquisa.php';
+
 require __DIR__ . '/dimensao/extensao.php';
 
 require __DIR__ . '/import/update_user.php';

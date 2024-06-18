@@ -12,6 +12,18 @@ class Pad extends Model
 {
     use HasFactory;
 
+    const STATUS_ATIVO = 1;
+    const STATUS_INATIVO = 2;
+    const STATUS_ARQUIVADO = 3;
+    const STATUS_EM_AVALIACAO = 4;
+
+    const STATUS_PENDENTE = 3;
+    const ARQUIVADO = 4;
+    const FINALIZADO = 5;
+    const REPROVADO = 6;
+    const APROVADO = 7;
+    const EM_REVISAO = 8;
+
     /** @var string */
     protected $table = 'pad';
 
@@ -25,7 +37,23 @@ class Pad extends Model
      * @return string
      * */
     public function statusAsString() {
-        return Status::listStatus($this->status);
+        return self::list_status($this->status);
+    }
+
+    /**
+     * @return string|array
+     */
+    public static function list_status($value = null)
+    {
+        $values = [
+            self::STATUS_ATIVO          => 'ATIVO',
+            self::STATUS_INATIVO        => 'INATIVO',
+            self::STATUS_ARQUIVADO      => 'ARQUIVADO',
+            self::STATUS_EM_AVALIACAO   => 'EM AVALIAÇÃO',
+        ];
+
+        return $value !== null ? $values[$value] : $values;
+
     }
 
     /**
@@ -52,10 +80,29 @@ class Pad extends Model
 
     /**
      * @return Illuminate\Database\Eloquent\Collection
+     * @return Collection<UserPad>
+     */
+    public function user_pads() {
+        return $this->userPads();
+    }
+
+    /**
+     * @return Illuminate\Database\Eloquent\Collection
      * @return Collection<AvaliadorPad>
      */
     public function avaliadorPads(){
         return $this->hasMany(AvaliadorPad::class, 'pad_id');
+    }
+
+    public static function listStatus($value = null) {
+
+        $values = [
+            self::STATUS_ATIVO => 'Ativo',
+            self::STATUS_INATIVO => 'Inativo',
+            self::STATUS_ARQUIVADO => 'Arquivado',
+        ];
+
+        return $value !== null? $values[$value] : $values;
     }
 }
 

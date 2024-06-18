@@ -29,6 +29,7 @@ class Constants {
     const STATUS_ATIVO = 1;
     const STATUS_INATIVO = 2;
     const STATUS_ARQUIVADO = 3;
+    const STATUS_EM_AVALIACAO = 4;
 
     const DIMENSAO_ENSINO = 1;
     const DIMENSAO_PESQUISA = 2;
@@ -132,6 +133,7 @@ class Constants {
             self::STATUS_ATIVO => 'Ativo',
             self::STATUS_INATIVO => 'Inativo',
             self::STATUS_ARQUIVADO => 'Arquivado',
+            self::STATUS_EM_AVALIACAO => 'Periodo de Avaliação'
         ];
     
         return $value !== null? $values[$value] : $values;

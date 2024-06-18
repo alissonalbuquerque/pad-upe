@@ -31,12 +31,15 @@ use App\Models\Pad;
 use App\Models\Util\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use DateTime;
 
 //remover tabela de user_pad
 
 class UserPad extends Model
 {
-    use HasFactory;
+    const STATUS_DEFAULT = 0;
+    const STATUS_ATIVO   = 1;
+    const STATUS_INATIVO = 2;
 
     /** @var string */
     protected $table = 'user_pad';
@@ -60,6 +63,27 @@ class UserPad extends Model
         return new UserPadQuery(get_called_class());
     }
 
+    /**
+     * @return string
+     * */
+    public function status_as_text() {
+        return self::list_status($this->status);
+    }
+
+    /**
+     * @return string|array
+     */
+    public static function list_status($value = null)
+    {
+        $values = [
+            self::STATUS_DEFAULT        => 'ATIVO (EM LOTE)',
+            self::STATUS_ATIVO          => 'ATIVO',
+            self::STATUS_INATIVO        => 'INATIVO',
+        ];
+
+        return $value !== null ? $values[$value] : $values;
+    }
+
     public static function rules() {
         return [
 
@@ -68,13 +92,13 @@ class UserPad extends Model
 
     public static function messages() {
         return [
-            
+
         ];
     }
 
     public function totalHoras()
-    {   
-        $ensinoTotalHoras = 
+    {
+        $ensinoTotalHoras =
             EnsinoAtendimentoDiscente::whereUserPadId($this->id)->sum('ch_semanal')
             + EnsinoAula::whereUserPadId($this->id)->sum('ch_semanal')
             + EnsinoCoordenacaoRegencia::whereUserPadId($this->id)->sum('ch_semanal')
@@ -84,8 +108,8 @@ class UserPad extends Model
             + EnsinoParticipacao::whereUserPadId($this->id)->sum('ch_semanal')
             + EnsinoProjeto::whereUserPadId($this->id)->sum('ch_semanal')
             + EnsinoSupervisao::whereUserPadId($this->id)->sum('ch_semanal');
-        
-        $gestaoTotalHoras = 
+
+        $gestaoTotalHoras =
             GestaoCoordenacaoLaboratoriosDidaticos::whereUserPadId($this->id)->sum('ch_semanal')
             + GestaoCoordenacaoProgramaInstitucional::whereUserPadId($this->id)->sum('ch_semanal')
             + GestaoMembroCamaras::whereUserPadId($this->id)->sum('ch_semanal')
@@ -94,7 +118,7 @@ class UserPad extends Model
             + GestaoMembroTitularConselho::whereUserPadId($this->id)->sum('ch_semanal')
             + GestaoOutros::whereUserPadId($this->id)->sum('ch_semanal')
             + GestaoRepresentanteUnidadeEducacao::whereUserPadId($this->id)->sum('ch_semanal');
-        
+
         $pesquisaTotalHoras =
             PesquisaCoordenacao::whereUserPadId($this->id)->sum('ch_semanal')
             + PesquisaLideranca::whereUserPadId($this->id)->sum('ch_semanal')
@@ -111,7 +135,21 @@ class UserPad extends Model
         return $totalHoras;
     }
 
-    /*  
+    public function total_horas()
+    {
+        $date_interval = TaskTime::float_to_date_interval($this->totalHoras());
+
+        [$hours, $minutes] = [$date_interval->format('%h'), $date_interval->format('%i')];
+
+        $hours   = strlen($hours) < 2 ? str_pad($hours, 2, '0', STR_PAD_LEFT) : $hours;
+        $minutes = strlen($minutes) < 2 ? str_pad($minutes, 2, '0', STR_PAD_LEFT) : $minutes;
+
+        $date_format = "{$hours}:{$minutes}";
+
+        return $date_format;
+    }
+
+    /*
     * @RELATIONS (relações entre tarefas)
     */
     public function ensinoAtendimentoDiscentes() {
@@ -150,7 +188,7 @@ class UserPad extends Model
         return $this->hasMany(EnsinoSupervisao::class, 'user_pad_id', 'id');
     }
 
-    
+
     public function extensaoCoordenacoes() {
         return $this->hasMany(ExtensaoCoordenacao::class, 'user_pad_id', 'id');
     }
@@ -163,7 +201,7 @@ class UserPad extends Model
         return $this->hasMany(ExtensaoOutros::class, 'user_pad_id', 'id');
     }
 
-    
+
     public function gestaoCoordenacaoLaboratoriosDidaticos() {
         return $this->hasMany(GestaoCoordenacaoLaboratoriosDidaticos::class, 'user_pad_id', 'id');
     }
@@ -196,7 +234,7 @@ class UserPad extends Model
         return $this->hasMany(GestaoRepresentanteUnidadeEducacao::class, 'user_pad_id', 'id');
     }
 
-    
+
     public function pesquisaCoordenacoes() {
         return $this->hasMany(PesquisaCoordenacao::class, 'user_pad_id', 'id');
     }
@@ -204,11 +242,11 @@ class UserPad extends Model
     public function pesquisaLiderancas() {
         return $this->hasMany(PesquisaLideranca::class, 'user_pad_id', 'id');
     }
-    
+
     public function pesquisaOrientacoes() {
         return $this->hasMany(PesquisaOrientacao::class, 'user_pad_id', 'id');
     }
-    
+
     public function pesquisaOutros() {
         return $this->hasMany(PesquisaOutros::class, 'user_pad_id', 'id');
     }
