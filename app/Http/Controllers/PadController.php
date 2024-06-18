@@ -208,13 +208,12 @@ class PadController extends Controller
      *
      * @param Illuminate\Http\Request
      * @param  integer $id
+     * @param  Request $request
      * @return \Illuminate\Http\Response
      */
-
-    public function edit(mixed $id, Request $request)
+    public function edit(Request $request, $id)
     {
         $menu = Menu::PADS;
-
         $pad = PAD::find($id);
         $status = Pad::listStatus();
 
@@ -226,6 +225,9 @@ class PadController extends Controller
         $avaliador_pad_search->pad_id = $id;
         $avaliador_pad_search->paginate = 50;
 
+        $user_pads = $pad->userPads()->paginate(50, ['*'], 'page_professor');
+        $avaliador_pads = $pad->avaliadorPads()->paginate(50, ['*'], 'page_avaliador');
+
         $query_params = $request->all();
 
         if(isset($query_params['search_tab'])) {
@@ -236,8 +238,11 @@ class PadController extends Controller
             $avaliador_pads = $avaliador_pad_search->search();
         }
 
+        $tab = $request->query('tab');
+
         return view('pad.admin.edit', [
             'pad' => $pad,
+            'tab' => $tab,
             'menu' => $menu,
             'status' => $status,
             'user_pads' => $user_pads,
@@ -400,6 +405,10 @@ class PadController extends Controller
             $avaliacoes_extensao_all = $avaliacoes_extensao? $avaliacoes_extensao->all() : null;
             $avaliacoes_gestao_all = $avaliacoes_gestao? $avaliacoes_gestao->all() : null;
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
             if($avaliacoes_ensino_all || $avaliacoes_pesquisa_all || $avaliacoes_extensao_all || $avaliacoes_gestao_all) {
                 $professor->status = "Enviado";
             }

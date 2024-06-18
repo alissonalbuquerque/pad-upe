@@ -29,17 +29,34 @@
         <h3 class="h4"> PDA - Atualizar </h3>
     </div>
 
+    @php
+        $tab = isset($tab) ? $tab : 'pad';
+
+        $tab_options_tab = [
+            'pad'           => $tab == 'pad'           ? 'active' : '',
+            'user_pad'      => $tab == 'user_pad'      ? 'active' : '',
+            'avaliador_pad' => $tab == 'avaliador_pad' ? 'active' : '',
+        ];
+
+        $tab_options_panel = [
+            'pad'           => $tab == 'pad'           ? 'show active' : '',
+            'user_pad'      => $tab == 'user_pad'      ? 'show active' : '',
+            'avaliador_pad' => $tab == 'avaliador_pad' ? 'show active' : '',
+        ];
+
+    @endphp
+
     <!-- Tabs -->
     <div>
         <ul class="nav nav-tabs">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="pad-tab" data-bs-toggle="tab" data-bs-target="#pad-container" type="button" role="tab" aria-controls="pad-container" arial-selected="true"> PDA </button>
+                <button class="nav-link {{ $tab_options_tab['pad'] }}" id="pad-tab" data-bs-toggle="tab" data-bs-target="#pad-container" type="button" role="tab" aria-controls="pad-container" arial-selected="true"> PDA </button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="user_pad-tab" data-bs-toggle="tab" data-bs-target="#user_pad-container" type="button" role="tab" aria-controls="user_pad-container" arial-selected="false"> Professores </button>
+                <button class="nav-link {{ $tab_options_tab['user_pad'] }}" id="user_pad-tab" data-bs-toggle="tab" data-bs-target="#user_pad-container" type="button" role="tab" aria-controls="user_pad-container" arial-selected="false"> Professores </button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="avaliator_pad-tab" data-bs-toggle="tab" data-bs-target="#avaliator_pad-container" type="button" role="tab" aria-controls="avaliator_pad-container" arial-selected="false"> Avaliadores </button>
+                <button class="nav-link {{ $tab_options_tab['avaliador_pad'] }}" id="avaliator_pad-tab" data-bs-toggle="tab" data-bs-target="#avaliator_pad-container" type="button" role="tab" aria-controls="avaliator_pad-container" arial-selected="false"> Avaliadores </button>
             </li>
         </ul>
     </div>
@@ -47,7 +64,7 @@
     <!-- Panels -->
     <div id="tab-containers" class="tab-content">
 
-        <div id="pad-container" class="tab-pane fade show active" role="tabpanel" aria-labelledby="pad-tab">
+        <div id="pad-container" class="tab-pane fade {{ $tab_options_panel['pad'] }}" role="tabpanel" aria-labelledby="pad-tab">
             <div class="mt-2 px-2">
 
                 <form class="form" action="{{route('pad_update', ['id' => $pad->id])}}" method="post">
@@ -122,7 +139,7 @@
             </div>
         </div>
 
-        <div id="user_pad-container" class="tab-pane fade" role="tabpanel" aria-labelledby="user_pad-tab">
+        <div id="user_pad-container" class="tab-pane fade {{ $tab_options_panel['user_pad'] }}" role="tabpanel" aria-labelledby="user_pad-tab">
 
             <div class="border rounded px-2">
 
@@ -169,8 +186,8 @@
                     <li class="page-item"><a class="page-link" href="#">2</a></li>
                     <li class="page-item"><a class="page-link" href="#">3</a></li>
                     <li class="page-item"> <a class="page-link" href="#">Próximo</a> </li> --}}
-
-                    {{ $user_pads->links() }}
+                    
+                    {{ $user_pads->appends(['tab' => 'user_pad', 'page_avaliador' => $avaliatorsPads->currentPage()])->links() }}
                 </ul>
                 {{-- Pagination --}}
 
@@ -178,7 +195,7 @@
 
         </div>
 
-        <div id="avaliator_pad-container" class="tab-pane fade" role="tabpanel" aria-labelledby="user_pad-tab">
+        <div id="avaliator_pad-container" class="tab-pane fade {{ $tab_options_panel['avaliador_pad'] }}" role="tabpanel" aria-labelledby="user_pad-tab">
 
             <div class="border rounded px-2">
 
@@ -187,7 +204,7 @@
                 <div class="text-end my-2">
                     <button type="button" class="btn btn-success avaliator-pad-create"> Cadastrar Avaliador </button>
                 </div>
-
+                {{-- Table --}}
                 <table id="avaliator_pad-table" class="table table-hover">
                     <thead>
                     <tr>
@@ -231,6 +248,13 @@
                     </tbody>
 
                 </table>
+                {{-- Table --}}
+
+                {{-- Pagination --}}
+                <ul class="pagination justify-content-end" id="avaliator_pad-pagination">
+                    {{ $avaliatorsPads->appends(['tab' => 'avaliador_pad', 'page_professor' => $user_pads->currentPage()])->links() }}
+                </ul>
+                {{-- Pagination --}}
 
             </div>
 
@@ -262,3 +286,4 @@
         'btn_class' => 'btn-edit_avaliador_pad',
     ])
 @endsection
+
