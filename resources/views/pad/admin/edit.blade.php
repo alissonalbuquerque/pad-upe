@@ -187,7 +187,7 @@
                     <li class="page-item"><a class="page-link" href="#">3</a></li>
                     <li class="page-item"> <a class="page-link" href="#">Próximo</a> </li> --}}
                     
-                    {{ $user_pads->appends(['tab' => 'user_pad', 'page_avaliador' => $avaliatorsPads->currentPage()])->links() }}
+                    {{ $user_pads->appends(['tab' => 'user_pad', 'page_avaliador' => $avaliador_pads->currentPage()])->links() }}
                 </ul>
                 {{-- Pagination --}}
 
@@ -252,7 +252,7 @@
 
                 {{-- Pagination --}}
                 <ul class="pagination justify-content-end" id="avaliator_pad-pagination">
-                    {{ $avaliatorsPads->appends(['tab' => 'avaliador_pad', 'page_professor' => $user_pads->currentPage()])->links() }}
+                    {{ $avaliador_pads->appends(['tab' => 'avaliador_pad', 'page_professor' => $user_pads->currentPage()])->links() }}
                 </ul>
                 {{-- Pagination --}}
 
