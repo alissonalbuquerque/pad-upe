@@ -13,7 +13,7 @@
         <div class="row">
 
             <div>
-                <input type="hidden" name="search_tab" value="avaliador_pad">
+                <input type="hidden" name="tab" value="avaliador_pad">
             </div>
 
             <div>
