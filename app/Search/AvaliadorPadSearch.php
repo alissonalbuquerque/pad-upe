@@ -64,7 +64,7 @@ class AvaliadorPadSearch extends Model
         /** @var Illuminate\Database\Eloquent\Builder */
         $query = AvaliadorPad::where([]);
 
-        $query->join('users', 'users.id', '=', 'avaliador_pad.user_id');
+        $query->join('users', 'users.id', '=', 'avaliador_pad.user_id')->orderBy('users.name', 'asc');
 
         $this->load($params);
 

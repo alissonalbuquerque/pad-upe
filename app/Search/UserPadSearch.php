@@ -63,7 +63,7 @@ class UserPadSearch extends Model
         /** @var Illuminate\Database\Eloquent\Builder */
         $query = UserPad::where([]);
 
-        $query->join('users', 'users.id', '=', 'user_pad.user_id');
+        $query->join('users', 'users.id', '=', 'user_pad.user_id')->orderBy('users.name', 'asc');
 
         $this->load($params);
 
