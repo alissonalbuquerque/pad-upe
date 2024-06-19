@@ -225,18 +225,16 @@ class PadController extends Controller
         $avaliador_pad_search->pad_id = $id;
         $avaliador_pad_search->paginate_attributes = ['per_page' => 50, 'columns' => ['*'], 'page_name' => 'page_avaliador'];
 
-        /** @var array */
-        $query_params = $request->all();
+        /** @var array|array */
+        [$tab, $query_params] = [$request->query('tab'), $request->query()];
 
-        if(isset($query_params['search_tab'])) {
-            $user_pads      = ($query_params['search_tab'] == 'user_pad')      ? $user_pad_search->search($query_params)      : $user_pad_search->search();
-            $avaliador_pads = ($query_params['search_tab'] == 'avaliador_pad') ? $avaliador_pad_search->search($query_params) : $avaliador_pad_search->search();
+        if(isset($tab)) {
+            $user_pads      = ($tab == 'user_pad')      ? $user_pad_search->search($query_params)      : $user_pad_search->search();
+            $avaliador_pads = ($tab == 'avaliador_pad') ? $avaliador_pad_search->search($query_params) : $avaliador_pad_search->search();
         } else {
             $user_pads      = $user_pad_search->search();
             $avaliador_pads = $avaliador_pad_search->search();
         }
-
-        $tab = $request->query('tab');
 
         return view('pad.admin.edit', [
             'pad' => $pad,
