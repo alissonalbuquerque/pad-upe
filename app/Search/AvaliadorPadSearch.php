@@ -23,7 +23,13 @@ class AvaliadorPadSearch extends Model
     public $pad_id;
 
     /** @var integer */
-    public $paginate;
+    public $paginate_enable = true;
+
+    /** @var integer */
+    public $paginate_attributes = ['per_page' => 10, 'columns' => ['*'], 'page_name' => 'page'];
+
+    /** @var integer|array|string  */
+    public $paginate_per_page, $paginate_columns, $paginate_page_name;
 
     /** @var array */
     public $_attributes = ['name', 'email', 'user_id', 'pad_id', 'paginate'];
@@ -41,6 +47,15 @@ class AvaliadorPadSearch extends Model
                 $this->$_attribute = null;
             }
         }
+
+        /* @var integer */
+        $this->paginate_per_page    = $this->paginate_attributes['per_page'];
+
+        /* @var array */
+        $this->paginate_columns     = $this->paginate_attributes['columns'];
+
+        /* @var string */
+        $this->paginate_page_name   = $this->paginate_attributes['page_name'];
     }
 
     /** @return Illuminate\Database\Eloquent\Collection */
@@ -73,7 +88,7 @@ class AvaliadorPadSearch extends Model
             $query->where("pad_id", '=', "{$pad_id}");
         }
 
-        return $this->paginate ? $query->get()->paginate($this->paginate) : $query->get();
+        return $this->paginate_enable ? $query->paginate($this->paginate_per_page, $this->paginate_columns, $this->paginate_page_name) : $query->get();
     }
 
     /** @return Illuminate\Database\Eloquent\Relations\BelongsTo */

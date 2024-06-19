@@ -223,19 +223,16 @@ class PadController extends Controller
 
         $avaliador_pad_search = new AvaliadorPadSearch();
         $avaliador_pad_search->pad_id = $id;
-        // $user_pad_search->paginate_attributes = ['per_page' => 50, 'columns' => ['*'], 'page_name' => 'page_professor']; //to implements
-        $avaliador_pad_search->paginate = 50;
+        $avaliador_pad_search->paginate_attributes = ['per_page' => 50, 'columns' => ['*'], 'page_name' => 'page_avaliador'];
 
-        // $user_pads = $pad->userPads()->paginate(50, ['*'], 'page_professor');
-        // $avaliador_pads = $pad->avaliadorPads()->paginate(50, ['*'], 'page_avaliador');
-
+        /** @var array */
         $query_params = $request->all();
 
         if(isset($query_params['search_tab'])) {
             $user_pads      = ($query_params['search_tab'] == 'user_pad')      ? $user_pad_search->search($query_params)      : $user_pad_search->search();
             $avaliador_pads = ($query_params['search_tab'] == 'avaliador_pad') ? $avaliador_pad_search->search($query_params) : $avaliador_pad_search->search();
         } else {
-            $user_pads = $user_pad_search->search();
+            $user_pads      = $user_pad_search->search();
             $avaliador_pads = $avaliador_pad_search->search();
         }
 
@@ -405,7 +402,7 @@ class PadController extends Controller
             $avaliacoes_pesquisa_all = $avaliacoes_pesquisa? $avaliacoes_pesquisa->all() : null;
             $avaliacoes_extensao_all = $avaliacoes_extensao? $avaliacoes_extensao->all() : null;
             $avaliacoes_gestao_all = $avaliacoes_gestao? $avaliacoes_gestao->all() : null;
-            
+
             if($avaliacoes_ensino_all || $avaliacoes_pesquisa_all || $avaliacoes_extensao_all || $avaliacoes_gestao_all) {
                 $professor->status = "Enviado";
             }
