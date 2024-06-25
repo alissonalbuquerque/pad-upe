@@ -24,7 +24,7 @@ use NunoMaduro\Collision\Adapters\Phpunit\State;
 class UserController extends Controller
 {
     public function editPerfil($tab = null)
-    {   
+    {
         return view('user.update_perfil', [
             'tab' => $tab,
             'menu' => Menu::USER,
@@ -32,7 +32,7 @@ class UserController extends Controller
     }
 
     public function updatePerfil(Request $request)
-    {   
+    {
         $user_id = Auth::user()->id;
         $validator = User::validator($request->all(), $user_id);
 
@@ -67,7 +67,7 @@ class UserController extends Controller
     public function actionIndex(Request $request)
     {
         $model_search = new UserSearch();
-        
+
         $users = $model_search->search($request->all());
 
         return view('users.index', [
@@ -77,7 +77,7 @@ class UserController extends Controller
 
     // Admin
     public function actionCreate()
-    {   
+    {
         $model = new User();
 
         return view('users.create', [
@@ -88,7 +88,7 @@ class UserController extends Controller
     }
 
     public function actionStore(Request $request)
-    {   
+    {
         $validator = User::validator($request->all(), null, true, ['curso_id', 'campus_id']);
 
         if($validator->fails()) {
@@ -111,7 +111,7 @@ class UserController extends Controller
     }
 
     public function actionEdit(Request $request, $id)
-    {   
+    {
         $model = User::find($id);
         $profiles = $model->profiles;
         $status = [
@@ -135,7 +135,7 @@ class UserController extends Controller
     }
 
     public function actionUpdate(Request $request, $id)
-    {   
+    {
         $model = User::find($id);
 
         $validator = User::validator($request->all(), $model->id, true, ['curso_id', 'campus_id']);
@@ -155,7 +155,17 @@ class UserController extends Controller
 
     public function actionDelete($id)
     {
-        dd($id);
+        $user = User::find($id);
+        if (!$user) {
+            return redirect()->route('user_index')->with('fail', 'Usuário não encontrado!');
+        }
+
+        try {
+            $user->delete();
+            return redirect()->route('user_index')->with('success', 'Usuário deletado com sucesso!');
+        } catch (\Exception $e) {
+            return redirect()->route('user_index')->with('fail', 'Falha ao deletar o usuário!');
+        }
     }
 
     public function actionChangeProfile($user_id, $user_type_id)
@@ -176,11 +186,11 @@ class UserController extends Controller
     }
 
     public function actionImport(Request $request)
-    {   
+    {
         $request->validate(['file' => 'required|mimes:csv,txt,xlx,xls,xlsx,pdf|max:2048']);
-        
+
         $file = $request->file;
-        	
+
         $excel = Excel::toArray(new UsersImport, $file)[0];
 
         unset($excel[0]);
@@ -195,11 +205,11 @@ class UserController extends Controller
         $importCount = 0;
         $duplicados = 0;
         foreach($excel as $row)
-        {   
+        {
             $email = trim(strtolower($row[7]));
 
             $userQuery = User::initQuery()->whereEmail($email)->first();
-            
+
             if($userQuery === null) {
 
                 $password = explode("@", $email);
@@ -235,7 +245,7 @@ class UserController extends Controller
 
     public function actionImportView()
     {
-        return view('users.importView');   
+        return view('users.importView');
     }
 
     /**
@@ -243,9 +253,9 @@ class UserController extends Controller
      * @params Illuminate\Http\Request\Request
      */
     public function actionSearch(Request $request)
-    {   
+    {
         // QueryParams
-        $q = $request->query('q'); 
+        $q = $request->query('q');
         $id = $request->query('id');
         $remove_avaliators_by_pad_id = $request->query('remove_avaliators_by_pad_id');
 
@@ -268,7 +278,7 @@ class UserController extends Controller
 
         $users = $user->get();
 
-        $array = 
+        $array =
             $users->map(function($user, $key)
             {
                 return [
