@@ -215,7 +215,7 @@ class PadController extends Controller
     {
         $menu = Menu::PADS;
         $pad = PAD::find($id);
-        $status = Pad::listStatus();
+        $status = Pad::list_status();
 
         $user_pad_search = new UserPadSearch();
         $user_pad_search->pad_id = $id;

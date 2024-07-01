@@ -1,4 +1,6 @@
 @php
+    use App\Models\UserPad;
+
     /**
      * @var $pad App\Models\Pad
      * @var $menu integer
@@ -170,8 +172,14 @@
                             <td>{{ $user_pad->user }}</td>
                             <td>{{ $user_pad->pad->nome }}</td>
                             <td>{{ $user_pad->user->email }}</td>
-                            <td> <span class="badge bg-primary">{{ $user_pad->status_as_text() }}</span> </td>
+
+                            @php
+                                $badge_status_css = $user_pad->status != UserPad::STATUS_INATIVO ? 'badge bg-primary' : 'badge bg-danger';
+                            @endphp
+                            <td> <span class="{{$badge_status_css}}">{{ $user_pad->status_as_text() }}</span> </td>
+
                             <td> <span class="badge bg-primary">{{ $user_pad->total_horas() }}</span> </td>
+
                             <td> <a href="{{ route('user_pad_alter_status', $user_pad->id) }}"> <i class="bi bi-arrow-repeat"></i> </a> </td>    
                         </tr>
                         @endforeach
