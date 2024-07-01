@@ -88,6 +88,8 @@ class AvaliadorPadSearch extends Model
 
         $query->join('users', 'users.id', '=', 'avaliador_pad.user_id')->whereNull('users.deleted_at')->orderBy('users.name', 'asc');
 
+        $query->select('avaliador_pad.*');
+
         return $this->paginate_enable ? $query->paginate($this->paginate_per_page, $this->paginate_columns, $this->paginate_page_name) : $query->get();
     }
 

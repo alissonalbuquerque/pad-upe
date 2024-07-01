@@ -429,6 +429,6 @@ class UserPadController extends Controller
 
         $user_pad->save();
 
-        return redirect()->route('pad_edit', $user_pad->pad_id)->with('success', 'Status Atualizado!');
+        return redirect()->route('pad_edit', ['id' => $user_pad->pad_id, 'tab' => 'user_pad'])->with('success', 'Status Atualizado!');
     }
 }

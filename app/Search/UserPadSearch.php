@@ -87,6 +87,8 @@ class UserPadSearch extends Model
 
         $query->join('users', 'users.id', '=', 'user_pad.user_id')->whereNull('users.deleted_at')->orderBy('users.name', 'asc');
 
+        $query->select('user_pad.*');
+
         return $this->paginate_enable ? $query->paginate($this->paginate_per_page, $this->paginate_columns, $this->paginate_page_name) : $query->get();
     }
 
