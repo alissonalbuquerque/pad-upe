@@ -292,7 +292,7 @@ class PadController extends Controller
                 } else {
 
                     foreach($model->user_pads as $user_pad) {
-                        
+
                         if(in_array($status_old, [Pad::STATUS_INATIVO, Pad::STATUS_ARQUIVADO, Pad::STATUS_EM_AVALIACAO]) && $user_pad->status == UserPad::STATUS_ATIVO) {
                             $user_pad->status = UserPad::STATUS_ATIVO;
                             $user_pad->save();
@@ -300,7 +300,7 @@ class PadController extends Controller
                             $user_pad->status = UserPad::STATUS_INATIVO;
                             $user_pad->save();
                         }
-                        
+
                     }
 
                 }
@@ -340,6 +340,8 @@ class PadController extends Controller
 
         return redirect('/pad/index');
     }
+
+    //TASK - MURILO
 
     public function professores($id)
     {
@@ -382,7 +384,6 @@ class PadController extends Controller
            $query->where('pad_id', '=', $pad->id);
        })->first();
 
-
        foreach ($professores as $professor)
        {
             $professor->status = "Pendente";
@@ -395,36 +396,48 @@ class PadController extends Controller
             $avaliacoes_extensao = !empty($avaliacoes['extensao']) ? $avaliacoes['extensao'] : null;
             $avaliacoes_gestao = !empty($avaliacoes['gestao']) ? $avaliacoes['gestao'] : null;
 
-
             $avaliacoes_ensino_all = $avaliacoes_ensino? $avaliacoes_ensino->all() : null;
             $avaliacoes_pesquisa_all = $avaliacoes_pesquisa? $avaliacoes_pesquisa->all() : null;
             $avaliacoes_extensao_all = $avaliacoes_extensao? $avaliacoes_extensao->all() : null;
             $avaliacoes_gestao_all = $avaliacoes_gestao? $avaliacoes_gestao->all() : null;
 
-            if($avaliacoes_ensino_all || $avaliacoes_pesquisa_all || $avaliacoes_extensao_all || $avaliacoes_gestao_all) {
+            $has_atividades = $avaliacoes_ensino_all || $avaliacoes_pesquisa_all || $avaliacoes_extensao_all || $avaliacoes_gestao_all;
+
+            if ($has_atividades) {
                 $professor->status = "Enviado";
             }
 
-           if($avaliacoes_ensino_all || $avaliacoes_pesquisa_all || $avaliacoes_extensao_all || $avaliacoes_gestao_all) {
-               $professor->status = "Enviado";
-           }
-
            $professor->ch = $this->get_carga_horaria_total($avaliacoes);
            $professor->ch_corrigida = $this->get_carga_horaria_corrigida($avaliacoes_ensino, $avaliacoes_pesquisa, $avaliacoes_extensao, $avaliacoes_gestao);
-       }
 
+            // Verifica se todas as avaliações estão com status pendente
+            $all_avaliados = true;
+            if ($has_atividades) {
+                foreach ($avaliacoes as $dimensao => $avaliacaoList) {
+                    foreach ($avaliacaoList as $avaliacao) {
+                        if ($avaliacao->status == Avaliacao::STATUS_PENDENTE) {
+                            $all_avaliados = false;
+                            break 2;
+                        }
+                    }
+                }
+                //Professor recebe status de 'Avaliado' se suas atividas receberem uma avaliação
+                if ($all_avaliados) {
+                    $professor->status = 'Avaliado';
+                }
+            }
+        }
         return view("pad.avaliacao.professores", compact('professores', 'pad', 'index_menu'));
     }
-    
     public function view_calender($id) {
 
         $user_pad_ids = explode("-", $id);
 
         $pad_data = explode("_", $user_pad_ids[0]);
         $user_data = explode("_", $user_pad_ids[1]);
-        
+
         [$pad_id, $user_id] = [$pad_data[1], $user_data[1]];
-        
+
         $user_pad = UserPad::where("pad_id", "=", "{$pad_id}")->where("user_id", "=", "{$user_id}")->first();
 
         return view("pad.avaliacao.view_modal", ['user_pad' => $user_pad]);
@@ -455,6 +468,7 @@ class PadController extends Controller
         $avaliacoes_pesquisa = !empty($avaliacoes['pesquisa']) && $avaliacoes['pesquisa']->count() ? $avaliacoes['pesquisa']->paginate(5) : [];
         $avaliacoes_extensao = !empty($avaliacoes['extensao']) && $avaliacoes['extensao']->count() ? $avaliacoes['extensao']->paginate(5) : [];
         $avaliacoes_gestao   = !empty($avaliacoes['gestao'])   && $avaliacoes['gestao']->count()   ? $avaliacoes['gestao']->paginate(5)   : [];
+
 
         //Informando quais tipos (ensino, pesquisa, extensão ou gestão) de atividades podem ser avaliadas pelo usuário logado.
         $avalPad = $user->avaliadorPad()->first();
