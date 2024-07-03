@@ -341,8 +341,6 @@ class PadController extends Controller
         return redirect('/pad/index');
     }
 
-    //TASK - MURILO
-
     public function professores($id)
     {
         $user = Auth::user();
