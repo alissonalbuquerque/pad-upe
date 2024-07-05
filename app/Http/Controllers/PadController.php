@@ -368,6 +368,8 @@ class PadController extends Controller
             ->where(function ($query) use ($user, $id) {
                 // $query->where('pad.status', '=', Status::ATIVO);
                 $query->whereIn('pad.status', [Pad::STATUS_ATIVO, Pad::STATUS_EM_AVALIACAO]);
+                $query->where('users.status', '=', Status::ATIVO);
+                $query->whereNull('users.deleted_at');
                 $query->where('users.campus_id', '=', $user->campus_id);
                 $query->where('users.id', '!=', $user->id);
                 $query->where('pad.id', '=', $id);
@@ -956,6 +958,8 @@ class PadController extends Controller
             ->join('pad', 'user_pad.pad_id', '=', 'pad.id')
             ->where(function ($query) use ($user, $id) {
                 $query->where('pad.status', '=', Status::ATIVO);
+                $query->where('users.status', '=', Status::ATIVO);
+                $query->whereNull('users.deleted_at');
                 $query->where('users.campus_id', '=', $user->campus_id);
                 $query->where('users.id', '!=', $user->id);
                 $query->where('pad.id', '=', $id);
