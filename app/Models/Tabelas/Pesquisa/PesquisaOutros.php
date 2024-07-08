@@ -36,7 +36,7 @@ class PesquisaOutros extends Model
         return [
             'cod_atividade' => ['required', 'string', 'max:255'],
             'atividade' => ['required', 'string', 'max:255'],
-            'descricao' => ['required', 'string', 'max:255'],
+            'descricao' => ['required', 'string', 'max:1000'],
         ];
     }
 
