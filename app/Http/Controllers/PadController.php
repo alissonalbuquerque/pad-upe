@@ -349,48 +349,18 @@ class PadController extends Controller
         $index_menu = MenuItemsAvaliador::HOME;
         $teacher_search = new TeacherAvaliatorSearch();
         $teacher_search->pad_id = $id;
-        $teacher_search->user_id = $user->id;
-        //$teacher_search->paginate = ['per_page' => 5, 'columns' => ['*'], 'page_name' => 'page_professor'];
-       
-        $teacher_search->campus_id = $id;
+        $teacher_search->user_id = $user->id;       
+        $teacher_search->campus_id = $user->campus_id;
         $query_params = $request->query();
+        
+        //trantando o pad_status para ser um array
         if(!isset($query_params['pad_status'])){
             $teacher_search->pad_status = [Pad::STATUS_ATIVO, Pad::STATUS_EM_AVALIACAO];
         }else{
             $query_params['pad_status'] = [$query_params['pad_status']];
         }
 
-        // [$user_id, $campus_id, $pad_id, $status_active] = [$user->id, $user->campus_id, $pad->id, PAD::STATUS_ATIVO];
-        // $professores =
-        //         User::join('user_pad', 'user_pad.user_id', '=', 'users.id')
-        //             ->join('pad', 'user_pad.pad_id', '=', 'pad.id')
-        //             ->where(function ($query) use ($user_id, $campus_id, $pad_id, $status_active)
-        //             {
-        //                 $query->where('pad.status', '=', $status_active);
-        //                 $query->where('users.campus_id', '=', $campus_id);
-        //                 $query->where('users.id', '!=', $user_id);
-        //                 $query->where('pad.id', '=', $pad_id);
-        //             })
-        //             ->select('users.id', 'users.name', 'users.email')
-        //             ->orderBy('users.name')
-        //             ->limit(10)
-        //             ->get();
-
-        /*$professores = User::join('user_pad', 'user_pad.user_id', '=', 'users.id')
-            ->join('pad', 'user_pad.pad_id', '=', 'pad.id')
-            ->where(function ($query) use ($user, $id) {
-                // $query->where('pad.status', '=', Status::ATIVO);
-                $query->whereIn('pad.status', [Pad::STATUS_ATIVO, Pad::STATUS_EM_AVALIACAO]);
-                $query->where('users.status', '=', Status::ATIVO);
-                $query->whereNull('users.deleted_at');
-                $query->where('users.campus_id', '=', $user->campus_id);
-                $query->where('users.id', '!=', $user->id);
-                $query->where('pad.id', '=', $id);
-            })
-            ->select('users.id', 'users.name')
-            ->orderBy('name')
-            ->get();*/
-        
+        //Realiza a busca
         $professores = $teacher_search->search($query_params);
 
        //Informando se o PAD foi enviado ou não
