@@ -1,12 +1,12 @@
 <?php
 
 /**
- * @var $model App\Models\UserSearch
+ * @var $model App\Models\TeacherAvaliatorSearch
  */
 
 ?>
 
-<form action="{{ route('user_index') }}" method="get">
+<form action="{{ route('pad_professores', ['id' => $model->pad_id]) }}  " method="get">
 
     <div class="row">
 
@@ -26,11 +26,12 @@
 
     </div>
 
+    {{--
     <div class="row">
 
         <div class="mb-3 col-6">
             <div class="form-group">
-                <label class="form-label" for="campus_id"> Status </label>
+                <label class="form-label" for="campus_id"> Campus </label>
                 <select class="form-control" name="campus_id" id="campus_id">
                     @if($model->campus_id)
                         <option value="{{$model->campus_id}}" selected> {{$model->campus}} </option>
@@ -39,7 +40,7 @@
             </div>
         </div>
 
-    </div>
+    </div>--}}
 
     <button type="submit" class="btn btn-primary"> Buscar </button>
 

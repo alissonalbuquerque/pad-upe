@@ -10,6 +10,7 @@ use App\Models\AvaliadorPadDimensao;
 use App\Search\AvaliadorPadSearch;
 use App\Search\UserPadSearch;
 use App\Search\UserSearch;
+use App\Search\TeacherAvaliatorSearch;
 use Illuminate\Http\Request;
 use App\Models\Pad;
 use App\Models\Tabelas\Constants;
@@ -341,11 +342,23 @@ class PadController extends Controller
         return redirect('/pad/index');
     }
 
-    public function professores($id)
+    public function professores(Request $request, $id)
     {
         $user = Auth::user();
         $pad = Pad::find($id);
         $index_menu = MenuItemsAvaliador::HOME;
+        $teacher_search = new TeacherAvaliatorSearch();
+        $teacher_search->pad_id = $id;
+        $teacher_search->user_id = $user->id;
+        //$teacher_search->paginate = ['per_page' => 5, 'columns' => ['*'], 'page_name' => 'page_professor'];
+       
+        $teacher_search->campus_id = $id;
+        $query_params = $request->query();
+        if(!isset($query_params['pad_status'])){
+            $teacher_search->pad_status = [Pad::STATUS_ATIVO, Pad::STATUS_EM_AVALIACAO];
+        }else{
+            $query_params['pad_status'] = [$query_params['pad_status']];
+        }
 
         // [$user_id, $campus_id, $pad_id, $status_active] = [$user->id, $user->campus_id, $pad->id, PAD::STATUS_ATIVO];
         // $professores =
@@ -363,7 +376,7 @@ class PadController extends Controller
         //             ->limit(10)
         //             ->get();
 
-        $professores = User::join('user_pad', 'user_pad.user_id', '=', 'users.id')
+        /*$professores = User::join('user_pad', 'user_pad.user_id', '=', 'users.id')
             ->join('pad', 'user_pad.pad_id', '=', 'pad.id')
             ->where(function ($query) use ($user, $id) {
                 // $query->where('pad.status', '=', Status::ATIVO);
@@ -376,7 +389,9 @@ class PadController extends Controller
             })
             ->select('users.id', 'users.name')
             ->orderBy('name')
-            ->get();
+            ->get();*/
+        
+        $professores = $teacher_search->search($query_params);
 
        //Informando se o PAD foi enviado ou não
        $avaliador_pad = AvaliadorPad::where(function ($query) use ($pad, $user) {
@@ -427,7 +442,7 @@ class PadController extends Controller
                 }
             }
         }
-        return view("pad.avaliacao.professores", compact('professores', 'pad', 'index_menu'));
+        return view("pad.avaliacao.professores", compact('professores', 'pad', 'index_menu', 'teacher_search'));
     }
     public function view_calender($id) {
 

@@ -1,9 +1,8 @@
 <?php
 
-use Illuminate\Database\Eloquent\Model;
-
 namespace App\Search;
 
+use Illuminate\Database\Eloquent\Model;
 use App\Models\Campus;
 use App\Models\User;
 
@@ -55,7 +54,10 @@ class TeacherAvaliatorSearch extends Model
         $query = User::where([]);
 
         $query->join('user_pad', 'user_pad.user_id', '=', 'users.id')
-              ->join('pad', 'user_pad.pad_id', '=', 'pad.id');
+              ->join('pad', 'user_pad.pad_id', '=', 'pad.id')
+              ->select('users.id', 'users.name')
+              ->orderBy('name');
+
 
         $this->load($params);
 
@@ -86,7 +88,7 @@ class TeacherAvaliatorSearch extends Model
 
         if($this->pad_status) {
             $pad_status = $this->pad_status;
-            $query->where("pad.status", '=', "{$pad_status}");
+            $query->whereIn("pad.status", $pad_status);
         }
 
         return $this->paginate ? $query->get()->paginate($this->paginate) : $query->get();
