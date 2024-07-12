@@ -49,12 +49,17 @@ use App\Models\Util\MenuItemsAdmin;
 use App\Models\Util\MenuItemsTeacher;
 use App\Models\Util\Status;
 use App\Models\Util\MenuItemsAvaliador;
+use App\Mail\ProfessorAvaliadoMail;
 use Database\Seeders\PadSeeder;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Mail\Mailable;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ProfessorAvaliacaoMail;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+
 
 class PadController extends Controller
 {
@@ -347,43 +352,24 @@ class PadController extends Controller
         $pad = Pad::find($id);
         $index_menu = MenuItemsAvaliador::HOME;
 
-        // [$user_id, $campus_id, $pad_id, $status_active] = [$user->id, $user->campus_id, $pad->id, PAD::STATUS_ATIVO];
-        // $professores =
-        //         User::join('user_pad', 'user_pad.user_id', '=', 'users.id')
-        //             ->join('pad', 'user_pad.pad_id', '=', 'pad.id')
-        //             ->where(function ($query) use ($user_id, $campus_id, $pad_id, $status_active)
-        //             {
-        //                 $query->where('pad.status', '=', $status_active);
-        //                 $query->where('users.campus_id', '=', $campus_id);
-        //                 $query->where('users.id', '!=', $user_id);
-        //                 $query->where('pad.id', '=', $pad_id);
-        //             })
-        //             ->select('users.id', 'users.name', 'users.email')
-        //             ->orderBy('users.name')
-        //             ->limit(10)
-        //             ->get();
-
         $professores = User::join('user_pad', 'user_pad.user_id', '=', 'users.id')
             ->join('pad', 'user_pad.pad_id', '=', 'pad.id')
             ->where(function ($query) use ($user, $id) {
-                // $query->where('pad.status', '=', Status::ATIVO);
                 $query->whereIn('pad.status', [Pad::STATUS_ATIVO, Pad::STATUS_EM_AVALIACAO]);
                 $query->where('users.campus_id', '=', $user->campus_id);
                 $query->where('users.id', '!=', $user->id);
                 $query->where('pad.id', '=', $id);
             })
-            ->select('users.id', 'users.name')
-            ->orderBy('name')
+            ->select('users.id', 'users.name', 'users.email')
+            ->orderBy('users.name')
             ->get();
 
-       //Informando se o PAD foi enviado ou não
-       $avaliador_pad = AvaliadorPad::where(function ($query) use ($pad, $user) {
-           $query->where('user_id', '=', $user->id);
-           $query->where('pad_id', '=', $pad->id);
-       })->first();
+        $avaliador_pad = AvaliadorPad::where(function ($query) use ($pad, $user) {
+            $query->where('user_id', '=', $user->id);
+            $query->where('pad_id', '=', $pad->id);
+        })->first();
 
-       foreach ($professores as $professor)
-       {
+        foreach ($professores as $professor) {
             $professor->status = "Pendente";
             $userPad = $professor->userPads()->where('pad_id', '=', $pad->id)->first();
 
@@ -394,10 +380,10 @@ class PadController extends Controller
             $avaliacoes_extensao = !empty($avaliacoes['extensao']) ? $avaliacoes['extensao'] : null;
             $avaliacoes_gestao = !empty($avaliacoes['gestao']) ? $avaliacoes['gestao'] : null;
 
-            $avaliacoes_ensino_all = $avaliacoes_ensino? $avaliacoes_ensino->all() : null;
-            $avaliacoes_pesquisa_all = $avaliacoes_pesquisa? $avaliacoes_pesquisa->all() : null;
-            $avaliacoes_extensao_all = $avaliacoes_extensao? $avaliacoes_extensao->all() : null;
-            $avaliacoes_gestao_all = $avaliacoes_gestao? $avaliacoes_gestao->all() : null;
+            $avaliacoes_ensino_all = $avaliacoes_ensino ? $avaliacoes_ensino->all() : null;
+            $avaliacoes_pesquisa_all = $avaliacoes_pesquisa ? $avaliacoes_pesquisa->all() : null;
+            $avaliacoes_extensao_all = $avaliacoes_extensao ? $avaliacoes_extensao->all() : null;
+            $avaliacoes_gestao_all = $avaliacoes_gestao ? $avaliacoes_gestao->all() : null;
 
             $has_atividades = $avaliacoes_ensino_all || $avaliacoes_pesquisa_all || $avaliacoes_extensao_all || $avaliacoes_gestao_all;
 
@@ -405,8 +391,10 @@ class PadController extends Controller
                 $professor->status = "Enviado";
             }
 
-           $professor->ch = $this->get_carga_horaria_total($avaliacoes);
-           $professor->ch_corrigida = $this->get_carga_horaria_corrigida($avaliacoes_ensino, $avaliacoes_pesquisa, $avaliacoes_extensao, $avaliacoes_gestao);
+            $professor->ch = $this->get_carga_horaria_total($avaliacoes);
+            $professor->ch_corrigida = $this->get_carga_horaria_corrigida($avaliacoes_ensino, $avaliacoes_pesquisa, $avaliacoes_extensao, $avaliacoes_gestao);
+
+            $atividadesDetalhes = [];
 
             // Verifica se todas as avaliações estão com status pendente
             $all_avaliados = true;
@@ -415,16 +403,44 @@ class PadController extends Controller
                     foreach ($avaliacaoList as $avaliacao) {
                         if ($avaliacao->status == Avaliacao::STATUS_PENDENTE) {
                             $all_avaliados = false;
-                            break 2;
+                            break;
                         }
                     }
+                    if (!$all_avaliados) break;
                 }
-                //Professor recebe status de 'Avaliado' se suas atividas receberem uma avaliação
+
                 if ($all_avaliados) {
                     $professor->status = 'Avaliado';
+                    $atividades = array_merge(
+                        $avaliacoes_ensino ? $avaliacoes_ensino->all() : [],
+                        $avaliacoes_pesquisa ? $avaliacoes_pesquisa->all() : [],
+                        $avaliacoes_extensao ? $avaliacoes_extensao->all() : [],
+                        $avaliacoes_gestao ? $avaliacoes_gestao->all() : []
+                    );
+
+                    // Monta os detalhes das atividades para o email
+                    foreach ($atividades as $atividade) {
+
+                        //Tentativa de usar o TaskTime pra pegar as informações
+                        $taskTime = TaskTime::find($atividade->tarefa_id);
+                        $nomeAtividade = $taskTime ? $taskTime->getName() : 'Atividade Desconhecida';
+                        dd($nomeAtividade);
+
+                        $atividadesDetalhes[] = [
+                            'nome' => $nomeAtividade,
+                            'descricao' => $atividade->descricao,
+                            'status' => $atividade->status,
+                            'horas_reajuste' => $atividade->horas_reajuste,
+                        ];
+                    }
+
+                    // Envia e-mail de notificação para o professor avaliado.
+                    //Subistituir o email para um pessoal para pode ver o email chegando
+                    Mail::to('murilormleal@gmail.com')->send(new ProfessorAvaliadoMail($professor, $atividadesDetalhes));
                 }
             }
         }
+
         return view("pad.avaliacao.professores", compact('professores', 'pad', 'index_menu'));
     }
     public function view_calender($id) {
