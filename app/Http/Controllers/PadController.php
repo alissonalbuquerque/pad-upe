@@ -424,7 +424,7 @@ class PadController extends Controller
                         //Tentativa de usar o TaskTime pra pegar as informações
                         $taskTime = TaskTime::find($atividade->tarefa_id);
                         $nomeAtividade = $taskTime ? $taskTime->getName() : 'Atividade Desconhecida';
-                        dd($nomeAtividade);
+                        // dd($nomeAtividade);
 
                         $atividadesDetalhes[] = [
                             'nome' => $nomeAtividade,
