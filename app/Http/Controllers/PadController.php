@@ -395,19 +395,26 @@ class PadController extends Controller
             $professor->ch_corrigida = $this->get_carga_horaria_corrigida($avaliacoes_ensino, $avaliacoes_pesquisa, $avaliacoes_extensao, $avaliacoes_gestao);
 
             $atividadesDetalhes = [];
+        $aprovadas = 0;
+        $reprovadas = 0;
 
-            // Verifica se todas as avaliações estão com status pendente
-            $all_avaliados = true;
-            if ($has_atividades) {
-                foreach ($avaliacoes as $dimensao => $avaliacaoList) {
-                    foreach ($avaliacaoList as $avaliacao) {
-                        if ($avaliacao->status == Avaliacao::STATUS_PENDENTE) {
-                            $all_avaliados = false;
-                            break;
-                        }
+        // Verifica se todas as avaliações estão com status pendente
+        $all_avaliados = true;
+        if ($has_atividades) {
+            foreach ($avaliacoes as $dimensao => $avaliacaoList) {
+                foreach ($avaliacaoList as $avaliacao) {
+                    if ($avaliacao->status == Avaliacao::STATUS_PENDENTE) {
+                        $all_avaliados = false;
+                        break;
                     }
-                    if (!$all_avaliados) break;
+                    if ($avaliacao->status == Avaliacao::STATUS_APROVADO) {
+                        $aprovadas++;
+                    } elseif ($avaliacao->status == Avaliacao::STATUS_REPROVADO) {
+                        $reprovadas++;
+                    }
                 }
+                if (!$all_avaliados) break;
+            }
 
                 if ($all_avaliados) {
                     $professor->status = 'Avaliado';
@@ -421,13 +428,7 @@ class PadController extends Controller
                     // Monta os detalhes das atividades para o email
                     foreach ($atividades as $atividade) {
 
-                        //Tentativa de usar o TaskTime pra pegar as informações
-                        $taskTime = TaskTime::find($atividade->tarefa_id);
-                        $nomeAtividade = $taskTime ? $taskTime->getName() : 'Atividade Desconhecida';
-                        // dd($nomeAtividade);
-
                         $atividadesDetalhes[] = [
-                            'nome' => $nomeAtividade,
                             'descricao' => $atividade->descricao,
                             'status' => $atividade->status,
                             'horas_reajuste' => $atividade->horas_reajuste,
@@ -435,8 +436,9 @@ class PadController extends Controller
                     }
 
                     // Envia e-mail de notificação para o professor avaliado.
-                    //Subistituir o email para um pessoal para pode ver o email chegando
-                    Mail::to('murilormleal@gmail.com')->send(new ProfessorAvaliadoMail($professor, $atividadesDetalhes));
+                    // Subistituir o email para um pessoal para pode ver o email chegando
+                    // Mail::to('emaildetesteaqui')->send(new ProfessorAvaliadoMail($professor, $atividadesDetalhes, $aprovadas, $reprovadas));
+                    Mail::to($professor->email)->send(new ProfessorAvaliadoMail($professor, $atividadesDetalhes, $aprovadas, $reprovadas));
                 }
             }
         }

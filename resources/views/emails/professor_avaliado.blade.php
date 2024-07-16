@@ -8,21 +8,21 @@
 
     <p>Suas atividades foram avaliadas. Aqui estão os detalhes:</p>
 
+    <p>Quantidade de atividades aprovadas: {{ $aprovadas }}</p>
+    <p>Quantidade de atividades reprovadas: {{ $reprovadas }}</p>
+
     <ul>
         @foreach($atividadesDetalhes as $atividade)
-            <li>
-                <strong>Nome:</strong> {{ $atividade['nome'] ?? 'Nome não disponível' }}<br>
-                <strong>Status:</strong>
-                @if($atividade['status'] == 7)
-                    Aprovada
-                @elseif($atividade['status'] == 6)
+                @if($atividade['status'] == 6)
+                <li>
+                    <strong>Status:</strong>
                     Reprovada<br>
                     <strong>Horas Reajustadas:</strong> {{ $atividade['horas_reajuste'] ?? 'N/A' }}<br>
                     <strong>Comentário:</strong> {{ $atividade['descricao'] ?? 'Nenhum comentário' }}
-                @else
+                </li>
+                @elseif(($atividade['status'] == 3))
                     Pendente
                 @endif
-            </li>
         @endforeach
     </ul>
 
