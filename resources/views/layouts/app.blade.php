@@ -34,7 +34,7 @@
 
     <footer class="pt-3 my-3 text-center text-muted align-items-center border-top">
         Copyright &copy;{{ date('Y') }}. Universidade de Pernambuco - Todos os direitos reservados.
-        <br>Versão do software: {{ config('app.version') }} testes
+        <br>Versão do software: {{ config('app.version') }}
     </footer>
     @include('layouts.user-jquery.jquery_all_users')
     @if(Auth::user()->isTypeAdmin())
