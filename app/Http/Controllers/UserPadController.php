@@ -126,8 +126,7 @@ class UserPadController extends Controller
         $user = Auth::user();
 
         // Enviar email
-        // Mail::to($user->email)->send(new EmailPadConfirmacao($userPad));
-        Mail::to("murilormleal@gmail.com")->send(new EmailPadConfirmacao($userPad));
+        Mail::to($user->email)->send(new EmailPadConfirmacao($userPad));
 
         // Retornar a rota para baixar o PDF
         return redirect()->route('user-pad_pdf', ['user_pad_id' => $userPadId]);
