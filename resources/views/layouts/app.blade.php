@@ -7,9 +7,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name') }} - @yield('title')</title>
-    
+
     @include('components.frontend-libs')
- 
+
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 </head>
@@ -24,7 +24,7 @@
             <div class="main-container">
                 <!-- Page Header -->
                 @include('layouts.navigation')
-              
+
                 <main class="">
                     {{ $main }}
                 </main>
@@ -33,7 +33,10 @@
     </div>
 
     <footer class="pt-3 my-3 text-center text-muted align-items-center border-top">
-        Copyright &copy;2022. Universidade de Pernambuco - Todos os direitos reservados.
+        <footer class="pt-3 my-3 text-center text-muted align-items-center border-top">
+            <p>Copyright &copy;2022. Universidade de Pernambuco - Todos os direitos reservados.</p>
+            <p>Fale com nosso suporte: <a href="mailto:pessoa@email.com">sistema.pda@upe.br</a></p>
+        </footer>
     </footer>
     @include('layouts.user-jquery.jquery_all_users')
     @if(Auth::user()->isTypeAdmin())
