@@ -47,6 +47,7 @@
             Copyright &copy;{{ date('Y') }}. Universidade de Pernambuco - Todos os direitos reservados.
             <br>Versão do software: {{ config('app.version') }} 
             </p>
+            <p>Fale com nosso suporte: <a href="mailto:pessoa@email.com">sistema.pda@upe.br</a></p>
         </div>
     </footer>
 

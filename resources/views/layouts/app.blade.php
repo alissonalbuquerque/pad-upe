@@ -7,9 +7,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name') }} - @yield('title')</title>
-    
+
     @include('components.frontend-libs')
- 
+
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 </head>
@@ -24,7 +24,7 @@
             <div class="main-container">
                 <!-- Page Header -->
                 @include('layouts.navigation')
-              
+
                 <main class="">
                     {{ $main }}
                 </main>
@@ -35,6 +35,7 @@
     <footer class="pt-3 my-3 text-center text-muted align-items-center border-top">
         Copyright &copy;{{ date('Y') }}. Universidade de Pernambuco - Todos os direitos reservados.
         <br>Versão do software: {{ config('app.version') }}
+        <p>Fale com nosso suporte: <a href="mailto:pessoa@email.com">sistema.pda@upe.br</a></p>
     </footer>
     @include('layouts.user-jquery.jquery_all_users')
     @if(Auth::user()->isTypeAdmin())
