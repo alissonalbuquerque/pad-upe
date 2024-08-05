@@ -17,6 +17,8 @@
         <h2 class="">PADs</h2>
     </div>
 
+    @include('pad/avaliacao/search/_teachers_search', ['model' => $teacher_search])
+
     <!-- Tabela -->
     <div class="table-responsive mt-5">
         <table class="table table-hover table-striped">

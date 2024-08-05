@@ -10,6 +10,7 @@ use App\Models\AvaliadorPadDimensao;
 use App\Search\AvaliadorPadSearch;
 use App\Search\UserPadSearch;
 use App\Search\UserSearch;
+use App\Search\TeacherAvaliatorSearch;
 use Illuminate\Http\Request;
 use App\Models\Pad;
 use App\Models\Tabelas\Constants;
@@ -346,25 +347,27 @@ class PadController extends Controller
         return redirect('/pad/index');
     }
 
-    public function professores($id)
+    public function professores(Request $request, $id)
     {
         $user = Auth::user();
         $pad = Pad::find($id);
         $index_menu = MenuItemsAvaliador::HOME;
+        $teacher_search = new TeacherAvaliatorSearch();
+        $teacher_search->pad_id = $id;
+        $teacher_search->user_id = $user->id;       
+        $teacher_search->campus_id = $user->campus_id;
+        $query_params = $request->query();
+        
+        //trantando o pad_status para ser um array
+        if(!isset($query_params['pad_status'])){
+            $teacher_search->pad_status = [Pad::STATUS_ATIVO, Pad::STATUS_EM_AVALIACAO];
+        }else{
+            $query_params['pad_status'] = [$query_params['pad_status']];
+        }
 
-        $professores = User::join('user_pad', 'user_pad.user_id', '=', 'users.id')
-            ->join('pad', 'user_pad.pad_id', '=', 'pad.id')
-            ->where(function ($query) use ($user, $id) {
-                $query->whereIn('pad.status', [Pad::STATUS_ATIVO, Pad::STATUS_EM_AVALIACAO]);
-                $query->where('users.status', '=', Status::ATIVO);
-                $query->whereNull('users.deleted_at');
-                $query->where('users.campus_id', '=', $user->campus_id);
-                $query->where('users.id', '!=', $user->id);
-                $query->where('pad.id', '=', $id);
-            })
-            ->select('users.id', 'users.name', 'users.email')
-            ->orderBy('users.name')
-            ->get();
+        //Realiza a busca
+        $professores = $teacher_search->search($query_params);
+
 
         $avaliador_pad = AvaliadorPad::where(function ($query) use ($pad, $user) {
             $query->where('user_id', '=', $user->id);
@@ -445,7 +448,7 @@ class PadController extends Controller
             }
         }
 
-        return view("pad.avaliacao.professores", compact('professores', 'pad', 'index_menu'));
+        return view("pad.avaliacao.professores", compact('professores', 'pad', 'index_menu', 'teacher_search'));
     }
     public function view_calender($id) {
 
