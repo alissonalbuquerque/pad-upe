@@ -44,8 +44,10 @@
     <footer class="pt-3 my-3 align-items-center border-top" alt="Max-width 100%">
         <div class="w-100">
             <p class="copyright-upe d-flex text-center text-muted justify-content-center">
-                Copyright &#9400;2022. Universidade de Pernambuco - Todos os direitos reservados
+            Copyright &copy;{{ date('Y') }}. Universidade de Pernambuco - Todos os direitos reservados.
+            <br>Versão do software: {{ config('app.version') }} 
             </p>
+            <p>Fale com nosso suporte: <a href="mailto:pessoa@email.com">sistema.pda@upe.br</a></p>
         </div>
     </footer>
 

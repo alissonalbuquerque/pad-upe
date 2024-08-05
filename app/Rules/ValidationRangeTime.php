@@ -60,14 +60,18 @@ class ValidationRangeTime implements Rule
         $end_time = "{$this->end_time}:00";
 
         $taskTimeQuery = 
-                TaskTime::whereUserPadId($this->user_pad_id)
-                        ->whereWeekday($this->weekday)
-                        ->where(
-                            function($query) use ($start_time, $end_time) {
-                                $query->whereBetween('start_time', [$start_time, $end_time]);
-                                $query->orWhereBetween('end_time', [$start_time, $end_time]);
-                            }
-                        );
+            TaskTime::whereUserPadId($this->user_pad_id)
+                    ->whereWeekday($this->weekday)
+                    ->where(function($query) use ($start_time, $end_time) {
+                        $query->where(function($query) use ($start_time, $end_time) {
+                            $query->where('start_time', '>', $start_time)
+                                ->where('start_time', '<', $end_time);
+                        })
+                        ->orWhere(function($query) use ($start_time, $end_time) {
+                            $query->where('end_time', '>', $start_time)
+                                ->where('end_time', '<', $end_time);
+                        });
+                    });
 
         if(isset($this->id)) {
             $taskTimeQuery->where('id', '!=', $this->id);

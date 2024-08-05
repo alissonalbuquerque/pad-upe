@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\EmailPadConfirmacao;
 use App\Models\Pad;
 use App\Models\Curso;
 use App\Models\Campus;
@@ -41,6 +42,8 @@ use App\Models\Tabelas\Pesquisa\PesquisaLideranca;
 use App\Models\Tabelas\Pesquisa\PesquisaOrientacao;
 use App\Models\Tabelas\Pesquisa\PesquisaOutros;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use PDF;
@@ -76,11 +79,11 @@ class UserPadController extends Controller
 
     public function actionDelete($id)
     {
-        
+
     }
 
     public function actionCreate($pad_id)
-    {   
+    {
         $pad = Pad::find($pad_id);
         $model = new UserPad();
         $status = Status::listStatus();
@@ -100,7 +103,7 @@ class UserPadController extends Controller
     }
 
     public function ajaxValidation(Request $request)
-    {   
+    {
         $validator = Validator::make(
             $request->all(), UserPad::rules(), UserPad::messages()
         );
@@ -110,6 +113,22 @@ class UserPadController extends Controller
         }
 
         return Response::json(['errors' => $validator->errors(), 'status' => 400]);
+    }
+    public function enviaEmailConfirmacao(Request $request)
+    {
+        $userPadId = $request->input('user_pad_id');
+        $userPad = UserPad::find($userPadId);
+
+        if (!$userPad) {
+            return redirect()->back()->with('error', 'UserPad não encontrado.');
+        }
+
+        $user = Auth::user();
+
+        // Enviar email
+        Mail::to($user->email)->send(new EmailPadConfirmacao($userPad));
+        // Retornar a rota para baixar o PDF
+        return redirect()->route('user-pad_pdf', ['user_pad_id' => $userPadId]);
     }
 
     public function savePAD($user_pad_id)
@@ -121,7 +140,7 @@ class UserPadController extends Controller
      * Return generated PDF, with a given user_pad_id;
      *
      * Additionally, if a filename is given, function will save PDF in storage;
-     * 
+     *
      * @param  integer  $user_pad_id
      * @param  string  $fileName
      * @return \Illuminate\Http\Response
@@ -129,8 +148,8 @@ class UserPadController extends Controller
     public function generatePDF($user_pad_id, $fileName="")
     {
         $niveis = Nivel::listNivel();
-        $funcoes = Funcao::listFuncaoEnsino() + 
-                    Funcao::listFuncaoOrientador() + 
+        $funcoes = Funcao::listFuncaoEnsino() +
+                    Funcao::listFuncaoOrientador() +
                     array_diff(Funcao::listFuncaoProjeto(), Funcao::listFuncaoEnsino());
         ksort($funcoes);
         $naturezas = Natureza::listNatureza();
@@ -138,7 +157,7 @@ class UserPadController extends Controller
         $unidades_ensino = Unidade::listUnidades();
         $cursos = Curso::whereId(5)->first()->toArray();
         $semestres = Anexo::listSemestre();
-        $nomes_valores = 
+        $nomes_valores =
         [
             'componente_curricular' => 'Componente Curricular',
             'ch_semanal' => 'CH Semanal',
@@ -211,20 +230,20 @@ class UserPadController extends Controller
             ExtensaoCoordenacao::whereUserPadId($user_pad_id)->sum('ch_semanal')
             + ExtensaoOrientacao::whereUserPadId($user_pad_id)->sum('ch_semanal')
             + ExtensaoOutros::whereUserPadId($user_pad_id)->sum('ch_semanal');
-        
+
         $horas = [
             'ENSINO' => $ensinoTotalHoras,
             'EXTENSAO' => $extensaoTotalHoras,
             'GESTAO' => $gestaoTotalHoras,
             'PESQUISA' => $pesquisaTotalHoras
         ];
-        if ( Anexo::whereUserPadId($user_pad_id)->first() != null) 
+        if ( Anexo::whereUserPadId($user_pad_id)->first() != null)
         {
             $anexoPad = Anexo::whereUserPadId($user_pad_id)->first()->toArray();
         }
         else { $anexoPad = null; }
         $userPad = UserPad::whereId($user_pad_id)->first();
-        $model['ensino'] = 
+        $model['ensino'] =
             [PadTables::tablesEnsino($user_pad_id)[0]['name'] => $userPad->ensinoAulas->toArray(),
             PadTables::tablesEnsino($user_pad_id)[1]['name'] => $userPad->ensinoCoordenacaoRegencias->toArray(),
             PadTables::tablesEnsino($user_pad_id)[2]['name'] => $userPad->ensinoOrientacoes->toArray(),
@@ -252,12 +271,12 @@ class UserPadController extends Controller
             PadTables::tablesGestao($user_pad_id)[7]['name'] => $userPad->gestaoOutros->toArray()
             ];
         $model['pesquisa'] =
-            [PadTables::tablesPesquisa($user_pad_id)[0]['name'] => $userPad->pesquisaCoordenacoes->toArray(), 
+            [PadTables::tablesPesquisa($user_pad_id)[0]['name'] => $userPad->pesquisaCoordenacoes->toArray(),
             PadTables::tablesPesquisa($user_pad_id)[1]['name'] => $userPad->pesquisaLiderancas->toArray(),
             PadTables::tablesPesquisa($user_pad_id)[2]['name'] => $userPad->pesquisaOrientacoes->toArray(),
             PadTables::tablesPesquisa($user_pad_id)[3]['name'] => $userPad->pesquisaOutros->toArray()
             ];
-        
+
         // Geração de array tratado a partir do modelo
         $treated_model = [];
         $treated_nome_dimensao = "";
@@ -288,7 +307,7 @@ class UserPadController extends Controller
                                 $treated_model[$treated_nome_dimensao][$treated_nome_categoria]['Cód: ' . $item['cod_atividade']]  = [];
                                 $treated_tarefa_codigo = 'Cód: ' . $item['cod_atividade'];
                             }
-                            else 
+                            else
                             {
                                 if (in_array($nome_valor, $valores_lista_negra))
                                 {
@@ -298,24 +317,24 @@ class UserPadController extends Controller
                                 {
                                     $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo][$nomes_valores[$nome_valor]] = $niveis[$valor];
                                 }
-                                elseif ($nome_valor == "modalidade") 
+                                elseif ($nome_valor == "modalidade")
                                 {
                                     $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo][$nomes_valores[$nome_valor]] = $modalidades[$valor];
                                 }
-                                elseif ($nome_valor == "funcao") 
+                                elseif ($nome_valor == "funcao")
                                 {
                                     $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo][$nomes_valores[$nome_valor]] = $funcoes[$valor];
                                 }
-                                elseif ($nome_valor == "natureza") 
+                                elseif ($nome_valor == "natureza")
                                 {
                                     $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo][$nomes_valores[$nome_valor]] = $naturezas[$valor];
                                 }
-                                elseif(array_key_exists($nome_valor, $nomes_valores)) 
+                                elseif(array_key_exists($nome_valor, $nomes_valores))
                                 {
                                     $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo][$nomes_valores[$nome_valor]] = $valor;
                                 }
                                 else
-                                { 
+                                {
                                     $treated_model[$treated_nome_dimensao][$treated_nome_categoria][$treated_tarefa_codigo][$nome_valor] = $valor;
                                 }
                             }
@@ -325,7 +344,7 @@ class UserPadController extends Controller
             }
         }
         $treated_anexo_pad = [];
-        if ($anexoPad != null) 
+        if ($anexoPad != null)
         {
             foreach ($anexoPad as $nome_valor=>$valor)
             {
@@ -333,9 +352,9 @@ class UserPadController extends Controller
                 {
                     continue;
                 }
-                elseif ($nome_valor == 'campus_id') 
+                elseif ($nome_valor == 'campus_id')
                 {
-                    if ($valor != null) 
+                    if ($valor != null)
                     {
                         $campus = Campus::whereId($valor)->first();
                         $treated_anexo_pad[$nomes_valores[$nome_valor]] = $campus->{'name'};
@@ -346,17 +365,17 @@ class UserPadController extends Controller
                         $treated_anexo_pad[$nomes_valores[$nome_valor]] = "";
                         // $treated_anexo_pad[$nomes_valores['unidade']] = "Não especificado";
                     }
-                    
+
                 }
-                elseif ($nome_valor == 'curso_id') 
+                elseif ($nome_valor == 'curso_id')
                 {
                     $valor != null ? $treated_anexo_pad[$nomes_valores[$nome_valor]] = Curso::whereId($valor)->first()->{'name'} : $treated_anexo_pad[$nomes_valores[$nome_valor]] = "Não especificado";
                 }
-                elseif ($nome_valor == 'semestre') 
+                elseif ($nome_valor == 'semestre')
                 {
                     $valor != null ? $treated_anexo_pad[$nomes_valores[$nome_valor]] = $semestres[$valor] : $treated_anexo_pad[$nomes_valores[$nome_valor]] = "Não especificado";
                 }
-                elseif ($nome_valor == 'afastamento_total' || $nome_valor == 'afastamento_parcial' || $nome_valor == 'direcao_sindical') 
+                elseif ($nome_valor == 'afastamento_total' || $nome_valor == 'afastamento_parcial' || $nome_valor == 'direcao_sindical')
                 {
                     $treated_anexo_pad[$nomes_valores[$nome_valor]] = $valor == 1? 'Sim' : 'Não';
                 }
@@ -364,7 +383,7 @@ class UserPadController extends Controller
                 {
                     $valor != null ? $treated_anexo_pad[$nomes_valores[$nome_valor]] = $valor : $treated_anexo_pad[$nomes_valores[$nome_valor]] = "Não especificado";
                 }
-                else 
+                else
                 {
                     $valor != null ? $treated_anexo_pad[$nome_valor] = $valor : $treated_anexo_pad[$nome_valor] = "Não especificado";
                 }
@@ -381,10 +400,10 @@ class UserPadController extends Controller
                         'email' => $userPad->user->{'email'}
                         ],
             'anexo' => $treated_anexo_pad,
-            'model' => $treated_model, 
+            'model' => $treated_model,
             'horas' => $horas
             );
-        // dd( 
+        // dd(
         // //     $userPad->pesquisaCoordenacoes->toArray(),
         //     $treated_anexo_pad,
         //     // ($model['extensao']['1. EXTENSÃO (COORDENAÇÃO DE ATIVIDADES DE EXTENSÃO HOMOLOGADA NA PROEC)']),
@@ -403,19 +422,19 @@ class UserPadController extends Controller
 
         $pdf_name = " Relatório PAD - " . $userPad->user->{'name'};
         $pdf = PDF::loadView('pad.teacher.report_pdf', $data);
-        if ($fileName == "") 
+        if ($fileName == "")
         {
             return $pdf->download($pdf_name . ".pdf");
         }
-        else 
+        else
         {
             $pdf->save($fileName);
         }
-        
+
     }
 
     /**
-     * 
+     *
      */
     public function action_change_status($id) {
 
@@ -429,6 +448,6 @@ class UserPadController extends Controller
 
         $user_pad->save();
 
-        return redirect()->route('pad_edit', $user_pad->pad_id)->with('success', 'Status Atualizado!');
+        return redirect()->route('pad_edit', ['id' => $user_pad->pad_id, 'tab' => 'user_pad'])->with('success', 'Status Atualizado!');
     }
 }

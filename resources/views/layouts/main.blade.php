@@ -35,7 +35,9 @@
     </div>
 
     <footer class="pt-3 my-3 text-center text-muted align-items-center border-top">
-        Copyright &copy;2022. Universidade de Pernambuco - Todos os direitos reservados.
+        Copyright &copy;{{ date('Y') }}. Universidade de Pernambuco - Todos os direitos reservados.
+        <br>Versão do software: {{ config('app.version') }} 
+        <p>Fale com nosso suporte: <a href="mailto:pessoa@email.com">sistema.pda@upe.br</a></p>
     </footer>
     @include('layouts.user-jquery.jquery_all_users')
     @if (Auth::user()->isTypeAdmin())

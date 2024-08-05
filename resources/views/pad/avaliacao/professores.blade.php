@@ -17,6 +17,8 @@
         <h2 class="">PADs</h2>
     </div>
 
+    @include('pad/avaliacao/search/_teachers_search', ['model' => $teacher_search])
+
     <!-- Tabela -->
     <div class="table-responsive mt-5">
         <table class="table table-hover table-striped">
@@ -38,13 +40,15 @@
                         <td>{{$professor->email}}</td>
                         @if($professor->status === 'Pendente')
                             <td style="color:red;">{{$professor->status}}</td>
-                        @else
+                        @elseif($professor->status === 'Avaliado')
                             <td style="color:green;">{{$professor->status}}</td>
+                        @else
+                            <td style="color:blue;">{{$professor->status}}</td>
                         @endif
                         <td>@if($professor->ch > 0) {{$professor->ch}}H @endif</td>
                         <td>@if($professor->ch_corrigida > 0 && $professor->ch != $professor->ch_corrigida) {{$professor->ch_corrigida}}H @endif</td>
                         <td>
-                            
+
                             <div class="btn-group" role="group" aria-label="">
 
                                 @include('components.buttons.btn-avaliar', [
@@ -53,7 +57,7 @@
                                     'content' => 'Avaliar',
                                     'id' => '',
                                 ])
-                                
+
                                 <div class="btn-edit-tasks">
                                     <button type="button" class="btn btn-primary btn-view_modal" id="{{ "pad_{$pad->id}-professor_{$professor->id}" }}">
                                         <i class="bi bi-clock"></i> Horário
@@ -61,7 +65,7 @@
                                 </div>
 
                             </div>
-                            
+
                         </td>
                     </tr>
                 @endforeach
