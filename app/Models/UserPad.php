@@ -149,6 +149,12 @@ class UserPad extends Model
         return $date_format;
     }
 
+    public function status_avaliacao_as_text() {
+        
+        return Avaliacao::avaliacao_by_user_pad();
+        
+    }
+
     /*
     * @RELATIONS (relações entre tarefas)
     */

@@ -32,44 +32,102 @@ use App\Models\Tabelas\Gestao\GestaoRepresentanteUnidadeEducacao;
 use App\Models\Tabelas\Traits\ExpandModel;
 use App\Models\Util\Status;
 use Illuminate\Database\Query\JoinClause;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class Avaliacao extends Model
 {
     use HasFactory;
     use ExpandModel;
     
-    const STATUS_REPROVADO = 6;
-    const STATUS_APROVADO = 7;
-    const STATUS_PENDENTE = 3;
+    const STATUS_REPROVADO  = 6;
+    const STATUS_APROVADO   = 7;
+    const STATUS_PENDENTE   = 3;
     const STATUS_EM_REVISAO = 8;
 
-    const TYPE_ENSINO_AULA = 1;
-    const TYPE_ENSINO_COORDENACAO_REGENCIA = 2;
-    const TYPE_ENSINO_ORIENTACAO = 3;
-    const TYPE_ENSINO_SUPERVISAO = 4;
-    const TYPE_ENSINO_ATENDIMENTO_DISCENTE = 5;
-    const TYPE_ENSINO_PROJETO = 6;
-    const TYPE_ENSINO_PARTICIPACAO = 7;
-    const TYPE_ENSINO_MEMBRO_DOCENTE = 8;
-    const TYPE_ENSINO_OUTROS = 9;
+    const TYPE_ENSINO_AULA                  = 1;
+    const TYPE_ENSINO_COORDENACAO_REGENCIA  = 2;
+    const TYPE_ENSINO_ORIENTACAO            = 3;
+    const TYPE_ENSINO_SUPERVISAO            = 4;
+    const TYPE_ENSINO_ATENDIMENTO_DISCENTE  = 5;
+    const TYPE_ENSINO_PROJETO               = 6;
+    const TYPE_ENSINO_PARTICIPACAO          = 7;
+    const TYPE_ENSINO_MEMBRO_DOCENTE        = 8;
+    const TYPE_ENSINO_OUTROS                = 9;
 
-    const TYPE_PESQUISA_COORDENACAO = 10;
-    const TYPE_PESQUISA_ORIENTACAO = 11;
-    const TYPE_PESQUISA_LIDERANCA = 12;
-    const TYPE_PESQUISA_OUTROS = 13;
+    const TYPE_PESQUISA_COORDENACAO         = 10;
+    const TYPE_PESQUISA_ORIENTACAO          = 11;
+    const TYPE_PESQUISA_LIDERANCA           = 12;
+    const TYPE_PESQUISA_OUTROS              = 13;
 
-    const TYPE_EXTENSAO_COORDENACAO = 14;
-    const TYPE_EXTENSAO_ORIENTACAO = 15;
-    const TYPE_EXTENSAO_OUTROS = 16;
+    const TYPE_EXTENSAO_COORDENACAO         = 14;
+    const TYPE_EXTENSAO_ORIENTACAO          = 15;
+    const TYPE_EXTENSAO_OUTROS              = 16;
 
-    CONST TYPE_GESTAO_COORDENACAO_LABORATORIOS_DIDATICOS = 17;
-    CONST TYPE_GESTAO_MEMBRO_CONSELHO = 18;
-    CONST TYPE_GESTAO_COORDENACAO_PROGRAMA_INSTITUCIONAL = 19;
-    CONST TYPE_GESTAO_MEMBRO_TITULAR_CONSELHO = 20;
-    CONST TYPE_GESTAO_MEMBRO_CAMARAS = 21;
-    CONST TYPE_GESTAO_REPRESENTANTE_UNIDADE_EDUCACAO = 22;
-    CONST TYPE_GESTAO_MEMBRO_COMISSAO = 23;
-    CONST TYPE_GESTAO_OUTROS = 24;
+    const TYPE_GESTAO_COORDENACAO_LABORATORIOS_DIDATICOS = 17;
+    const TYPE_GESTAO_MEMBRO_CONSELHO                    = 18;
+    const TYPE_GESTAO_COORDENACAO_PROGRAMA_INSTITUCIONAL = 19;
+    const TYPE_GESTAO_MEMBRO_TITULAR_CONSELHO            = 20;
+    const TYPE_GESTAO_MEMBRO_CAMARAS                     = 21;
+    const TYPE_GESTAO_REPRESENTANTE_UNIDADE_EDUCACAO     = 22;
+    const TYPE_GESTAO_MEMBRO_COMISSAO                    = 23;
+    const TYPE_GESTAO_OUTROS                             = 24;
+
+    const TABLE_ENSINO_AULA                 = 'ensino_aulas';
+    const TABLE_ENSINO_COORDENACAO_REGENCIA = 'ensino_coordenacao_regencia';
+    const TABLE_ENSINO_ORIENTACAO           = 'ensino_orientacoes';
+    const TABLE_ENSINO_SUPERVISAO           = 'ensino_supervisao';
+    const TABLE_ENSINO_ATENDIMENTO_DISCENTE = 'ensino_atendimento_discente';
+    const TABLE_ENSINO_PROJETO              = 'ensino_projeto';
+    const TABLE_ENSINO_PARTICIPACAO         = 'ensino_participacao';
+    const TABLE_ENSINO_MEMBRO_DOCENTE       = 'ensino_membro_docente';
+    const TABLE_ENSINO_OUTROS               = 'ensino_outro';
+
+    const TABLE_PESQUISA_COORDENACAO        = 'pesquisa_coordenacao';
+    const TABLE_PESQUISA_ORIENTACAO         = 'pesquisa_orientacao';
+    const TABLE_PESQUISA_LIDERANCA          = 'pesquisa_lideranca';
+    const TABLE_PESQUISA_OUTROS             = 'pesquisa_outro';
+
+    const TABLE_EXTENSAO_COORDENACAO        = 'extensao_coordenacao';
+    const TABLE_EXTENSAO_ORIENTACAO         = 'extensao_orientacao';
+    const TABLE_EXTENSAO_OUTROS             = 'extensao_outro';
+
+    const TABLE_GESTAO_COORDENACAO_LABORATORIOS_DIDATICOS    = 'gestao_coordenacao_laboratorios_didaticos';
+    const TABLE_GESTAO_MEMBRO_CONSELHO                       = 'gestao_membro_conselho';
+    const TABLE_GESTAO_COORDENACAO_PROGRAMA_INSTITUCIONAL    = 'gestao_coordenacao_programa_institucional';
+    const TABLE_GESTAO_MEMBRO_TITULAR_CONSELHO               = 'gestao_membro_titular_conselho';
+    const TABLE_GESTAO_MEMBRO_CAMARAS                        = 'gestao_membro_camaras';
+    const TABLE_GESTAO_REPRESENTANTE_UNIDADE_EDUCACAO        = 'gestao_representante_unidade_educacao';
+    const TABLE_GESTAO_MEMBRO_COMISSAO                       = 'gestao_membro_comissao';
+    const TABLE_GESTAO_OUTROS                                = 'gestao_outro';
+
+    const CLASS_ENSINO_AULA                 = EnsinoAula::class;
+    const CLASS_ENSINO_COORDENACAO_REGENCIA = EnsinoCoordenacaoRegencia::class;
+    const CLASS_ENSINO_ORIENTACAO           = EnsinoOrientacao::class;
+    const CLASS_ENSINO_SUPERVISAO           = EnsinoSupervisao::class;
+    const CLASS_ENSINO_ATENDIMENTO_DISCENTE = EnsinoAtendimentoDiscente::class;
+    const CLASS_ENSINO_PROJETO              = EnsinoProjeto::class;
+    const CLASS_ENSINO_PARTICIPACAO         = EnsinoParticipacao::class;
+    const CLASS_ENSINO_MEMBRO_DOCENTE       = EnsinoMembroDocente::class;
+    const CLASS_ENSINO_OUTROS               = EnsinoOutros::class;
+
+    const CLASS_PESQUISA_COORDENACAO        = PesquisaCoordenacao::class;
+    const CLASS_PESQUISA_ORIENTACAO         = PesquisaOrientacao::class;
+    const CLASS_PESQUISA_LIDERANCA          = PesquisaLideranca::class;
+    const CLASS_PESQUISA_OUTROS             = PesquisaOutros::class;
+
+    const CLASS_EXTENSAO_COORDENACAO        = ExtensaoCoordenacao::class;
+    const CLASS_EXTENSAO_ORIENTACAO         = ExtensaoOrientacao::class;
+    const CLASS_EXTENSAO_OUTROS             = ExtensaoOutros::class;
+
+    const CLASS_GESTAO_COORDENACAO_LABORATORIOS_DIDATICOS = GestaoCoordenacaoLaboratoriosDidaticos::class;
+    const CLASS_GESTAO_MEMBRO_CONSELHO                    = GestaoMembroConselho::class;
+    const CLASS_GESTAO_COORDENACAO_PROGRAMA_INSTITUCIONAL = GestaoCoordenacaoProgramaInstitucional::class;
+    const CLASS_GESTAO_MEMBRO_TITULAR_CONSELHO            = GestaoMembroTitularConselho::class;
+    const CLASS_GESTAO_MEMBRO_CAMARAS                     = GestaoMembroCamaras::class;
+    const CLASS_GESTAO_REPRESENTANTE_UNIDADE_EDUCACAO     = GestaoRepresentanteUnidadeEducacao::class;
+    const CLASS_GESTAO_MEMBRO_COMISSAO                    = GestaoMembroComissao::class;
+    const CLASS_GESTAO_OUTROS                             = GestaoOutros::class;
 
     protected $table = 'avaliacao';
 
@@ -194,6 +252,39 @@ class Avaliacao extends Model
         return Status::listStatus($this->status);
     }
 
+    public static function list_classe_name_tarefas_by_type()
+    {
+        return [
+            self::TYPE_ENSINO_AULA                  => self::CLASS_ENSINO_AULA                ,
+            self::TYPE_ENSINO_COORDENACAO_REGENCIA  => self::CLASS_ENSINO_COORDENACAO_REGENCIA,
+            self::TYPE_ENSINO_ORIENTACAO            => self::CLASS_ENSINO_ORIENTACAO          ,
+            self::TYPE_ENSINO_SUPERVISAO            => self::CLASS_ENSINO_SUPERVISAO          ,
+            self::TYPE_ENSINO_ATENDIMENTO_DISCENTE  => self::CLASS_ENSINO_ATENDIMENTO_DISCENTE,
+            self::TYPE_ENSINO_PROJETO               => self::CLASS_ENSINO_PROJETO             ,
+            self::TYPE_ENSINO_PARTICIPACAO          => self::CLASS_ENSINO_PARTICIPACAO        ,
+            self::TYPE_ENSINO_MEMBRO_DOCENTE        => self::CLASS_ENSINO_MEMBRO_DOCENTE      ,
+            self::TYPE_ENSINO_OUTROS                => self::CLASS_ENSINO_OUTROS              ,
+
+            self::TYPE_PESQUISA_COORDENACAO         => self::CLASS_PESQUISA_COORDENACAO,
+            self::TYPE_PESQUISA_ORIENTACAO          => self::CLASS_PESQUISA_ORIENTACAO ,
+            self::TYPE_PESQUISA_LIDERANCA           => self::CLASS_PESQUISA_LIDERANCA  ,
+            self::TYPE_PESQUISA_OUTROS              => self::CLASS_PESQUISA_OUTROS     ,
+
+            self::TYPE_EXTENSAO_COORDENACAO         => self::CLASS_EXTENSAO_COORDENACAO,
+            self::TYPE_EXTENSAO_ORIENTACAO          => self::CLASS_EXTENSAO_ORIENTACAO ,
+            self::TYPE_EXTENSAO_OUTROS              => self::CLASS_EXTENSAO_OUTROS     ,
+
+            self::TYPE_GESTAO_COORDENACAO_LABORATORIOS_DIDATICOS => self::CLASS_GESTAO_COORDENACAO_LABORATORIOS_DIDATICOS,
+            self::TYPE_GESTAO_MEMBRO_CONSELHO                    => self::CLASS_GESTAO_MEMBRO_CONSELHO                   ,
+            self::TYPE_GESTAO_COORDENACAO_PROGRAMA_INSTITUCIONAL => self::CLASS_GESTAO_COORDENACAO_PROGRAMA_INSTITUCIONAL,
+            self::TYPE_GESTAO_MEMBRO_TITULAR_CONSELHO            => self::CLASS_GESTAO_MEMBRO_TITULAR_CONSELHO           ,
+            self::TYPE_GESTAO_MEMBRO_CAMARAS                     => self::CLASS_GESTAO_MEMBRO_CAMARAS                    ,
+            self::TYPE_GESTAO_REPRESENTANTE_UNIDADE_EDUCACAO     => self::CLASS_GESTAO_REPRESENTANTE_UNIDADE_EDUCACAO    ,
+            self::TYPE_GESTAO_MEMBRO_COMISSAO                    => self::CLASS_GESTAO_MEMBRO_COMISSAO                   ,
+            self::TYPE_GESTAO_OUTROS                             => self::CLASS_GESTAO_OUTROS                            ,
+        ];
+    }
+
     public static function listStatus($value = null)
     {
         $values = [
@@ -263,5 +354,31 @@ class Avaliacao extends Model
         })->toArray();
 
         return Avaliacao::whereIn('tarefa_id', $avaliacaoIds)->whereType($avaliacaoType)->get();
+    }
+
+    /**
+     * 
+     */
+    public static function avaliacao_by_user_pad($user_pad = null) {
+
+        DB::statement("
+            CREATE TEMPORARY TABLE php_tarefa_class (
+                type TINYINT,
+                class_name VARCHAR(255)
+            );
+        ");
+
+            foreach(self::list_classe_name_tarefas_by_type() as $type => $class_name) {
+                DB::statement("INSERT INTO php_tarefa_class(type, class_name) VALUES('{$type}', '{$class_name}')");
+            }
+
+        DB::statement("DROP TEMPORARY TABLE IF EXISTS php_tarefa_class");
+
+        // DB::table('avaliacao')->select('avaliacao.*', 'tarefa.id', 'tarefa.user_pad_id', '')
+        // ->when
+
+        // avaliacao.type
+        // avaliacao.tarefa_id
+        // self::TYPE_ENSINO_AULA -> self::TABLE_ENSINO_AULA
     }
 }
