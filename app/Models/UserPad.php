@@ -250,4 +250,24 @@ class UserPad extends Model
     public function pesquisaOutros() {
         return $this->hasMany(PesquisaOutros::class, 'user_pad_id', 'id');
     }
+
+    public function status_avaliacao() {
+        // REPROVADO, APROVADO, PENDENTE, EM REVISÃO
+
+        // Avaliacao::
+
+        // percent = qtd_ativiades_STATUS_REPROVADO / QTD_atividades_STATUS_APROVADO
+
+        // return percent; [nn.nn%] // "{value}%"
+
+        return 1;
+    }
+
+    public function status_avaliacao_as_text() {
+
+        // return $this->status_avaliacao();
+        return "APROVADO";
+    }
+
+    
 }

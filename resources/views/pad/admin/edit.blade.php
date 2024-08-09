@@ -161,7 +161,8 @@
                             <th scope="col"> Professor </th>
                             <th scope="col"> PDA       </th>
                             <th scope="col"> E-mail    </th>
-                            <th scope="col"> Status    </th>
+                            <th scope="col"> Avaliação </th>
+                            <th scope="col"> Situação  </th>
                             <th scope="col"> C.H       </th>
                             <th scope="col"> Opções    </th>
                         </tr>
@@ -177,6 +178,7 @@
                             <td>{{ $user_pad->user }}</td>
                             <td>{{ $user_pad->pad->nome }}</td>
                             <td>{{ $user_pad->user->email }}</td>
+                            <td> <span class="{{ $badge_status_css }}">{{ $user_pad->status_avaliacao_as_text() }}</span> </td>
                             <td> <span class="{{ $badge_status_css }}">{{ $user_pad->status_as_text() }}</span> </td>
                             <td> <span class="{{ $badge_status_css }}">{{ $user_pad->total_horas() }}</span> </td>
                             <td> 
